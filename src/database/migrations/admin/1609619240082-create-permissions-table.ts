@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 import { commonFields } from '../common.fields';
-import addAssignedFields from '@database/migrations/user_assign';
+import addAssignedFields from '@database/user_assign';
 
 const tableName = 'admin.permissions';
 export class createPermissionsTable1609619240082 implements MigrationInterface {

@@ -1,5 +1,5 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
-import addAssignedFields from '../user_assign';
+import addAssignedFields from '../../user_assign';
 
 const tableName = 'admin.users_permissions',
   usersTableName = 'admin.users',

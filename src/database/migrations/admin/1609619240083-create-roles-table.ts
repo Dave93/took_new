@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 import { commonFields } from '../common.fields';
-import addAssignedFields from '@database/migrations/user_assign';
+import addAssignedFields from '@database/user_assign';
 
 const tableName = 'admin.roles';
 export class createRolesTable1609619240083 implements MigrationInterface {
