@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
-import { commonFields } from '../common.fields';
 
-const tableName = 'admin.users';
-export class createUsersTable1609619240080 implements MigrationInterface {
+let tableName = 'public.otp';
+
+export class createOtpTable1652228555901 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -17,41 +17,49 @@ export class createUsersTable1609619240080 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'phone',
-            type: 'varchar',
-            length: '20',
-            isUnique: true,
+            name: 'user_id',
+            type: 'uuid',
             isNullable: false,
           },
           {
-            name: 'first_name',
+            name: 'otp',
             type: 'varchar',
-            length: '100',
-            isNullable: true,
+            length: '6',
+            isNullable: false,
           },
           {
-            name: 'last_name',
-            type: 'varchar',
-            length: '100',
-            isNullable: true,
+            name: 'expiry_date',
+            type: 'timestamp',
+            isNullable: false,
           },
           {
-            name: 'password',
-            type: 'varchar',
-            isNullable: true,
-          },
-          {
-            name: 'is_super_user',
+            name: 'verified',
             type: 'boolean',
             isNullable: false,
             default: false,
           },
           {
-            name: 'status',
-            type: 'user_status',
+            name: 'created_at',
+            type: 'timestamp',
             isNullable: false,
+            default: 'now()',
           },
-          ...commonFields,
+          {
+            name: 'updated_at',
+            type: 'timestamp',
+            isNullable: false,
+            default: 'now()',
+          },
+        ],
+        foreignKeys: [
+          {
+            name: 'fk_otp_user',
+            columnNames: ['user_id'],
+            referencedTableName: 'admin.users',
+            referencedColumnNames: ['id'],
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+          },
         ],
       }),
       true,
