@@ -10,17 +10,18 @@ export class UserEntity extends BaseEntity {
   id?: string;
 
   @Column({
-    name: 'username',
+    name: 'phone',
     type: 'varchar',
-    unique: true,
+    length: '20',
+    nullable: false,
   })
-  username: string;
+  phone: string;
 
   @Column({
     name: 'first_name',
     type: 'varchar',
     length: 100,
-    nullable: false,
+    nullable: true,
   })
   firstName: string;
 
@@ -28,14 +29,14 @@ export class UserEntity extends BaseEntity {
     name: 'last_name',
     type: 'varchar',
     length: 100,
-    nullable: false,
+    nullable: true,
   })
   lastName: string;
 
   @Column({
     name: 'password',
     type: 'varchar',
-    nullable: false,
+    nullable: true,
   })
   password: string;
 
