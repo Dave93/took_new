@@ -11,7 +11,7 @@ export class UserMapper {
     const dto = new UserResponseDto();
 
     dto.id = entity.id;
-    dto.username = entity.username;
+    dto.phone = entity.phone;
     dto.firstName = entity.firstName;
     dto.lastName = entity.lastName;
     dto.status = entity.status;
@@ -23,7 +23,7 @@ export class UserMapper {
     const dto = new UserResponseDto();
 
     dto.id = entity.id;
-    dto.username = entity.username;
+    dto.phone = entity.phone;
     dto.firstName = entity.firstName;
     dto.lastName = entity.lastName;
     dto.permissions = await Promise.all((await entity.permissions).map(PermissionMapper.toDto));
@@ -35,7 +35,7 @@ export class UserMapper {
 
   public static toCreateEntity(dto: CreateUserRequestDto): UserEntity {
     const entity = new UserEntity();
-    entity.username = dto.username;
+    entity.phone = dto.phone;
     entity.firstName = dto.firstName;
     entity.lastName = dto.lastName;
     entity.password = dto.password;
@@ -47,7 +47,7 @@ export class UserMapper {
   }
 
   public static toUpdateEntity(entity: UserEntity, dto: UpdateUserRequestDto): UserEntity {
-    entity.username = dto.username;
+    entity.phone = dto.phone;
     entity.firstName = dto.firstName;
     entity.lastName = dto.lastName;
     entity.permissions = Promise.resolve(dto.permissions.map((id) => new PermissionEntity({ id })));

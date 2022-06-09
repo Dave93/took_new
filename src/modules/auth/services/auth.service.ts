@@ -42,7 +42,7 @@ export class AuthService {
       throw new DisabledUserException(ErrorType.InactiveUser);
     }
 
-    const payload: JwtPayload = { id: user.id, username: user.username };
+    const payload: JwtPayload = { id: user.id, username: user.phone };
     const token = await this.tokenService.generateAuthToken(payload);
 
     const userDto = await UserMapper.toDto(user);

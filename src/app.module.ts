@@ -3,7 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AdminModule } from '@admin/admin.module';
 import { AuthModule } from '@modules/auth/auth.module';
 import { DatabaseModule } from '@database/database.module';
-import { OtpModule } from './otp/otp.module';
+import { OtpModule } from '@modules/otp/otp.module';
 
 @Module({
   imports: [

@@ -6,9 +6,9 @@ export class CreateUserRequestDto {
   @IsNotEmpty()
   @IsAlphanumeric()
   @ApiProperty({
-    example: 'jdoe',
+    example: '',
   })
-  username: string;
+  phone: string;
 
   @IsNotEmpty()
   @MaxLength(100)

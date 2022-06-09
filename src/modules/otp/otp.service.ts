@@ -3,9 +3,12 @@ import { UsersRepository } from '@modules/admin/access/users/users.repository';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
+import axios from 'axios';
 import crypto from 'crypto';
+import otpGenerator from 'otp-generator';
 import { CreateOtpDto, SendOtpDto } from './dto/create-otp.dto';
 import { UpdateOtpDto } from './dto/update-otp.dto';
+import { OtpRepository } from './otp.repository';
 
 @Injectable()
 export class OtpService {
@@ -13,6 +16,7 @@ export class OtpService {
     @InjectRepository(UsersRepository)
     private usersRepository: UsersRepository,
     private configService: ConfigService,
+    private otpRepository: OtpRepository,
   ) {}
   create(createOtpDto: CreateOtpDto) {
     return 'This action adds a new otp';
@@ -45,7 +49,58 @@ export class OtpService {
       });
     }
 
-    return `This action sends a #${sendOtpDto.phone} otp`;
+    //Generate OTP
+    const otp = otpGenerator.generate(6, { alphabets: false, upperCase: false, specialChars: false });
+    const now = new Date();
+    const expiration_time = this.AddMinutesToDate(now, 10);
+
+    // Creating OTP
+    const otpEntity = await this.otpRepository.create({
+      userId: userEntity.id,
+      otp: otp,
+      expiryDate: expiration_time,
+    });
+
+    // Create details object containing the phone number and otp id
+    var details = {
+      timestamp: now,
+      check: sendOtpDto.phone,
+      success: true,
+      message: 'OTP sent to user',
+      otp_id: otpEntity.id,
+    };
+
+    // Encrypt the details object
+    const encoded = await this.encode(JSON.stringify(details));
+
+    let message = `Your OTP is ${otp}`;
+
+    // Send the OTP to the user
+    const response = await axios.post(
+      'http://91.204.239.44/broker-api/send',
+      {
+        messages: [
+          {
+            recipient: sendOtpDto.phone.replace(/[^0-9]/g, ''),
+            'message-id': Math.floor(Math.random() * 1000001),
+            sms: {
+              originator: '3700',
+              content: {
+                text: message,
+              },
+            },
+          },
+        ],
+      },
+      {
+        auth: {
+          username: 'dietsahovat',
+          password: '3j5YpM27My',
+        },
+      },
+    );
+
+    return { Status: 'Success', Details: encoded };
   }
 
   sha1(input) {
@@ -87,5 +142,9 @@ export class OtpService {
     var decrypted = decipher.update(string, 'base64', 'utf8');
     decrypted += decipher.final();
     return decrypted;
+  }
+
+  AddMinutesToDate(date, minutes) {
+    return new Date(date.getTime() + minutes * 60000);
   }
 }

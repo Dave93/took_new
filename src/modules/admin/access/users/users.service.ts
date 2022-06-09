@@ -72,7 +72,7 @@ export class UsersService {
       return UserMapper.toDto(userEntity);
     } catch (error) {
       if (error.code == DBErrorCode.PgUniqueConstraintViolation) {
-        throw new UserExistsException(userDto.username);
+        throw new UserExistsException(userDto.phone);
       }
       if (
         error.code == DBErrorCode.PgForeignKeyConstraintViolation ||
@@ -106,7 +106,7 @@ export class UsersService {
       return UserMapper.toDto(userEntity);
     } catch (error) {
       if (error.code == DBErrorCode.PgUniqueConstraintViolation) {
-        throw new UserExistsException(userDto.username);
+        throw new UserExistsException(userDto.phone);
       }
       if (
         error.code == DBErrorCode.PgForeignKeyConstraintViolation ||
