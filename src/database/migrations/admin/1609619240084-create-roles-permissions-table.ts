@@ -1,9 +1,9 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 import addAssignedFields from '@database/user_assign';
 
-const tableName = 'admin.roles_permissions';
-const permissionsTableName = 'admin.permissions';
-const rolesTableName = 'admin.roles';
+const tableName = 'roles_permissions';
+const permissionsTableName = 'permissions';
+const rolesTableName = 'roles';
 
 export class CreateRolesPermissionsTable_1609619240084 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {

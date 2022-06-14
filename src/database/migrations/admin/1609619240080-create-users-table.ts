@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 import { commonFields } from '../common.fields';
 
-const tableName = 'admin.users';
+const tableName = 'users';
 export class createUsersTable1609619240080 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(

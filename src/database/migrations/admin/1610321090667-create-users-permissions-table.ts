@@ -1,9 +1,9 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 import addAssignedFields from '../../user_assign';
 
-const tableName = 'admin.users_permissions',
-  usersTableName = 'admin.users',
-  permissionsTableName = 'admin.permissions';
+const tableName = 'users_permissions',
+  usersTableName = 'users',
+  permissionsTableName = 'permissions';
 
 /**
  * This table is for the purpose of adding additional permissions to a user

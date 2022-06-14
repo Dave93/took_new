@@ -1,6 +1,6 @@
 import { TableColumn, TableForeignKey } from 'typeorm';
 
-const usersTableName = 'admin.users';
+const usersTableName = 'users';
 
 const addAssignedFields = async (queryRunner, tableName) => {
   await queryRunner.addColumn(

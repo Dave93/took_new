@@ -2,7 +2,7 @@ import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 import { commonFields } from '../common.fields';
 import addAssignedFields from '@database/user_assign';
 
-const tableName = 'admin.permissions';
+const tableName = 'permissions';
 export class createPermissionsTable1609619240082 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(

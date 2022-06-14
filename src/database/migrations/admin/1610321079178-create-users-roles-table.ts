@@ -1,9 +1,9 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 import addAssignedFields from '@database/user_assign';
 
-const tableName = 'admin.users_roles',
-  usersTableName = 'admin.users',
-  rolesTableName = 'admin.roles';
+const tableName = 'users_roles',
+  usersTableName = 'users',
+  rolesTableName = 'roles';
 export class createUsersRolesTable1610321079178 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(

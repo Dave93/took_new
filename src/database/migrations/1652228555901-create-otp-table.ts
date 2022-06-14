@@ -55,7 +55,7 @@ export class createOtpTable1652228555901 implements MigrationInterface {
           {
             name: 'fk_otp_user',
             columnNames: ['user_id'],
-            referencedTableName: 'admin.users',
+            referencedTableName: 'users',
             referencedColumnNames: ['id'],
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
