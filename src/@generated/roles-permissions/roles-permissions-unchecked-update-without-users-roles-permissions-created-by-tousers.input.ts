@@ -1,0 +1,17 @@
+import { Field } from '@nestjs/graphql';
+import { InputType } from '@nestjs/graphql';
+import { IntFieldUpdateOperationsInput } from '../prisma/int-field-update-operations.input';
+import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input';
+
+@InputType()
+export class roles_permissionsUncheckedUpdateWithoutUsers_roles_permissions_created_byTousersInput {
+
+    @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
+    role_id?: IntFieldUpdateOperationsInput;
+
+    @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
+    permission_id?: IntFieldUpdateOperationsInput;
+
+    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
+    updated_by?: NullableStringFieldUpdateOperationsInput;
+}

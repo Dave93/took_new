@@ -8,11 +8,11 @@ import { SwaggerConfig } from '@config';
 import * as helmet from 'helmet';
 
 const bootstrap = async () => {
-  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule);
 
   app.use(helmet());
   app.use(compression());
-  app.enableCors();
+  // app.enableCors();
   app.enableVersioning();
 
   app.useGlobalFilters(new HttpExceptionFilter());

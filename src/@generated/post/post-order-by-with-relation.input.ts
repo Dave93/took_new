@@ -1,0 +1,66 @@
+import { Field } from '@nestjs/graphql';
+import { InputType } from '@nestjs/graphql';
+import { SortOrder } from '../prisma/sort-order.enum';
+import { usersOrderByWithRelationInput } from '../users/users-order-by-with-relation.input';
+import { cityOrderByWithRelationInput } from '../city/city-order-by-with-relation.input';
+
+@InputType()
+export class postOrderByWithRelationInput {
+
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    user_id?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    created_at?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    updated_at?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    created_by?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    updated_by?: keyof typeof SortOrder;
+
+    @Field(() => usersOrderByWithRelationInput, {nullable:true})
+    users_post_created_byTousers?: usersOrderByWithRelationInput;
+
+    @Field(() => usersOrderByWithRelationInput, {nullable:true})
+    users_post_updated_byTousers?: usersOrderByWithRelationInput;
+
+    @Field(() => usersOrderByWithRelationInput, {nullable:true})
+    users_post_user_idTousers?: usersOrderByWithRelationInput;
+
+    @Field(() => SortOrder, {nullable:true})
+    price?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    price_type?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    status?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    sale_type?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    latitude?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    longitude?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    address?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    comments_count?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    city_id?: keyof typeof SortOrder;
+
+    @Field(() => cityOrderByWithRelationInput, {nullable:true})
+    city_city_idTocity?: cityOrderByWithRelationInput;
+}
