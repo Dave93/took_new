@@ -2,12 +2,13 @@ import { NestFactory } from '@nestjs/core';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { HttpResponseInterceptor, HttpExceptionFilter } from '@common/http';
 import * as compression from 'compression';
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
 import { SwaggerConfig } from '@config';
 import * as helmet from 'helmet';
 
 const bootstrap = async () => {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
 
   app.use(helmet());
   app.use(compression());

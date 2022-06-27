@@ -1,19 +1,21 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AdminModule } from '@admin/admin.module';
-import { AuthModule } from '@modules/auth/auth.module';
-import { DatabaseModule } from '@database/database.module';
-import { OtpModule } from '@modules/otp/otp.module';
+import { GraphQLModule } from '@nestjs/graphql';
+import { MercuriusDriver, MercuriusDriverConfig } from '@nestjs/mercurius';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: ['.env'],
     }),
-    DatabaseModule,
-    AdminModule,
-    AuthModule,
-    OtpModule,
+    // DatabaseModule,
+    GraphQLModule.forRoot<MercuriusDriverConfig>({
+      driver: MercuriusDriver,
+      graphiql: true,
+    }),
+    // AdminModule,
+    // AuthModule,
+    // OtpModule,
   ],
 })
 export class AppModule {
