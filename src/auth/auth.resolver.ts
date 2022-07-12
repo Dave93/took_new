@@ -32,4 +32,9 @@ export class AuthResolver {
   removeAuth(@Args('id', { type: () => Int }) id: number) {
     return this.authService.remove(id);
   }
+
+  @Mutation(() => Auth)
+  sendOtp(@Args('phone', { type: () => String }) phone: string) {
+    return this.authService.sendOtp(phone);
+  }
 }
