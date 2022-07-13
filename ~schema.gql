@@ -7,6 +7,11 @@ type Auth {
   exampleField: Int!
 }
 
+type SendOtpToken {
+  """Otp token"""
+  details: String!
+}
+
 type Query {
   auth(id: Int!): Auth!
 }
@@ -15,7 +20,7 @@ type Mutation {
   createAuth(createAuthInput: CreateAuthInput!): Auth!
   updateAuth(updateAuthInput: UpdateAuthInput!): Auth!
   removeAuth(id: Int!): Auth!
-  sendOtp(phone: String!): Auth!
+  sendOtp(phone: String!): SendOtpToken!
 }
 
 input CreateAuthInput {

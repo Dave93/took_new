@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
-import { Auth } from './entities/auth.entity';
+import { Auth, SendOtpToken } from './entities/auth.entity';
 import { CreateAuthInput } from './dto/create-auth.input';
 import { UpdateAuthInput } from './dto/update-auth.input';
 
@@ -33,7 +33,7 @@ export class AuthResolver {
     return this.authService.remove(id);
   }
 
-  @Mutation(() => Auth)
+  @Mutation(() => SendOtpToken)
   sendOtp(@Args('phone', { type: () => String }) phone: string) {
     return this.authService.sendOtp(phone);
   }
