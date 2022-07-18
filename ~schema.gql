@@ -20,7 +20,7 @@ type Mutation {
   createAuth(createAuthInput: CreateAuthInput!): Auth!
   updateAuth(updateAuthInput: UpdateAuthInput!): Auth!
   removeAuth(id: Int!): Auth!
-  sendOtp(phone: String!): SendOtpToken!
+  sendOtp(phone: String!): SendOtpToken
 }
 
 input CreateAuthInput {

@@ -3,10 +3,11 @@ import { user_status } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import { CreateAuthInput } from './dto/create-auth.input';
 import { UpdateAuthInput } from './dto/update-auth.input';
-import { createHash, createCipheriv, createDecipheriv } from 'crypto';
+import { createHash, createCipheriv, createDecipheriv, scryptSync } from 'crypto';
 import { generate } from 'otp-generator';
 import { ConfigService } from '@nestjs/config';
 import axios from 'axios';
+import { SendOtpToken } from './entities/auth.entity';
 
 @Injectable()
 export class AuthService {
@@ -38,8 +39,6 @@ export class AuthService {
       },
     });
 
-    console.log(userEntity);
-
     if (!userEntity) {
       userEntity = await this.prismaService.users.create({
         data: {
@@ -50,10 +49,13 @@ export class AuthService {
       });
     }
 
-    console.log(userEntity);
-
     //Generate OTP
-    const otp = generate(6, { alphabets: false, upperCase: false, specialChars: false });
+    const otp = generate(6, {
+      digits: true,
+      upperCaseAlphabets: false,
+      lowerCaseAlphabets: false,
+      specialChars: false,
+    });
     const now = new Date();
     const expiration_time = this.AddMinutesToDate(now, 10);
 
@@ -80,33 +82,33 @@ export class AuthService {
     let message = `Your OTP is ${otp}`;
 
     // Send the OTP to the user
-    const response = await axios.post(
-      'http://91.204.239.44/broker-api/send',
-      {
-        messages: [
-          {
-            recipient: phone.replace(/[^0-9]/g, ''),
-            'message-id': Math.floor(Math.random() * 1000001),
-            sms: {
-              originator: '3700',
-              content: {
-                text: message,
-              },
-            },
-          },
-        ],
-      },
-      {
-        auth: {
-          username: 'dietsahovat',
-          password: '3j5YpM27My',
-        },
-      },
-    );
+    // const response = await axios.post(
+    //   'http://91.204.239.44/broker-api/send',
+    //   {
+    //     messages: [
+    //       {
+    //         recipient: phone.replace(/[^0-9]/g, ''),
+    //         'message-id': Math.floor(Math.random() * 1000001),
+    //         sms: {
+    //           originator: '3700',
+    //           content: {
+    //             text: message,
+    //           },
+    //         },
+    //       },
+    //     ],
+    //   },
+    //   {
+    //     auth: {
+    //       username: 'dietsahovat',
+    //       password: '3j5YpM27My',
+    //     },
+    //   },
+    // );
 
-    return {
-      details: encoded,
-    };
+    let result = new SendOtpToken();
+    result.details = encoded;
+    return result;
   }
 
   sha1(input) {
@@ -129,10 +131,11 @@ export class AuthService {
 
   async encode(string: string) {
     let password = this.configService.get<string>('CRYPTO_KEY');
-    var iv = Buffer.from(this.configService.get<string>('CRYPTO_IV'));
-    var ivstring = iv.toString('hex');
-    var key = this.password_derive_bytes(password, '', 100, 32);
-    var cipher = createCipheriv('aes-256-cbc', key, ivstring);
+    // var iv = Buffer.from(this.configService.get<string>('CRYPTO_IV'));
+    // var ivstring = iv.toString('hex');
+    const iv = Buffer.alloc(16, 0);
+    const key = scryptSync(password, 'GfG', 24);
+    var cipher = createCipheriv('aes-192-cbc', key, iv);
     var part1 = cipher.update(string, 'utf8');
     var part2 = cipher.final();
     const encrypted = Buffer.concat([part1, part2]).toString('base64');

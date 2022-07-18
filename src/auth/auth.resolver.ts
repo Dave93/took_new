@@ -33,8 +33,10 @@ export class AuthResolver {
     return this.authService.remove(id);
   }
 
-  @Mutation(() => SendOtpToken)
-  sendOtp(@Args('phone', { type: () => String }) phone: string) {
-    return this.authService.sendOtp(phone);
+  @Mutation(() => SendOtpToken, { nullable: true })
+  async sendOtp(@Args('phone', { type: () => String }) phone: string): Promise<SendOtpToken> {
+    let result = await this.authService.sendOtp(phone);
+    console.log(result);
+    return result;
   }
 }
