@@ -36,7 +36,16 @@ export class AuthResolver {
   @Mutation(() => SendOtpToken, { nullable: true })
   async sendOtp(@Args('phone', { type: () => String }) phone: string): Promise<SendOtpToken> {
     let result = await this.authService.sendOtp(phone);
-    console.log(result);
+    return result;
+  }
+
+  @Mutation(() => Auth, { nullable: true })
+  async verifyOtp(
+    @Args('phone', { type: () => String }) phone: string,
+    @Args('otp', { type: () => String }) otp: string,
+    @Args('verificationKey', { type: () => String }) verificationKey: string,
+  ): Promise<Auth> {
+    let result = await this.authService.verifyOtp(phone, otp, verificationKey);
     return result;
   }
 }

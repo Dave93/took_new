@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { user_status } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import { CreateAuthInput } from './dto/create-auth.input';
@@ -7,7 +7,7 @@ import { createHash, createCipheriv, createDecipheriv, scryptSync } from 'crypto
 import { generate } from 'otp-generator';
 import { ConfigService } from '@nestjs/config';
 import axios from 'axios';
-import { SendOtpToken } from './entities/auth.entity';
+import { Auth, SendOtpToken } from './entities/auth.entity';
 
 @Injectable()
 export class AuthService {
@@ -21,7 +21,9 @@ export class AuthService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} auth`;
+    let user = new Auth();
+    user.exampleField = 45;
+    return user;
   }
 
   update(id: number, updateAuthInput: UpdateAuthInput) {
@@ -82,33 +84,69 @@ export class AuthService {
     let message = `Your OTP is ${otp}`;
 
     // Send the OTP to the user
-    // const response = await axios.post(
-    //   'http://91.204.239.44/broker-api/send',
-    //   {
-    //     messages: [
-    //       {
-    //         recipient: phone.replace(/[^0-9]/g, ''),
-    //         'message-id': Math.floor(Math.random() * 1000001),
-    //         sms: {
-    //           originator: '3700',
-    //           content: {
-    //             text: message,
-    //           },
-    //         },
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     auth: {
-    //       username: 'dietsahovat',
-    //       password: '3j5YpM27My',
-    //     },
-    //   },
-    // );
+    const response = await axios.post(
+      'http://91.204.239.44/broker-api/send',
+      {
+        messages: [
+          {
+            recipient: phone.replace(/[^0-9]/g, ''),
+            'message-id': Math.floor(Math.random() * 1000001),
+            sms: {
+              originator: '3700',
+              content: {
+                text: message,
+              },
+            },
+          },
+        ],
+      },
+      {
+        auth: {
+          username: 'dietsahovat',
+          password: '3j5YpM27My',
+        },
+      },
+    );
 
     let result = new SendOtpToken();
     result.details = encoded;
     return result;
+  }
+
+  async verifyOtp(phone: string, otp: string, verificationKey: string) {
+    var currentdate = new Date();
+
+    if (!verificationKey) {
+      throw new BadRequestException('Verification key is missing');
+    }
+    if (!otp) {
+      throw new BadRequestException('OTP is missing');
+    }
+    if (!phone) {
+      throw new BadRequestException('Phone is missing');
+    }
+
+    let decoded;
+
+    //Check if verification key is altered or not and store it in variable decoded after decryption
+    try {
+      decoded = await this.decode(verificationKey);
+    } catch (err) {
+      throw new BadRequestException('Verification key is invalid');
+    }
+    var obj = JSON.parse(decoded);
+    const check_obj = obj.check;
+
+    // Check if the OTP was meant for the same email or phone number for which it is being verified
+    if (check_obj != phone) {
+      throw new BadRequestException('OTP was not sent to this particular phone number');
+    }
+
+    console.log(obj);
+    let res = new Auth();
+    res.exampleField = 45;
+
+    return res;
   }
 
   sha1(input) {
@@ -144,10 +182,9 @@ export class AuthService {
 
   async decode(string) {
     let password = this.configService.get<string>('CRYPTO_KEY');
-    var iv = Buffer.from(this.configService.get<string>('CRYPTO_IV'));
-    var ivstring = iv.toString('hex');
-    var key = this.password_derive_bytes(password, '', 100, 32);
-    var decipher = createDecipheriv('aes-256-cbc', key, ivstring);
+    const iv = Buffer.alloc(16, 0);
+    const key = scryptSync(password, 'GfG', 24);
+    var decipher = createDecipheriv('aes-256-cbc', key, iv);
     var decrypted = decipher.update(string, 'base64', 'utf8');
     decrypted += decipher.final();
     return decrypted;

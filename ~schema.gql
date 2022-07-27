@@ -21,6 +21,7 @@ type Mutation {
   updateAuth(updateAuthInput: UpdateAuthInput!): Auth!
   removeAuth(id: Int!): Auth!
   sendOtp(phone: String!): SendOtpToken
+  verifyOtp(phone: String!, otp: String!, verificationKey: String!): Auth
 }
 
 input CreateAuthInput {

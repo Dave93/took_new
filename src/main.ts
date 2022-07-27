@@ -8,7 +8,12 @@ import { SwaggerConfig } from '@config';
 import * as helmet from 'helmet';
 
 const bootstrap = async () => {
-  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
+  let app;
+  if (process.env.API_DEBUG == 'true') {
+    app = await NestFactory.create(AppModule);
+  } else {
+    app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
+  }
 
   app.use(helmet());
   app.use(compression());
@@ -16,8 +21,8 @@ const bootstrap = async () => {
   app.enableVersioning();
 
   app.useGlobalFilters(new HttpExceptionFilter());
-  app.useGlobalInterceptors(new HttpResponseInterceptor());
-  app.useGlobalPipes(new ValidationPipe());
+  // app.useGlobalInterceptors(new HttpResponseInterceptor());
+  app.useGlobalPipes(new ValidationPipe({ forbidUnknownValues: true }));
 
   app.setGlobalPrefix(AppModule.apiPrefix);
   SwaggerConfig(app, AppModule.apiVersion);

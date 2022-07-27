@@ -21,8 +21,13 @@ import { PrismaService } from './prisma.service';
     // AdminModule,
     // AuthModule,
     // OtpModule,
-    GraphQLModule.forRoot<MercuriusDriverConfig>({
-      driver: MercuriusDriver,
+
+    // GraphQLModule.forRoot<MercuriusDriverConfig>({
+    //   driver: MercuriusDriver,
+    //   autoSchemaFile: '~schema.gql',
+    // }),
+    GraphQLModule.forRoot({
+      driver: ApolloDriver,
       autoSchemaFile: '~schema.gql',
     }),
   ],
@@ -32,10 +37,12 @@ export class AppModule {
   static port: number;
   static apiVersion: string;
   static apiPrefix: string;
+  static isDevMode: boolean;
 
   constructor(private readonly configService: ConfigService) {
     AppModule.port = +this.configService.get('API_PORT');
     AppModule.apiVersion = this.configService.get('API_VERSION');
     AppModule.apiPrefix = this.configService.get('API_PREFIX');
+    AppModule.isDevMode = this.configService.get('API_DEBUG') === 'true';
   }
 }
