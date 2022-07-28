@@ -119,6 +119,7 @@ export class AuthService {
     if (!verificationKey) {
       throw new BadRequestException('Verification key is missing');
     }
+
     if (!otp) {
       throw new BadRequestException('OTP is missing');
     }
@@ -132,6 +133,7 @@ export class AuthService {
     try {
       decoded = await this.decode(verificationKey);
     } catch (err) {
+      console.log(err);
       throw new BadRequestException('Verification key is invalid');
     }
     var obj = JSON.parse(decoded);
@@ -142,7 +144,6 @@ export class AuthService {
       throw new BadRequestException('OTP was not sent to this particular phone number');
     }
 
-    console.log(obj);
     let res = new Auth();
     res.exampleField = 45;
 
@@ -184,7 +185,7 @@ export class AuthService {
     let password = this.configService.get<string>('CRYPTO_KEY');
     const iv = Buffer.alloc(16, 0);
     const key = scryptSync(password, 'GfG', 24);
-    var decipher = createDecipheriv('aes-256-cbc', key, iv);
+    var decipher = createDecipheriv('aes-192-cbc', key, iv);
     var decrypted = decipher.update(string, 'base64', 'utf8');
     decrypted += decipher.final();
     return decrypted;

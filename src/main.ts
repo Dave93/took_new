@@ -20,7 +20,7 @@ const bootstrap = async () => {
   // app.enableCors();
   app.enableVersioning();
 
-  app.useGlobalFilters(new HttpExceptionFilter());
+  // app.useGlobalFilters(new HttpExceptionFilter());
   // app.useGlobalInterceptors(new HttpResponseInterceptor());
   app.useGlobalPipes(new ValidationPipe({ forbidUnknownValues: true }));
 
