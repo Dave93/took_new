@@ -1,7 +1,6 @@
 import { user_status } from '@prisma/client';
 import { PermissionResponseDto } from '../../permissions/dtos';
 import { RoleResponseDto } from '../../roles/dtos';
-import { UserStatus } from '../user-status.enum';
 
 export class UserResponseDto {
   id: string;

@@ -1,7 +1,7 @@
 import { Reflector } from '@nestjs/core';
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
-import { UserEntity } from '@admin/access/users/user.entity';
-import { UserMapper } from '@admin/access/users/users.mapper';
+import { UserMapper } from '@user/users.mapper';
+import { users } from '@prisma/client';
 
 @Injectable()
 export class PermissionsGuard implements CanActivate {
@@ -27,7 +27,7 @@ export class PermissionsGuard implements CanActivate {
    * @param user {UserEntity}
    * @returns {boolean}
    */
-  async matchPermissions(permissions: string[], user: UserEntity): Promise<boolean> {
+  async matchPermissions(permissions: string[], user: users): Promise<boolean> {
     const { permissions: permissionDto, roles } = await UserMapper.toDtoWithRelations(user);
 
     let allPermissions: string[] = permissionDto.map(({ slug }) => slug);

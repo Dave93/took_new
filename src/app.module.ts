@@ -7,7 +7,7 @@ import { ApolloErrorConverter, extendMapItem, mapItemBases } from 'apollo-error-
 import { join } from 'path';
 import { Logger } from '@nestjs/common/services/logger.service';
 import { MercuriusDriver, MercuriusDriverConfig } from '@nestjs/mercurius';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './modules/auth/auth.module';
 import { PrismaService } from './prisma.service';
 
 @Global()

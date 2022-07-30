@@ -1,4 +1,4 @@
-import { UserResponseDto } from './dto';
+import { UserResponseDto } from './user-response.dto';
 import { AuthAccessDto } from './auth-access.dto';
 import { TokenDto } from './token.dto';
 
