@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { Auth, SendOtpToken } from './entities/auth.entity';
 import { CreateAuthInput } from './dto/create-auth.input';
 import { UpdateAuthInput } from './dto/update-auth.input';
+import { LoginResponseDto, TokenDto } from './dto';
 
 @Resolver(() => Auth)
 export class AuthResolver {
@@ -39,13 +40,19 @@ export class AuthResolver {
     return result;
   }
 
-  @Mutation(() => Auth, { nullable: true })
+  @Mutation(() => LoginResponseDto, { nullable: true })
   async verifyOtp(
     @Args('phone', { type: () => String }) phone: string,
     @Args('otp', { type: () => String }) otp: string,
     @Args('verificationKey', { type: () => String }) verificationKey: string,
-  ): Promise<Auth> {
+  ): Promise<LoginResponseDto> {
     let result = await this.authService.verifyOtp(phone, otp, verificationKey);
+    return result;
+  }
+
+  @Mutation(() => TokenDto, { nullable: true })
+  async refreshToken(@Args('refreshToken', { type: () => String }) refreshToken: string): Promise<TokenDto> {
+    let result = await this.authService.generateRefreshToken(refreshToken);
     return result;
   }
 }

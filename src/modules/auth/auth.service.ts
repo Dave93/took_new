@@ -7,11 +7,22 @@ import { createHash, createCipheriv, createDecipheriv, scryptSync } from 'crypto
 import { generate } from 'otp-generator';
 import { ConfigService } from '@nestjs/config';
 import axios from 'axios';
+import { DateTime } from 'luxon';
 import { Auth, SendOtpToken } from './entities/auth.entity';
+import { ErrorType } from '@common/enums';
+import { DisabledUserException } from '@common/http/exceptions';
+import { JwtPayload } from './dto/jwt-payload.dto';
+import { TokenService } from './services/token.service';
+import { LoginResponseDto } from './dto';
+import { UserResponseDto } from './dto/user-response.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly prismaService: PrismaService, private configService: ConfigService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private configService: ConfigService,
+    private tokenService: TokenService,
+  ) {}
   create(createAuthInput: CreateAuthInput) {
     return 'This action adds a new auth';
   }
@@ -107,7 +118,7 @@ export class AuthService {
         },
       },
     );
-
+    console.log(message);
     let result = new SendOtpToken();
     result.details = encoded;
     return result;
@@ -144,10 +155,117 @@ export class AuthService {
       throw new BadRequestException('OTP was not sent to this particular phone number');
     }
 
-    let res = new Auth();
-    res.exampleField = 45;
+    console.log(obj);
 
-    return res;
+    const otp_instance = await this.prismaService.otp.findUnique({
+      where: {
+        id: obj.otp_id,
+      },
+    });
+
+    //Check if OTP is available in the DB
+    if (otp_instance != null) {
+      //Check if OTP is already used or not
+      if (otp_instance.verified != true) {
+        //Check if OTP is expired or not
+
+        if (DateTime.fromJSDate(currentdate) < DateTime.fromJSDate(otp_instance.expiry_date)) {
+          //Check if OTP is equal to the OTP in the DB
+          if (otp === otp_instance.otp) {
+            otp_instance.verified = true;
+            await this.prismaService.otp.update({
+              where: {
+                id: otp_instance.id,
+              },
+              data: {
+                verified: true,
+              },
+            });
+
+            const user = await this.prismaService.users.findUnique({
+              where: {
+                id: otp_instance.user_id,
+              },
+              select: {
+                id: true,
+                phone: true,
+                is_super_user: true,
+                status: true,
+                first_name: true,
+                last_name: true,
+              },
+            });
+
+            if (user.status == user_status.blocked) {
+              throw new DisabledUserException(ErrorType.BlockedUser);
+            }
+            if (user.status == user_status.inactive) {
+              throw new DisabledUserException(ErrorType.InactiveUser);
+            }
+
+            const dto = new UserResponseDto();
+
+            dto.id = user.id;
+            dto.phone = user.phone;
+            dto.first_name = user.first_name;
+            dto.last_name = user.last_name;
+            dto.status = user.status;
+            dto.is_super_user = user.is_super_user;
+
+            const payload: JwtPayload = { id: user.id, phone: user.phone };
+            const token = await this.tokenService.generateAuthToken(payload);
+            const permissions = await this.prismaService.users_permissions.findMany({
+              where: {
+                user_id: user.id,
+              },
+              include: {
+                permissions: true,
+              },
+            });
+            const additionalPermissions = permissions.map(({ permissions: { slug } }) => slug);
+            const userRoles = await this.prismaService.users_roles.findMany({
+              where: {
+                user_id: user.id,
+              },
+              include: {
+                roles: {
+                  include: {
+                    roles_permissions: {
+                      include: {
+                        permissions: true,
+                      },
+                    },
+                  },
+                },
+              },
+            });
+            console.log(userRoles);
+            return {
+              token,
+              user: dto,
+              access: {
+                additionalPermissions: [],
+                roles: [],
+              },
+            };
+            // const response = { Status: 'Success', Details: 'OTP Matched', Check: check };
+            // return res.status(200).send(response);
+          } else {
+            throw new BadRequestException('OTP NOT Matched');
+          }
+        } else {
+          throw new BadRequestException('OTP Expired');
+        }
+      } else {
+        throw new BadRequestException('OTP Already Used');
+      }
+    } else {
+      throw new BadRequestException('OTP Not Found');
+    }
+  }
+
+  async generateRefreshToken(refreshToken: string) {
+    return this.tokenService.generateRefreshToken(refreshToken);
   }
 
   sha1(input) {

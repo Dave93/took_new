@@ -12,6 +12,111 @@ type SendOtpToken {
   details: String!
 }
 
+type PermissionResponseDto {
+  """Permission id"""
+  id: String!
+
+  """Permission slug"""
+  slug: String!
+
+  """Permission desc"""
+  description: String!
+
+  """Permission active"""
+  active: Boolean!
+}
+
+type RoleResponseDto {
+  """Role id"""
+  id: String!
+
+  """Role name"""
+  name: String!
+
+  """Role permissions"""
+  permissions: [PermissionResponseDto!]!
+
+  """Role Active"""
+  active: Boolean!
+}
+
+type UserResponseDto {
+  """User id"""
+  id: String!
+
+  """User phone"""
+  phone: String!
+
+  """User first name"""
+  first_name: String
+
+  """User last name"""
+  last_name: String
+
+  """User roles"""
+  roles: [RoleResponseDto!]!
+
+  """User permissions"""
+  permissions: [PermissionResponseDto!]
+
+  """User status"""
+  is_super_user: Boolean!
+
+  """User status"""
+  status: user_status!
+
+  """iiko terminal id"""
+  iiko_terminal_id: String!
+
+  """Project"""
+  project: String!
+}
+
+enum user_status {
+  active
+  blocked
+  inactive
+}
+
+type AuthAccessRolesDto {
+  """Role name"""
+  name: String!
+
+  """Role permissions"""
+  permissions: [String!]!
+
+  """Role active"""
+  active: Boolean!
+}
+
+type AuthAccessDto {
+  """Additional permissions"""
+  additionalPermissions: [String!]!
+
+  """Access roles"""
+  roles: [AuthAccessRolesDto!]!
+}
+
+type TokenDto {
+  """Token type"""
+  tokenType: String!
+
+  """Access token"""
+  accessToken: String!
+
+  """Access token expires"""
+  accessTokenExpires: String!
+
+  """Refresh token"""
+  refreshToken: String!
+}
+
+type LoginResponseDto {
+  token: TokenDto!
+  user: UserResponseDto!
+  access: AuthAccessDto!
+}
+
 type Query {
   auth(id: Int!): Auth!
 }
@@ -21,7 +126,8 @@ type Mutation {
   updateAuth(updateAuthInput: UpdateAuthInput!): Auth!
   removeAuth(id: Int!): Auth!
   sendOtp(phone: String!): SendOtpToken
-  verifyOtp(phone: String!, otp: String!, verificationKey: String!): Auth
+  verifyOtp(phone: String!, otp: String!, verificationKey: String!): LoginResponseDto
+  refreshToken(refreshToken: String!): TokenDto
 }
 
 input CreateAuthInput {

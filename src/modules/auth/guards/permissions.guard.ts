@@ -1,11 +1,11 @@
 import { Reflector } from '@nestjs/core';
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
-import { UserMapper } from '@user/users.mapper';
 import { users } from '@prisma/client';
+import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class PermissionsGuard implements CanActivate {
-  constructor(private reflector: Reflector) {}
+  constructor(private readonly prismaService: PrismaService, private reflector: Reflector) {}
 
   /**
    * Check if the user has permission to access the resource
@@ -28,13 +28,42 @@ export class PermissionsGuard implements CanActivate {
    * @returns {boolean}
    */
   async matchPermissions(permissions: string[], user: users): Promise<boolean> {
-    const { permissions: permissionDto, roles } = await UserMapper.toDtoWithRelations(user);
-
-    let allPermissions: string[] = permissionDto.map(({ slug }) => slug);
-    roles.forEach(({ permissions }) => {
-      const rolePermissions = permissions.map(({ slug }) => slug);
-      allPermissions = allPermissions.concat(rolePermissions);
+    const permissionDto = await this.prismaService.users_permissions.findMany({
+      where: {
+        user_id: user.id,
+      },
+      include: {
+        permissions: true,
+      },
     });
+
+    const roles = await this.prismaService.users_roles.findMany({
+      where: {
+        user_id: user.id,
+      },
+      include: {
+        roles: true,
+      },
+    });
+
+    const rolePermissions = await this.prismaService.roles_permissions.findMany({
+      where: {
+        role_id: {
+          in: roles.map((role) => role.role_id),
+        },
+      },
+      include: {
+        permissions: true,
+      },
+    });
+
+    let allPermissions: string[] = permissionDto.map(({ permissions: { slug } }) => slug);
+    const rolePermissionsSlug = rolePermissions.map(({ permissions: { slug } }) => slug);
+    allPermissions = allPermissions.concat(rolePermissionsSlug);
+    // roles.forEach(({  permissions }) => {
+    //   const rolePermissions = permissions.map(({ slug }) => slug);
+    //   allPermissions = allPermissions.concat(rolePermissions);
+    // });
 
     return permissions.some((permission) => allPermissions?.includes(permission));
   }
