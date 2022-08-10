@@ -1,11 +1,11 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { user_status } from '@prisma/client';
+import { user_status } from 'src/@generated/prisma/user-status.enum';
 import { PermissionResponseDto } from '../../permissions/dtos';
 import { RoleResponseDto } from '../../roles/dtos';
 
-registerEnumType(user_status, {
-  name: 'user_status',
-});
+// registerEnumType(user_status, {
+//   name: 'user_status',
+// });
 
 @ObjectType()
 export class UserResponseDto {

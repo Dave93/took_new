@@ -9,6 +9,7 @@ import { Logger } from '@nestjs/common/services/logger.service';
 import { MercuriusDriver, MercuriusDriverConfig } from '@nestjs/mercurius';
 import { AuthModule } from './modules/auth/auth.module';
 import { PrismaService } from './prisma.service';
+import { PermissionsModule } from './modules/permissions/permissions.module';
 
 @Global()
 @Module({
@@ -17,7 +18,6 @@ import { PrismaService } from './prisma.service';
       envFilePath: ['.env'],
     }),
     // DatabaseModule,
-    AuthModule,
     // AdminModule,
     // AuthModule,
     // OtpModule,
@@ -26,6 +26,8 @@ import { PrismaService } from './prisma.service';
     //   driver: MercuriusDriver,
     //   autoSchemaFile: '~schema.gql',
     // }),
+    PermissionsModule,
+    AuthModule,
     GraphQLModule.forRoot({
       driver: ApolloDriver,
       autoSchemaFile: '~schema.gql',

@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { user_status } from '@prisma/client';
+import { user_status } from 'src/@generated/prisma/user-status.enum';
 import { PrismaService } from 'src/prisma.service';
 import { CreateAuthInput } from './dto/create-auth.input';
 import { UpdateAuthInput } from './dto/update-auth.input';
@@ -209,7 +209,7 @@ export class AuthService {
             dto.phone = user.phone;
             dto.first_name = user.first_name;
             dto.last_name = user.last_name;
-            dto.status = user.status;
+            dto.status = user_status[user.status];
             dto.is_super_user = user.is_super_user;
 
             const payload: JwtPayload = { id: user.id, phone: user.phone };

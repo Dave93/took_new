@@ -22,7 +22,7 @@ const bootstrap = async () => {
 
   // app.useGlobalFilters(new HttpExceptionFilter());
   // app.useGlobalInterceptors(new HttpResponseInterceptor());
-  app.useGlobalPipes(new ValidationPipe({ forbidUnknownValues: true }));
+  app.useGlobalPipes(new ValidationPipe());
 
   app.setGlobalPrefix(AppModule.apiPrefix);
   SwaggerConfig(app, AppModule.apiVersion);
