@@ -10,7 +10,7 @@ import { RolesCount } from '../prisma/roles-count.output';
 export class roles {
 
     @Field(() => ID, {nullable:false})
-    id!: number;
+    id!: string;
 
     @Field(() => String, {nullable:false})
     name!: string;

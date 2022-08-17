@@ -1,13 +1,12 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
-import { Int } from '@nestjs/graphql';
 import { roles_permissionsUncheckedCreateNestedManyWithoutPermissionsInput } from '../roles-permissions/roles-permissions-unchecked-create-nested-many-without-permissions.input';
 
 @InputType()
 export class permissionsUncheckedCreateWithoutUsers_permissionsInput {
 
-    @Field(() => Int, {nullable:true})
-    id?: number;
+    @Field(() => String, {nullable:true})
+    id?: string;
 
     @Field(() => String, {nullable:false})
     slug!: string;

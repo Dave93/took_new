@@ -7,6 +7,9 @@ import { users_rolesCreateNestedManyWithoutRolesInput } from '../users-roles/use
 @InputType()
 export class rolesCreateWithoutUsers_roles_updated_byTousersInput {
 
+    @Field(() => String, {nullable:true})
+    id?: string;
+
     @Field(() => String, {nullable:false})
     name!: string;
 

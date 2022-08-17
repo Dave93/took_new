@@ -8,6 +8,9 @@ import { users_rolesCreateNestedManyWithoutRolesInput } from '../users-roles/use
 @InputType()
 export class rolesCreateInput {
 
+    @Field(() => String, {nullable:true})
+    id?: string;
+
     @Field(() => String, {nullable:false})
     name!: string;
 

@@ -2,10 +2,8 @@ import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { SortOrder } from '../prisma/sort-order.enum';
 import { rolesCountOrderByAggregateInput } from './roles-count-order-by-aggregate.input';
-import { rolesAvgOrderByAggregateInput } from './roles-avg-order-by-aggregate.input';
 import { rolesMaxOrderByAggregateInput } from './roles-max-order-by-aggregate.input';
 import { rolesMinOrderByAggregateInput } from './roles-min-order-by-aggregate.input';
-import { rolesSumOrderByAggregateInput } from './roles-sum-order-by-aggregate.input';
 
 @InputType()
 export class rolesOrderByWithAggregationInput {
@@ -34,15 +32,9 @@ export class rolesOrderByWithAggregationInput {
     @Field(() => rolesCountOrderByAggregateInput, {nullable:true})
     _count?: rolesCountOrderByAggregateInput;
 
-    @Field(() => rolesAvgOrderByAggregateInput, {nullable:true})
-    _avg?: rolesAvgOrderByAggregateInput;
-
     @Field(() => rolesMaxOrderByAggregateInput, {nullable:true})
     _max?: rolesMaxOrderByAggregateInput;
 
     @Field(() => rolesMinOrderByAggregateInput, {nullable:true})
     _min?: rolesMinOrderByAggregateInput;
-
-    @Field(() => rolesSumOrderByAggregateInput, {nullable:true})
-    _sum?: rolesSumOrderByAggregateInput;
 }

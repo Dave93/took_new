@@ -6,8 +6,5 @@ import { Float } from '@nestjs/graphql';
 export class MigrationsAvgAggregate {
 
     @Field(() => Float, {nullable:true})
-    id?: number;
-
-    @Field(() => Float, {nullable:true})
     timestamp?: number;
 }

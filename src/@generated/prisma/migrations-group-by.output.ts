@@ -1,6 +1,5 @@
 import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
-import { Int } from '@nestjs/graphql';
 import { MigrationsCountAggregate } from './migrations-count-aggregate.output';
 import { MigrationsAvgAggregate } from './migrations-avg-aggregate.output';
 import { MigrationsSumAggregate } from './migrations-sum-aggregate.output';
@@ -10,8 +9,8 @@ import { MigrationsMaxAggregate } from './migrations-max-aggregate.output';
 @ObjectType()
 export class MigrationsGroupBy {
 
-    @Field(() => Int, {nullable:false})
-    id!: number;
+    @Field(() => String, {nullable:false})
+    id!: string;
 
     @Field(() => String, {nullable:false})
     timestamp!: bigint | number;

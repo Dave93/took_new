@@ -11,6 +11,9 @@ import { users_permissionsUpdateManyWithoutPermissionsInput } from '../users-per
 export class permissionsUpdateWithoutUsers_permissions_created_byTousersInput {
 
     @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    id?: StringFieldUpdateOperationsInput;
+
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
     slug?: StringFieldUpdateOperationsInput;
 
     @Field(() => StringFieldUpdateOperationsInput, {nullable:true})

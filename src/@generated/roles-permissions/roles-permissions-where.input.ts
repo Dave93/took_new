@@ -1,6 +1,6 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
-import { IntFilter } from '../prisma/int-filter.input';
+import { StringFilter } from '../prisma/string-filter.input';
 import { StringNullableFilter } from '../prisma/string-nullable-filter.input';
 import { UsersRelationFilter } from '../prisma/users-relation-filter.input';
 import { PermissionsRelationFilter } from '../prisma/permissions-relation-filter.input';
@@ -18,11 +18,11 @@ export class roles_permissionsWhereInput {
     @Field(() => [roles_permissionsWhereInput], {nullable:true})
     NOT?: Array<roles_permissionsWhereInput>;
 
-    @Field(() => IntFilter, {nullable:true})
-    role_id?: IntFilter;
+    @Field(() => StringFilter, {nullable:true})
+    role_id?: StringFilter;
 
-    @Field(() => IntFilter, {nullable:true})
-    permission_id?: IntFilter;
+    @Field(() => StringFilter, {nullable:true})
+    permission_id?: StringFilter;
 
     @Field(() => StringNullableFilter, {nullable:true})
     created_by?: StringNullableFilter;

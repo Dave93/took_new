@@ -11,6 +11,9 @@ import { roles_permissionsUpdateManyWithoutRolesInput } from '../roles-permissio
 export class rolesUpdateWithoutUsers_rolesInput {
 
     @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    id?: StringFieldUpdateOperationsInput;
+
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
     name?: StringFieldUpdateOperationsInput;
 
     @Field(() => BoolFieldUpdateOperationsInput, {nullable:true})

@@ -1,13 +1,12 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
-import { Int } from '@nestjs/graphql';
 import { users_rolesUncheckedCreateNestedManyWithoutRolesInput } from '../users-roles/users-roles-unchecked-create-nested-many-without-roles.input';
 
 @InputType()
 export class rolesUncheckedCreateWithoutRoles_permissionsInput {
 
-    @Field(() => Int, {nullable:true})
-    id?: number;
+    @Field(() => String, {nullable:true})
+    id?: string;
 
     @Field(() => String, {nullable:false})
     name!: string;

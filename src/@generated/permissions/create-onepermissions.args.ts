@@ -5,7 +5,8 @@ import { Type } from 'class-transformer';
 
 @ArgsType()
 export class CreateOnepermissionsArgs {
-  @Field(() => permissionsCreateInput, { nullable: false })
-  @Type(() => permissionsCreateInput)
-  data!: permissionsCreateInput;
+
+    @Field(() => permissionsCreateInput, {nullable:false})
+    @Type(() => permissionsCreateInput)
+    data!: permissionsCreateInput;
 }

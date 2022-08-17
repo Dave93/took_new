@@ -10,7 +10,7 @@ import { PermissionsCount } from '../prisma/permissions-count.output';
 export class permissions {
 
     @Field(() => ID, {nullable:false})
-    id!: number;
+    id!: string;
 
     @Field(() => String, {nullable:false})
     slug!: string;

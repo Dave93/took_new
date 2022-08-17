@@ -7,6 +7,9 @@ import { roles_permissionsCreateNestedManyWithoutRolesInput } from '../roles-per
 @InputType()
 export class rolesCreateWithoutUsers_rolesInput {
 
+    @Field(() => String, {nullable:true})
+    id?: string;
+
     @Field(() => String, {nullable:false})
     name!: string;
 

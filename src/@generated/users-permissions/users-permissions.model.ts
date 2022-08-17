@@ -1,6 +1,5 @@
 import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
-import { Int } from '@nestjs/graphql';
 import { users } from '../users/users.model';
 import { permissions } from '../permissions/permissions.model';
 
@@ -10,8 +9,8 @@ export class users_permissions {
     @Field(() => String, {nullable:false})
     user_id!: string;
 
-    @Field(() => Int, {nullable:false})
-    permission_id!: number;
+    @Field(() => String, {nullable:false})
+    permission_id!: string;
 
     @Field(() => String, {nullable:true})
     created_by!: string | null;

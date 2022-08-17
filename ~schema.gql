@@ -194,8 +194,8 @@ enum sale_type {
 }
 
 type roles_permissions {
-  role_id: Int!
-  permission_id: Int!
+  role_id: String!
+  permission_id: String!
   created_by: String
   updated_by: String
   users_roles_permissions_created_byTousers: users
@@ -206,7 +206,7 @@ type roles_permissions {
 
 type users_roles {
   user_id: String!
-  role_id: Int!
+  role_id: String!
   created_by: String
   updated_by: String
   users_usersTousers_roles_created_by: users
@@ -237,7 +237,7 @@ type roles {
 
 type users_permissions {
   user_id: String!
-  permission_id: Int!
+  permission_id: String!
   created_by: String
   updated_by: String
   users_usersTousers_permissions_created_by: users
@@ -358,7 +358,7 @@ type PrismaAggregateCount {
 type Query {
   permissions(where: permissionsWhereInput, orderBy: [permissionsOrderByWithRelationInput!], cursor: permissionsWhereUniqueInput, take: Int, skip: Int, distinct: [PermissionsScalarFieldEnum!]): [permissions!]!
   permissionsConnection(where: permissionsWhereInput!): PrismaAggregateCount!
-  permission(id: Int!): permissions!
+  permission(id: String!): permissions!
   auth(id: Int!): Auth!
 }
 
@@ -366,7 +366,7 @@ input permissionsWhereInput {
   AND: [permissionsWhereInput!]
   OR: [permissionsWhereInput!]
   NOT: [permissionsWhereInput!]
-  id: IntFilter
+  id: StringFilter
   slug: StringFilter
   description: StringFilter
   active: BoolFilter
@@ -378,28 +378,6 @@ input permissionsWhereInput {
   users_permissions_updated_byTousers: UsersRelationFilter
   roles_permissions: Roles_permissionsListRelationFilter
   users_permissions: Users_permissionsListRelationFilter
-}
-
-input IntFilter {
-  equals: Int
-  in: [Int!]
-  notIn: [Int!]
-  lt: Int
-  lte: Int
-  gt: Int
-  gte: Int
-  not: NestedIntFilter
-}
-
-input NestedIntFilter {
-  equals: Int
-  in: [Int!]
-  notIn: [Int!]
-  lt: Int
-  lte: Int
-  gt: Int
-  gte: Int
-  not: NestedIntFilter
 }
 
 input StringFilter {
@@ -608,6 +586,28 @@ input postWhereInput {
   city_city_idTocity: CityRelationFilter
 }
 
+input IntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntFilter
+}
+
+input NestedIntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntFilter
+}
+
 input Enumprice_typeFilter {
   equals: price_type
   in: [price_type!]
@@ -711,7 +711,7 @@ input rolesWhereInput {
   AND: [rolesWhereInput!]
   OR: [rolesWhereInput!]
   NOT: [rolesWhereInput!]
-  id: IntFilter
+  id: StringFilter
   name: StringFilter
   active: BoolFilter
   created_at: DateTimeFilter
@@ -734,8 +734,8 @@ input roles_permissionsWhereInput {
   AND: [roles_permissionsWhereInput!]
   OR: [roles_permissionsWhereInput!]
   NOT: [roles_permissionsWhereInput!]
-  role_id: IntFilter
-  permission_id: IntFilter
+  role_id: StringFilter
+  permission_id: StringFilter
   created_by: StringNullableFilter
   updated_by: StringNullableFilter
   users_roles_permissions_created_byTousers: UsersRelationFilter
@@ -765,7 +765,7 @@ input users_rolesWhereInput {
   OR: [users_rolesWhereInput!]
   NOT: [users_rolesWhereInput!]
   user_id: StringFilter
-  role_id: IntFilter
+  role_id: StringFilter
   created_by: StringNullableFilter
   updated_by: StringNullableFilter
   users_usersTousers_roles_created_by: UsersRelationFilter
@@ -785,7 +785,7 @@ input users_permissionsWhereInput {
   OR: [users_permissionsWhereInput!]
   NOT: [users_permissionsWhereInput!]
   user_id: StringFilter
-  permission_id: IntFilter
+  permission_id: StringFilter
   created_by: StringNullableFilter
   updated_by: StringNullableFilter
   users_usersTousers_permissions_created_by: UsersRelationFilter
@@ -919,7 +919,7 @@ input cityOrderByRelationAggregateInput {
 }
 
 input permissionsWhereUniqueInput {
-  id: Int
+  id: String
   slug: String
 }
 
@@ -936,7 +936,7 @@ enum PermissionsScalarFieldEnum {
 
 type Mutation {
   createPermission(createPermissionInput: permissionsCreateInput!): permissions!
-  updatePermission(updatePermissionInput: permissionsUpdateInput!): permissions!
+  updatePermission(input: permissionsUpdateInput!): permissions!
   removePermission(id: Int!): permissions!
   createAuth(createAuthInput: CreateAuthInput!): Auth!
   updateAuth(updateAuthInput: UpdateAuthInput!): Auth!
@@ -947,6 +947,7 @@ type Mutation {
 }
 
 input permissionsCreateInput {
+  id: String
   slug: String!
   description: String!
   active: Boolean
@@ -1042,6 +1043,7 @@ input permissionsCreateNestedManyWithoutUsers_permissions_updated_byTousersInput
 }
 
 input permissionsCreateWithoutUsers_permissions_updated_byTousersInput {
+  id: String
   slug: String!
   description: String!
   active: Boolean
@@ -1110,6 +1112,7 @@ input permissionsCreateNestedManyWithoutUsers_permissions_created_byTousersInput
 }
 
 input permissionsCreateWithoutUsers_permissions_created_byTousersInput {
+  id: String
   slug: String!
   description: String!
   active: Boolean
@@ -1348,6 +1351,7 @@ input rolesCreateNestedManyWithoutUsers_roles_created_byTousersInput {
 }
 
 input rolesCreateWithoutUsers_roles_created_byTousersInput {
+  id: String
   name: String!
   active: Boolean
   created_at: DateTime
@@ -1414,6 +1418,7 @@ input permissionsCreateNestedOneWithoutRoles_permissionsInput {
 }
 
 input permissionsCreateWithoutRoles_permissionsInput {
+  id: String
   slug: String!
   description: String!
   active: Boolean
@@ -1482,6 +1487,7 @@ input rolesCreateNestedManyWithoutUsers_roles_updated_byTousersInput {
 }
 
 input rolesCreateWithoutUsers_roles_updated_byTousersInput {
+  id: String
   name: String!
   active: Boolean
   created_at: DateTime
@@ -1548,6 +1554,7 @@ input rolesCreateNestedOneWithoutRoles_permissionsInput {
 }
 
 input rolesCreateWithoutRoles_permissionsInput {
+  id: String
   name: String!
   active: Boolean
   created_at: DateTime
@@ -1627,6 +1634,7 @@ input permissionsCreateNestedOneWithoutUsers_permissionsInput {
 }
 
 input permissionsCreateWithoutUsers_permissionsInput {
+  id: String
   slug: String!
   description: String!
   active: Boolean
@@ -1703,7 +1711,7 @@ input users_permissionsWhereUniqueInput {
 
 input users_permissionsUser_idPermission_idCompoundUniqueInput {
   user_id: String!
-  permission_id: Int!
+  permission_id: String!
 }
 
 input users_permissionsCreateManyUsers_usersTousers_permissions_user_idInputEnvelope {
@@ -1712,7 +1720,7 @@ input users_permissionsCreateManyUsers_usersTousers_permissions_user_idInputEnve
 }
 
 input users_permissionsCreateManyUsers_usersTousers_permissions_user_idInput {
-  permission_id: Int!
+  permission_id: String!
   created_by: String
   updated_by: String
 }
@@ -1737,6 +1745,7 @@ input rolesCreateNestedOneWithoutUsers_rolesInput {
 }
 
 input rolesCreateWithoutUsers_rolesInput {
+  id: String
   name: String!
   active: Boolean
   created_at: DateTime
@@ -2380,7 +2389,7 @@ input users_rolesWhereUniqueInput {
 
 input users_rolesUser_idRole_idCompoundUniqueInput {
   user_id: String!
-  role_id: Int!
+  role_id: String!
 }
 
 input users_rolesCreateManyUsers_usersTousers_roles_user_idInputEnvelope {
@@ -2389,7 +2398,7 @@ input users_rolesCreateManyUsers_usersTousers_roles_user_idInputEnvelope {
 }
 
 input users_rolesCreateManyUsers_usersTousers_roles_user_idInput {
-  role_id: Int!
+  role_id: String!
   created_by: String
   updated_by: String
 }
@@ -2436,7 +2445,7 @@ input users_rolesCreateManyUsers_usersTousers_roles_updated_byInputEnvelope {
 
 input users_rolesCreateManyUsers_usersTousers_roles_updated_byInput {
   user_id: String!
-  role_id: Int!
+  role_id: String!
   created_by: String
 }
 
@@ -2457,7 +2466,7 @@ input users_permissionsCreateManyUsers_usersTousers_permissions_updated_byInputE
 
 input users_permissionsCreateManyUsers_usersTousers_permissions_updated_byInput {
   user_id: String!
-  permission_id: Int!
+  permission_id: String!
   created_by: String
 }
 
@@ -2476,8 +2485,8 @@ input roles_permissionsWhereUniqueInput {
 }
 
 input roles_permissionsRole_idPermission_idCompoundUniqueInput {
-  role_id: Int!
-  permission_id: Int!
+  role_id: String!
+  permission_id: String!
 }
 
 input roles_permissionsCreateManyRolesInputEnvelope {
@@ -2486,7 +2495,7 @@ input roles_permissionsCreateManyRolesInputEnvelope {
 }
 
 input roles_permissionsCreateManyRolesInput {
-  permission_id: Int!
+  permission_id: String!
   created_by: String
   updated_by: String
 }
@@ -2497,7 +2506,7 @@ input rolesCreateOrConnectWithoutUsers_rolesInput {
 }
 
 input rolesWhereUniqueInput {
-  id: Int
+  id: String
   name: String
 }
 
@@ -2513,7 +2522,7 @@ input users_rolesCreateManyUsers_usersTousers_roles_created_byInputEnvelope {
 
 input users_rolesCreateManyUsers_usersTousers_roles_created_byInput {
   user_id: String!
-  role_id: Int!
+  role_id: String!
   updated_by: String
 }
 
@@ -2534,7 +2543,7 @@ input users_permissionsCreateManyUsers_usersTousers_permissions_created_byInputE
 
 input users_permissionsCreateManyUsers_usersTousers_permissions_created_byInput {
   user_id: String!
-  permission_id: Int!
+  permission_id: String!
   updated_by: String
 }
 
@@ -2575,8 +2584,8 @@ input roles_permissionsCreateManyUsers_roles_permissions_updated_byTousersInputE
 }
 
 input roles_permissionsCreateManyUsers_roles_permissions_updated_byTousersInput {
-  role_id: Int!
-  permission_id: Int!
+  role_id: String!
+  permission_id: String!
   created_by: String
 }
 
@@ -2596,7 +2605,7 @@ input rolesCreateManyUsers_roles_updated_byTousersInputEnvelope {
 }
 
 input rolesCreateManyUsers_roles_updated_byTousersInput {
-  id: Int
+  id: String
   name: String!
   active: Boolean
   created_at: DateTime
@@ -2641,8 +2650,8 @@ input roles_permissionsCreateManyUsers_roles_permissions_created_byTousersInputE
 }
 
 input roles_permissionsCreateManyUsers_roles_permissions_created_byTousersInput {
-  role_id: Int!
-  permission_id: Int!
+  role_id: String!
+  permission_id: String!
   updated_by: String
 }
 
@@ -2662,7 +2671,7 @@ input rolesCreateManyUsers_roles_created_byTousersInputEnvelope {
 }
 
 input rolesCreateManyUsers_roles_created_byTousersInput {
-  id: Int
+  id: String
   name: String!
   active: Boolean
   created_at: DateTime
@@ -2804,7 +2813,7 @@ input permissionsCreateManyUsers_permissions_created_byTousersInputEnvelope {
 }
 
 input permissionsCreateManyUsers_permissions_created_byTousersInput {
-  id: Int
+  id: String
   slug: String!
   description: String!
   active: Boolean
@@ -2829,7 +2838,7 @@ input roles_permissionsCreateManyPermissionsInputEnvelope {
 }
 
 input roles_permissionsCreateManyPermissionsInput {
-  role_id: Int!
+  role_id: String!
   created_by: String
   updated_by: String
 }
@@ -2845,7 +2854,7 @@ input permissionsCreateManyUsers_permissions_updated_byTousersInputEnvelope {
 }
 
 input permissionsCreateManyUsers_permissions_updated_byTousersInput {
-  id: Int
+  id: String
   slug: String!
   description: String!
   active: Boolean
@@ -2860,6 +2869,7 @@ input usersCreateOrConnectWithoutPermissions_permissions_created_byTousersInput 
 }
 
 input permissionsUpdateInput {
+  id: StringFieldUpdateOperationsInput
   slug: StringFieldUpdateOperationsInput
   description: StringFieldUpdateOperationsInput
   active: BoolFieldUpdateOperationsInput
@@ -3019,6 +3029,7 @@ input permissionsUpsertWithWhereUniqueWithoutUsers_permissions_updated_byTousers
 }
 
 input permissionsUpdateWithoutUsers_permissions_updated_byTousersInput {
+  id: StringFieldUpdateOperationsInput
   slug: StringFieldUpdateOperationsInput
   description: StringFieldUpdateOperationsInput
   active: BoolFieldUpdateOperationsInput
@@ -3122,6 +3133,7 @@ input permissionsUpsertWithWhereUniqueWithoutUsers_permissions_created_byTousers
 }
 
 input permissionsUpdateWithoutUsers_permissions_created_byTousersInput {
+  id: StringFieldUpdateOperationsInput
   slug: StringFieldUpdateOperationsInput
   description: StringFieldUpdateOperationsInput
   active: BoolFieldUpdateOperationsInput
@@ -3446,6 +3458,7 @@ input rolesUpsertWithWhereUniqueWithoutUsers_roles_created_byTousersInput {
 }
 
 input rolesUpdateWithoutUsers_roles_created_byTousersInput {
+  id: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
   active: BoolFieldUpdateOperationsInput
   created_at: DateTimeFieldUpdateOperationsInput
@@ -3541,6 +3554,7 @@ input permissionsUpsertWithoutRoles_permissionsInput {
 }
 
 input permissionsUpdateWithoutRoles_permissionsInput {
+  id: StringFieldUpdateOperationsInput
   slug: StringFieldUpdateOperationsInput
   description: StringFieldUpdateOperationsInput
   active: BoolFieldUpdateOperationsInput
@@ -3644,6 +3658,7 @@ input rolesUpsertWithWhereUniqueWithoutUsers_roles_updated_byTousersInput {
 }
 
 input rolesUpdateWithoutUsers_roles_updated_byTousersInput {
+  id: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
   active: BoolFieldUpdateOperationsInput
   created_at: DateTimeFieldUpdateOperationsInput
@@ -3739,6 +3754,7 @@ input rolesUpsertWithoutRoles_permissionsInput {
 }
 
 input rolesUpdateWithoutRoles_permissionsInput {
+  id: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
   active: BoolFieldUpdateOperationsInput
   created_at: DateTimeFieldUpdateOperationsInput
@@ -3860,6 +3876,7 @@ input permissionsUpsertWithoutUsers_permissionsInput {
 }
 
 input permissionsUpdateWithoutUsers_permissionsInput {
+  id: StringFieldUpdateOperationsInput
   slug: StringFieldUpdateOperationsInput
   description: StringFieldUpdateOperationsInput
   active: BoolFieldUpdateOperationsInput
@@ -3957,23 +3974,15 @@ input users_permissionsScalarWhereInput {
   OR: [users_permissionsScalarWhereInput!]
   NOT: [users_permissionsScalarWhereInput!]
   user_id: StringFilter
-  permission_id: IntFilter
+  permission_id: StringFilter
   created_by: StringNullableFilter
   updated_by: StringNullableFilter
 }
 
 input users_permissionsUncheckedUpdateManyWithoutUsers_permissions_usersTousers_permissions_user_idInput {
-  permission_id: IntFieldUpdateOperationsInput
+  permission_id: StringFieldUpdateOperationsInput
   created_by: NullableStringFieldUpdateOperationsInput
   updated_by: NullableStringFieldUpdateOperationsInput
-}
-
-input IntFieldUpdateOperationsInput {
-  set: Int
-  increment: Int
-  decrement: Int
-  multiply: Int
-  divide: Int
 }
 
 input users_rolesUpdateManyWithoutUsers_usersTousers_roles_created_byInput {
@@ -4016,6 +4025,7 @@ input rolesUpsertWithoutUsers_rolesInput {
 }
 
 input rolesUpdateWithoutUsers_rolesInput {
+  id: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
   active: BoolFieldUpdateOperationsInput
   created_at: DateTimeFieldUpdateOperationsInput
@@ -4686,6 +4696,14 @@ input postUpdateWithoutCity_city_idTocityInput {
   comments_count: IntFieldUpdateOperationsInput
 }
 
+input IntFieldUpdateOperationsInput {
+  set: Int
+  increment: Int
+  decrement: Int
+  multiply: Int
+  divide: Int
+}
+
 input Enumprice_typeFieldUpdateOperationsInput {
   set: price_type
 }
@@ -4876,13 +4894,13 @@ input users_rolesScalarWhereInput {
   OR: [users_rolesScalarWhereInput!]
   NOT: [users_rolesScalarWhereInput!]
   user_id: StringFilter
-  role_id: IntFilter
+  role_id: StringFilter
   created_by: StringNullableFilter
   updated_by: StringNullableFilter
 }
 
 input users_rolesUncheckedUpdateManyWithoutUsers_roles_usersTousers_roles_user_idInput {
-  role_id: IntFieldUpdateOperationsInput
+  role_id: StringFieldUpdateOperationsInput
   created_by: NullableStringFieldUpdateOperationsInput
   updated_by: NullableStringFieldUpdateOperationsInput
 }
@@ -4909,7 +4927,7 @@ input users_rolesUpdateManyWithWhereWithoutUsers_usersTousers_roles_updated_byIn
 
 input users_rolesUncheckedUpdateManyWithoutUsers_roles_usersTousers_roles_updated_byInput {
   user_id: StringFieldUpdateOperationsInput
-  role_id: IntFieldUpdateOperationsInput
+  role_id: StringFieldUpdateOperationsInput
   created_by: NullableStringFieldUpdateOperationsInput
 }
 
@@ -4925,7 +4943,7 @@ input users_permissionsUpdateManyWithWhereWithoutUsers_usersTousers_permissions_
 
 input users_permissionsUncheckedUpdateManyWithoutUsers_permissions_usersTousers_permissions_updated_byInput {
   user_id: StringFieldUpdateOperationsInput
-  permission_id: IntFieldUpdateOperationsInput
+  permission_id: StringFieldUpdateOperationsInput
   created_by: NullableStringFieldUpdateOperationsInput
 }
 
@@ -4943,14 +4961,14 @@ input roles_permissionsScalarWhereInput {
   AND: [roles_permissionsScalarWhereInput!]
   OR: [roles_permissionsScalarWhereInput!]
   NOT: [roles_permissionsScalarWhereInput!]
-  role_id: IntFilter
-  permission_id: IntFilter
+  role_id: StringFilter
+  permission_id: StringFilter
   created_by: StringNullableFilter
   updated_by: StringNullableFilter
 }
 
 input roles_permissionsUncheckedUpdateManyWithoutRoles_permissionsInput {
-  role_id: IntFieldUpdateOperationsInput
+  role_id: StringFieldUpdateOperationsInput
   created_by: NullableStringFieldUpdateOperationsInput
   updated_by: NullableStringFieldUpdateOperationsInput
 }
@@ -4967,7 +4985,7 @@ input users_rolesUpdateManyWithWhereWithoutUsers_usersTousers_roles_created_byIn
 
 input users_rolesUncheckedUpdateManyWithoutUsers_roles_usersTousers_roles_created_byInput {
   user_id: StringFieldUpdateOperationsInput
-  role_id: IntFieldUpdateOperationsInput
+  role_id: StringFieldUpdateOperationsInput
   updated_by: NullableStringFieldUpdateOperationsInput
 }
 
@@ -4983,7 +5001,7 @@ input users_permissionsUpdateManyWithWhereWithoutUsers_usersTousers_permissions_
 
 input users_permissionsUncheckedUpdateManyWithoutUsers_permissions_usersTousers_permissions_created_byInput {
   user_id: StringFieldUpdateOperationsInput
-  permission_id: IntFieldUpdateOperationsInput
+  permission_id: StringFieldUpdateOperationsInput
   updated_by: NullableStringFieldUpdateOperationsInput
 }
 
@@ -5014,8 +5032,8 @@ input roles_permissionsUpdateManyWithWhereWithoutUsers_roles_permissions_updated
 }
 
 input roles_permissionsUncheckedUpdateManyWithoutRoles_permissions_roles_permissions_updated_byTousersInput {
-  role_id: IntFieldUpdateOperationsInput
-  permission_id: IntFieldUpdateOperationsInput
+  role_id: StringFieldUpdateOperationsInput
+  permission_id: StringFieldUpdateOperationsInput
   created_by: NullableStringFieldUpdateOperationsInput
 }
 
@@ -5033,7 +5051,7 @@ input rolesScalarWhereInput {
   AND: [rolesScalarWhereInput!]
   OR: [rolesScalarWhereInput!]
   NOT: [rolesScalarWhereInput!]
-  id: IntFilter
+  id: StringFilter
   name: StringFilter
   active: BoolFilter
   created_at: DateTimeFilter
@@ -5043,6 +5061,7 @@ input rolesScalarWhereInput {
 }
 
 input rolesUpdateManyMutationInput {
+  id: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
   active: BoolFieldUpdateOperationsInput
   created_at: DateTimeFieldUpdateOperationsInput
@@ -5076,8 +5095,8 @@ input roles_permissionsUpdateManyWithWhereWithoutUsers_roles_permissions_created
 }
 
 input roles_permissionsUncheckedUpdateManyWithoutRoles_permissions_roles_permissions_created_byTousersInput {
-  role_id: IntFieldUpdateOperationsInput
-  permission_id: IntFieldUpdateOperationsInput
+  role_id: StringFieldUpdateOperationsInput
+  permission_id: StringFieldUpdateOperationsInput
   updated_by: NullableStringFieldUpdateOperationsInput
 }
 
@@ -5159,7 +5178,7 @@ input permissionsScalarWhereInput {
   AND: [permissionsScalarWhereInput!]
   OR: [permissionsScalarWhereInput!]
   NOT: [permissionsScalarWhereInput!]
-  id: IntFilter
+  id: StringFilter
   slug: StringFilter
   description: StringFilter
   active: BoolFilter
@@ -5170,6 +5189,7 @@ input permissionsScalarWhereInput {
 }
 
 input permissionsUpdateManyMutationInput {
+  id: StringFieldUpdateOperationsInput
   slug: StringFieldUpdateOperationsInput
   description: StringFieldUpdateOperationsInput
   active: BoolFieldUpdateOperationsInput

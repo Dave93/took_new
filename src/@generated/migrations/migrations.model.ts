@@ -6,7 +6,7 @@ import { ID } from '@nestjs/graphql';
 export class migrations {
 
     @Field(() => ID, {nullable:false})
-    id!: number;
+    id!: string;
 
     @Field(() => String, {nullable:false})
     timestamp!: bigint;

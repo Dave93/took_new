@@ -1,6 +1,6 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
-import { IntWithAggregatesFilter } from '../prisma/int-with-aggregates-filter.input';
+import { StringWithAggregatesFilter } from '../prisma/string-with-aggregates-filter.input';
 import { StringNullableWithAggregatesFilter } from '../prisma/string-nullable-with-aggregates-filter.input';
 
 @InputType()
@@ -15,11 +15,11 @@ export class roles_permissionsScalarWhereWithAggregatesInput {
     @Field(() => [roles_permissionsScalarWhereWithAggregatesInput], {nullable:true})
     NOT?: Array<roles_permissionsScalarWhereWithAggregatesInput>;
 
-    @Field(() => IntWithAggregatesFilter, {nullable:true})
-    role_id?: IntWithAggregatesFilter;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    role_id?: StringWithAggregatesFilter;
 
-    @Field(() => IntWithAggregatesFilter, {nullable:true})
-    permission_id?: IntWithAggregatesFilter;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    permission_id?: StringWithAggregatesFilter;
 
     @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
     created_by?: StringNullableWithAggregatesFilter;

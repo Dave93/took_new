@@ -1,7 +1,6 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { StringFilter } from '../prisma/string-filter.input';
-import { IntFilter } from '../prisma/int-filter.input';
 import { StringNullableFilter } from '../prisma/string-nullable-filter.input';
 import { UsersRelationFilter } from '../prisma/users-relation-filter.input';
 import { RolesRelationFilter } from '../prisma/roles-relation-filter.input';
@@ -21,8 +20,8 @@ export class users_rolesWhereInput {
     @Field(() => StringFilter, {nullable:true})
     user_id?: StringFilter;
 
-    @Field(() => IntFilter, {nullable:true})
-    role_id?: IntFilter;
+    @Field(() => StringFilter, {nullable:true})
+    role_id?: StringFilter;
 
     @Field(() => StringNullableFilter, {nullable:true})
     created_by?: StringNullableFilter;

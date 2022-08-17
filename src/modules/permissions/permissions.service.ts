@@ -25,8 +25,12 @@ export class PermissionsService {
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} permission`;
+  findOne(id: string) {
+    return this.prismaService.permissions.findUnique({
+      where: {
+        id,
+      },
+    });
   }
 
   update(updatePermissionInput: permissionsUpdateInput) {

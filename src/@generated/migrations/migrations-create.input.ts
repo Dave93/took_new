@@ -4,6 +4,9 @@ import { InputType } from '@nestjs/graphql';
 @InputType()
 export class migrationsCreateInput {
 
+    @Field(() => String, {nullable:true})
+    id?: string;
+
     @Field(() => String, {nullable:false})
     timestamp!: bigint | number;
 

@@ -15,7 +15,7 @@ datasource db {
 }
 
 model migrations {
-  id        Int    @id(map: "PK_8c82d7f526340ab734260ea46be") @default(autoincrement())
+  id        String    @id(map: "PK_8c82d7f526340ab734260ea46be") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   timestamp BigInt
   name      String @db.VarChar
 }
@@ -32,7 +32,7 @@ model otp {
 }
 
 model permissions {
-  id                                  Int                 @id(map: "PK_920331560282b8bd21bb02290df") @default(autoincrement())
+  id                                  String                 @id(map: "PK_920331560282b8bd21bb02290df") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   slug                                String              @unique(map: "UQ_d090ad82a0e97ce764c06c7b312") @db.VarChar(160)
   description                         String              @db.VarChar(60)
   active                              Boolean             @default(true)
@@ -47,7 +47,7 @@ model permissions {
 }
 
 model roles {
-  id                            Int                 @id(map: "PK_c1433d71a4838793a49dcad46ab") @default(autoincrement())
+  id                            String                 @id(map: "PK_c1433d71a4838793a49dcad46ab") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   name                          String              @unique(map: "UQ_648e3f5447f725579d7d4ffdfb7") @db.VarChar(50)
   active                        Boolean             @default(true)
   created_at                    DateTime            @default(now()) @db.Timestamptz(6)
@@ -61,8 +61,8 @@ model roles {
 }
 
 model roles_permissions {
-  role_id                                   Int
-  permission_id                             Int
+  role_id                                   String      @db.Uuid
+  permission_id                             String      @db.Uuid
   created_by                                String?     @db.Uuid
   updated_by                                String?     @db.Uuid
   users_roles_permissions_created_byTousers users?      @relation("roles_permissions_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_a3f5b9874c55ee69fdd01531e14")
@@ -119,7 +119,7 @@ model users {
 
 model users_permissions {
   user_id                                   String      @db.Uuid
-  permission_id                             Int
+  permission_id                             String      @db.Uuid
   created_by                                String?     @db.Uuid
   updated_by                                String?     @db.Uuid
   users_usersTousers_permissions_created_by users?      @relation("usersTousers_permissions_created_by", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_1139f007de51cfe686c4b2abb43")
@@ -132,7 +132,7 @@ model users_permissions {
 
 model users_roles {
   user_id                             String  @db.Uuid
-  role_id                             Int
+  role_id                             String  @db.Uuid
   created_by                          String? @db.Uuid
   updated_by                          String? @db.Uuid
   users_usersTousers_roles_created_by users?  @relation("usersTousers_roles_created_by", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_471c7c874c2a37052f53d920803")

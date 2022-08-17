@@ -30,12 +30,12 @@ export class PermissionsResolver {
   w;
 
   @Query(() => permissions, { name: 'permission' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.permissionsService.findOne(id);
   }
 
   @Mutation(() => permissions)
-  updatePermission(@Args('updatePermissionInput') updatePermissionInput: permissionsUpdateInput) {
+  updatePermission(@Args('input') updatePermissionInput: permissionsUpdateInput) {
     return this.permissionsService.update(updatePermissionInput);
   }
 

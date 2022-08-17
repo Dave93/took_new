@@ -1,6 +1,5 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
-import { IntFilter } from '../prisma/int-filter.input';
 import { StringFilter } from '../prisma/string-filter.input';
 import { BoolFilter } from '../prisma/bool-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
@@ -18,8 +17,8 @@ export class rolesScalarWhereInput {
     @Field(() => [rolesScalarWhereInput], {nullable:true})
     NOT?: Array<rolesScalarWhereInput>;
 
-    @Field(() => IntFilter, {nullable:true})
-    id?: IntFilter;
+    @Field(() => StringFilter, {nullable:true})
+    id?: StringFilter;
 
     @Field(() => StringFilter, {nullable:true})
     name?: StringFilter;

@@ -8,6 +8,9 @@ import { users_permissionsCreateNestedManyWithoutPermissionsInput } from '../use
 @InputType()
 export class permissionsCreateInput {
 
+    @Field(() => String, {nullable:true})
+    id?: string;
+
     @Field(() => String, {nullable:false})
     slug!: string;
 
