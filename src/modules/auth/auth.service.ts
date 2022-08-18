@@ -118,7 +118,6 @@ export class AuthService {
         },
       },
     );
-    console.log(message);
     let result = new SendOtpToken();
     result.details = encoded;
     return result;
@@ -144,7 +143,6 @@ export class AuthService {
     try {
       decoded = await this.decode(verificationKey);
     } catch (err) {
-      console.log(err);
       throw new BadRequestException('Verification key is invalid');
     }
     var obj = JSON.parse(decoded);
@@ -154,8 +152,6 @@ export class AuthService {
     if (check_obj != phone) {
       throw new BadRequestException('OTP was not sent to this particular phone number');
     }
-
-    console.log(obj);
 
     const otp_instance = await this.prismaService.otp.findUnique({
       where: {
@@ -239,7 +235,6 @@ export class AuthService {
                 },
               },
             });
-            console.log(userRoles);
             return {
               token,
               user: dto,

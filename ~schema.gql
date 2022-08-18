@@ -936,7 +936,7 @@ enum PermissionsScalarFieldEnum {
 
 type Mutation {
   createPermission(createPermissionInput: permissionsCreateInput!): permissions!
-  updatePermission(input: permissionsUpdateInput!): permissions!
+  updatePermission(data: permissionsUpdateInput!, where: permissionsWhereUniqueInput!): permissions!
   removePermission(id: Int!): permissions!
   createAuth(createAuthInput: CreateAuthInput!): Auth!
   updateAuth(updateAuthInput: UpdateAuthInput!): Auth!

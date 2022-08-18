@@ -3,6 +3,7 @@ import { FindManypermissionsArgs } from 'src/@generated/permissions/find-manyper
 import { permissionsCreateInput } from 'src/@generated/permissions/permissions-create.input';
 import { permissionsUpdateInput } from 'src/@generated/permissions/permissions-update.input';
 import { permissionsWhereInput } from 'src/@generated/permissions/permissions-where.input';
+import { UpdateOnepermissionsArgs } from 'src/@generated/permissions/update-onepermissions.args';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
@@ -33,8 +34,8 @@ export class PermissionsService {
     });
   }
 
-  update(updatePermissionInput: permissionsUpdateInput) {
-    // return `This action updates a #${id} permission`;
+  update(updatePermissionInput: UpdateOnepermissionsArgs) {
+    return this.prismaService.permissions.update(updatePermissionInput);
   }
 
   remove(id: number) {

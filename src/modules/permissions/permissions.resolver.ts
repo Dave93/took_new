@@ -19,7 +19,6 @@ export class PermissionsResolver {
 
   @Query(() => [permissions], { name: 'permissions' })
   findAll(@Args() params: FindManypermissionsArgs) {
-    console.log('davr');
     return this.permissionsService.findAll(params);
   }
 
@@ -27,7 +26,6 @@ export class PermissionsResolver {
   permissionsConnection(@Args('where') where: permissionsWhereInput) {
     return this.permissionsService.permissionsConnection(where);
   }
-  w;
 
   @Query(() => permissions, { name: 'permission' })
   findOne(@Args('id', { type: () => String }) id: string) {
@@ -35,7 +33,7 @@ export class PermissionsResolver {
   }
 
   @Mutation(() => permissions)
-  updatePermission(@Args('input') updatePermissionInput: permissionsUpdateInput) {
+  updatePermission(@Args() updatePermissionInput: UpdateOnepermissionsArgs) {
     return this.permissionsService.update(updatePermissionInput);
   }
 
