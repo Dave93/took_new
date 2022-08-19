@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { CreateOnepermissionsArgs } from 'src/@generated/permissions/create-onepermissions.args';
 import { FindManypermissionsArgs } from 'src/@generated/permissions/find-manypermissions.args';
 import { permissionsCreateInput } from 'src/@generated/permissions/permissions-create.input';
 import { permissionsUpdateInput } from 'src/@generated/permissions/permissions-update.input';
@@ -9,12 +10,12 @@ import { PrismaService } from 'src/prisma.service';
 @Injectable()
 export class PermissionsService {
   constructor(private readonly prismaService: PrismaService) {}
-  create(createPermissionInput: permissionsCreateInput) {
-    return this.prismaService.permissions.create({ data: createPermissionInput });
+  create(createPermissionInput: CreateOnepermissionsArgs) {
+    return this.prismaService.permissions.create(createPermissionInput);
   }
 
   findAll(params: FindManypermissionsArgs) {
-    return this.prismaService.permissions.findMany({ ...params });
+    return this.prismaService.permissions.findMany(params);
   }
 
   permissionsConnection(where: permissionsWhereInput) {

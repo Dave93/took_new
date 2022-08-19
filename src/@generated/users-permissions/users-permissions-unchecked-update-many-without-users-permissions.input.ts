@@ -1,17 +1,15 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
-import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input';
-import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input';
 
 @InputType()
 export class users_permissionsUncheckedUpdateManyWithoutUsers_permissionsInput {
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    user_id?: StringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    user_id?: string;
 
-    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
-    created_by?: NullableStringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    created_by?: string;
 
-    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
-    updated_by?: NullableStringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    updated_by?: string;
 }

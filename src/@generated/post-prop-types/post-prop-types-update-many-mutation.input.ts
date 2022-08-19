@@ -1,28 +1,26 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
-import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input';
-import { Enumsale_typeFieldUpdateOperationsInput } from '../prisma/enumsale-type-field-update-operations.input';
-import { EnumtypeFieldUpdateOperationsInput } from '../prisma/enumtype-field-update-operations.input';
-import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
+import { sale_type } from '../prisma/sale-type.enum';
+import { type } from '../prisma/type.enum';
 
 @InputType()
 export class post_prop_typesUpdateManyMutationInput {
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    id?: StringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    id?: string;
 
-    @Field(() => Enumsale_typeFieldUpdateOperationsInput, {nullable:true})
-    sale_type?: Enumsale_typeFieldUpdateOperationsInput;
+    @Field(() => sale_type, {nullable:true})
+    sale_type?: keyof typeof sale_type;
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    name?: StringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    name?: string;
 
-    @Field(() => EnumtypeFieldUpdateOperationsInput, {nullable:true})
-    type?: EnumtypeFieldUpdateOperationsInput;
+    @Field(() => type, {nullable:true})
+    type?: keyof typeof type;
 
-    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
-    created_at?: DateTimeFieldUpdateOperationsInput;
+    @Field(() => Date, {nullable:true})
+    created_at?: Date | string;
 
-    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
-    updated_at?: DateTimeFieldUpdateOperationsInput;
+    @Field(() => Date, {nullable:true})
+    updated_at?: Date | string;
 }

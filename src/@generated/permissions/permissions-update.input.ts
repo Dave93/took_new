@@ -1,43 +1,39 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
-import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input';
-import { BoolFieldUpdateOperationsInput } from '../prisma/bool-field-update-operations.input';
-import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
-import { usersUpdateOneWithoutPermissions_permissions_created_byTousersInput } from '../users/users-update-one-without-permissions-permissions-created-by-tousers.input';
-import { usersUpdateOneWithoutPermissions_permissions_updated_byTousersInput } from '../users/users-update-one-without-permissions-permissions-updated-by-tousers.input';
-import { roles_permissionsUpdateManyWithoutPermissionsInput } from '../roles-permissions/roles-permissions-update-many-without-permissions.input';
-import { users_permissionsUpdateManyWithoutPermissionsInput } from '../users-permissions/users-permissions-update-many-without-permissions.input';
+import { usersUpdateOneWithoutPermissions_permissions_created_byTousersNestedInput } from '../users/users-update-one-without-permissions-permissions-created-by-tousers-nested.input';
+import { usersUpdateOneWithoutPermissions_permissions_updated_byTousersNestedInput } from '../users/users-update-one-without-permissions-permissions-updated-by-tousers-nested.input';
+import { roles_permissionsUpdateManyWithoutPermissionsNestedInput } from '../roles-permissions/roles-permissions-update-many-without-permissions-nested.input';
+import { users_permissionsUpdateManyWithoutPermissionsNestedInput } from '../users-permissions/users-permissions-update-many-without-permissions-nested.input';
 
 @InputType()
 export class permissionsUpdateInput {
+  @Field(() => String, { nullable: true })
+  id?: string;
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    id?: StringFieldUpdateOperationsInput;
+  @Field(() => String, { nullable: true })
+  slug?: string;
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    slug?: StringFieldUpdateOperationsInput;
+  @Field(() => String, { nullable: true })
+  description?: string;
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    description?: StringFieldUpdateOperationsInput;
+  @Field(() => Boolean, { nullable: true })
+  active?: boolean;
 
-    @Field(() => BoolFieldUpdateOperationsInput, {nullable:true})
-    active?: BoolFieldUpdateOperationsInput;
+  @Field(() => Date, { nullable: true })
+  created_at?: Date | string;
 
-    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
-    created_at?: DateTimeFieldUpdateOperationsInput;
+  @Field(() => Date, { nullable: true })
+  updated_at?: Date | string;
 
-    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
-    updated_at?: DateTimeFieldUpdateOperationsInput;
+  @Field(() => usersUpdateOneWithoutPermissions_permissions_created_byTousersNestedInput, { nullable: true })
+  users_permissions_created_byTousers?: usersUpdateOneWithoutPermissions_permissions_created_byTousersNestedInput;
 
-    @Field(() => usersUpdateOneWithoutPermissions_permissions_created_byTousersInput, {nullable:true})
-    users_permissions_created_byTousers?: usersUpdateOneWithoutPermissions_permissions_created_byTousersInput;
+  @Field(() => usersUpdateOneWithoutPermissions_permissions_updated_byTousersNestedInput, { nullable: true })
+  users_permissions_updated_byTousers?: usersUpdateOneWithoutPermissions_permissions_updated_byTousersNestedInput;
 
-    @Field(() => usersUpdateOneWithoutPermissions_permissions_updated_byTousersInput, {nullable:true})
-    users_permissions_updated_byTousers?: usersUpdateOneWithoutPermissions_permissions_updated_byTousersInput;
+  @Field(() => roles_permissionsUpdateManyWithoutPermissionsNestedInput, { nullable: true })
+  roles_permissions?: roles_permissionsUpdateManyWithoutPermissionsNestedInput;
 
-    @Field(() => roles_permissionsUpdateManyWithoutPermissionsInput, {nullable:true})
-    roles_permissions?: roles_permissionsUpdateManyWithoutPermissionsInput;
-
-    @Field(() => users_permissionsUpdateManyWithoutPermissionsInput, {nullable:true})
-    users_permissions?: users_permissionsUpdateManyWithoutPermissionsInput;
+  @Field(() => users_permissionsUpdateManyWithoutPermissionsNestedInput, { nullable: true })
+  users_permissions?: users_permissionsUpdateManyWithoutPermissionsNestedInput;
 }

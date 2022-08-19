@@ -10,6 +10,7 @@ import { MercuriusDriver, MercuriusDriverConfig } from '@nestjs/mercurius';
 import { AuthModule } from './modules/auth/auth.module';
 import { PrismaService } from './prisma.service';
 import { PermissionsModule } from './modules/permissions/permissions.module';
+import { RolesModule } from '@modules/roles/roles.module';
 
 @Global()
 @Module({
@@ -28,6 +29,7 @@ import { PermissionsModule } from './modules/permissions/permissions.module';
     // }),
     PermissionsModule,
     AuthModule,
+    RolesModule,
     GraphQLModule.forRoot({
       driver: ApolloDriver,
       autoSchemaFile: '~schema.gql',

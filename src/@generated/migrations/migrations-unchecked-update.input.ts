@@ -1,17 +1,15 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
-import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input';
-import { BigIntFieldUpdateOperationsInput } from '../prisma/big-int-field-update-operations.input';
 
 @InputType()
 export class migrationsUncheckedUpdateInput {
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    id?: StringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    id?: string;
 
-    @Field(() => BigIntFieldUpdateOperationsInput, {nullable:true})
-    timestamp?: BigIntFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    timestamp?: bigint | number;
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    name?: StringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    name?: string;
 }

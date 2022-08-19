@@ -1,56 +1,53 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
-import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input';
-import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
-import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input';
-import { IntFieldUpdateOperationsInput } from '../prisma/int-field-update-operations.input';
-import { Enumprice_typeFieldUpdateOperationsInput } from '../prisma/enumprice-type-field-update-operations.input';
-import { EnumstatusFieldUpdateOperationsInput } from '../prisma/enumstatus-field-update-operations.input';
-import { Enumsale_typeFieldUpdateOperationsInput } from '../prisma/enumsale-type-field-update-operations.input';
-import { FloatFieldUpdateOperationsInput } from '../prisma/float-field-update-operations.input';
+import { Int } from '@nestjs/graphql';
+import { price_type } from '../prisma/price-type.enum';
+import { status } from '../prisma/status.enum';
+import { sale_type } from '../prisma/sale-type.enum';
+import { Float } from '@nestjs/graphql';
 
 @InputType()
 export class postUncheckedUpdateWithoutUsers_post_updated_byTousersInput {
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    id?: StringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    id?: string;
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    user_id?: StringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    user_id?: string;
 
-    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
-    created_at?: DateTimeFieldUpdateOperationsInput;
+    @Field(() => Date, {nullable:true})
+    created_at?: Date | string;
 
-    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
-    updated_at?: DateTimeFieldUpdateOperationsInput;
+    @Field(() => Date, {nullable:true})
+    updated_at?: Date | string;
 
-    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
-    created_by?: NullableStringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    created_by?: string;
 
-    @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
-    price?: IntFieldUpdateOperationsInput;
+    @Field(() => Int, {nullable:true})
+    price?: number;
 
-    @Field(() => Enumprice_typeFieldUpdateOperationsInput, {nullable:true})
-    price_type?: Enumprice_typeFieldUpdateOperationsInput;
+    @Field(() => price_type, {nullable:true})
+    price_type?: keyof typeof price_type;
 
-    @Field(() => EnumstatusFieldUpdateOperationsInput, {nullable:true})
-    status?: EnumstatusFieldUpdateOperationsInput;
+    @Field(() => status, {nullable:true})
+    status?: keyof typeof status;
 
-    @Field(() => Enumsale_typeFieldUpdateOperationsInput, {nullable:true})
-    sale_type?: Enumsale_typeFieldUpdateOperationsInput;
+    @Field(() => sale_type, {nullable:true})
+    sale_type?: keyof typeof sale_type;
 
-    @Field(() => FloatFieldUpdateOperationsInput, {nullable:true})
-    latitude?: FloatFieldUpdateOperationsInput;
+    @Field(() => Float, {nullable:true})
+    latitude?: number;
 
-    @Field(() => FloatFieldUpdateOperationsInput, {nullable:true})
-    longitude?: FloatFieldUpdateOperationsInput;
+    @Field(() => Float, {nullable:true})
+    longitude?: number;
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    address?: StringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    address?: string;
 
-    @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
-    comments_count?: IntFieldUpdateOperationsInput;
+    @Field(() => Int, {nullable:true})
+    comments_count?: number;
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    city_id?: StringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    city_id?: string;
 }
