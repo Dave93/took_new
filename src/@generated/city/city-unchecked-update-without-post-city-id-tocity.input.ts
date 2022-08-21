@@ -3,7 +3,7 @@ import { InputType } from '@nestjs/graphql';
 import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input';
 import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input';
 import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
-import { cityUncheckedUpdateManyWithoutUsers_city_parent_idTousersInput } from './city-unchecked-update-many-without-users-city-parent-id-tousers.input';
+import { cityUncheckedUpdateManyWithoutUsers_city_parent_idTousersNestedInput } from './city-unchecked-update-many-without-users-city-parent-id-tousers-nested.input';
 
 @InputType()
 export class cityUncheckedUpdateWithoutPost_city_idTocityInput {
@@ -29,6 +29,6 @@ export class cityUncheckedUpdateWithoutPost_city_idTocityInput {
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     updated_by?: NullableStringFieldUpdateOperationsInput;
 
-    @Field(() => cityUncheckedUpdateManyWithoutUsers_city_parent_idTousersInput, {nullable:true})
-    city_parent_idTocity?: cityUncheckedUpdateManyWithoutUsers_city_parent_idTousersInput;
+    @Field(() => cityUncheckedUpdateManyWithoutUsers_city_parent_idTousersNestedInput, {nullable:true})
+    city_parent_idTocity?: cityUncheckedUpdateManyWithoutUsers_city_parent_idTousersNestedInput;
 }

@@ -2,14 +2,14 @@ import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input';
 import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
-import { usersUpdateOneWithoutPost_post_created_byTousersInput } from '../users/users-update-one-without-post-post-created-by-tousers.input';
-import { usersUpdateOneRequiredWithoutPost_post_user_idTousersInput } from '../users/users-update-one-required-without-post-post-user-id-tousers.input';
+import { usersUpdateOneWithoutPost_post_created_byTousersNestedInput } from '../users/users-update-one-without-post-post-created-by-tousers-nested.input';
+import { usersUpdateOneRequiredWithoutPost_post_user_idTousersNestedInput } from '../users/users-update-one-required-without-post-post-user-id-tousers-nested.input';
 import { IntFieldUpdateOperationsInput } from '../prisma/int-field-update-operations.input';
 import { Enumprice_typeFieldUpdateOperationsInput } from '../prisma/enumprice-type-field-update-operations.input';
 import { EnumstatusFieldUpdateOperationsInput } from '../prisma/enumstatus-field-update-operations.input';
 import { Enumsale_typeFieldUpdateOperationsInput } from '../prisma/enumsale-type-field-update-operations.input';
 import { FloatFieldUpdateOperationsInput } from '../prisma/float-field-update-operations.input';
-import { cityUpdateOneRequiredWithoutPost_city_idTocityInput } from '../city/city-update-one-required-without-post-city-id-tocity.input';
+import { cityUpdateOneRequiredWithoutPost_city_idTocityNestedInput } from '../city/city-update-one-required-without-post-city-id-tocity-nested.input';
 
 @InputType()
 export class postUpdateWithoutUsers_post_updated_byTousersInput {
@@ -23,11 +23,11 @@ export class postUpdateWithoutUsers_post_updated_byTousersInput {
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
     updated_at?: DateTimeFieldUpdateOperationsInput;
 
-    @Field(() => usersUpdateOneWithoutPost_post_created_byTousersInput, {nullable:true})
-    users_post_created_byTousers?: usersUpdateOneWithoutPost_post_created_byTousersInput;
+    @Field(() => usersUpdateOneWithoutPost_post_created_byTousersNestedInput, {nullable:true})
+    users_post_created_byTousers?: usersUpdateOneWithoutPost_post_created_byTousersNestedInput;
 
-    @Field(() => usersUpdateOneRequiredWithoutPost_post_user_idTousersInput, {nullable:true})
-    users_post_user_idTousers?: usersUpdateOneRequiredWithoutPost_post_user_idTousersInput;
+    @Field(() => usersUpdateOneRequiredWithoutPost_post_user_idTousersNestedInput, {nullable:true})
+    users_post_user_idTousers?: usersUpdateOneRequiredWithoutPost_post_user_idTousersNestedInput;
 
     @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
     price?: IntFieldUpdateOperationsInput;
@@ -53,6 +53,6 @@ export class postUpdateWithoutUsers_post_updated_byTousersInput {
     @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
     comments_count?: IntFieldUpdateOperationsInput;
 
-    @Field(() => cityUpdateOneRequiredWithoutPost_city_idTocityInput, {nullable:true})
-    city_city_idTocity?: cityUpdateOneRequiredWithoutPost_city_idTocityInput;
+    @Field(() => cityUpdateOneRequiredWithoutPost_city_idTocityNestedInput, {nullable:true})
+    city_city_idTocity?: cityUpdateOneRequiredWithoutPost_city_idTocityNestedInput;
 }

@@ -3,7 +3,7 @@ import { InputType } from '@nestjs/graphql';
 import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input';
 import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
 import { BoolFieldUpdateOperationsInput } from '../prisma/bool-field-update-operations.input';
-import { usersUpdateOneRequiredWithoutOtpInput } from '../users/users-update-one-required-without-otp.input';
+import { usersUpdateOneRequiredWithoutOtpNestedInput } from '../users/users-update-one-required-without-otp-nested.input';
 
 @InputType()
 export class otpUpdateInput {
@@ -26,6 +26,6 @@ export class otpUpdateInput {
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
     updated_at?: DateTimeFieldUpdateOperationsInput;
 
-    @Field(() => usersUpdateOneRequiredWithoutOtpInput, {nullable:true})
-    users?: usersUpdateOneRequiredWithoutOtpInput;
+    @Field(() => usersUpdateOneRequiredWithoutOtpNestedInput, {nullable:true})
+    users?: usersUpdateOneRequiredWithoutOtpNestedInput;
 }

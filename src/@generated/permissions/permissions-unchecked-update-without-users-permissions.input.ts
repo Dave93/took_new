@@ -4,7 +4,7 @@ import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-
 import { BoolFieldUpdateOperationsInput } from '../prisma/bool-field-update-operations.input';
 import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
 import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input';
-import { roles_permissionsUncheckedUpdateManyWithoutPermissionsInput } from '../roles-permissions/roles-permissions-unchecked-update-many-without-permissions.input';
+import { roles_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput } from '../roles-permissions/roles-permissions-unchecked-update-many-without-permissions-nested.input';
 
 @InputType()
 export class permissionsUncheckedUpdateWithoutUsers_permissionsInput {
@@ -33,6 +33,6 @@ export class permissionsUncheckedUpdateWithoutUsers_permissionsInput {
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     updated_by?: NullableStringFieldUpdateOperationsInput;
 
-    @Field(() => roles_permissionsUncheckedUpdateManyWithoutPermissionsInput, {nullable:true})
-    roles_permissions?: roles_permissionsUncheckedUpdateManyWithoutPermissionsInput;
+    @Field(() => roles_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput, {nullable:true})
+    roles_permissions?: roles_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput;
 }

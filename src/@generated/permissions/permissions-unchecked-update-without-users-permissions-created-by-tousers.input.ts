@@ -4,8 +4,8 @@ import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-
 import { BoolFieldUpdateOperationsInput } from '../prisma/bool-field-update-operations.input';
 import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
 import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input';
-import { roles_permissionsUncheckedUpdateManyWithoutPermissionsInput } from '../roles-permissions/roles-permissions-unchecked-update-many-without-permissions.input';
-import { users_permissionsUncheckedUpdateManyWithoutPermissionsInput } from '../users-permissions/users-permissions-unchecked-update-many-without-permissions.input';
+import { roles_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput } from '../roles-permissions/roles-permissions-unchecked-update-many-without-permissions-nested.input';
+import { users_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput } from '../users-permissions/users-permissions-unchecked-update-many-without-permissions-nested.input';
 
 @InputType()
 export class permissionsUncheckedUpdateWithoutUsers_permissions_created_byTousersInput {
@@ -31,9 +31,9 @@ export class permissionsUncheckedUpdateWithoutUsers_permissions_created_byTouser
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     updated_by?: NullableStringFieldUpdateOperationsInput;
 
-    @Field(() => roles_permissionsUncheckedUpdateManyWithoutPermissionsInput, {nullable:true})
-    roles_permissions?: roles_permissionsUncheckedUpdateManyWithoutPermissionsInput;
+    @Field(() => roles_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput, {nullable:true})
+    roles_permissions?: roles_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput;
 
-    @Field(() => users_permissionsUncheckedUpdateManyWithoutPermissionsInput, {nullable:true})
-    users_permissions?: users_permissionsUncheckedUpdateManyWithoutPermissionsInput;
+    @Field(() => users_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput, {nullable:true})
+    users_permissions?: users_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput;
 }

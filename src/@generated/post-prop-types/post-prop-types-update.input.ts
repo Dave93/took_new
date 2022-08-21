@@ -4,8 +4,8 @@ import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-
 import { Enumsale_typeFieldUpdateOperationsInput } from '../prisma/enumsale-type-field-update-operations.input';
 import { EnumtypeFieldUpdateOperationsInput } from '../prisma/enumtype-field-update-operations.input';
 import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
-import { usersUpdateOneWithoutPost_prop_types_created_byTousersInput } from '../users/users-update-one-without-post-prop-types-created-by-tousers.input';
-import { usersUpdateOneWithoutPost_prop_types_updated_byTousersInput } from '../users/users-update-one-without-post-prop-types-updated-by-tousers.input';
+import { usersUpdateOneWithoutPost_prop_types_created_byTousersNestedInput } from '../users/users-update-one-without-post-prop-types-created-by-tousers-nested.input';
+import { usersUpdateOneWithoutPost_prop_types_updated_byTousersNestedInput } from '../users/users-update-one-without-post-prop-types-updated-by-tousers-nested.input';
 
 @InputType()
 export class post_prop_typesUpdateInput {
@@ -28,9 +28,9 @@ export class post_prop_typesUpdateInput {
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
     updated_at?: DateTimeFieldUpdateOperationsInput;
 
-    @Field(() => usersUpdateOneWithoutPost_prop_types_created_byTousersInput, {nullable:true})
-    users_post_prop_types_created_byTousers?: usersUpdateOneWithoutPost_prop_types_created_byTousersInput;
+    @Field(() => usersUpdateOneWithoutPost_prop_types_created_byTousersNestedInput, {nullable:true})
+    users_post_prop_types_created_byTousers?: usersUpdateOneWithoutPost_prop_types_created_byTousersNestedInput;
 
-    @Field(() => usersUpdateOneWithoutPost_prop_types_updated_byTousersInput, {nullable:true})
-    users_post_prop_types_updated_byTousers?: usersUpdateOneWithoutPost_prop_types_updated_byTousersInput;
+    @Field(() => usersUpdateOneWithoutPost_prop_types_updated_byTousersNestedInput, {nullable:true})
+    users_post_prop_types_updated_byTousers?: usersUpdateOneWithoutPost_prop_types_updated_byTousersNestedInput;
 }
