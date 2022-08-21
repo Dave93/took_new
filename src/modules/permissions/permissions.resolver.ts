@@ -7,13 +7,14 @@ import { permissionsCreateInput } from 'src/@generated/permissions/permissions-c
 import { permissionsUpdateInput } from 'src/@generated/permissions/permissions-update.input';
 import { permissionsWhereInput } from 'src/@generated/permissions/permissions-where.input';
 import { PrismaAggregateCount } from '@common/dtos/prisma-aggregate-count';
+import { CreateOnepermissionsArgs } from 'src/@generated/permissions/create-onepermissions.args';
 
 @Resolver(() => permissions)
 export class PermissionsResolver {
   constructor(private readonly permissionsService: PermissionsService) {}
 
   @Mutation(() => permissions)
-  createPermission(@Args('createPermissionInput') createPermissionInput: permissionsCreateInput) {
+  createPermission(@Args() createPermissionInput: CreateOnepermissionsArgs) {
     return this.permissionsService.create(createPermissionInput);
   }
 

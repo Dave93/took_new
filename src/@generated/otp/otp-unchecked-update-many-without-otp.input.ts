@@ -1,27 +1,24 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
-import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input';
-import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
-import { BoolFieldUpdateOperationsInput } from '../prisma/bool-field-update-operations.input';
 
 @InputType()
 export class otpUncheckedUpdateManyWithoutOtpInput {
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    id?: StringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    id?: string;
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    otp?: StringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    otp?: string;
 
-    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
-    expiry_date?: DateTimeFieldUpdateOperationsInput;
+    @Field(() => Date, {nullable:true})
+    expiry_date?: Date | string;
 
-    @Field(() => BoolFieldUpdateOperationsInput, {nullable:true})
-    verified?: BoolFieldUpdateOperationsInput;
+    @Field(() => Boolean, {nullable:true})
+    verified?: boolean;
 
-    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
-    created_at?: DateTimeFieldUpdateOperationsInput;
+    @Field(() => Date, {nullable:true})
+    created_at?: Date | string;
 
-    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
-    updated_at?: DateTimeFieldUpdateOperationsInput;
+    @Field(() => Date, {nullable:true})
+    updated_at?: Date | string;
 }

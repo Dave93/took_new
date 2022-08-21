@@ -1,10 +1,6 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
-import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input';
-import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input';
-import { BoolFieldUpdateOperationsInput } from '../prisma/bool-field-update-operations.input';
-import { Enumuser_statusFieldUpdateOperationsInput } from '../prisma/enumuser-status-field-update-operations.input';
-import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
+import { user_status } from '../prisma/user-status.enum';
 import { otpUpdateManyWithoutUsersNestedInput } from '../otp/otp-update-many-without-users-nested.input';
 import { permissionsUpdateManyWithoutUsers_permissions_created_byTousersNestedInput } from '../permissions/permissions-update-many-without-users-permissions-created-by-tousers-nested.input';
 import { permissionsUpdateManyWithoutUsers_permissions_updated_byTousersNestedInput } from '../permissions/permissions-update-many-without-users-permissions-updated-by-tousers-nested.input';
@@ -28,32 +24,32 @@ import { cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput } from '..
 @InputType()
 export class usersUpdateWithoutPost_prop_types_created_byTousersInput {
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    id?: StringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    id?: string;
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    phone?: StringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    phone?: string;
 
-    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
-    first_name?: NullableStringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    first_name?: string;
 
-    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
-    last_name?: NullableStringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    last_name?: string;
 
-    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
-    password?: NullableStringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    password?: string;
 
-    @Field(() => BoolFieldUpdateOperationsInput, {nullable:true})
-    is_super_user?: BoolFieldUpdateOperationsInput;
+    @Field(() => Boolean, {nullable:true})
+    is_super_user?: boolean;
 
-    @Field(() => Enumuser_statusFieldUpdateOperationsInput, {nullable:true})
-    status?: Enumuser_statusFieldUpdateOperationsInput;
+    @Field(() => user_status, {nullable:true})
+    status?: keyof typeof user_status;
 
-    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
-    created_at?: DateTimeFieldUpdateOperationsInput;
+    @Field(() => Date, {nullable:true})
+    created_at?: Date | string;
 
-    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
-    updated_at?: DateTimeFieldUpdateOperationsInput;
+    @Field(() => Date, {nullable:true})
+    updated_at?: Date | string;
 
     @Field(() => otpUpdateManyWithoutUsersNestedInput, {nullable:true})
     otp?: otpUpdateManyWithoutUsersNestedInput;

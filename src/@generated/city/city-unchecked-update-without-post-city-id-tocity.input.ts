@@ -1,33 +1,30 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
-import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input';
-import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input';
-import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
 import { cityUncheckedUpdateManyWithoutUsers_city_parent_idTousersNestedInput } from './city-unchecked-update-many-without-users-city-parent-id-tousers-nested.input';
 
 @InputType()
 export class cityUncheckedUpdateWithoutPost_city_idTocityInput {
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    id?: StringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    id?: string;
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    name?: StringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    name?: string;
 
-    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
-    parent_id?: NullableStringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    parent_id?: string;
 
-    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
-    created_at?: DateTimeFieldUpdateOperationsInput;
+    @Field(() => Date, {nullable:true})
+    created_at?: Date | string;
 
-    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
-    updated_at?: DateTimeFieldUpdateOperationsInput;
+    @Field(() => Date, {nullable:true})
+    updated_at?: Date | string;
 
-    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
-    created_by?: NullableStringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    created_by?: string;
 
-    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
-    updated_by?: NullableStringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    updated_by?: string;
 
     @Field(() => cityUncheckedUpdateManyWithoutUsers_city_parent_idTousersNestedInput, {nullable:true})
     city_parent_idTocity?: cityUncheckedUpdateManyWithoutUsers_city_parent_idTousersNestedInput;

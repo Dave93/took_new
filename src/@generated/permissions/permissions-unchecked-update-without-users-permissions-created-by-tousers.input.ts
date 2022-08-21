@@ -1,35 +1,31 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
-import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input';
-import { BoolFieldUpdateOperationsInput } from '../prisma/bool-field-update-operations.input';
-import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
-import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input';
 import { roles_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput } from '../roles-permissions/roles-permissions-unchecked-update-many-without-permissions-nested.input';
 import { users_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput } from '../users-permissions/users-permissions-unchecked-update-many-without-permissions-nested.input';
 
 @InputType()
 export class permissionsUncheckedUpdateWithoutUsers_permissions_created_byTousersInput {
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    id?: StringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    id?: string;
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    slug?: StringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    slug?: string;
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    description?: StringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    description?: string;
 
-    @Field(() => BoolFieldUpdateOperationsInput, {nullable:true})
-    active?: BoolFieldUpdateOperationsInput;
+    @Field(() => Boolean, {nullable:true})
+    active?: boolean;
 
-    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
-    created_at?: DateTimeFieldUpdateOperationsInput;
+    @Field(() => Date, {nullable:true})
+    created_at?: Date | string;
 
-    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
-    updated_at?: DateTimeFieldUpdateOperationsInput;
+    @Field(() => Date, {nullable:true})
+    updated_at?: Date | string;
 
-    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
-    updated_by?: NullableStringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    updated_by?: string;
 
     @Field(() => roles_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput, {nullable:true})
     roles_permissions?: roles_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput;
