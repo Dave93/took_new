@@ -11,6 +11,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { PrismaService } from './prisma.service';
 import { PermissionsModule } from './modules/permissions/permissions.module';
 import { RolesModule } from '@modules/roles/roles.module';
+import { RolesPermissionsModule } from './modules/roles_permissions/roles_permissions.module';
 
 @Global()
 @Module({
@@ -27,9 +28,10 @@ import { RolesModule } from '@modules/roles/roles.module';
     //   driver: MercuriusDriver,
     //   autoSchemaFile: '~schema.gql',
     // }),
+    RolesModule,
+    RolesPermissionsModule,
     PermissionsModule,
     AuthModule,
-    RolesModule,
     GraphQLModule.forRoot({
       driver: ApolloDriver,
       autoSchemaFile: '~schema.gql',
