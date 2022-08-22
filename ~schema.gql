@@ -355,16 +355,31 @@ type PrismaAggregateCount {
   _count: PrismaAggregateAllCount!
 }
 
+type BatchPayload {
+  count: Float!
+}
+
 type Query {
+<<<<<<< HEAD
   roles(where: roles_permissionsWhereInput!): [roles_permissions!]!
   rolesConnection(where: rolesWhereInput!): PrismaAggregateCount!
   role(id: String!): roles!
+=======
+  roles(where: rolesWhereInput, orderBy: [rolesOrderByWithRelationInput!], cursor: rolesWhereUniqueInput, take: Int, skip: Int, distinct: [RolesScalarFieldEnum!]): [roles!]!
+  rolesConnection(where: rolesWhereInput!): PrismaAggregateCount!
+  role(id: String!): roles!
+  manyRolePermissions(where: roles_permissionsWhereInput!): [roles_permissions!]!
+  rolesPermissions(where: roles_permissionsWhereInput, orderBy: [roles_permissionsOrderByWithRelationInput!], cursor: roles_permissionsWhereUniqueInput, take: Int, skip: Int, distinct: [Roles_permissionsScalarFieldEnum!]): [roles_permissions!]!
+  rolesPermissionsConnection(where: roles_permissionsWhereInput!): PrismaAggregateCount!
+  rolesPermission(role_id: String!, permission_id: String!): roles_permissions!
+>>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
   permissions(where: permissionsWhereInput, orderBy: [permissionsOrderByWithRelationInput!], cursor: permissionsWhereUniqueInput, take: Int, skip: Int, distinct: [PermissionsScalarFieldEnum!]): [permissions!]!
   permissionsConnection(where: permissionsWhereInput!): PrismaAggregateCount!
   permission(id: String!): permissions!
   auth(id: Int!): Auth!
 }
 
+<<<<<<< HEAD
 input roles_permissionsWhereInput {
   AND: [roles_permissionsWhereInput!]
   OR: [roles_permissionsWhereInput!]
@@ -377,6 +392,23 @@ input roles_permissionsWhereInput {
   permissions: PermissionsRelationFilter
   roles: RolesRelationFilter
   users_roles_permissions_updated_byTousers: UsersRelationFilter
+=======
+input rolesWhereInput {
+  AND: [rolesWhereInput!]
+  OR: [rolesWhereInput!]
+  NOT: [rolesWhereInput!]
+  id: StringFilter
+  name: StringFilter
+  active: BoolFilter
+  created_at: DateTimeFilter
+  updated_at: DateTimeFilter
+  created_by: StringNullableFilter
+  updated_by: StringNullableFilter
+  users_roles_created_byTousers: UsersRelationFilter
+  users_roles_updated_byTousers: UsersRelationFilter
+  roles_permissions: Roles_permissionsListRelationFilter
+  users_roles: Users_rolesListRelationFilter
+>>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
 }
 
 input StringFilter {
@@ -578,6 +610,33 @@ input Roles_permissionsListRelationFilter {
   none: roles_permissionsWhereInput
 }
 
+<<<<<<< HEAD
+=======
+input roles_permissionsWhereInput {
+  AND: [roles_permissionsWhereInput!]
+  OR: [roles_permissionsWhereInput!]
+  NOT: [roles_permissionsWhereInput!]
+  role_id: StringFilter
+  permission_id: StringFilter
+  created_by: StringNullableFilter
+  updated_by: StringNullableFilter
+  users_roles_permissions_created_byTousers: UsersRelationFilter
+  permissions: PermissionsRelationFilter
+  roles: RolesRelationFilter
+  users_roles_permissions_updated_byTousers: UsersRelationFilter
+}
+
+input PermissionsRelationFilter {
+  is: permissionsWhereInput
+  isNot: permissionsWhereInput
+}
+
+input RolesRelationFilter {
+  is: rolesWhereInput
+  isNot: rolesWhereInput
+}
+
+>>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
 input Users_permissionsListRelationFilter {
   every: users_permissionsWhereInput
   some: users_permissionsWhereInput
@@ -598,11 +657,14 @@ input users_permissionsWhereInput {
   users_usersTousers_permissions_user_id: UsersRelationFilter
 }
 
+<<<<<<< HEAD
 input PermissionsRelationFilter {
   is: permissionsWhereInput
   isNot: permissionsWhereInput
 }
 
+=======
+>>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
 input PostListRelationFilter {
   every: postWhereInput
   some: postWhereInput
@@ -755,6 +817,7 @@ input RolesListRelationFilter {
   none: rolesWhereInput
 }
 
+<<<<<<< HEAD
 input rolesWhereInput {
   AND: [rolesWhereInput!]
   OR: [rolesWhereInput!]
@@ -772,6 +835,8 @@ input rolesWhereInput {
   users_roles: Users_rolesListRelationFilter
 }
 
+=======
+>>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
 input Users_rolesListRelationFilter {
   every: users_rolesWhereInput
   some: users_rolesWhereInput
@@ -792,11 +857,14 @@ input users_rolesWhereInput {
   users_usersTousers_roles_user_id: UsersRelationFilter
 }
 
+<<<<<<< HEAD
 input RolesRelationFilter {
   is: rolesWhereInput
   isNot: rolesWhereInput
 }
 
+=======
+>>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
 input Post_prop_typesListRelationFilter {
   every: post_prop_typesWhereInput
   some: post_prop_typesWhereInput
@@ -833,19 +901,18 @@ input NestedEnumtypeFilter {
   not: NestedEnumtypeFilter
 }
 
-input permissionsOrderByWithRelationInput {
+input rolesOrderByWithRelationInput {
   id: SortOrder
-  slug: SortOrder
-  description: SortOrder
+  name: SortOrder
   active: SortOrder
   created_at: SortOrder
   updated_at: SortOrder
   created_by: SortOrder
   updated_by: SortOrder
-  users_permissions_created_byTousers: usersOrderByWithRelationInput
-  users_permissions_updated_byTousers: usersOrderByWithRelationInput
+  users_roles_created_byTousers: usersOrderByWithRelationInput
+  users_roles_updated_byTousers: usersOrderByWithRelationInput
   roles_permissions: roles_permissionsOrderByRelationAggregateInput
-  users_permissions: users_permissionsOrderByRelationAggregateInput
+  users_roles: users_rolesOrderByRelationAggregateInput
 }
 
 enum SortOrder {
@@ -921,6 +988,63 @@ input cityOrderByRelationAggregateInput {
   _count: SortOrder
 }
 
+input rolesWhereUniqueInput {
+  id: String
+  name: String
+}
+
+enum RolesScalarFieldEnum {
+  id
+  name
+  active
+  created_at
+  updated_at
+  created_by
+  updated_by
+}
+
+input roles_permissionsOrderByWithRelationInput {
+  role_id: SortOrder
+  permission_id: SortOrder
+  created_by: SortOrder
+  updated_by: SortOrder
+  users_roles_permissions_created_byTousers: usersOrderByWithRelationInput
+  permissions: permissionsOrderByWithRelationInput
+  roles: rolesOrderByWithRelationInput
+  users_roles_permissions_updated_byTousers: usersOrderByWithRelationInput
+}
+
+input permissionsOrderByWithRelationInput {
+  id: SortOrder
+  slug: SortOrder
+  description: SortOrder
+  active: SortOrder
+  created_at: SortOrder
+  updated_at: SortOrder
+  created_by: SortOrder
+  updated_by: SortOrder
+  users_permissions_created_byTousers: usersOrderByWithRelationInput
+  users_permissions_updated_byTousers: usersOrderByWithRelationInput
+  roles_permissions: roles_permissionsOrderByRelationAggregateInput
+  users_permissions: users_permissionsOrderByRelationAggregateInput
+}
+
+input roles_permissionsWhereUniqueInput {
+  role_id_permission_id: roles_permissionsRole_idPermission_idCompoundUniqueInput
+}
+
+input roles_permissionsRole_idPermission_idCompoundUniqueInput {
+  role_id: String!
+  permission_id: String!
+}
+
+enum Roles_permissionsScalarFieldEnum {
+  role_id
+  permission_id
+  created_by
+  updated_by
+}
+
 input permissionsWhereUniqueInput {
   id: String
   slug: String
@@ -941,6 +1065,13 @@ type Mutation {
   createRole(data: rolesCreateInput!): roles!
   updateRole(data: rolesUpdateInput!, where: rolesWhereUniqueInput!): roles!
   removeRole(id: Int!): roles!
+<<<<<<< HEAD
+=======
+  assignRolePermissions(role_id: ID!, permission_ids: [String!]!): BatchPayload!
+  createRolesPermission(data: roles_permissionsCreateInput!): roles_permissions!
+  updateRolesPermission(data: roles_permissionsUpdateInput!, where: roles_permissionsWhereUniqueInput!): roles_permissions!
+  removeRolesPermission(id: String!): roles_permissions!
+>>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
   createPermission(data: permissionsCreateInput!): permissions!
   updatePermission(data: permissionsUpdateInput!, where: permissionsWhereUniqueInput!): permissions!
   removePermission(id: Int!): permissions!
@@ -1728,6 +1859,7 @@ input users_permissionsCreateWithoutUsers_usersTousers_permissions_updated_byInp
   users_usersTousers_permissions_created_by: usersCreateNestedOneWithoutUsers_permissions_usersTousers_permissions_created_byInput
   permissions: permissionsCreateNestedOneWithoutUsers_permissionsInput!
   users_usersTousers_permissions_user_id: usersCreateNestedOneWithoutUsers_permissions_usersTousers_permissions_user_idInput!
+<<<<<<< HEAD
 }
 
 input usersCreateNestedOneWithoutUsers_permissions_usersTousers_permissions_user_idInput {
@@ -1767,6 +1899,47 @@ input usersCreateWithoutUsers_permissions_usersTousers_permissions_user_idInput 
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
 }
 
+=======
+}
+
+input usersCreateNestedOneWithoutUsers_permissions_usersTousers_permissions_user_idInput {
+  create: usersCreateWithoutUsers_permissions_usersTousers_permissions_user_idInput
+  connectOrCreate: usersCreateOrConnectWithoutUsers_permissions_usersTousers_permissions_user_idInput
+  connect: usersWhereUniqueInput
+}
+
+input usersCreateWithoutUsers_permissions_usersTousers_permissions_user_idInput {
+  id: String
+  phone: String!
+  first_name: String
+  last_name: String
+  password: String
+  is_super_user: Boolean
+  status: user_status!
+  created_at: DateTime
+  updated_at: DateTime
+  otp: otpCreateNestedManyWithoutUsersInput
+  permissions_permissions_created_byTousers: permissionsCreateNestedManyWithoutUsers_permissions_created_byTousersInput
+  permissions_permissions_updated_byTousers: permissionsCreateNestedManyWithoutUsers_permissions_updated_byTousersInput
+  post_post_created_byTousers: postCreateNestedManyWithoutUsers_post_created_byTousersInput
+  post_updated_byTousers: postCreateNestedManyWithoutUsers_post_updated_byTousersInput
+  post_post_user_idTousers: postCreateNestedManyWithoutUsers_post_user_idTousersInput
+  roles_roles_created_byTousers: rolesCreateNestedManyWithoutUsers_roles_created_byTousersInput
+  roles_roles_updated_byTousers: rolesCreateNestedManyWithoutUsers_roles_updated_byTousersInput
+  roles_permissions_roles_permissions_created_byTousers: roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_created_byTousersInput
+  roles_permissions_roles_permissions_updated_byTousers: roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_updated_byTousersInput
+  users_permissions_usersTousers_permissions_created_by: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_created_byInput
+  users_permissions_usersTousers_permissions_updated_by: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_updated_byInput
+  users_roles_usersTousers_roles_created_by: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_created_byInput
+  users_roles_usersTousers_roles_updated_by: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_updated_byInput
+  users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
+  post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
+  post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
+  city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+}
+
+>>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
 input users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_created_byInput {
   create: [users_rolesCreateWithoutUsers_usersTousers_roles_created_byInput!]
   connectOrCreate: [users_rolesCreateOrConnectWithoutUsers_usersTousers_roles_created_byInput!]
@@ -1800,11 +1973,14 @@ input rolesCreateWithoutUsers_rolesInput {
 input rolesCreateOrConnectWithoutUsers_rolesInput {
   where: rolesWhereUniqueInput!
   create: rolesCreateWithoutUsers_rolesInput!
+<<<<<<< HEAD
 }
 
 input rolesWhereUniqueInput {
   id: String
   name: String
+=======
+>>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
 }
 
 input usersCreateNestedOneWithoutUsers_roles_usersTousers_roles_updated_byInput {
@@ -2447,6 +2623,7 @@ input users_rolesCreateManyUsers_usersTousers_roles_updated_byInput {
 }
 
 input usersCreateOrConnectWithoutUsers_permissions_usersTousers_permissions_updated_byInput {
+<<<<<<< HEAD
   where: usersWhereUniqueInput!
   create: usersCreateWithoutUsers_permissions_usersTousers_permissions_updated_byInput!
 }
@@ -2498,6 +2675,67 @@ input users_rolesCreateManyUsers_usersTousers_roles_created_byInput {
 }
 
 input usersCreateOrConnectWithoutUsers_permissions_usersTousers_permissions_user_idInput {
+=======
+>>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
+  where: usersWhereUniqueInput!
+  create: usersCreateWithoutUsers_permissions_usersTousers_permissions_updated_byInput!
+}
+
+input users_permissionsCreateOrConnectWithoutUsers_usersTousers_permissions_user_idInput {
+  where: users_permissionsWhereUniqueInput!
+  create: users_permissionsCreateWithoutUsers_usersTousers_permissions_user_idInput!
+}
+
+input users_permissionsWhereUniqueInput {
+  user_id_permission_id: users_permissionsUser_idPermission_idCompoundUniqueInput
+}
+
+input users_permissionsUser_idPermission_idCompoundUniqueInput {
+  user_id: String!
+  permission_id: String!
+}
+
+input users_permissionsCreateManyUsers_usersTousers_permissions_user_idInputEnvelope {
+  data: [users_permissionsCreateManyUsers_usersTousers_permissions_user_idInput!]!
+  skipDuplicates: Boolean
+}
+
+input users_permissionsCreateManyUsers_usersTousers_permissions_user_idInput {
+  permission_id: String!
+  created_by: String
+  updated_by: String
+}
+
+input usersCreateOrConnectWithoutUsers_roles_usersTousers_roles_updated_byInput {
+  where: usersWhereUniqueInput!
+  create: usersCreateWithoutUsers_roles_usersTousers_roles_updated_byInput!
+}
+
+<<<<<<< HEAD
+input roles_permissionsCreateOrConnectWithoutPermissionsInput {
+  where: roles_permissionsWhereUniqueInput!
+  create: roles_permissionsCreateWithoutPermissionsInput!
+=======
+input users_rolesCreateOrConnectWithoutUsers_usersTousers_roles_created_byInput {
+  where: users_rolesWhereUniqueInput!
+  create: users_rolesCreateWithoutUsers_usersTousers_roles_created_byInput!
+>>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
+}
+
+input users_rolesCreateManyUsers_usersTousers_roles_created_byInputEnvelope {
+  data: [users_rolesCreateManyUsers_usersTousers_roles_created_byInput!]!
+  skipDuplicates: Boolean
+}
+
+input users_rolesCreateManyUsers_usersTousers_roles_created_byInput {
+  user_id: String!
+  role_id: String!
+  updated_by: String
+}
+
+<<<<<<< HEAD
+=======
+input usersCreateOrConnectWithoutUsers_permissions_usersTousers_permissions_user_idInput {
   where: usersWhereUniqueInput!
   create: usersCreateWithoutUsers_permissions_usersTousers_permissions_user_idInput!
 }
@@ -2528,15 +2766,7 @@ input roles_permissionsCreateOrConnectWithoutPermissionsInput {
   create: roles_permissionsCreateWithoutPermissionsInput!
 }
 
-input roles_permissionsWhereUniqueInput {
-  role_id_permission_id: roles_permissionsRole_idPermission_idCompoundUniqueInput
-}
-
-input roles_permissionsRole_idPermission_idCompoundUniqueInput {
-  role_id: String!
-  permission_id: String!
-}
-
+>>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
 input roles_permissionsCreateManyPermissionsInputEnvelope {
   data: [roles_permissionsCreateManyPermissionsInput!]!
   skipDuplicates: Boolean
@@ -3678,6 +3908,35 @@ input roles_permissionsUpdateWithoutRolesInput {
   users_roles_permissions_updated_byTousers: usersUpdateOneWithoutRoles_permissions_roles_permissions_updated_byTousersNestedInput
 }
 
+<<<<<<< HEAD
+=======
+input roles_permissionsUpdateManyWithoutRolesNestedInput {
+  create: [roles_permissionsCreateWithoutRolesInput!]
+  connectOrCreate: [roles_permissionsCreateOrConnectWithoutRolesInput!]
+  upsert: [roles_permissionsUpsertWithWhereUniqueWithoutRolesInput!]
+  createMany: roles_permissionsCreateManyRolesInputEnvelope
+  set: [roles_permissionsWhereUniqueInput!]
+  disconnect: [roles_permissionsWhereUniqueInput!]
+  delete: [roles_permissionsWhereUniqueInput!]
+  connect: [roles_permissionsWhereUniqueInput!]
+  update: [roles_permissionsUpdateWithWhereUniqueWithoutRolesInput!]
+  updateMany: [roles_permissionsUpdateManyWithWhereWithoutRolesInput!]
+  deleteMany: [roles_permissionsScalarWhereInput!]
+}
+
+input roles_permissionsUpsertWithWhereUniqueWithoutRolesInput {
+  where: roles_permissionsWhereUniqueInput!
+  update: roles_permissionsUpdateWithoutRolesInput!
+  create: roles_permissionsCreateWithoutRolesInput!
+}
+
+input roles_permissionsUpdateWithoutRolesInput {
+  users_roles_permissions_created_byTousers: usersUpdateOneWithoutRoles_permissions_roles_permissions_created_byTousersNestedInput
+  permissions: permissionsUpdateOneRequiredWithoutRoles_permissionsNestedInput
+  users_roles_permissions_updated_byTousers: usersUpdateOneWithoutRoles_permissions_roles_permissions_updated_byTousersNestedInput
+}
+
+>>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
 input usersUpdateOneWithoutRoles_permissions_roles_permissions_created_byTousersNestedInput {
   create: usersCreateWithoutRoles_permissions_roles_permissions_created_byTousersInput
   connectOrCreate: usersCreateOrConnectWithoutRoles_permissions_roles_permissions_created_byTousersInput
@@ -4696,6 +4955,50 @@ input usersUpdateWithoutPost_post_user_idTousersInput {
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
 }
 
+input usersUpdateOneRequiredWithoutPost_post_user_idTousersNestedInput {
+  create: usersCreateWithoutPost_post_user_idTousersInput
+  connectOrCreate: usersCreateOrConnectWithoutPost_post_user_idTousersInput
+  upsert: usersUpsertWithoutPost_post_user_idTousersInput
+  connect: usersWhereUniqueInput
+  update: usersUpdateWithoutPost_post_user_idTousersInput
+}
+
+input usersUpsertWithoutPost_post_user_idTousersInput {
+  update: usersUpdateWithoutPost_post_user_idTousersInput!
+  create: usersCreateWithoutPost_post_user_idTousersInput!
+}
+
+input usersUpdateWithoutPost_post_user_idTousersInput {
+  id: String
+  phone: String
+  first_name: String
+  last_name: String
+  password: String
+  is_super_user: Boolean
+  status: user_status
+  created_at: DateTime
+  updated_at: DateTime
+  otp: otpUpdateManyWithoutUsersNestedInput
+  permissions_permissions_created_byTousers: permissionsUpdateManyWithoutUsers_permissions_created_byTousersNestedInput
+  permissions_permissions_updated_byTousers: permissionsUpdateManyWithoutUsers_permissions_updated_byTousersNestedInput
+  post_post_created_byTousers: postUpdateManyWithoutUsers_post_created_byTousersNestedInput
+  post_updated_byTousers: postUpdateManyWithoutUsers_post_updated_byTousersNestedInput
+  roles_roles_created_byTousers: rolesUpdateManyWithoutUsers_roles_created_byTousersNestedInput
+  roles_roles_updated_byTousers: rolesUpdateManyWithoutUsers_roles_updated_byTousersNestedInput
+  roles_permissions_roles_permissions_created_byTousers: roles_permissionsUpdateManyWithoutUsers_roles_permissions_created_byTousersNestedInput
+  roles_permissions_roles_permissions_updated_byTousers: roles_permissionsUpdateManyWithoutUsers_roles_permissions_updated_byTousersNestedInput
+  users_permissions_usersTousers_permissions_created_by: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_created_byNestedInput
+  users_permissions_usersTousers_permissions_updated_by: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_updated_byNestedInput
+  users_permissions_usersTousers_permissions_user_id: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_user_idNestedInput
+  users_roles_usersTousers_roles_created_by: users_rolesUpdateManyWithoutUsers_usersTousers_roles_created_byNestedInput
+  users_roles_usersTousers_roles_updated_by: users_rolesUpdateManyWithoutUsers_usersTousers_roles_updated_byNestedInput
+  users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
+  post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
+  post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
+  city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+}
+
 input postUpdateWithWhereUniqueWithoutCity_city_idTocityInput {
   where: postWhereUniqueInput!
   data: postUpdateWithoutCity_city_idTocityInput!
@@ -5169,6 +5472,23 @@ input permissionsUpdateManyWithWhereWithoutUsers_permissions_created_byTousersIn
   data: permissionsUpdateManyMutationInput!
 }
 
+<<<<<<< HEAD
+=======
+input roles_permissionsCreateInput {
+  users_roles_permissions_created_byTousers: usersCreateNestedOneWithoutRoles_permissions_roles_permissions_created_byTousersInput
+  permissions: permissionsCreateNestedOneWithoutRoles_permissionsInput!
+  roles: rolesCreateNestedOneWithoutRoles_permissionsInput!
+  users_roles_permissions_updated_byTousers: usersCreateNestedOneWithoutRoles_permissions_roles_permissions_updated_byTousersInput
+}
+
+input roles_permissionsUpdateInput {
+  users_roles_permissions_created_byTousers: usersUpdateOneWithoutRoles_permissions_roles_permissions_created_byTousersNestedInput
+  permissions: permissionsUpdateOneRequiredWithoutRoles_permissionsNestedInput
+  roles: rolesUpdateOneRequiredWithoutRoles_permissionsNestedInput
+  users_roles_permissions_updated_byTousers: usersUpdateOneWithoutRoles_permissions_roles_permissions_updated_byTousersNestedInput
+}
+
+>>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
 input permissionsCreateInput {
   id: String
   slug: String!

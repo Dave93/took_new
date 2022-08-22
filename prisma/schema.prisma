@@ -203,6 +203,13 @@ model post_prop_types {
   @@index([created_by], map: "fki_FK_post_prop_types_created_by")
 }
 
+model delivery_pricing {
+  id                           String   @id(map: "PK_delivery_pricing_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  active                       Boolean  @default(true)
+  default                      Boolean  @default(false)
+  
+}
+
 enum user_status {
   active
   blocked

@@ -1,3 +1,9 @@
+import { Field, ObjectType } from '@nestjs/graphql';
 import { HashHelper } from './hash.helper';
 
-export { HashHelper };
+@ObjectType()
+class BatchPayload {
+  @Field(() => Number)
+  count: number;
+}
+export { HashHelper, BatchPayload };

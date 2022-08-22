@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { FindManycityArgs } from 'src/@generated/city/find-manycity.args';
 import { roles_permissionsWhereInput } from 'src/@generated/roles-permissions/roles-permissions-where.input';
 import { CreateOnerolesArgs } from 'src/@generated/roles/create-oneroles.args';
 import { FindManyrolesArgs } from 'src/@generated/roles/find-manyroles.args';
@@ -43,6 +44,20 @@ export class RolesService {
   }
 
   findManyRolePermissions(where: roles_permissionsWhereInput) {
-    return this.prismaService.roles_permissions.findMany({ where });
+    return this.prismaService.roles_permissions.findMany({ where, include: { permissions: true } });
+  }
+
+  async assignRolePermissions(role_id: string, permission_ids: string[]) {
+    await this.prismaService.roles_permissions.deleteMany({
+      where: {
+        role_id,
+      },
+    });
+    return this.prismaService.roles_permissions.createMany({
+      data: permission_ids.map((permission_id) => ({
+        role_id,
+        permission_id,
+      })),
+    });
   }
 }

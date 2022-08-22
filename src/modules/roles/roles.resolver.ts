@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, ID } from '@nestjs/graphql';
 import { RolesService } from './roles.service';
 import { PrismaAggregateCount } from '@common/dtos/prisma-aggregate-count';
 import { CreateOnerolesArgs } from 'src/@generated/roles/create-oneroles.args';
@@ -8,6 +8,7 @@ import { rolesWhereInput } from 'src/@generated/roles/roles-where.input';
 import { UpdateOnerolesArgs } from 'src/@generated/roles/update-oneroles.args';
 import { roles_permissions } from 'src/@generated/roles-permissions/roles-permissions.model';
 import { roles_permissionsWhereInput } from 'src/@generated/roles-permissions/roles-permissions-where.input';
+import { BatchPayload } from '@helpers';
 
 @Resolver(() => roles)
 export class RolesResolver {
@@ -43,8 +44,18 @@ export class RolesResolver {
     return this.rolesService.remove(id);
   }
 
-  @Query(() => [roles_permissions], { name: 'roles' })
+  @Query(() => [roles_permissions], { name: 'manyRolePermissions' })
   findManyRolePermissions(@Args('where') where: roles_permissionsWhereInput) {
     return this.rolesService.findManyRolePermissions(where);
+  }
+
+  @Mutation(() => BatchPayload, { name: 'assignRolePermissions' })
+  async assignRolePermissions(
+    @Args('role_id', { type: () => ID }) role_id: string,
+    @Args('permission_ids', { type: () => [String!] }) permission_ids: string[],
+  ) {
+    let res = await this.rolesService.assignRolePermissions(role_id, permission_ids);
+    console.log(res);
+    return res;
   }
 }
