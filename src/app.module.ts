@@ -12,6 +12,7 @@ import { PrismaService } from './prisma.service';
 import { PermissionsModule } from './modules/permissions/permissions.module';
 import { RolesModule } from '@modules/roles/roles.module';
 import { RolesPermissionsModule } from './modules/roles_permissions/roles_permissions.module';
+import { DeliveryPricingModule } from './modules/delivery_pricing/delivery_pricing.module';
 
 @Global()
 @Module({
@@ -36,6 +37,7 @@ import { RolesPermissionsModule } from './modules/roles_permissions/roles_permis
       driver: ApolloDriver,
       autoSchemaFile: '~schema.gql',
     }),
+    DeliveryPricingModule,
   ],
   providers: [PrismaService],
 })

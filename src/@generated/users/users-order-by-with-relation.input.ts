@@ -9,6 +9,7 @@ import { roles_permissionsOrderByRelationAggregateInput } from '../roles-permiss
 import { users_permissionsOrderByRelationAggregateInput } from '../users-permissions/users-permissions-order-by-relation-aggregate.input';
 import { users_rolesOrderByRelationAggregateInput } from '../users-roles/users-roles-order-by-relation-aggregate.input';
 import { post_prop_typesOrderByRelationAggregateInput } from '../post-prop-types/post-prop-types-order-by-relation-aggregate.input';
+import { delivery_pricingOrderByRelationAggregateInput } from '../delivery-pricing/delivery-pricing-order-by-relation-aggregate.input';
 import { cityOrderByRelationAggregateInput } from '../city/city-order-by-relation-aggregate.input';
 
 @InputType()
@@ -94,6 +95,12 @@ export class usersOrderByWithRelationInput {
 
     @Field(() => post_prop_typesOrderByRelationAggregateInput, {nullable:true})
     post_prop_types_updated_byTousers?: post_prop_typesOrderByRelationAggregateInput;
+
+    @Field(() => delivery_pricingOrderByRelationAggregateInput, {nullable:true})
+    delivery_pricing_created_byTousers?: delivery_pricingOrderByRelationAggregateInput;
+
+    @Field(() => delivery_pricingOrderByRelationAggregateInput, {nullable:true})
+    delivery_pricing_updated_byTousers?: delivery_pricingOrderByRelationAggregateInput;
 
     @Field(() => cityOrderByRelationAggregateInput, {nullable:true})
     city_created_byTousers?: cityOrderByRelationAggregateInput;

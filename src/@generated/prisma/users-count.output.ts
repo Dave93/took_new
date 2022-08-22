@@ -60,6 +60,12 @@ export class UsersCount {
     post_prop_types_updated_byTousers!: number;
 
     @Field(() => Int, {nullable:false})
+    delivery_pricing_created_byTousers!: number;
+
+    @Field(() => Int, {nullable:false})
+    delivery_pricing_updated_byTousers!: number;
+
+    @Field(() => Int, {nullable:false})
     city_created_byTousers!: number;
 
     @Field(() => Int, {nullable:false})

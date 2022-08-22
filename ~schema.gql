@@ -270,6 +270,37 @@ enum type {
   json
 }
 
+type delivery_pricing {
+  id: ID!
+  active: Boolean!
+  default: Boolean!
+  name: String!
+  drive_type: drive_type!
+  days: [String!]
+  start_time: String!
+  end_time: String!
+  min_price: Int
+  rules: JSON!
+  price_per_km: Int!
+  created_at: DateTime!
+  updated_at: DateTime!
+  created_by: String
+  updated_by: String
+  users_delivery_pricing_created_byTousers: users
+  users_delivery_pricing_updated_byTousers: users
+}
+
+enum drive_type {
+  car
+  bike
+  floot
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
 type UsersCount {
   otp: Int!
   permissions_permissions_created_byTousers: Int!
@@ -289,6 +320,8 @@ type UsersCount {
   users_roles_usersTousers_roles_user_id: Int!
   post_prop_types_created_byTousers: Int!
   post_prop_types_updated_byTousers: Int!
+  delivery_pricing_created_byTousers: Int!
+  delivery_pricing_updated_byTousers: Int!
   city_created_byTousers: Int!
   city_updated_byTousers: Int!
 }
@@ -321,6 +354,8 @@ type users {
   users_roles_usersTousers_roles_user_id: [users_roles!]
   post_prop_types_created_byTousers: [post_prop_types!]
   post_prop_types_updated_byTousers: [post_prop_types!]
+  delivery_pricing_created_byTousers: [delivery_pricing!]
+  delivery_pricing_updated_byTousers: [delivery_pricing!]
   city_created_byTousers: [city!]
   city_updated_byTousers: [city!]
   _count: UsersCount!
@@ -360,11 +395,6 @@ type BatchPayload {
 }
 
 type Query {
-<<<<<<< HEAD
-  roles(where: roles_permissionsWhereInput!): [roles_permissions!]!
-  rolesConnection(where: rolesWhereInput!): PrismaAggregateCount!
-  role(id: String!): roles!
-=======
   roles(where: rolesWhereInput, orderBy: [rolesOrderByWithRelationInput!], cursor: rolesWhereUniqueInput, take: Int, skip: Int, distinct: [RolesScalarFieldEnum!]): [roles!]!
   rolesConnection(where: rolesWhereInput!): PrismaAggregateCount!
   role(id: String!): roles!
@@ -372,27 +402,15 @@ type Query {
   rolesPermissions(where: roles_permissionsWhereInput, orderBy: [roles_permissionsOrderByWithRelationInput!], cursor: roles_permissionsWhereUniqueInput, take: Int, skip: Int, distinct: [Roles_permissionsScalarFieldEnum!]): [roles_permissions!]!
   rolesPermissionsConnection(where: roles_permissionsWhereInput!): PrismaAggregateCount!
   rolesPermission(role_id: String!, permission_id: String!): roles_permissions!
->>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
   permissions(where: permissionsWhereInput, orderBy: [permissionsOrderByWithRelationInput!], cursor: permissionsWhereUniqueInput, take: Int, skip: Int, distinct: [PermissionsScalarFieldEnum!]): [permissions!]!
   permissionsConnection(where: permissionsWhereInput!): PrismaAggregateCount!
   permission(id: String!): permissions!
   auth(id: Int!): Auth!
+  deliveryPricings(where: delivery_pricingWhereInput, orderBy: [delivery_pricingOrderByWithRelationInput!], cursor: delivery_pricingWhereUniqueInput, take: Int, skip: Int, distinct: [Delivery_pricingScalarFieldEnum!]): [delivery_pricing!]!
+  deliveryPricingConnection(where: delivery_pricingWhereInput!): PrismaAggregateCount!
+  deliveryPricing(id: String!): delivery_pricing!
 }
 
-<<<<<<< HEAD
-input roles_permissionsWhereInput {
-  AND: [roles_permissionsWhereInput!]
-  OR: [roles_permissionsWhereInput!]
-  NOT: [roles_permissionsWhereInput!]
-  role_id: StringFilter
-  permission_id: StringFilter
-  created_by: StringNullableFilter
-  updated_by: StringNullableFilter
-  users_roles_permissions_created_byTousers: UsersRelationFilter
-  permissions: PermissionsRelationFilter
-  roles: RolesRelationFilter
-  users_roles_permissions_updated_byTousers: UsersRelationFilter
-=======
 input rolesWhereInput {
   AND: [rolesWhereInput!]
   OR: [rolesWhereInput!]
@@ -408,7 +426,6 @@ input rolesWhereInput {
   users_roles_updated_byTousers: UsersRelationFilter
   roles_permissions: Roles_permissionsListRelationFilter
   users_roles: Users_rolesListRelationFilter
->>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
 }
 
 input StringFilter {
@@ -443,6 +460,38 @@ input NestedStringFilter {
   startsWith: String
   endsWith: String
   not: NestedStringFilter
+}
+
+input BoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+input NestedBoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+input DateTimeFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeFilter
+}
+
+input NestedDateTimeFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeFilter
 }
 
 input StringNullableFilter {
@@ -510,18 +559,10 @@ input usersWhereInput {
   users_roles_usersTousers_roles_user_id: Users_rolesListRelationFilter
   post_prop_types_created_byTousers: Post_prop_typesListRelationFilter
   post_prop_types_updated_byTousers: Post_prop_typesListRelationFilter
+  delivery_pricing_created_byTousers: Delivery_pricingListRelationFilter
+  delivery_pricing_updated_byTousers: Delivery_pricingListRelationFilter
   city_created_byTousers: CityListRelationFilter
   city_updated_byTousers: CityListRelationFilter
-}
-
-input BoolFilter {
-  equals: Boolean
-  not: NestedBoolFilter
-}
-
-input NestedBoolFilter {
-  equals: Boolean
-  not: NestedBoolFilter
 }
 
 input Enumuser_statusFilter {
@@ -536,28 +577,6 @@ input NestedEnumuser_statusFilter {
   in: [user_status!]
   notIn: [user_status!]
   not: NestedEnumuser_statusFilter
-}
-
-input DateTimeFilter {
-  equals: DateTime
-  in: [DateTime!]
-  notIn: [DateTime!]
-  lt: DateTime
-  lte: DateTime
-  gt: DateTime
-  gte: DateTime
-  not: NestedDateTimeFilter
-}
-
-input NestedDateTimeFilter {
-  equals: DateTime
-  in: [DateTime!]
-  notIn: [DateTime!]
-  lt: DateTime
-  lte: DateTime
-  gt: DateTime
-  gte: DateTime
-  not: NestedDateTimeFilter
 }
 
 input OtpListRelationFilter {
@@ -610,8 +629,6 @@ input Roles_permissionsListRelationFilter {
   none: roles_permissionsWhereInput
 }
 
-<<<<<<< HEAD
-=======
 input roles_permissionsWhereInput {
   AND: [roles_permissionsWhereInput!]
   OR: [roles_permissionsWhereInput!]
@@ -636,7 +653,6 @@ input RolesRelationFilter {
   isNot: rolesWhereInput
 }
 
->>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
 input Users_permissionsListRelationFilter {
   every: users_permissionsWhereInput
   some: users_permissionsWhereInput
@@ -657,14 +673,6 @@ input users_permissionsWhereInput {
   users_usersTousers_permissions_user_id: UsersRelationFilter
 }
 
-<<<<<<< HEAD
-input PermissionsRelationFilter {
-  is: permissionsWhereInput
-  isNot: permissionsWhereInput
-}
-
-=======
->>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
 input PostListRelationFilter {
   every: postWhereInput
   some: postWhereInput
@@ -817,26 +825,6 @@ input RolesListRelationFilter {
   none: rolesWhereInput
 }
 
-<<<<<<< HEAD
-input rolesWhereInput {
-  AND: [rolesWhereInput!]
-  OR: [rolesWhereInput!]
-  NOT: [rolesWhereInput!]
-  id: StringFilter
-  name: StringFilter
-  active: BoolFilter
-  created_at: DateTimeFilter
-  updated_at: DateTimeFilter
-  created_by: StringNullableFilter
-  updated_by: StringNullableFilter
-  users_roles_created_byTousers: UsersRelationFilter
-  users_roles_updated_byTousers: UsersRelationFilter
-  roles_permissions: Roles_permissionsListRelationFilter
-  users_roles: Users_rolesListRelationFilter
-}
-
-=======
->>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
 input Users_rolesListRelationFilter {
   every: users_rolesWhereInput
   some: users_rolesWhereInput
@@ -857,14 +845,6 @@ input users_rolesWhereInput {
   users_usersTousers_roles_user_id: UsersRelationFilter
 }
 
-<<<<<<< HEAD
-input RolesRelationFilter {
-  is: rolesWhereInput
-  isNot: rolesWhereInput
-}
-
-=======
->>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
 input Post_prop_typesListRelationFilter {
   every: post_prop_typesWhereInput
   some: post_prop_typesWhereInput
@@ -899,6 +879,95 @@ input NestedEnumtypeFilter {
   in: [type!]
   notIn: [type!]
   not: NestedEnumtypeFilter
+}
+
+input Delivery_pricingListRelationFilter {
+  every: delivery_pricingWhereInput
+  some: delivery_pricingWhereInput
+  none: delivery_pricingWhereInput
+}
+
+input delivery_pricingWhereInput {
+  AND: [delivery_pricingWhereInput!]
+  OR: [delivery_pricingWhereInput!]
+  NOT: [delivery_pricingWhereInput!]
+  id: StringFilter
+  active: BoolFilter
+  default: BoolFilter
+  name: StringFilter
+  drive_type: Enumdrive_typeFilter
+  days: StringNullableListFilter
+  start_time: StringFilter
+  end_time: StringFilter
+  min_price: IntNullableFilter
+  rules: JsonFilter
+  price_per_km: IntFilter
+  created_at: DateTimeFilter
+  updated_at: DateTimeFilter
+  created_by: StringNullableFilter
+  updated_by: StringNullableFilter
+  users_delivery_pricing_created_byTousers: UsersRelationFilter
+  users_delivery_pricing_updated_byTousers: UsersRelationFilter
+}
+
+input Enumdrive_typeFilter {
+  equals: drive_type
+  in: [drive_type!]
+  notIn: [drive_type!]
+  not: NestedEnumdrive_typeFilter
+}
+
+input NestedEnumdrive_typeFilter {
+  equals: drive_type
+  in: [drive_type!]
+  notIn: [drive_type!]
+  not: NestedEnumdrive_typeFilter
+}
+
+input StringNullableListFilter {
+  equals: [String!]
+  has: String
+  hasEvery: [String!]
+  hasSome: [String!]
+  isEmpty: Boolean
+}
+
+input IntNullableFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntNullableFilter
+}
+
+input NestedIntNullableFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntNullableFilter
+}
+
+input JsonFilter {
+  equals: JSON
+  path: [String!]
+  string_contains: String
+  string_starts_with: String
+  string_ends_with: String
+  array_contains: JSON
+  array_starts_with: JSON
+  array_ends_with: JSON
+  lt: JSON
+  lte: JSON
+  gt: JSON
+  gte: JSON
+  not: JSON
 }
 
 input rolesOrderByWithRelationInput {
@@ -948,6 +1017,8 @@ input usersOrderByWithRelationInput {
   users_roles_usersTousers_roles_user_id: users_rolesOrderByRelationAggregateInput
   post_prop_types_created_byTousers: post_prop_typesOrderByRelationAggregateInput
   post_prop_types_updated_byTousers: post_prop_typesOrderByRelationAggregateInput
+  delivery_pricing_created_byTousers: delivery_pricingOrderByRelationAggregateInput
+  delivery_pricing_updated_byTousers: delivery_pricingOrderByRelationAggregateInput
   city_created_byTousers: cityOrderByRelationAggregateInput
   city_updated_byTousers: cityOrderByRelationAggregateInput
 }
@@ -981,6 +1052,10 @@ input users_rolesOrderByRelationAggregateInput {
 }
 
 input post_prop_typesOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input delivery_pricingOrderByRelationAggregateInput {
   _count: SortOrder
 }
 
@@ -1061,17 +1136,56 @@ enum PermissionsScalarFieldEnum {
   updated_by
 }
 
+input delivery_pricingOrderByWithRelationInput {
+  id: SortOrder
+  active: SortOrder
+  default: SortOrder
+  name: SortOrder
+  drive_type: SortOrder
+  days: SortOrder
+  start_time: SortOrder
+  end_time: SortOrder
+  min_price: SortOrder
+  rules: SortOrder
+  price_per_km: SortOrder
+  created_at: SortOrder
+  updated_at: SortOrder
+  created_by: SortOrder
+  updated_by: SortOrder
+  users_delivery_pricing_created_byTousers: usersOrderByWithRelationInput
+  users_delivery_pricing_updated_byTousers: usersOrderByWithRelationInput
+}
+
+input delivery_pricingWhereUniqueInput {
+  id: String
+}
+
+enum Delivery_pricingScalarFieldEnum {
+  id
+  active
+  default
+  name
+  drive_type
+  days
+  start_time
+  end_time
+  min_price
+  rules
+  price_per_km
+  created_at
+  updated_at
+  created_by
+  updated_by
+}
+
 type Mutation {
   createRole(data: rolesCreateInput!): roles!
   updateRole(data: rolesUpdateInput!, where: rolesWhereUniqueInput!): roles!
   removeRole(id: Int!): roles!
-<<<<<<< HEAD
-=======
   assignRolePermissions(role_id: ID!, permission_ids: [String!]!): BatchPayload!
   createRolesPermission(data: roles_permissionsCreateInput!): roles_permissions!
   updateRolesPermission(data: roles_permissionsUpdateInput!, where: roles_permissionsWhereUniqueInput!): roles_permissions!
   removeRolesPermission(id: String!): roles_permissions!
->>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
   createPermission(data: permissionsCreateInput!): permissions!
   updatePermission(data: permissionsUpdateInput!, where: permissionsWhereUniqueInput!): permissions!
   removePermission(id: Int!): permissions!
@@ -1081,6 +1195,9 @@ type Mutation {
   sendOtp(phone: String!): SendOtpToken
   verifyOtp(phone: String!, otp: String!, verificationKey: String!): LoginResponseDto
   refreshToken(refreshToken: String!): TokenDto
+  createDeliveryPricing(data: delivery_pricingCreateInput!): delivery_pricing!
+  updateDeliveryPricing(data: delivery_pricingUpdateInput!, where: delivery_pricingWhereUniqueInput!): delivery_pricing!
+  removeDeliveryPricing(id: String!): delivery_pricing!
 }
 
 input rolesCreateInput {
@@ -1128,6 +1245,8 @@ input usersCreateWithoutRoles_roles_created_byTousersInput {
   users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
   post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
   post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
+  delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
 }
@@ -1223,6 +1342,8 @@ input usersCreateWithoutPermissions_permissions_updated_byTousersInput {
   users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
   post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
   post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
+  delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
 }
@@ -1284,6 +1405,8 @@ input usersCreateWithoutPost_updated_byTousersInput {
   users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
   post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
   post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
+  delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
 }
@@ -1340,6 +1463,8 @@ input usersCreateWithoutPermissions_permissions_created_byTousersInput {
   users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
   post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
   post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
+  delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
 }
@@ -1401,6 +1526,8 @@ input usersCreateWithoutPost_post_created_byTousersInput {
   users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
   post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
   post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
+  delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
 }
@@ -1480,6 +1607,8 @@ input usersCreateWithoutCity_created_byTousersInput {
   users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
   post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
   post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
+  delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
 }
 
@@ -1534,6 +1663,8 @@ input usersCreateWithoutRoles_roles_updated_byTousersInput {
   users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
   post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
   post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
+  delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
 }
@@ -1615,6 +1746,8 @@ input usersCreateWithoutUsers_permissions_usersTousers_permissions_created_byInp
   users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
   post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
   post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
+  delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
 }
@@ -1683,6 +1816,8 @@ input usersCreateWithoutRoles_permissions_roles_permissions_created_byTousersInp
   users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
   post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
   post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
+  delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
 }
@@ -1763,6 +1898,8 @@ input usersCreateWithoutUsers_roles_usersTousers_roles_created_byInput {
   users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
   post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
   post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
+  delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
 }
@@ -1844,6 +1981,8 @@ input usersCreateWithoutRoles_permissions_roles_permissions_updated_byTousersInp
   users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
   post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
   post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
+  delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
 }
@@ -1859,7 +1998,6 @@ input users_permissionsCreateWithoutUsers_usersTousers_permissions_updated_byInp
   users_usersTousers_permissions_created_by: usersCreateNestedOneWithoutUsers_permissions_usersTousers_permissions_created_byInput
   permissions: permissionsCreateNestedOneWithoutUsers_permissionsInput!
   users_usersTousers_permissions_user_id: usersCreateNestedOneWithoutUsers_permissions_usersTousers_permissions_user_idInput!
-<<<<<<< HEAD
 }
 
 input usersCreateNestedOneWithoutUsers_permissions_usersTousers_permissions_user_idInput {
@@ -1895,51 +2033,12 @@ input usersCreateWithoutUsers_permissions_usersTousers_permissions_user_idInput 
   users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
   post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
   post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
+  delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
 }
 
-=======
-}
-
-input usersCreateNestedOneWithoutUsers_permissions_usersTousers_permissions_user_idInput {
-  create: usersCreateWithoutUsers_permissions_usersTousers_permissions_user_idInput
-  connectOrCreate: usersCreateOrConnectWithoutUsers_permissions_usersTousers_permissions_user_idInput
-  connect: usersWhereUniqueInput
-}
-
-input usersCreateWithoutUsers_permissions_usersTousers_permissions_user_idInput {
-  id: String
-  phone: String!
-  first_name: String
-  last_name: String
-  password: String
-  is_super_user: Boolean
-  status: user_status!
-  created_at: DateTime
-  updated_at: DateTime
-  otp: otpCreateNestedManyWithoutUsersInput
-  permissions_permissions_created_byTousers: permissionsCreateNestedManyWithoutUsers_permissions_created_byTousersInput
-  permissions_permissions_updated_byTousers: permissionsCreateNestedManyWithoutUsers_permissions_updated_byTousersInput
-  post_post_created_byTousers: postCreateNestedManyWithoutUsers_post_created_byTousersInput
-  post_updated_byTousers: postCreateNestedManyWithoutUsers_post_updated_byTousersInput
-  post_post_user_idTousers: postCreateNestedManyWithoutUsers_post_user_idTousersInput
-  roles_roles_created_byTousers: rolesCreateNestedManyWithoutUsers_roles_created_byTousersInput
-  roles_roles_updated_byTousers: rolesCreateNestedManyWithoutUsers_roles_updated_byTousersInput
-  roles_permissions_roles_permissions_created_byTousers: roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_created_byTousersInput
-  roles_permissions_roles_permissions_updated_byTousers: roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_updated_byTousersInput
-  users_permissions_usersTousers_permissions_created_by: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_created_byInput
-  users_permissions_usersTousers_permissions_updated_by: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_updated_byInput
-  users_roles_usersTousers_roles_created_by: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_created_byInput
-  users_roles_usersTousers_roles_updated_by: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_updated_byInput
-  users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
-  post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
-  post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
-  city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
-  city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
-}
-
->>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
 input users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_created_byInput {
   create: [users_rolesCreateWithoutUsers_usersTousers_roles_created_byInput!]
   connectOrCreate: [users_rolesCreateOrConnectWithoutUsers_usersTousers_roles_created_byInput!]
@@ -1973,14 +2072,6 @@ input rolesCreateWithoutUsers_rolesInput {
 input rolesCreateOrConnectWithoutUsers_rolesInput {
   where: rolesWhereUniqueInput!
   create: rolesCreateWithoutUsers_rolesInput!
-<<<<<<< HEAD
-}
-
-input rolesWhereUniqueInput {
-  id: String
-  name: String
-=======
->>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
 }
 
 input usersCreateNestedOneWithoutUsers_roles_usersTousers_roles_updated_byInput {
@@ -2016,6 +2107,8 @@ input usersCreateWithoutUsers_roles_usersTousers_roles_updated_byInput {
   users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
   post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
   post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
+  delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
 }
@@ -2066,6 +2159,8 @@ input usersCreateWithoutUsers_permissions_usersTousers_permissions_updated_byInp
   users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
   post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
   post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
+  delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
 }
@@ -2116,6 +2211,8 @@ input usersCreateWithoutUsers_roles_usersTousers_roles_user_idInput {
   users_roles_usersTousers_roles_updated_by: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_updated_byInput
   post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
   post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
+  delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
 }
@@ -2170,6 +2267,8 @@ input usersCreateWithoutPost_prop_types_updated_byTousersInput {
   users_roles_usersTousers_roles_updated_by: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_updated_byInput
   users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
   post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
+  delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
+  delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
 }
@@ -2210,6 +2309,190 @@ input users_rolesCreateManyUsers_usersTousers_roles_user_idInput {
   role_id: String!
   created_by: String
   updated_by: String
+}
+
+input delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput {
+  create: [delivery_pricingCreateWithoutUsers_delivery_pricing_created_byTousersInput!]
+  connectOrCreate: [delivery_pricingCreateOrConnectWithoutUsers_delivery_pricing_created_byTousersInput!]
+  createMany: delivery_pricingCreateManyUsers_delivery_pricing_created_byTousersInputEnvelope
+  connect: [delivery_pricingWhereUniqueInput!]
+}
+
+input delivery_pricingCreateWithoutUsers_delivery_pricing_created_byTousersInput {
+  id: String
+  active: Boolean
+  default: Boolean
+  name: String!
+  drive_type: drive_type
+  days: [String!]
+  start_time: String!
+  end_time: String!
+  min_price: Int
+  rules: JSON!
+  price_per_km: Int
+  created_at: DateTime
+  updated_at: DateTime
+  updated_by: String
+  users_delivery_pricing_updated_byTousers: usersCreateNestedOneWithoutDelivery_pricing_updated_byTousersInput
+}
+
+input usersCreateNestedOneWithoutDelivery_pricing_updated_byTousersInput {
+  create: usersCreateWithoutDelivery_pricing_updated_byTousersInput
+  connectOrCreate: usersCreateOrConnectWithoutDelivery_pricing_updated_byTousersInput
+  connect: usersWhereUniqueInput
+}
+
+input usersCreateWithoutDelivery_pricing_updated_byTousersInput {
+  id: String
+  phone: String!
+  first_name: String
+  last_name: String
+  password: String
+  is_super_user: Boolean
+  status: user_status!
+  created_at: DateTime
+  updated_at: DateTime
+  otp: otpCreateNestedManyWithoutUsersInput
+  permissions_permissions_created_byTousers: permissionsCreateNestedManyWithoutUsers_permissions_created_byTousersInput
+  permissions_permissions_updated_byTousers: permissionsCreateNestedManyWithoutUsers_permissions_updated_byTousersInput
+  post_post_created_byTousers: postCreateNestedManyWithoutUsers_post_created_byTousersInput
+  post_updated_byTousers: postCreateNestedManyWithoutUsers_post_updated_byTousersInput
+  post_post_user_idTousers: postCreateNestedManyWithoutUsers_post_user_idTousersInput
+  roles_roles_created_byTousers: rolesCreateNestedManyWithoutUsers_roles_created_byTousersInput
+  roles_roles_updated_byTousers: rolesCreateNestedManyWithoutUsers_roles_updated_byTousersInput
+  roles_permissions_roles_permissions_created_byTousers: roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_created_byTousersInput
+  roles_permissions_roles_permissions_updated_byTousers: roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_updated_byTousersInput
+  users_permissions_usersTousers_permissions_created_by: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_created_byInput
+  users_permissions_usersTousers_permissions_updated_by: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_updated_byInput
+  users_permissions_usersTousers_permissions_user_id: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_user_idInput
+  users_roles_usersTousers_roles_created_by: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_created_byInput
+  users_roles_usersTousers_roles_updated_by: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_updated_byInput
+  users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
+  post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
+  post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
+  city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
+  city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+}
+
+input post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput {
+  create: [post_prop_typesCreateWithoutUsers_post_prop_types_updated_byTousersInput!]
+  connectOrCreate: [post_prop_typesCreateOrConnectWithoutUsers_post_prop_types_updated_byTousersInput!]
+  createMany: post_prop_typesCreateManyUsers_post_prop_types_updated_byTousersInputEnvelope
+  connect: [post_prop_typesWhereUniqueInput!]
+}
+
+input post_prop_typesCreateWithoutUsers_post_prop_types_updated_byTousersInput {
+  id: String
+  sale_type: sale_type
+  name: String!
+  type: type
+  created_at: DateTime
+  updated_at: DateTime
+  users_post_prop_types_created_byTousers: usersCreateNestedOneWithoutPost_prop_types_created_byTousersInput
+}
+
+input usersCreateNestedOneWithoutPost_prop_types_created_byTousersInput {
+  create: usersCreateWithoutPost_prop_types_created_byTousersInput
+  connectOrCreate: usersCreateOrConnectWithoutPost_prop_types_created_byTousersInput
+  connect: usersWhereUniqueInput
+}
+
+input usersCreateWithoutPost_prop_types_created_byTousersInput {
+  id: String
+  phone: String!
+  first_name: String
+  last_name: String
+  password: String
+  is_super_user: Boolean
+  status: user_status!
+  created_at: DateTime
+  updated_at: DateTime
+  otp: otpCreateNestedManyWithoutUsersInput
+  permissions_permissions_created_byTousers: permissionsCreateNestedManyWithoutUsers_permissions_created_byTousersInput
+  permissions_permissions_updated_byTousers: permissionsCreateNestedManyWithoutUsers_permissions_updated_byTousersInput
+  post_post_created_byTousers: postCreateNestedManyWithoutUsers_post_created_byTousersInput
+  post_updated_byTousers: postCreateNestedManyWithoutUsers_post_updated_byTousersInput
+  post_post_user_idTousers: postCreateNestedManyWithoutUsers_post_user_idTousersInput
+  roles_roles_created_byTousers: rolesCreateNestedManyWithoutUsers_roles_created_byTousersInput
+  roles_roles_updated_byTousers: rolesCreateNestedManyWithoutUsers_roles_updated_byTousersInput
+  roles_permissions_roles_permissions_created_byTousers: roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_created_byTousersInput
+  roles_permissions_roles_permissions_updated_byTousers: roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_updated_byTousersInput
+  users_permissions_usersTousers_permissions_created_by: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_created_byInput
+  users_permissions_usersTousers_permissions_updated_by: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_updated_byInput
+  users_permissions_usersTousers_permissions_user_id: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_user_idInput
+  users_roles_usersTousers_roles_created_by: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_created_byInput
+  users_roles_usersTousers_roles_updated_by: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_updated_byInput
+  users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
+  post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
+  delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
+  city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
+  city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+}
+
+input delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput {
+  create: [delivery_pricingCreateWithoutUsers_delivery_pricing_updated_byTousersInput!]
+  connectOrCreate: [delivery_pricingCreateOrConnectWithoutUsers_delivery_pricing_updated_byTousersInput!]
+  createMany: delivery_pricingCreateManyUsers_delivery_pricing_updated_byTousersInputEnvelope
+  connect: [delivery_pricingWhereUniqueInput!]
+}
+
+input delivery_pricingCreateWithoutUsers_delivery_pricing_updated_byTousersInput {
+  id: String
+  active: Boolean
+  default: Boolean
+  name: String!
+  drive_type: drive_type
+  days: [String!]
+  start_time: String!
+  end_time: String!
+  min_price: Int
+  rules: JSON!
+  price_per_km: Int
+  created_at: DateTime
+  updated_at: DateTime
+  updated_by: String
+  users_delivery_pricing_created_byTousers: usersCreateNestedOneWithoutDelivery_pricing_created_byTousersInput
+}
+
+input usersCreateNestedOneWithoutDelivery_pricing_created_byTousersInput {
+  create: usersCreateWithoutDelivery_pricing_created_byTousersInput
+  connectOrCreate: usersCreateOrConnectWithoutDelivery_pricing_created_byTousersInput
+  connect: usersWhereUniqueInput
+}
+
+input usersCreateWithoutDelivery_pricing_created_byTousersInput {
+  id: String
+  phone: String!
+  first_name: String
+  last_name: String
+  password: String
+  is_super_user: Boolean
+  status: user_status!
+  created_at: DateTime
+  updated_at: DateTime
+  otp: otpCreateNestedManyWithoutUsersInput
+  permissions_permissions_created_byTousers: permissionsCreateNestedManyWithoutUsers_permissions_created_byTousersInput
+  permissions_permissions_updated_byTousers: permissionsCreateNestedManyWithoutUsers_permissions_updated_byTousersInput
+  post_post_created_byTousers: postCreateNestedManyWithoutUsers_post_created_byTousersInput
+  post_updated_byTousers: postCreateNestedManyWithoutUsers_post_updated_byTousersInput
+  post_post_user_idTousers: postCreateNestedManyWithoutUsers_post_user_idTousersInput
+  roles_roles_created_byTousers: rolesCreateNestedManyWithoutUsers_roles_created_byTousersInput
+  roles_roles_updated_byTousers: rolesCreateNestedManyWithoutUsers_roles_updated_byTousersInput
+  roles_permissions_roles_permissions_created_byTousers: roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_created_byTousersInput
+  roles_permissions_roles_permissions_updated_byTousers: roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_updated_byTousersInput
+  users_permissions_usersTousers_permissions_created_by: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_created_byInput
+  users_permissions_usersTousers_permissions_updated_by: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_updated_byInput
+  users_permissions_usersTousers_permissions_user_id: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_user_idInput
+  users_roles_usersTousers_roles_created_by: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_created_byInput
+  users_roles_usersTousers_roles_updated_by: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_updated_byInput
+  users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
+  post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
+  post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
+  city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
+  city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
 }
 
 input cityCreateNestedManyWithoutUsers_city_created_byTousersInput {
@@ -2264,79 +2547,19 @@ input usersCreateWithoutCity_updated_byTousersInput {
   users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
   post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
   post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
+  delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
 }
 
-input post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput {
-  create: [post_prop_typesCreateWithoutUsers_post_prop_types_updated_byTousersInput!]
-  connectOrCreate: [post_prop_typesCreateOrConnectWithoutUsers_post_prop_types_updated_byTousersInput!]
-  createMany: post_prop_typesCreateManyUsers_post_prop_types_updated_byTousersInputEnvelope
-  connect: [post_prop_typesWhereUniqueInput!]
+input usersCreateOrConnectWithoutCity_updated_byTousersInput {
+  where: usersWhereUniqueInput!
+  create: usersCreateWithoutCity_updated_byTousersInput!
 }
 
-input post_prop_typesCreateWithoutUsers_post_prop_types_updated_byTousersInput {
+input usersWhereUniqueInput {
   id: String
-  sale_type: sale_type
-  name: String!
-  type: type
-  created_at: DateTime
-  updated_at: DateTime
-  users_post_prop_types_created_byTousers: usersCreateNestedOneWithoutPost_prop_types_created_byTousersInput
-}
-
-input usersCreateNestedOneWithoutPost_prop_types_created_byTousersInput {
-  create: usersCreateWithoutPost_prop_types_created_byTousersInput
-  connectOrCreate: usersCreateOrConnectWithoutPost_prop_types_created_byTousersInput
-  connect: usersWhereUniqueInput
-}
-
-input usersCreateWithoutPost_prop_types_created_byTousersInput {
-  id: String
-  phone: String!
-  first_name: String
-  last_name: String
-  password: String
-  is_super_user: Boolean
-  status: user_status!
-  created_at: DateTime
-  updated_at: DateTime
-  otp: otpCreateNestedManyWithoutUsersInput
-  permissions_permissions_created_byTousers: permissionsCreateNestedManyWithoutUsers_permissions_created_byTousersInput
-  permissions_permissions_updated_byTousers: permissionsCreateNestedManyWithoutUsers_permissions_updated_byTousersInput
-  post_post_created_byTousers: postCreateNestedManyWithoutUsers_post_created_byTousersInput
-  post_updated_byTousers: postCreateNestedManyWithoutUsers_post_updated_byTousersInput
-  post_post_user_idTousers: postCreateNestedManyWithoutUsers_post_user_idTousersInput
-  roles_roles_created_byTousers: rolesCreateNestedManyWithoutUsers_roles_created_byTousersInput
-  roles_roles_updated_byTousers: rolesCreateNestedManyWithoutUsers_roles_updated_byTousersInput
-  roles_permissions_roles_permissions_created_byTousers: roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_created_byTousersInput
-  roles_permissions_roles_permissions_updated_byTousers: roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_updated_byTousersInput
-  users_permissions_usersTousers_permissions_created_by: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_created_byInput
-  users_permissions_usersTousers_permissions_updated_by: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_updated_byInput
-  users_permissions_usersTousers_permissions_user_id: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_user_idInput
-  users_roles_usersTousers_roles_created_by: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_created_byInput
-  users_roles_usersTousers_roles_updated_by: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_updated_byInput
-  users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
-  post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
-  city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
-  city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
-}
-
-input cityCreateNestedManyWithoutUsers_city_updated_byTousersInput {
-  create: [cityCreateWithoutUsers_city_updated_byTousersInput!]
-  connectOrCreate: [cityCreateOrConnectWithoutUsers_city_updated_byTousersInput!]
-  createMany: cityCreateManyUsers_city_updated_byTousersInputEnvelope
-  connect: [cityWhereUniqueInput!]
-}
-
-input cityCreateWithoutUsers_city_updated_byTousersInput {
-  id: String
-  name: String!
-  created_at: DateTime
-  updated_at: DateTime
-  users_city_created_byTousers: usersCreateNestedOneWithoutCity_created_byTousersInput
-  users_city_parent_idTousers: cityCreateNestedOneWithoutCity_parent_idTocityInput
-  post_city_idTocity: postCreateNestedManyWithoutCity_city_idTocityInput
-  city_parent_idTocity: cityCreateNestedManyWithoutUsers_city_parent_idTousersInput
+  phone: String
 }
 
 input cityCreateNestedOneWithoutCity_parent_idTocityInput {
@@ -2413,18 +2636,93 @@ input usersCreateWithoutPost_post_user_idTousersInput {
   users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
   post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
   post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
+  delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+}
+
+input cityCreateNestedManyWithoutUsers_city_updated_byTousersInput {
+  create: [cityCreateWithoutUsers_city_updated_byTousersInput!]
+  connectOrCreate: [cityCreateOrConnectWithoutUsers_city_updated_byTousersInput!]
+  createMany: cityCreateManyUsers_city_updated_byTousersInputEnvelope
+  connect: [cityWhereUniqueInput!]
+}
+
+input cityCreateWithoutUsers_city_updated_byTousersInput {
+  id: String
+  name: String!
+  created_at: DateTime
+  updated_at: DateTime
+  users_city_created_byTousers: usersCreateNestedOneWithoutCity_created_byTousersInput
+  users_city_parent_idTousers: cityCreateNestedOneWithoutCity_parent_idTocityInput
+  post_city_idTocity: postCreateNestedManyWithoutCity_city_idTocityInput
+  city_parent_idTocity: cityCreateNestedManyWithoutUsers_city_parent_idTousersInput
+}
+
+input cityCreateNestedManyWithoutUsers_city_parent_idTousersInput {
+  create: [cityCreateWithoutUsers_city_parent_idTousersInput!]
+  connectOrCreate: [cityCreateOrConnectWithoutUsers_city_parent_idTousersInput!]
+  createMany: cityCreateManyUsers_city_parent_idTousersInputEnvelope
+  connect: [cityWhereUniqueInput!]
+}
+
+input cityCreateWithoutUsers_city_parent_idTousersInput {
+  id: String
+  name: String!
+  created_at: DateTime
+  updated_at: DateTime
+  users_city_created_byTousers: usersCreateNestedOneWithoutCity_created_byTousersInput
+  users_city_updated_byTousers: usersCreateNestedOneWithoutCity_updated_byTousersInput
+  post_city_idTocity: postCreateNestedManyWithoutCity_city_idTocityInput
+  city_parent_idTocity: cityCreateNestedManyWithoutUsers_city_parent_idTousersInput
+}
+
+input cityCreateOrConnectWithoutUsers_city_parent_idTousersInput {
+  where: cityWhereUniqueInput!
+  create: cityCreateWithoutUsers_city_parent_idTousersInput!
+}
+
+input cityWhereUniqueInput {
+  id: String
+}
+
+input cityCreateManyUsers_city_parent_idTousersInputEnvelope {
+  data: [cityCreateManyUsers_city_parent_idTousersInput!]!
+  skipDuplicates: Boolean
+}
+
+input cityCreateManyUsers_city_parent_idTousersInput {
+  id: String
+  name: String!
+  created_at: DateTime
+  updated_at: DateTime
+  created_by: String
+  updated_by: String
+}
+
+input cityCreateOrConnectWithoutUsers_city_updated_byTousersInput {
+  where: cityWhereUniqueInput!
+  create: cityCreateWithoutUsers_city_updated_byTousersInput!
+}
+
+input cityCreateManyUsers_city_updated_byTousersInputEnvelope {
+  data: [cityCreateManyUsers_city_updated_byTousersInput!]!
+  skipDuplicates: Boolean
+}
+
+input cityCreateManyUsers_city_updated_byTousersInput {
+  id: String
+  name: String!
+  parent_id: String
+  created_at: DateTime
+  updated_at: DateTime
+  created_by: String
 }
 
 input usersCreateOrConnectWithoutPost_post_user_idTousersInput {
   where: usersWhereUniqueInput!
   create: usersCreateWithoutPost_post_user_idTousersInput!
-}
-
-input usersWhereUniqueInput {
-  id: String
-  phone: String
 }
 
 input postCreateOrConnectWithoutCity_city_idTocityInput {
@@ -2463,64 +2761,55 @@ input cityCreateOrConnectWithoutCity_parent_idTocityInput {
   create: cityCreateWithoutCity_parent_idTocityInput!
 }
 
-input cityWhereUniqueInput {
-  id: String
-}
-
-input cityCreateNestedManyWithoutUsers_city_parent_idTousersInput {
-  create: [cityCreateWithoutUsers_city_parent_idTousersInput!]
-  connectOrCreate: [cityCreateOrConnectWithoutUsers_city_parent_idTousersInput!]
-  createMany: cityCreateManyUsers_city_parent_idTousersInputEnvelope
-  connect: [cityWhereUniqueInput!]
-}
-
-input cityCreateWithoutUsers_city_parent_idTousersInput {
-  id: String
-  name: String!
-  created_at: DateTime
-  updated_at: DateTime
-  users_city_created_byTousers: usersCreateNestedOneWithoutCity_created_byTousersInput
-  users_city_updated_byTousers: usersCreateNestedOneWithoutCity_updated_byTousersInput
-  post_city_idTocity: postCreateNestedManyWithoutCity_city_idTocityInput
-  city_parent_idTocity: cityCreateNestedManyWithoutUsers_city_parent_idTousersInput
-}
-
-input cityCreateOrConnectWithoutUsers_city_parent_idTousersInput {
+input cityCreateOrConnectWithoutUsers_city_created_byTousersInput {
   where: cityWhereUniqueInput!
-  create: cityCreateWithoutUsers_city_parent_idTousersInput!
+  create: cityCreateWithoutUsers_city_created_byTousersInput!
 }
 
-input cityCreateManyUsers_city_parent_idTousersInputEnvelope {
-  data: [cityCreateManyUsers_city_parent_idTousersInput!]!
+input cityCreateManyUsers_city_created_byTousersInputEnvelope {
+  data: [cityCreateManyUsers_city_created_byTousersInput!]!
   skipDuplicates: Boolean
 }
 
-input cityCreateManyUsers_city_parent_idTousersInput {
-  id: String
-  name: String!
-  created_at: DateTime
-  updated_at: DateTime
-  created_by: String
-  updated_by: String
-}
-
-input cityCreateOrConnectWithoutUsers_city_updated_byTousersInput {
-  where: cityWhereUniqueInput!
-  create: cityCreateWithoutUsers_city_updated_byTousersInput!
-}
-
-input cityCreateManyUsers_city_updated_byTousersInputEnvelope {
-  data: [cityCreateManyUsers_city_updated_byTousersInput!]!
-  skipDuplicates: Boolean
-}
-
-input cityCreateManyUsers_city_updated_byTousersInput {
+input cityCreateManyUsers_city_created_byTousersInput {
   id: String
   name: String!
   parent_id: String
   created_at: DateTime
   updated_at: DateTime
-  created_by: String
+  updated_by: String
+}
+
+input usersCreateOrConnectWithoutDelivery_pricing_created_byTousersInput {
+  where: usersWhereUniqueInput!
+  create: usersCreateWithoutDelivery_pricing_created_byTousersInput!
+}
+
+input delivery_pricingCreateOrConnectWithoutUsers_delivery_pricing_updated_byTousersInput {
+  where: delivery_pricingWhereUniqueInput!
+  create: delivery_pricingCreateWithoutUsers_delivery_pricing_updated_byTousersInput!
+}
+
+input delivery_pricingCreateManyUsers_delivery_pricing_updated_byTousersInputEnvelope {
+  data: [delivery_pricingCreateManyUsers_delivery_pricing_updated_byTousersInput!]!
+  skipDuplicates: Boolean
+}
+
+input delivery_pricingCreateManyUsers_delivery_pricing_updated_byTousersInput {
+  id: String
+  active: Boolean
+  default: Boolean
+  name: String!
+  drive_type: drive_type
+  days: [String!]
+  start_time: String!
+  end_time: String!
+  min_price: Int
+  rules: JSON!
+  price_per_km: Int
+  created_at: DateTime
+  updated_at: DateTime
+  updated_by: String
 }
 
 input usersCreateOrConnectWithoutPost_prop_types_created_byTousersInput {
@@ -2552,25 +2841,33 @@ input post_prop_typesCreateManyUsers_post_prop_types_updated_byTousersInput {
   created_by: String
 }
 
-input usersCreateOrConnectWithoutCity_updated_byTousersInput {
+input usersCreateOrConnectWithoutDelivery_pricing_updated_byTousersInput {
   where: usersWhereUniqueInput!
-  create: usersCreateWithoutCity_updated_byTousersInput!
+  create: usersCreateWithoutDelivery_pricing_updated_byTousersInput!
 }
 
-input cityCreateOrConnectWithoutUsers_city_created_byTousersInput {
-  where: cityWhereUniqueInput!
-  create: cityCreateWithoutUsers_city_created_byTousersInput!
+input delivery_pricingCreateOrConnectWithoutUsers_delivery_pricing_created_byTousersInput {
+  where: delivery_pricingWhereUniqueInput!
+  create: delivery_pricingCreateWithoutUsers_delivery_pricing_created_byTousersInput!
 }
 
-input cityCreateManyUsers_city_created_byTousersInputEnvelope {
-  data: [cityCreateManyUsers_city_created_byTousersInput!]!
+input delivery_pricingCreateManyUsers_delivery_pricing_created_byTousersInputEnvelope {
+  data: [delivery_pricingCreateManyUsers_delivery_pricing_created_byTousersInput!]!
   skipDuplicates: Boolean
 }
 
-input cityCreateManyUsers_city_created_byTousersInput {
+input delivery_pricingCreateManyUsers_delivery_pricing_created_byTousersInput {
   id: String
+  active: Boolean
+  default: Boolean
   name: String!
-  parent_id: String
+  drive_type: drive_type
+  days: [String!]
+  start_time: String!
+  end_time: String!
+  min_price: Int
+  rules: JSON!
+  price_per_km: Int
   created_at: DateTime
   updated_at: DateTime
   updated_by: String
@@ -2623,7 +2920,6 @@ input users_rolesCreateManyUsers_usersTousers_roles_updated_byInput {
 }
 
 input usersCreateOrConnectWithoutUsers_permissions_usersTousers_permissions_updated_byInput {
-<<<<<<< HEAD
   where: usersWhereUniqueInput!
   create: usersCreateWithoutUsers_permissions_usersTousers_permissions_updated_byInput!
 }
@@ -2674,67 +2970,6 @@ input users_rolesCreateManyUsers_usersTousers_roles_created_byInput {
   updated_by: String
 }
 
-input usersCreateOrConnectWithoutUsers_permissions_usersTousers_permissions_user_idInput {
-=======
->>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
-  where: usersWhereUniqueInput!
-  create: usersCreateWithoutUsers_permissions_usersTousers_permissions_updated_byInput!
-}
-
-input users_permissionsCreateOrConnectWithoutUsers_usersTousers_permissions_user_idInput {
-  where: users_permissionsWhereUniqueInput!
-  create: users_permissionsCreateWithoutUsers_usersTousers_permissions_user_idInput!
-}
-
-input users_permissionsWhereUniqueInput {
-  user_id_permission_id: users_permissionsUser_idPermission_idCompoundUniqueInput
-}
-
-input users_permissionsUser_idPermission_idCompoundUniqueInput {
-  user_id: String!
-  permission_id: String!
-}
-
-input users_permissionsCreateManyUsers_usersTousers_permissions_user_idInputEnvelope {
-  data: [users_permissionsCreateManyUsers_usersTousers_permissions_user_idInput!]!
-  skipDuplicates: Boolean
-}
-
-input users_permissionsCreateManyUsers_usersTousers_permissions_user_idInput {
-  permission_id: String!
-  created_by: String
-  updated_by: String
-}
-
-input usersCreateOrConnectWithoutUsers_roles_usersTousers_roles_updated_byInput {
-  where: usersWhereUniqueInput!
-  create: usersCreateWithoutUsers_roles_usersTousers_roles_updated_byInput!
-}
-
-<<<<<<< HEAD
-input roles_permissionsCreateOrConnectWithoutPermissionsInput {
-  where: roles_permissionsWhereUniqueInput!
-  create: roles_permissionsCreateWithoutPermissionsInput!
-=======
-input users_rolesCreateOrConnectWithoutUsers_usersTousers_roles_created_byInput {
-  where: users_rolesWhereUniqueInput!
-  create: users_rolesCreateWithoutUsers_usersTousers_roles_created_byInput!
->>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
-}
-
-input users_rolesCreateManyUsers_usersTousers_roles_created_byInputEnvelope {
-  data: [users_rolesCreateManyUsers_usersTousers_roles_created_byInput!]!
-  skipDuplicates: Boolean
-}
-
-input users_rolesCreateManyUsers_usersTousers_roles_created_byInput {
-  user_id: String!
-  role_id: String!
-  updated_by: String
-}
-
-<<<<<<< HEAD
-=======
 input usersCreateOrConnectWithoutUsers_permissions_usersTousers_permissions_user_idInput {
   where: usersWhereUniqueInput!
   create: usersCreateWithoutUsers_permissions_usersTousers_permissions_user_idInput!
@@ -2766,7 +3001,6 @@ input roles_permissionsCreateOrConnectWithoutPermissionsInput {
   create: roles_permissionsCreateWithoutPermissionsInput!
 }
 
->>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
 input roles_permissionsCreateManyPermissionsInputEnvelope {
   data: [roles_permissionsCreateManyPermissionsInput!]!
   skipDuplicates: Boolean
@@ -3157,6 +3391,8 @@ input usersUpdateWithoutRoles_roles_created_byTousersInput {
   users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
   post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
   post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
+  delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
 }
@@ -3296,6 +3532,8 @@ input usersUpdateWithoutPermissions_permissions_updated_byTousersInput {
   users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
   post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
   post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
+  delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
 }
@@ -3379,6 +3617,8 @@ input usersUpdateWithoutPost_updated_byTousersInput {
   users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
   post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
   post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
+  delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
 }
@@ -3457,6 +3697,8 @@ input usersUpdateWithoutPermissions_permissions_created_byTousersInput {
   users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
   post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
   post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
+  delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
 }
@@ -3540,6 +3782,8 @@ input usersUpdateWithoutPost_post_created_byTousersInput {
   users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
   post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
   post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
+  delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
 }
@@ -3648,6 +3892,8 @@ input usersUpdateWithoutCity_created_byTousersInput {
   users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
   post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
   post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
+  delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
 }
 
@@ -3724,6 +3970,8 @@ input usersUpdateWithoutRoles_roles_updated_byTousersInput {
   users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
   post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
   post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
+  delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
 }
@@ -3847,6 +4095,8 @@ input usersUpdateWithoutUsers_permissions_usersTousers_permissions_created_byInp
   users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
   post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
   post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
+  delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
 }
@@ -3908,35 +4158,6 @@ input roles_permissionsUpdateWithoutRolesInput {
   users_roles_permissions_updated_byTousers: usersUpdateOneWithoutRoles_permissions_roles_permissions_updated_byTousersNestedInput
 }
 
-<<<<<<< HEAD
-=======
-input roles_permissionsUpdateManyWithoutRolesNestedInput {
-  create: [roles_permissionsCreateWithoutRolesInput!]
-  connectOrCreate: [roles_permissionsCreateOrConnectWithoutRolesInput!]
-  upsert: [roles_permissionsUpsertWithWhereUniqueWithoutRolesInput!]
-  createMany: roles_permissionsCreateManyRolesInputEnvelope
-  set: [roles_permissionsWhereUniqueInput!]
-  disconnect: [roles_permissionsWhereUniqueInput!]
-  delete: [roles_permissionsWhereUniqueInput!]
-  connect: [roles_permissionsWhereUniqueInput!]
-  update: [roles_permissionsUpdateWithWhereUniqueWithoutRolesInput!]
-  updateMany: [roles_permissionsUpdateManyWithWhereWithoutRolesInput!]
-  deleteMany: [roles_permissionsScalarWhereInput!]
-}
-
-input roles_permissionsUpsertWithWhereUniqueWithoutRolesInput {
-  where: roles_permissionsWhereUniqueInput!
-  update: roles_permissionsUpdateWithoutRolesInput!
-  create: roles_permissionsCreateWithoutRolesInput!
-}
-
-input roles_permissionsUpdateWithoutRolesInput {
-  users_roles_permissions_created_byTousers: usersUpdateOneWithoutRoles_permissions_roles_permissions_created_byTousersNestedInput
-  permissions: permissionsUpdateOneRequiredWithoutRoles_permissionsNestedInput
-  users_roles_permissions_updated_byTousers: usersUpdateOneWithoutRoles_permissions_roles_permissions_updated_byTousersNestedInput
-}
-
->>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
 input usersUpdateOneWithoutRoles_permissions_roles_permissions_created_byTousersNestedInput {
   create: usersCreateWithoutRoles_permissions_roles_permissions_created_byTousersInput
   connectOrCreate: usersCreateOrConnectWithoutRoles_permissions_roles_permissions_created_byTousersInput
@@ -3979,6 +4200,8 @@ input usersUpdateWithoutRoles_permissions_roles_permissions_created_byTousersInp
   users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
   post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
   post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
+  delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
 }
@@ -4101,6 +4324,8 @@ input usersUpdateWithoutUsers_roles_usersTousers_roles_created_byInput {
   users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
   post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
   post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
+  delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
 }
@@ -4224,6 +4449,8 @@ input usersUpdateWithoutRoles_permissions_roles_permissions_updated_byTousersInp
   users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
   post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
   post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
+  delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
 }
@@ -4294,6 +4521,8 @@ input usersUpdateWithoutUsers_permissions_usersTousers_permissions_user_idInput 
   users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
   post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
   post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
+  delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
 }
@@ -4390,6 +4619,8 @@ input usersUpdateWithoutUsers_roles_usersTousers_roles_updated_byInput {
   users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
   post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
   post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
+  delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
 }
@@ -4462,6 +4693,8 @@ input usersUpdateWithoutUsers_permissions_usersTousers_permissions_updated_byInp
   users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
   post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
   post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
+  delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
 }
@@ -4532,6 +4765,8 @@ input usersUpdateWithoutUsers_roles_usersTousers_roles_user_idInput {
   users_roles_usersTousers_roles_updated_by: users_rolesUpdateManyWithoutUsers_usersTousers_roles_updated_byNestedInput
   post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
   post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
+  delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
 }
@@ -4608,6 +4843,8 @@ input usersUpdateWithoutPost_prop_types_updated_byTousersInput {
   users_roles_usersTousers_roles_updated_by: users_rolesUpdateManyWithoutUsers_usersTousers_roles_updated_byNestedInput
   users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
   post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
+  delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
+  delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
 }
@@ -4662,6 +4899,256 @@ input users_rolesUncheckedUpdateManyWithoutUsers_roles_usersTousers_roles_user_i
   role_id: String
   created_by: String
   updated_by: String
+}
+
+input delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput {
+  create: [delivery_pricingCreateWithoutUsers_delivery_pricing_created_byTousersInput!]
+  connectOrCreate: [delivery_pricingCreateOrConnectWithoutUsers_delivery_pricing_created_byTousersInput!]
+  upsert: [delivery_pricingUpsertWithWhereUniqueWithoutUsers_delivery_pricing_created_byTousersInput!]
+  createMany: delivery_pricingCreateManyUsers_delivery_pricing_created_byTousersInputEnvelope
+  set: [delivery_pricingWhereUniqueInput!]
+  disconnect: [delivery_pricingWhereUniqueInput!]
+  delete: [delivery_pricingWhereUniqueInput!]
+  connect: [delivery_pricingWhereUniqueInput!]
+  update: [delivery_pricingUpdateWithWhereUniqueWithoutUsers_delivery_pricing_created_byTousersInput!]
+  updateMany: [delivery_pricingUpdateManyWithWhereWithoutUsers_delivery_pricing_created_byTousersInput!]
+  deleteMany: [delivery_pricingScalarWhereInput!]
+}
+
+input delivery_pricingUpsertWithWhereUniqueWithoutUsers_delivery_pricing_created_byTousersInput {
+  where: delivery_pricingWhereUniqueInput!
+  update: delivery_pricingUpdateWithoutUsers_delivery_pricing_created_byTousersInput!
+  create: delivery_pricingCreateWithoutUsers_delivery_pricing_created_byTousersInput!
+}
+
+input delivery_pricingUpdateWithoutUsers_delivery_pricing_created_byTousersInput {
+  id: String
+  active: Boolean
+  default: Boolean
+  name: String
+  drive_type: drive_type
+  days: [String!]
+  start_time: String
+  end_time: String
+  min_price: Int
+  rules: JSON
+  price_per_km: Int
+  created_at: DateTime
+  updated_at: DateTime
+  updated_by: String
+  users_delivery_pricing_updated_byTousers: usersUpdateOneWithoutDelivery_pricing_updated_byTousersNestedInput
+}
+
+input usersUpdateOneWithoutDelivery_pricing_updated_byTousersNestedInput {
+  create: usersCreateWithoutDelivery_pricing_updated_byTousersInput
+  connectOrCreate: usersCreateOrConnectWithoutDelivery_pricing_updated_byTousersInput
+  upsert: usersUpsertWithoutDelivery_pricing_updated_byTousersInput
+  disconnect: Boolean
+  delete: Boolean
+  connect: usersWhereUniqueInput
+  update: usersUpdateWithoutDelivery_pricing_updated_byTousersInput
+}
+
+input usersUpsertWithoutDelivery_pricing_updated_byTousersInput {
+  update: usersUpdateWithoutDelivery_pricing_updated_byTousersInput!
+  create: usersCreateWithoutDelivery_pricing_updated_byTousersInput!
+}
+
+input usersUpdateWithoutDelivery_pricing_updated_byTousersInput {
+  id: String
+  phone: String
+  first_name: String
+  last_name: String
+  password: String
+  is_super_user: Boolean
+  status: user_status
+  created_at: DateTime
+  updated_at: DateTime
+  otp: otpUpdateManyWithoutUsersNestedInput
+  permissions_permissions_created_byTousers: permissionsUpdateManyWithoutUsers_permissions_created_byTousersNestedInput
+  permissions_permissions_updated_byTousers: permissionsUpdateManyWithoutUsers_permissions_updated_byTousersNestedInput
+  post_post_created_byTousers: postUpdateManyWithoutUsers_post_created_byTousersNestedInput
+  post_updated_byTousers: postUpdateManyWithoutUsers_post_updated_byTousersNestedInput
+  post_post_user_idTousers: postUpdateManyWithoutUsers_post_user_idTousersNestedInput
+  roles_roles_created_byTousers: rolesUpdateManyWithoutUsers_roles_created_byTousersNestedInput
+  roles_roles_updated_byTousers: rolesUpdateManyWithoutUsers_roles_updated_byTousersNestedInput
+  roles_permissions_roles_permissions_created_byTousers: roles_permissionsUpdateManyWithoutUsers_roles_permissions_created_byTousersNestedInput
+  roles_permissions_roles_permissions_updated_byTousers: roles_permissionsUpdateManyWithoutUsers_roles_permissions_updated_byTousersNestedInput
+  users_permissions_usersTousers_permissions_created_by: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_created_byNestedInput
+  users_permissions_usersTousers_permissions_updated_by: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_updated_byNestedInput
+  users_permissions_usersTousers_permissions_user_id: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_user_idNestedInput
+  users_roles_usersTousers_roles_created_by: users_rolesUpdateManyWithoutUsers_usersTousers_roles_created_byNestedInput
+  users_roles_usersTousers_roles_updated_by: users_rolesUpdateManyWithoutUsers_usersTousers_roles_updated_byNestedInput
+  users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
+  post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
+  post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
+  city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
+  city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+}
+
+input post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput {
+  create: [post_prop_typesCreateWithoutUsers_post_prop_types_updated_byTousersInput!]
+  connectOrCreate: [post_prop_typesCreateOrConnectWithoutUsers_post_prop_types_updated_byTousersInput!]
+  upsert: [post_prop_typesUpsertWithWhereUniqueWithoutUsers_post_prop_types_updated_byTousersInput!]
+  createMany: post_prop_typesCreateManyUsers_post_prop_types_updated_byTousersInputEnvelope
+  set: [post_prop_typesWhereUniqueInput!]
+  disconnect: [post_prop_typesWhereUniqueInput!]
+  delete: [post_prop_typesWhereUniqueInput!]
+  connect: [post_prop_typesWhereUniqueInput!]
+  update: [post_prop_typesUpdateWithWhereUniqueWithoutUsers_post_prop_types_updated_byTousersInput!]
+  updateMany: [post_prop_typesUpdateManyWithWhereWithoutUsers_post_prop_types_updated_byTousersInput!]
+  deleteMany: [post_prop_typesScalarWhereInput!]
+}
+
+input post_prop_typesUpsertWithWhereUniqueWithoutUsers_post_prop_types_updated_byTousersInput {
+  where: post_prop_typesWhereUniqueInput!
+  update: post_prop_typesUpdateWithoutUsers_post_prop_types_updated_byTousersInput!
+  create: post_prop_typesCreateWithoutUsers_post_prop_types_updated_byTousersInput!
+}
+
+input post_prop_typesUpdateWithoutUsers_post_prop_types_updated_byTousersInput {
+  id: String
+  sale_type: sale_type
+  name: String
+  type: type
+  created_at: DateTime
+  updated_at: DateTime
+  users_post_prop_types_created_byTousers: usersUpdateOneWithoutPost_prop_types_created_byTousersNestedInput
+}
+
+input usersUpdateOneWithoutPost_prop_types_created_byTousersNestedInput {
+  create: usersCreateWithoutPost_prop_types_created_byTousersInput
+  connectOrCreate: usersCreateOrConnectWithoutPost_prop_types_created_byTousersInput
+  upsert: usersUpsertWithoutPost_prop_types_created_byTousersInput
+  disconnect: Boolean
+  delete: Boolean
+  connect: usersWhereUniqueInput
+  update: usersUpdateWithoutPost_prop_types_created_byTousersInput
+}
+
+input usersUpsertWithoutPost_prop_types_created_byTousersInput {
+  update: usersUpdateWithoutPost_prop_types_created_byTousersInput!
+  create: usersCreateWithoutPost_prop_types_created_byTousersInput!
+}
+
+input usersUpdateWithoutPost_prop_types_created_byTousersInput {
+  id: String
+  phone: String
+  first_name: String
+  last_name: String
+  password: String
+  is_super_user: Boolean
+  status: user_status
+  created_at: DateTime
+  updated_at: DateTime
+  otp: otpUpdateManyWithoutUsersNestedInput
+  permissions_permissions_created_byTousers: permissionsUpdateManyWithoutUsers_permissions_created_byTousersNestedInput
+  permissions_permissions_updated_byTousers: permissionsUpdateManyWithoutUsers_permissions_updated_byTousersNestedInput
+  post_post_created_byTousers: postUpdateManyWithoutUsers_post_created_byTousersNestedInput
+  post_updated_byTousers: postUpdateManyWithoutUsers_post_updated_byTousersNestedInput
+  post_post_user_idTousers: postUpdateManyWithoutUsers_post_user_idTousersNestedInput
+  roles_roles_created_byTousers: rolesUpdateManyWithoutUsers_roles_created_byTousersNestedInput
+  roles_roles_updated_byTousers: rolesUpdateManyWithoutUsers_roles_updated_byTousersNestedInput
+  roles_permissions_roles_permissions_created_byTousers: roles_permissionsUpdateManyWithoutUsers_roles_permissions_created_byTousersNestedInput
+  roles_permissions_roles_permissions_updated_byTousers: roles_permissionsUpdateManyWithoutUsers_roles_permissions_updated_byTousersNestedInput
+  users_permissions_usersTousers_permissions_created_by: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_created_byNestedInput
+  users_permissions_usersTousers_permissions_updated_by: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_updated_byNestedInput
+  users_permissions_usersTousers_permissions_user_id: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_user_idNestedInput
+  users_roles_usersTousers_roles_created_by: users_rolesUpdateManyWithoutUsers_usersTousers_roles_created_byNestedInput
+  users_roles_usersTousers_roles_updated_by: users_rolesUpdateManyWithoutUsers_usersTousers_roles_updated_byNestedInput
+  users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
+  post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
+  delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
+  city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
+  city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+}
+
+input delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput {
+  create: [delivery_pricingCreateWithoutUsers_delivery_pricing_updated_byTousersInput!]
+  connectOrCreate: [delivery_pricingCreateOrConnectWithoutUsers_delivery_pricing_updated_byTousersInput!]
+  upsert: [delivery_pricingUpsertWithWhereUniqueWithoutUsers_delivery_pricing_updated_byTousersInput!]
+  createMany: delivery_pricingCreateManyUsers_delivery_pricing_updated_byTousersInputEnvelope
+  set: [delivery_pricingWhereUniqueInput!]
+  disconnect: [delivery_pricingWhereUniqueInput!]
+  delete: [delivery_pricingWhereUniqueInput!]
+  connect: [delivery_pricingWhereUniqueInput!]
+  update: [delivery_pricingUpdateWithWhereUniqueWithoutUsers_delivery_pricing_updated_byTousersInput!]
+  updateMany: [delivery_pricingUpdateManyWithWhereWithoutUsers_delivery_pricing_updated_byTousersInput!]
+  deleteMany: [delivery_pricingScalarWhereInput!]
+}
+
+input delivery_pricingUpsertWithWhereUniqueWithoutUsers_delivery_pricing_updated_byTousersInput {
+  where: delivery_pricingWhereUniqueInput!
+  update: delivery_pricingUpdateWithoutUsers_delivery_pricing_updated_byTousersInput!
+  create: delivery_pricingCreateWithoutUsers_delivery_pricing_updated_byTousersInput!
+}
+
+input delivery_pricingUpdateWithoutUsers_delivery_pricing_updated_byTousersInput {
+  id: String
+  active: Boolean
+  default: Boolean
+  name: String
+  drive_type: drive_type
+  days: [String!]
+  start_time: String
+  end_time: String
+  min_price: Int
+  rules: JSON
+  price_per_km: Int
+  created_at: DateTime
+  updated_at: DateTime
+  updated_by: String
+  users_delivery_pricing_created_byTousers: usersUpdateOneWithoutDelivery_pricing_created_byTousersNestedInput
+}
+
+input usersUpdateOneWithoutDelivery_pricing_created_byTousersNestedInput {
+  create: usersCreateWithoutDelivery_pricing_created_byTousersInput
+  connectOrCreate: usersCreateOrConnectWithoutDelivery_pricing_created_byTousersInput
+  upsert: usersUpsertWithoutDelivery_pricing_created_byTousersInput
+  disconnect: Boolean
+  delete: Boolean
+  connect: usersWhereUniqueInput
+  update: usersUpdateWithoutDelivery_pricing_created_byTousersInput
+}
+
+input usersUpsertWithoutDelivery_pricing_created_byTousersInput {
+  update: usersUpdateWithoutDelivery_pricing_created_byTousersInput!
+  create: usersCreateWithoutDelivery_pricing_created_byTousersInput!
+}
+
+input usersUpdateWithoutDelivery_pricing_created_byTousersInput {
+  id: String
+  phone: String
+  first_name: String
+  last_name: String
+  password: String
+  is_super_user: Boolean
+  status: user_status
+  created_at: DateTime
+  updated_at: DateTime
+  otp: otpUpdateManyWithoutUsersNestedInput
+  permissions_permissions_created_byTousers: permissionsUpdateManyWithoutUsers_permissions_created_byTousersNestedInput
+  permissions_permissions_updated_byTousers: permissionsUpdateManyWithoutUsers_permissions_updated_byTousersNestedInput
+  post_post_created_byTousers: postUpdateManyWithoutUsers_post_created_byTousersNestedInput
+  post_updated_byTousers: postUpdateManyWithoutUsers_post_updated_byTousersNestedInput
+  post_post_user_idTousers: postUpdateManyWithoutUsers_post_user_idTousersNestedInput
+  roles_roles_created_byTousers: rolesUpdateManyWithoutUsers_roles_created_byTousersNestedInput
+  roles_roles_updated_byTousers: rolesUpdateManyWithoutUsers_roles_updated_byTousersNestedInput
+  roles_permissions_roles_permissions_created_byTousers: roles_permissionsUpdateManyWithoutUsers_roles_permissions_created_byTousersNestedInput
+  roles_permissions_roles_permissions_updated_byTousers: roles_permissionsUpdateManyWithoutUsers_roles_permissions_updated_byTousersNestedInput
+  users_permissions_usersTousers_permissions_created_by: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_created_byNestedInput
+  users_permissions_usersTousers_permissions_updated_by: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_updated_byNestedInput
+  users_permissions_usersTousers_permissions_user_id: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_user_idNestedInput
+  users_roles_usersTousers_roles_created_by: users_rolesUpdateManyWithoutUsers_usersTousers_roles_created_byNestedInput
+  users_roles_usersTousers_roles_updated_by: users_rolesUpdateManyWithoutUsers_usersTousers_roles_updated_byNestedInput
+  users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
+  post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
+  post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
+  city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
+  city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
 }
 
 input cityUpdateManyWithoutUsers_city_created_byTousersNestedInput {
@@ -4738,114 +5225,9 @@ input usersUpdateWithoutCity_updated_byTousersInput {
   users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
   post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
   post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
+  delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
-}
-
-input post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput {
-  create: [post_prop_typesCreateWithoutUsers_post_prop_types_updated_byTousersInput!]
-  connectOrCreate: [post_prop_typesCreateOrConnectWithoutUsers_post_prop_types_updated_byTousersInput!]
-  upsert: [post_prop_typesUpsertWithWhereUniqueWithoutUsers_post_prop_types_updated_byTousersInput!]
-  createMany: post_prop_typesCreateManyUsers_post_prop_types_updated_byTousersInputEnvelope
-  set: [post_prop_typesWhereUniqueInput!]
-  disconnect: [post_prop_typesWhereUniqueInput!]
-  delete: [post_prop_typesWhereUniqueInput!]
-  connect: [post_prop_typesWhereUniqueInput!]
-  update: [post_prop_typesUpdateWithWhereUniqueWithoutUsers_post_prop_types_updated_byTousersInput!]
-  updateMany: [post_prop_typesUpdateManyWithWhereWithoutUsers_post_prop_types_updated_byTousersInput!]
-  deleteMany: [post_prop_typesScalarWhereInput!]
-}
-
-input post_prop_typesUpsertWithWhereUniqueWithoutUsers_post_prop_types_updated_byTousersInput {
-  where: post_prop_typesWhereUniqueInput!
-  update: post_prop_typesUpdateWithoutUsers_post_prop_types_updated_byTousersInput!
-  create: post_prop_typesCreateWithoutUsers_post_prop_types_updated_byTousersInput!
-}
-
-input post_prop_typesUpdateWithoutUsers_post_prop_types_updated_byTousersInput {
-  id: String
-  sale_type: sale_type
-  name: String
-  type: type
-  created_at: DateTime
-  updated_at: DateTime
-  users_post_prop_types_created_byTousers: usersUpdateOneWithoutPost_prop_types_created_byTousersNestedInput
-}
-
-input usersUpdateOneWithoutPost_prop_types_created_byTousersNestedInput {
-  create: usersCreateWithoutPost_prop_types_created_byTousersInput
-  connectOrCreate: usersCreateOrConnectWithoutPost_prop_types_created_byTousersInput
-  upsert: usersUpsertWithoutPost_prop_types_created_byTousersInput
-  disconnect: Boolean
-  delete: Boolean
-  connect: usersWhereUniqueInput
-  update: usersUpdateWithoutPost_prop_types_created_byTousersInput
-}
-
-input usersUpsertWithoutPost_prop_types_created_byTousersInput {
-  update: usersUpdateWithoutPost_prop_types_created_byTousersInput!
-  create: usersCreateWithoutPost_prop_types_created_byTousersInput!
-}
-
-input usersUpdateWithoutPost_prop_types_created_byTousersInput {
-  id: String
-  phone: String
-  first_name: String
-  last_name: String
-  password: String
-  is_super_user: Boolean
-  status: user_status
-  created_at: DateTime
-  updated_at: DateTime
-  otp: otpUpdateManyWithoutUsersNestedInput
-  permissions_permissions_created_byTousers: permissionsUpdateManyWithoutUsers_permissions_created_byTousersNestedInput
-  permissions_permissions_updated_byTousers: permissionsUpdateManyWithoutUsers_permissions_updated_byTousersNestedInput
-  post_post_created_byTousers: postUpdateManyWithoutUsers_post_created_byTousersNestedInput
-  post_updated_byTousers: postUpdateManyWithoutUsers_post_updated_byTousersNestedInput
-  post_post_user_idTousers: postUpdateManyWithoutUsers_post_user_idTousersNestedInput
-  roles_roles_created_byTousers: rolesUpdateManyWithoutUsers_roles_created_byTousersNestedInput
-  roles_roles_updated_byTousers: rolesUpdateManyWithoutUsers_roles_updated_byTousersNestedInput
-  roles_permissions_roles_permissions_created_byTousers: roles_permissionsUpdateManyWithoutUsers_roles_permissions_created_byTousersNestedInput
-  roles_permissions_roles_permissions_updated_byTousers: roles_permissionsUpdateManyWithoutUsers_roles_permissions_updated_byTousersNestedInput
-  users_permissions_usersTousers_permissions_created_by: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_created_byNestedInput
-  users_permissions_usersTousers_permissions_updated_by: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_updated_byNestedInput
-  users_permissions_usersTousers_permissions_user_id: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_user_idNestedInput
-  users_roles_usersTousers_roles_created_by: users_rolesUpdateManyWithoutUsers_usersTousers_roles_created_byNestedInput
-  users_roles_usersTousers_roles_updated_by: users_rolesUpdateManyWithoutUsers_usersTousers_roles_updated_byNestedInput
-  users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
-  post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
-  city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
-  city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
-}
-
-input cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput {
-  create: [cityCreateWithoutUsers_city_updated_byTousersInput!]
-  connectOrCreate: [cityCreateOrConnectWithoutUsers_city_updated_byTousersInput!]
-  upsert: [cityUpsertWithWhereUniqueWithoutUsers_city_updated_byTousersInput!]
-  createMany: cityCreateManyUsers_city_updated_byTousersInputEnvelope
-  set: [cityWhereUniqueInput!]
-  disconnect: [cityWhereUniqueInput!]
-  delete: [cityWhereUniqueInput!]
-  connect: [cityWhereUniqueInput!]
-  update: [cityUpdateWithWhereUniqueWithoutUsers_city_updated_byTousersInput!]
-  updateMany: [cityUpdateManyWithWhereWithoutUsers_city_updated_byTousersInput!]
-  deleteMany: [cityScalarWhereInput!]
-}
-
-input cityUpsertWithWhereUniqueWithoutUsers_city_updated_byTousersInput {
-  where: cityWhereUniqueInput!
-  update: cityUpdateWithoutUsers_city_updated_byTousersInput!
-  create: cityCreateWithoutUsers_city_updated_byTousersInput!
-}
-
-input cityUpdateWithoutUsers_city_updated_byTousersInput {
-  id: String
-  name: String
-  created_at: DateTime
-  updated_at: DateTime
-  users_city_created_byTousers: usersUpdateOneWithoutCity_created_byTousersNestedInput
-  users_city_parent_idTousers: cityUpdateOneWithoutCity_parent_idTocityNestedInput
-  post_city_idTocity: postUpdateManyWithoutCity_city_idTocityNestedInput
-  city_parent_idTocity: cityUpdateManyWithoutUsers_city_parent_idTousersNestedInput
 }
 
 input cityUpdateOneWithoutCity_parent_idTocityNestedInput {
@@ -4951,97 +5333,41 @@ input usersUpdateWithoutPost_post_user_idTousersInput {
   users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
   post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
   post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
+  delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
 }
 
-input usersUpdateOneRequiredWithoutPost_post_user_idTousersNestedInput {
-  create: usersCreateWithoutPost_post_user_idTousersInput
-  connectOrCreate: usersCreateOrConnectWithoutPost_post_user_idTousersInput
-  upsert: usersUpsertWithoutPost_post_user_idTousersInput
-  connect: usersWhereUniqueInput
-  update: usersUpdateWithoutPost_post_user_idTousersInput
+input cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput {
+  create: [cityCreateWithoutUsers_city_updated_byTousersInput!]
+  connectOrCreate: [cityCreateOrConnectWithoutUsers_city_updated_byTousersInput!]
+  upsert: [cityUpsertWithWhereUniqueWithoutUsers_city_updated_byTousersInput!]
+  createMany: cityCreateManyUsers_city_updated_byTousersInputEnvelope
+  set: [cityWhereUniqueInput!]
+  disconnect: [cityWhereUniqueInput!]
+  delete: [cityWhereUniqueInput!]
+  connect: [cityWhereUniqueInput!]
+  update: [cityUpdateWithWhereUniqueWithoutUsers_city_updated_byTousersInput!]
+  updateMany: [cityUpdateManyWithWhereWithoutUsers_city_updated_byTousersInput!]
+  deleteMany: [cityScalarWhereInput!]
 }
 
-input usersUpsertWithoutPost_post_user_idTousersInput {
-  update: usersUpdateWithoutPost_post_user_idTousersInput!
-  create: usersCreateWithoutPost_post_user_idTousersInput!
+input cityUpsertWithWhereUniqueWithoutUsers_city_updated_byTousersInput {
+  where: cityWhereUniqueInput!
+  update: cityUpdateWithoutUsers_city_updated_byTousersInput!
+  create: cityCreateWithoutUsers_city_updated_byTousersInput!
 }
 
-input usersUpdateWithoutPost_post_user_idTousersInput {
+input cityUpdateWithoutUsers_city_updated_byTousersInput {
   id: String
-  phone: String
-  first_name: String
-  last_name: String
-  password: String
-  is_super_user: Boolean
-  status: user_status
+  name: String
   created_at: DateTime
   updated_at: DateTime
-  otp: otpUpdateManyWithoutUsersNestedInput
-  permissions_permissions_created_byTousers: permissionsUpdateManyWithoutUsers_permissions_created_byTousersNestedInput
-  permissions_permissions_updated_byTousers: permissionsUpdateManyWithoutUsers_permissions_updated_byTousersNestedInput
-  post_post_created_byTousers: postUpdateManyWithoutUsers_post_created_byTousersNestedInput
-  post_updated_byTousers: postUpdateManyWithoutUsers_post_updated_byTousersNestedInput
-  roles_roles_created_byTousers: rolesUpdateManyWithoutUsers_roles_created_byTousersNestedInput
-  roles_roles_updated_byTousers: rolesUpdateManyWithoutUsers_roles_updated_byTousersNestedInput
-  roles_permissions_roles_permissions_created_byTousers: roles_permissionsUpdateManyWithoutUsers_roles_permissions_created_byTousersNestedInput
-  roles_permissions_roles_permissions_updated_byTousers: roles_permissionsUpdateManyWithoutUsers_roles_permissions_updated_byTousersNestedInput
-  users_permissions_usersTousers_permissions_created_by: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_created_byNestedInput
-  users_permissions_usersTousers_permissions_updated_by: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_updated_byNestedInput
-  users_permissions_usersTousers_permissions_user_id: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_user_idNestedInput
-  users_roles_usersTousers_roles_created_by: users_rolesUpdateManyWithoutUsers_usersTousers_roles_created_byNestedInput
-  users_roles_usersTousers_roles_updated_by: users_rolesUpdateManyWithoutUsers_usersTousers_roles_updated_byNestedInput
-  users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
-  post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
-  post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
-  city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
-  city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
-}
-
-input postUpdateWithWhereUniqueWithoutCity_city_idTocityInput {
-  where: postWhereUniqueInput!
-  data: postUpdateWithoutCity_city_idTocityInput!
-}
-
-input postUpdateManyWithWhereWithoutCity_city_idTocityInput {
-  where: postScalarWhereInput!
-  data: postUpdateManyMutationInput!
-}
-
-input postScalarWhereInput {
-  AND: [postScalarWhereInput!]
-  OR: [postScalarWhereInput!]
-  NOT: [postScalarWhereInput!]
-  id: StringFilter
-  user_id: StringFilter
-  created_at: DateTimeFilter
-  updated_at: DateTimeFilter
-  created_by: StringNullableFilter
-  updated_by: StringNullableFilter
-  price: IntFilter
-  price_type: Enumprice_typeFilter
-  status: EnumstatusFilter
-  sale_type: Enumsale_typeFilter
-  latitude: FloatFilter
-  longitude: FloatFilter
-  address: StringFilter
-  comments_count: IntFilter
-  city_id: StringFilter
-}
-
-input postUpdateManyMutationInput {
-  id: String
-  created_at: DateTime
-  updated_at: DateTime
-  price: Int
-  price_type: price_type
-  status: status
-  sale_type: sale_type
-  latitude: Float
-  longitude: Float
-  address: String
-  comments_count: Int
+  users_city_created_byTousers: usersUpdateOneWithoutCity_created_byTousersNestedInput
+  users_city_parent_idTousers: cityUpdateOneWithoutCity_parent_idTocityNestedInput
+  post_city_idTocity: postUpdateManyWithoutCity_city_idTocityNestedInput
+  city_parent_idTocity: cityUpdateManyWithoutUsers_city_parent_idTousersNestedInput
 }
 
 input cityUpdateManyWithoutUsers_city_parent_idTousersNestedInput {
@@ -5115,6 +5441,109 @@ input cityUpdateManyWithWhereWithoutUsers_city_updated_byTousersInput {
   data: cityUpdateManyMutationInput!
 }
 
+input postUpdateWithWhereUniqueWithoutCity_city_idTocityInput {
+  where: postWhereUniqueInput!
+  data: postUpdateWithoutCity_city_idTocityInput!
+}
+
+input postUpdateManyWithWhereWithoutCity_city_idTocityInput {
+  where: postScalarWhereInput!
+  data: postUpdateManyMutationInput!
+}
+
+input postScalarWhereInput {
+  AND: [postScalarWhereInput!]
+  OR: [postScalarWhereInput!]
+  NOT: [postScalarWhereInput!]
+  id: StringFilter
+  user_id: StringFilter
+  created_at: DateTimeFilter
+  updated_at: DateTimeFilter
+  created_by: StringNullableFilter
+  updated_by: StringNullableFilter
+  price: IntFilter
+  price_type: Enumprice_typeFilter
+  status: EnumstatusFilter
+  sale_type: Enumsale_typeFilter
+  latitude: FloatFilter
+  longitude: FloatFilter
+  address: StringFilter
+  comments_count: IntFilter
+  city_id: StringFilter
+}
+
+input postUpdateManyMutationInput {
+  id: String
+  created_at: DateTime
+  updated_at: DateTime
+  price: Int
+  price_type: price_type
+  status: status
+  sale_type: sale_type
+  latitude: Float
+  longitude: Float
+  address: String
+  comments_count: Int
+}
+
+input cityUpdateWithWhereUniqueWithoutUsers_city_created_byTousersInput {
+  where: cityWhereUniqueInput!
+  data: cityUpdateWithoutUsers_city_created_byTousersInput!
+}
+
+input cityUpdateManyWithWhereWithoutUsers_city_created_byTousersInput {
+  where: cityScalarWhereInput!
+  data: cityUpdateManyMutationInput!
+}
+
+input delivery_pricingUpdateWithWhereUniqueWithoutUsers_delivery_pricing_updated_byTousersInput {
+  where: delivery_pricingWhereUniqueInput!
+  data: delivery_pricingUpdateWithoutUsers_delivery_pricing_updated_byTousersInput!
+}
+
+input delivery_pricingUpdateManyWithWhereWithoutUsers_delivery_pricing_updated_byTousersInput {
+  where: delivery_pricingScalarWhereInput!
+  data: delivery_pricingUpdateManyMutationInput!
+}
+
+input delivery_pricingScalarWhereInput {
+  AND: [delivery_pricingScalarWhereInput!]
+  OR: [delivery_pricingScalarWhereInput!]
+  NOT: [delivery_pricingScalarWhereInput!]
+  id: StringFilter
+  active: BoolFilter
+  default: BoolFilter
+  name: StringFilter
+  drive_type: Enumdrive_typeFilter
+  days: StringNullableListFilter
+  start_time: StringFilter
+  end_time: StringFilter
+  min_price: IntNullableFilter
+  rules: JsonFilter
+  price_per_km: IntFilter
+  created_at: DateTimeFilter
+  updated_at: DateTimeFilter
+  created_by: StringNullableFilter
+  updated_by: StringNullableFilter
+}
+
+input delivery_pricingUpdateManyMutationInput {
+  id: String
+  active: Boolean
+  default: Boolean
+  name: String
+  drive_type: drive_type
+  days: [String!]
+  start_time: String
+  end_time: String
+  min_price: Int
+  rules: JSON
+  price_per_km: Int
+  created_at: DateTime
+  updated_at: DateTime
+  updated_by: String
+}
+
 input post_prop_typesUpdateWithWhereUniqueWithoutUsers_post_prop_types_updated_byTousersInput {
   where: post_prop_typesWhereUniqueInput!
   data: post_prop_typesUpdateWithoutUsers_post_prop_types_updated_byTousersInput!
@@ -5148,14 +5577,14 @@ input post_prop_typesUpdateManyMutationInput {
   updated_at: DateTime
 }
 
-input cityUpdateWithWhereUniqueWithoutUsers_city_created_byTousersInput {
-  where: cityWhereUniqueInput!
-  data: cityUpdateWithoutUsers_city_created_byTousersInput!
+input delivery_pricingUpdateWithWhereUniqueWithoutUsers_delivery_pricing_created_byTousersInput {
+  where: delivery_pricingWhereUniqueInput!
+  data: delivery_pricingUpdateWithoutUsers_delivery_pricing_created_byTousersInput!
 }
 
-input cityUpdateManyWithWhereWithoutUsers_city_created_byTousersInput {
-  where: cityScalarWhereInput!
-  data: cityUpdateManyMutationInput!
+input delivery_pricingUpdateManyWithWhereWithoutUsers_delivery_pricing_created_byTousersInput {
+  where: delivery_pricingScalarWhereInput!
+  data: delivery_pricingUpdateManyMutationInput!
 }
 
 input post_prop_typesUpdateWithWhereUniqueWithoutUsers_post_prop_types_created_byTousersInput {
@@ -5472,8 +5901,6 @@ input permissionsUpdateManyWithWhereWithoutUsers_permissions_created_byTousersIn
   data: permissionsUpdateManyMutationInput!
 }
 
-<<<<<<< HEAD
-=======
 input roles_permissionsCreateInput {
   users_roles_permissions_created_byTousers: usersCreateNestedOneWithoutRoles_permissions_roles_permissions_created_byTousersInput
   permissions: permissionsCreateNestedOneWithoutRoles_permissionsInput!
@@ -5488,7 +5915,6 @@ input roles_permissionsUpdateInput {
   users_roles_permissions_updated_byTousers: usersUpdateOneWithoutRoles_permissions_roles_permissions_updated_byTousersNestedInput
 }
 
->>>>>>> 8dad1099b5a10bb8bc546d829ed47a155a9cce7c
 input permissionsCreateInput {
   id: String
   slug: String!
@@ -5524,4 +5950,42 @@ input UpdateAuthInput {
   """Example field (placeholder)"""
   exampleField: Int
   id: Int!
+}
+
+input delivery_pricingCreateInput {
+  id: String
+  active: Boolean
+  default: Boolean
+  name: String!
+  drive_type: drive_type
+  days: [String!]
+  start_time: String!
+  end_time: String!
+  min_price: Int
+  rules: JSON!
+  price_per_km: Int
+  created_at: DateTime
+  updated_at: DateTime
+  updated_by: String
+  users_delivery_pricing_created_byTousers: usersCreateNestedOneWithoutDelivery_pricing_created_byTousersInput
+  users_delivery_pricing_updated_byTousers: usersCreateNestedOneWithoutDelivery_pricing_updated_byTousersInput
+}
+
+input delivery_pricingUpdateInput {
+  id: String
+  active: Boolean
+  default: Boolean
+  name: String
+  drive_type: drive_type
+  days: [String!]
+  start_time: String
+  end_time: String
+  min_price: Int
+  rules: JSON
+  price_per_km: Int
+  created_at: DateTime
+  updated_at: DateTime
+  updated_by: String
+  users_delivery_pricing_created_byTousers: usersUpdateOneWithoutDelivery_pricing_created_byTousersNestedInput
+  users_delivery_pricing_updated_byTousers: usersUpdateOneWithoutDelivery_pricing_updated_byTousersNestedInput
 }

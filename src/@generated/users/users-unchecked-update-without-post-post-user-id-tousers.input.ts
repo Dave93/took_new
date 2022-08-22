@@ -18,6 +18,8 @@ import { users_rolesUncheckedUpdateManyWithoutUsers_usersTousers_roles_updated_b
 import { users_rolesUncheckedUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput } from '../users-roles/users-roles-unchecked-update-many-without-users-users-tousers-roles-user-id-nested.input';
 import { post_prop_typesUncheckedUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput } from '../post-prop-types/post-prop-types-unchecked-update-many-without-users-post-prop-types-created-by-tousers-nested.input';
 import { post_prop_typesUncheckedUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput } from '../post-prop-types/post-prop-types-unchecked-update-many-without-users-post-prop-types-updated-by-tousers-nested.input';
+import { delivery_pricingUncheckedUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput } from '../delivery-pricing/delivery-pricing-unchecked-update-many-without-users-delivery-pricing-created-by-tousers-nested.input';
+import { delivery_pricingUncheckedUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput } from '../delivery-pricing/delivery-pricing-unchecked-update-many-without-users-delivery-pricing-updated-by-tousers-nested.input';
 import { cityUncheckedUpdateManyWithoutUsers_city_created_byTousersNestedInput } from '../city/city-unchecked-update-many-without-users-city-created-by-tousers-nested.input';
 import { cityUncheckedUpdateManyWithoutUsers_city_updated_byTousersNestedInput } from '../city/city-unchecked-update-many-without-users-city-updated-by-tousers-nested.input';
 
@@ -101,6 +103,12 @@ export class usersUncheckedUpdateWithoutPost_post_user_idTousersInput {
 
     @Field(() => post_prop_typesUncheckedUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput, {nullable:true})
     post_prop_types_updated_byTousers?: post_prop_typesUncheckedUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput;
+
+    @Field(() => delivery_pricingUncheckedUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput, {nullable:true})
+    delivery_pricing_created_byTousers?: delivery_pricingUncheckedUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput;
+
+    @Field(() => delivery_pricingUncheckedUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput, {nullable:true})
+    delivery_pricing_updated_byTousers?: delivery_pricingUncheckedUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput;
 
     @Field(() => cityUncheckedUpdateManyWithoutUsers_city_created_byTousersNestedInput, {nullable:true})
     city_created_byTousers?: cityUncheckedUpdateManyWithoutUsers_city_created_byTousersNestedInput;

@@ -114,6 +114,8 @@ model users {
   users_roles_usersTousers_roles_user_id                users_roles[]       @relation("usersTousers_roles_user_id")
   post_prop_types_created_byTousers                       post_prop_types[]         @relation("post_prop_types_created_byTousers")
   post_prop_types_updated_byTousers                       post_prop_types[]         @relation("post_prop_types_updated_byTousers")
+  delivery_pricing_created_byTousers                       delivery_pricing[]         @relation("delivery_pricing_created_byTousers")
+  delivery_pricing_updated_byTousers                       delivery_pricing[]         @relation("delivery_pricing_updated_byTousers")
   city_created_byTousers                                 city[]                 @relation("city_created_byTousers")
   city_updated_byTousers                                 city[]                 @relation("city_updated_byTousers")
 }
@@ -207,7 +209,29 @@ model delivery_pricing {
   id                           String   @id(map: "PK_delivery_pricing_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   active                       Boolean  @default(true)
   default                      Boolean  @default(false)
-  
+  name                         String
+  drive_type                   drive_type @default(car)
+  days                         String[]
+  start_time                   String
+  end_time                     String
+  min_price                    Int?
+  rules                        Json
+  price_per_km                 Int      @default(0)
+  created_at                   DateTime @default(now()) @db.Timestamp(6)
+  updated_at                   DateTime @default(now()) @db.Timestamp(6)
+  created_by                   String?  @db.Uuid
+  updated_by                   String?  @db.Uuid
+  users_delivery_pricing_created_byTousers users? @relation("delivery_pricing_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_delivery_pricing_created_by")
+  users_delivery_pricing_updated_byTousers users? @relation("delivery_pricing_updated_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_delivery_pricing_updated_by")
+
+  @@index([created_by], map: "fki_FK_delivery_pricing_created_by")
+  @@index([updated_by], map: "fki_FK_delivery_pricing_updated_by")
+}
+
+enum drive_type {
+  car
+  bike
+  floot
 }
 
 enum user_status {

@@ -13,6 +13,7 @@ import { Roles_permissionsListRelationFilter } from '../prisma/roles-permissions
 import { Users_permissionsListRelationFilter } from '../prisma/users-permissions-list-relation-filter.input';
 import { Users_rolesListRelationFilter } from '../prisma/users-roles-list-relation-filter.input';
 import { Post_prop_typesListRelationFilter } from '../prisma/post-prop-types-list-relation-filter.input';
+import { Delivery_pricingListRelationFilter } from '../prisma/delivery-pricing-list-relation-filter.input';
 import { CityListRelationFilter } from '../prisma/city-list-relation-filter.input';
 
 @InputType()
@@ -107,6 +108,12 @@ export class usersWhereInput {
 
     @Field(() => Post_prop_typesListRelationFilter, {nullable:true})
     post_prop_types_updated_byTousers?: Post_prop_typesListRelationFilter;
+
+    @Field(() => Delivery_pricingListRelationFilter, {nullable:true})
+    delivery_pricing_created_byTousers?: Delivery_pricingListRelationFilter;
+
+    @Field(() => Delivery_pricingListRelationFilter, {nullable:true})
+    delivery_pricing_updated_byTousers?: Delivery_pricingListRelationFilter;
 
     @Field(() => CityListRelationFilter, {nullable:true})
     city_created_byTousers?: CityListRelationFilter;

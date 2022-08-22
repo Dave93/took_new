@@ -19,6 +19,8 @@ import { users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_updated_byIn
 import { users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput } from '../users-roles/users-roles-create-nested-many-without-users-users-tousers-roles-user-id.input';
 import { post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput } from '../post-prop-types/post-prop-types-create-nested-many-without-users-post-prop-types-created-by-tousers.input';
 import { post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput } from '../post-prop-types/post-prop-types-create-nested-many-without-users-post-prop-types-updated-by-tousers.input';
+import { delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput } from '../delivery-pricing/delivery-pricing-create-nested-many-without-users-delivery-pricing-created-by-tousers.input';
+import { delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput } from '../delivery-pricing/delivery-pricing-create-nested-many-without-users-delivery-pricing-updated-by-tousers.input';
 import { cityCreateNestedManyWithoutUsers_city_updated_byTousersInput } from '../city/city-create-nested-many-without-users-city-updated-by-tousers.input';
 
 @InputType()
@@ -104,6 +106,12 @@ export class usersCreateWithoutCity_created_byTousersInput {
 
     @Field(() => post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput, {nullable:true})
     post_prop_types_updated_byTousers?: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput;
+
+    @Field(() => delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput, {nullable:true})
+    delivery_pricing_created_byTousers?: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput;
+
+    @Field(() => delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput, {nullable:true})
+    delivery_pricing_updated_byTousers?: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput;
 
     @Field(() => cityCreateNestedManyWithoutUsers_city_updated_byTousersInput, {nullable:true})
     city_updated_byTousers?: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput;

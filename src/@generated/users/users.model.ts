@@ -10,6 +10,7 @@ import { roles_permissions } from '../roles-permissions/roles-permissions.model'
 import { users_permissions } from '../users-permissions/users-permissions.model';
 import { users_roles } from '../users-roles/users-roles.model';
 import { post_prop_types } from '../post-prop-types/post-prop-types.model';
+import { delivery_pricing } from '../delivery-pricing/delivery-pricing.model';
 import { city } from '../city/city.model';
 import { UsersCount } from '../prisma/users-count.output';
 
@@ -96,6 +97,12 @@ export class users {
 
     @Field(() => [post_prop_types], {nullable:true})
     post_prop_types_updated_byTousers?: Array<post_prop_types>;
+
+    @Field(() => [delivery_pricing], {nullable:true})
+    delivery_pricing_created_byTousers?: Array<delivery_pricing>;
+
+    @Field(() => [delivery_pricing], {nullable:true})
+    delivery_pricing_updated_byTousers?: Array<delivery_pricing>;
 
     @Field(() => [city], {nullable:true})
     city_created_byTousers?: Array<city>;
