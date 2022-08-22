@@ -14,7 +14,7 @@ export class RolesService {
   }
 
   findAll(params: FindManyrolesArgs) {
-    return this.prismaService.roles.findMany({ ...params });
+    return this.prismaService.roles.findMany(params);
   }
 
   rolesConnection(where: rolesWhereInput) {

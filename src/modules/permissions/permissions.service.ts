@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateOnepermissionsArgs } from 'src/@generated/permissions/create-onepermissions.args';
 import { FindManypermissionsArgs } from 'src/@generated/permissions/find-manypermissions.args';
-import { permissionsCreateInput } from 'src/@generated/permissions/permissions-create.input';
-import { permissionsUpdateInput } from 'src/@generated/permissions/permissions-update.input';
 import { permissionsWhereInput } from 'src/@generated/permissions/permissions-where.input';
 import { UpdateOnepermissionsArgs } from 'src/@generated/permissions/update-onepermissions.args';
 import { PrismaService } from 'src/prisma.service';

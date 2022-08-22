@@ -27,9 +27,9 @@ import { RolesModule } from '@modules/roles/roles.module';
     //   driver: MercuriusDriver,
     //   autoSchemaFile: '~schema.gql',
     // }),
+    RolesModule,
     PermissionsModule,
     AuthModule,
-    RolesModule,
     GraphQLModule.forRoot({
       driver: ApolloDriver,
       autoSchemaFile: '~schema.gql',
