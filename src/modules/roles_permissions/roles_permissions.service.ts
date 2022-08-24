@@ -1,11 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { CreateOnerolesPermissionsArgs } from 'src/@generated/prisma/create-oneroles-permissions.args';
 import { FindManyrolesPermissionsArgs } from 'src/@generated/prisma/find-manyroles-permissions.args';
 import { UpdateOnerolesPermissionsArgs } from 'src/@generated/prisma/update-oneroles-permissions.args';
 import { roles_permissionsWhereInput } from 'src/@generated/roles-permissions/roles-permissions-where.input';
+import { CreateOnerolesPermissionsArgs } from 'src/helpers/create-one.args';
 import { PrismaService } from 'src/prisma.service';
-import { CreateRolesPermissionInput } from './dto/create-roles_permission.input';
-import { UpdateRolesPermissionInput } from './dto/update-roles_permission.input';
 
 @Injectable()
 export class RolesPermissionsService {

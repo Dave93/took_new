@@ -27,11 +27,11 @@ export class delivery_pricing {
     @Field(() => [String], {nullable:true})
     days!: Array<string>;
 
-    @Field(() => String, {nullable:false})
-    start_time!: string;
+    @Field(() => Date, {nullable:false})
+    start_time!: Date;
 
-    @Field(() => String, {nullable:false})
-    end_time!: string;
+    @Field(() => Date, {nullable:false})
+    end_time!: Date;
 
     @Field(() => Int, {nullable:true})
     min_price!: number | null;
@@ -41,6 +41,9 @@ export class delivery_pricing {
 
     @Field(() => Int, {nullable:false,defaultValue:0})
     price_per_km!: number;
+
+    @Field(() => String, {nullable:false})
+    organization_id!: string;
 
     @Field(() => Date, {nullable:false})
     created_at!: Date;
@@ -59,4 +62,7 @@ export class delivery_pricing {
 
     @Field(() => users, {nullable:true})
     users_delivery_pricing_updated_byTousers?: users | null;
+
+    @Field(() => users, {nullable:false})
+    delivery_pricing_organization_idTousers?: users;
 }

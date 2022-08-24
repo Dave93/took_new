@@ -4,10 +4,10 @@ import { StringFilter } from '../prisma/string-filter.input';
 import { BoolFilter } from '../prisma/bool-filter.input';
 import { Enumdrive_typeFilter } from '../prisma/enumdrive-type-filter.input';
 import { StringNullableListFilter } from '../prisma/string-nullable-list-filter.input';
+import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { IntNullableFilter } from '../prisma/int-nullable-filter.input';
 import { JsonFilter } from '../prisma/json-filter.input';
 import { IntFilter } from '../prisma/int-filter.input';
-import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { StringNullableFilter } from '../prisma/string-nullable-filter.input';
 import { UsersRelationFilter } from '../prisma/users-relation-filter.input';
 
@@ -41,11 +41,11 @@ export class delivery_pricingWhereInput {
     @Field(() => StringNullableListFilter, {nullable:true})
     days?: StringNullableListFilter;
 
-    @Field(() => StringFilter, {nullable:true})
-    start_time?: StringFilter;
+    @Field(() => DateTimeFilter, {nullable:true})
+    start_time?: DateTimeFilter;
 
-    @Field(() => StringFilter, {nullable:true})
-    end_time?: StringFilter;
+    @Field(() => DateTimeFilter, {nullable:true})
+    end_time?: DateTimeFilter;
 
     @Field(() => IntNullableFilter, {nullable:true})
     min_price?: IntNullableFilter;
@@ -55,6 +55,9 @@ export class delivery_pricingWhereInput {
 
     @Field(() => IntFilter, {nullable:true})
     price_per_km?: IntFilter;
+
+    @Field(() => StringFilter, {nullable:true})
+    organization_id?: StringFilter;
 
     @Field(() => DateTimeFilter, {nullable:true})
     created_at?: DateTimeFilter;
@@ -73,4 +76,7 @@ export class delivery_pricingWhereInput {
 
     @Field(() => UsersRelationFilter, {nullable:true})
     users_delivery_pricing_updated_byTousers?: UsersRelationFilter;
+
+    @Field(() => UsersRelationFilter, {nullable:true})
+    delivery_pricing_organization_idTousers?: UsersRelationFilter;
 }

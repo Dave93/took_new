@@ -3,11 +3,9 @@ import { PermissionsService } from './permissions.service';
 import { permissions } from 'src/@generated/permissions/permissions.model';
 import { UpdateOnepermissionsArgs } from 'src/@generated/permissions/update-onepermissions.args';
 import { FindManypermissionsArgs } from 'src/@generated/permissions/find-manypermissions.args';
-import { permissionsCreateInput } from 'src/@generated/permissions/permissions-create.input';
-import { permissionsUpdateInput } from 'src/@generated/permissions/permissions-update.input';
 import { permissionsWhereInput } from 'src/@generated/permissions/permissions-where.input';
 import { PrismaAggregateCount } from '@common/dtos/prisma-aggregate-count';
-import { CreateOnepermissionsArgs } from 'src/@generated/permissions/create-onepermissions.args';
+import { CreateOnepermissionsArgs } from 'src/helpers/create-one.args';
 
 @Resolver(() => permissions)
 export class PermissionsResolver {

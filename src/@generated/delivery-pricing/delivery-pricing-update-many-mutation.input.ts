@@ -25,11 +25,11 @@ export class delivery_pricingUpdateManyMutationInput {
     @Field(() => [String], {nullable:true})
     days?: Array<string>;
 
-    @Field(() => String, {nullable:true})
-    start_time?: string;
+    @Field(() => Date, {nullable:true})
+    start_time?: Date | string;
 
-    @Field(() => String, {nullable:true})
-    end_time?: string;
+    @Field(() => Date, {nullable:true})
+    end_time?: Date | string;
 
     @Field(() => Int, {nullable:true})
     min_price?: number;
@@ -45,7 +45,4 @@ export class delivery_pricingUpdateManyMutationInput {
 
     @Field(() => Date, {nullable:true})
     updated_at?: Date | string;
-
-    @Field(() => String, {nullable:true})
-    updated_by?: string;
 }

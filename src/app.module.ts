@@ -13,6 +13,8 @@ import { PermissionsModule } from './modules/permissions/permissions.module';
 import { RolesModule } from '@modules/roles/roles.module';
 import { RolesPermissionsModule } from './modules/roles_permissions/roles_permissions.module';
 import { DeliveryPricingModule } from './modules/delivery_pricing/delivery_pricing.module';
+import { OrganizationsModule } from './modules/organizations/organizations.module';
+import { WorkSchedulesModule } from './modules/work_schedules/work_schedules.module';
 
 @Global()
 @Module({
@@ -38,6 +40,8 @@ import { DeliveryPricingModule } from './modules/delivery_pricing/delivery_prici
       autoSchemaFile: '~schema.gql',
     }),
     DeliveryPricingModule,
+    OrganizationsModule,
+    WorkSchedulesModule,
   ],
   providers: [PrismaService],
 })

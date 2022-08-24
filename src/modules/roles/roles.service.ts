@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { FindManycityArgs } from 'src/@generated/city/find-manycity.args';
 import { roles_permissionsWhereInput } from 'src/@generated/roles-permissions/roles-permissions-where.input';
-import { CreateOnerolesArgs } from 'src/@generated/roles/create-oneroles.args';
 import { FindManyrolesArgs } from 'src/@generated/roles/find-manyroles.args';
 import { rolesWhereInput } from 'src/@generated/roles/roles-where.input';
 import { UpdateOnerolesArgs } from 'src/@generated/roles/update-oneroles.args';
+import { CreateOnerolesArgs } from 'src/helpers/create-one.args';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()

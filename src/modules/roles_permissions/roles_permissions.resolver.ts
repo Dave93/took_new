@@ -1,14 +1,11 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { RolesPermissionsService } from './roles_permissions.service';
-import { RolesPermission } from './entities/roles_permission.entity';
-import { CreateRolesPermissionInput } from './dto/create-roles_permission.input';
-import { UpdateRolesPermissionInput } from './dto/update-roles_permission.input';
 import { roles_permissions } from 'src/@generated/roles-permissions/roles-permissions.model';
-import { CreateOnerolesPermissionsArgs } from 'src/@generated/prisma/create-oneroles-permissions.args';
 import { FindManyrolesPermissionsArgs } from 'src/@generated/prisma/find-manyroles-permissions.args';
 import { PrismaAggregateCount } from '@common/dtos/prisma-aggregate-count';
 import { roles_permissionsWhereInput } from 'src/@generated/roles-permissions/roles-permissions-where.input';
 import { UpdateOnerolesPermissionsArgs } from 'src/@generated/prisma/update-oneroles-permissions.args';
+import { CreateOnerolesPermissionsArgs } from 'src/helpers/create-one.args';
 
 @Resolver(() => roles_permissions)
 export class RolesPermissionsResolver {

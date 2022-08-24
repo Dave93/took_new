@@ -22,6 +22,11 @@ import { post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousers
 import { delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput } from '../delivery-pricing/delivery-pricing-update-many-without-users-delivery-pricing-created-by-tousers-nested.input';
 import { delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput } from '../delivery-pricing/delivery-pricing-update-many-without-users-delivery-pricing-updated-by-tousers-nested.input';
 import { cityUpdateManyWithoutUsers_city_created_byTousersNestedInput } from '../city/city-update-many-without-users-city-created-by-tousers-nested.input';
+import { organizationUpdateManyWithoutOrganization_created_byTousersNestedInput } from '../organization/organization-update-many-without-organization-created-by-tousers-nested.input';
+import { organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput } from '../organization/organization-update-many-without-organization-updated-by-tousers-nested.input';
+import { work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput } from '../work-schedules/work-schedules-update-many-without-work-schedules-created-by-tousers-nested.input';
+import { work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput } from '../work-schedules/work-schedules-update-many-without-work-schedules-updated-by-tousers-nested.input';
+import { delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput } from '../delivery-pricing/delivery-pricing-update-many-without-delivery-pricing-organization-id-tousers-nested.input';
 
 @InputType()
 export class usersUpdateWithoutCity_updated_byTousersInput {
@@ -115,4 +120,19 @@ export class usersUpdateWithoutCity_updated_byTousersInput {
 
     @Field(() => cityUpdateManyWithoutUsers_city_created_byTousersNestedInput, {nullable:true})
     city_created_byTousers?: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput;
+
+    @Field(() => organizationUpdateManyWithoutOrganization_created_byTousersNestedInput, {nullable:true})
+    organization_created_byTousers?: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput;
+
+    @Field(() => organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput, {nullable:true})
+    organization_updated_byTousers?: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput;
+
+    @Field(() => work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput, {nullable:true})
+    work_schedules_created_byTousers?: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput;
+
+    @Field(() => work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput, {nullable:true})
+    work_schedules_updated_byTousers?: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput;
+
+    @Field(() => delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput, {nullable:true})
+    delivery_pricing_organization_idTousers?: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput;
 }

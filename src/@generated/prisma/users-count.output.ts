@@ -70,4 +70,19 @@ export class UsersCount {
 
     @Field(() => Int, {nullable:false})
     city_updated_byTousers!: number;
+
+    @Field(() => Int, {nullable:false})
+    organization_created_byTousers!: number;
+
+    @Field(() => Int, {nullable:false})
+    organization_updated_byTousers!: number;
+
+    @Field(() => Int, {nullable:false})
+    work_schedules_created_byTousers!: number;
+
+    @Field(() => Int, {nullable:false})
+    work_schedules_updated_byTousers!: number;
+
+    @Field(() => Int, {nullable:false})
+    delivery_pricing_organization_idTousers!: number;
 }

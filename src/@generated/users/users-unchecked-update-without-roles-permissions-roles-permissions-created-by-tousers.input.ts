@@ -22,6 +22,11 @@ import { delivery_pricingUncheckedUpdateManyWithoutUsers_delivery_pricing_create
 import { delivery_pricingUncheckedUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput } from '../delivery-pricing/delivery-pricing-unchecked-update-many-without-users-delivery-pricing-updated-by-tousers-nested.input';
 import { cityUncheckedUpdateManyWithoutUsers_city_created_byTousersNestedInput } from '../city/city-unchecked-update-many-without-users-city-created-by-tousers-nested.input';
 import { cityUncheckedUpdateManyWithoutUsers_city_updated_byTousersNestedInput } from '../city/city-unchecked-update-many-without-users-city-updated-by-tousers-nested.input';
+import { organizationUncheckedUpdateManyWithoutOrganization_created_byTousersNestedInput } from '../organization/organization-unchecked-update-many-without-organization-created-by-tousers-nested.input';
+import { organizationUncheckedUpdateManyWithoutOrganization_updated_byTousersNestedInput } from '../organization/organization-unchecked-update-many-without-organization-updated-by-tousers-nested.input';
+import { work_schedulesUncheckedUpdateManyWithoutWork_schedules_created_byTousersNestedInput } from '../work-schedules/work-schedules-unchecked-update-many-without-work-schedules-created-by-tousers-nested.input';
+import { work_schedulesUncheckedUpdateManyWithoutWork_schedules_updated_byTousersNestedInput } from '../work-schedules/work-schedules-unchecked-update-many-without-work-schedules-updated-by-tousers-nested.input';
+import { delivery_pricingUncheckedUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput } from '../delivery-pricing/delivery-pricing-unchecked-update-many-without-delivery-pricing-organization-id-tousers-nested.input';
 
 @InputType()
 export class usersUncheckedUpdateWithoutRoles_permissions_roles_permissions_created_byTousersInput {
@@ -115,4 +120,19 @@ export class usersUncheckedUpdateWithoutRoles_permissions_roles_permissions_crea
 
     @Field(() => cityUncheckedUpdateManyWithoutUsers_city_updated_byTousersNestedInput, {nullable:true})
     city_updated_byTousers?: cityUncheckedUpdateManyWithoutUsers_city_updated_byTousersNestedInput;
+
+    @Field(() => organizationUncheckedUpdateManyWithoutOrganization_created_byTousersNestedInput, {nullable:true})
+    organization_created_byTousers?: organizationUncheckedUpdateManyWithoutOrganization_created_byTousersNestedInput;
+
+    @Field(() => organizationUncheckedUpdateManyWithoutOrganization_updated_byTousersNestedInput, {nullable:true})
+    organization_updated_byTousers?: organizationUncheckedUpdateManyWithoutOrganization_updated_byTousersNestedInput;
+
+    @Field(() => work_schedulesUncheckedUpdateManyWithoutWork_schedules_created_byTousersNestedInput, {nullable:true})
+    work_schedules_created_byTousers?: work_schedulesUncheckedUpdateManyWithoutWork_schedules_created_byTousersNestedInput;
+
+    @Field(() => work_schedulesUncheckedUpdateManyWithoutWork_schedules_updated_byTousersNestedInput, {nullable:true})
+    work_schedules_updated_byTousers?: work_schedulesUncheckedUpdateManyWithoutWork_schedules_updated_byTousersNestedInput;
+
+    @Field(() => delivery_pricingUncheckedUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput, {nullable:true})
+    delivery_pricing_organization_idTousers?: delivery_pricingUncheckedUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput;
 }

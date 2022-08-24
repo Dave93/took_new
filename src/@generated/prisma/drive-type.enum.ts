@@ -3,7 +3,7 @@ import { registerEnumType } from '@nestjs/graphql';
 export enum drive_type {
     car = "car",
     bike = "bike",
-    floot = "floot"
+    foot = "foot"
 }
 
 

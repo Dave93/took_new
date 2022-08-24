@@ -12,6 +12,8 @@ import { users_roles } from '../users-roles/users-roles.model';
 import { post_prop_types } from '../post-prop-types/post-prop-types.model';
 import { delivery_pricing } from '../delivery-pricing/delivery-pricing.model';
 import { city } from '../city/city.model';
+import { organization } from '../organization/organization.model';
+import { work_schedules } from '../work-schedules/work-schedules.model';
 import { UsersCount } from '../prisma/users-count.output';
 
 @ObjectType()
@@ -109,6 +111,21 @@ export class users {
 
     @Field(() => [city], {nullable:true})
     city_updated_byTousers?: Array<city>;
+
+    @Field(() => [organization], {nullable:true})
+    organization_created_byTousers?: Array<organization>;
+
+    @Field(() => [organization], {nullable:true})
+    organization_updated_byTousers?: Array<organization>;
+
+    @Field(() => [work_schedules], {nullable:true})
+    work_schedules_created_byTousers?: Array<work_schedules>;
+
+    @Field(() => [work_schedules], {nullable:true})
+    work_schedules_updated_byTousers?: Array<work_schedules>;
+
+    @Field(() => [delivery_pricing], {nullable:true})
+    delivery_pricing_organization_idTousers?: Array<delivery_pricing>;
 
     @Field(() => UsersCount, {nullable:false})
     _count?: UsersCount;

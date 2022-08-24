@@ -5,6 +5,7 @@ import { Int } from '@nestjs/graphql';
 import { GraphQLJSON } from 'graphql-type-json';
 import { usersCreateNestedOneWithoutDelivery_pricing_created_byTousersInput } from '../users/users-create-nested-one-without-delivery-pricing-created-by-tousers.input';
 import { usersCreateNestedOneWithoutDelivery_pricing_updated_byTousersInput } from '../users/users-create-nested-one-without-delivery-pricing-updated-by-tousers.input';
+import { usersCreateNestedOneWithoutDelivery_pricing_organization_idTousersInput } from '../users/users-create-nested-one-without-delivery-pricing-organization-id-tousers.input';
 
 @InputType()
 export class delivery_pricingCreateInput {
@@ -27,11 +28,11 @@ export class delivery_pricingCreateInput {
     @Field(() => [String], {nullable:true})
     days?: Array<string>;
 
-    @Field(() => String, {nullable:false})
-    start_time!: string;
+    @Field(() => Date, {nullable:false})
+    start_time!: Date | string;
 
-    @Field(() => String, {nullable:false})
-    end_time!: string;
+    @Field(() => Date, {nullable:false})
+    end_time!: Date | string;
 
     @Field(() => Int, {nullable:true})
     min_price?: number;
@@ -48,12 +49,12 @@ export class delivery_pricingCreateInput {
     @Field(() => Date, {nullable:true})
     updated_at?: Date | string;
 
-    @Field(() => String, {nullable:true})
-    updated_by?: string;
-
     @Field(() => usersCreateNestedOneWithoutDelivery_pricing_created_byTousersInput, {nullable:true})
     users_delivery_pricing_created_byTousers?: usersCreateNestedOneWithoutDelivery_pricing_created_byTousersInput;
 
     @Field(() => usersCreateNestedOneWithoutDelivery_pricing_updated_byTousersInput, {nullable:true})
     users_delivery_pricing_updated_byTousers?: usersCreateNestedOneWithoutDelivery_pricing_updated_byTousersInput;
+
+    @Field(() => usersCreateNestedOneWithoutDelivery_pricing_organization_idTousersInput, {nullable:false})
+    delivery_pricing_organization_idTousers!: usersCreateNestedOneWithoutDelivery_pricing_organization_idTousersInput;
 }

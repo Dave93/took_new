@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { delivery_pricingWhereInput } from 'src/@generated/delivery-pricing/delivery-pricing-where.input';
-import { CreateOnedeliveryPricingArgs } from 'src/@generated/prisma/create-onedelivery-pricing.args';
 import { FindManydeliveryPricingArgs } from 'src/@generated/prisma/find-manydelivery-pricing.args';
 import { UpdateOnedeliveryPricingArgs } from 'src/@generated/prisma/update-onedelivery-pricing.args';
+import { CreateOnedeliveryPricingArgs } from 'src/helpers/create-one.args';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()

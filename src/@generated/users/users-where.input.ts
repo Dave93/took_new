@@ -15,6 +15,8 @@ import { Users_rolesListRelationFilter } from '../prisma/users-roles-list-relati
 import { Post_prop_typesListRelationFilter } from '../prisma/post-prop-types-list-relation-filter.input';
 import { Delivery_pricingListRelationFilter } from '../prisma/delivery-pricing-list-relation-filter.input';
 import { CityListRelationFilter } from '../prisma/city-list-relation-filter.input';
+import { OrganizationListRelationFilter } from '../prisma/organization-list-relation-filter.input';
+import { Work_schedulesListRelationFilter } from '../prisma/work-schedules-list-relation-filter.input';
 
 @InputType()
 export class usersWhereInput {
@@ -120,4 +122,19 @@ export class usersWhereInput {
 
     @Field(() => CityListRelationFilter, {nullable:true})
     city_updated_byTousers?: CityListRelationFilter;
+
+    @Field(() => OrganizationListRelationFilter, {nullable:true})
+    organization_created_byTousers?: OrganizationListRelationFilter;
+
+    @Field(() => OrganizationListRelationFilter, {nullable:true})
+    organization_updated_byTousers?: OrganizationListRelationFilter;
+
+    @Field(() => Work_schedulesListRelationFilter, {nullable:true})
+    work_schedules_created_byTousers?: Work_schedulesListRelationFilter;
+
+    @Field(() => Work_schedulesListRelationFilter, {nullable:true})
+    work_schedules_updated_byTousers?: Work_schedulesListRelationFilter;
+
+    @Field(() => Delivery_pricingListRelationFilter, {nullable:true})
+    delivery_pricing_organization_idTousers?: Delivery_pricingListRelationFilter;
 }

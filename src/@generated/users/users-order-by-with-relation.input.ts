@@ -11,6 +11,8 @@ import { users_rolesOrderByRelationAggregateInput } from '../users-roles/users-r
 import { post_prop_typesOrderByRelationAggregateInput } from '../post-prop-types/post-prop-types-order-by-relation-aggregate.input';
 import { delivery_pricingOrderByRelationAggregateInput } from '../delivery-pricing/delivery-pricing-order-by-relation-aggregate.input';
 import { cityOrderByRelationAggregateInput } from '../city/city-order-by-relation-aggregate.input';
+import { organizationOrderByRelationAggregateInput } from '../organization/organization-order-by-relation-aggregate.input';
+import { work_schedulesOrderByRelationAggregateInput } from '../work-schedules/work-schedules-order-by-relation-aggregate.input';
 
 @InputType()
 export class usersOrderByWithRelationInput {
@@ -107,4 +109,19 @@ export class usersOrderByWithRelationInput {
 
     @Field(() => cityOrderByRelationAggregateInput, {nullable:true})
     city_updated_byTousers?: cityOrderByRelationAggregateInput;
+
+    @Field(() => organizationOrderByRelationAggregateInput, {nullable:true})
+    organization_created_byTousers?: organizationOrderByRelationAggregateInput;
+
+    @Field(() => organizationOrderByRelationAggregateInput, {nullable:true})
+    organization_updated_byTousers?: organizationOrderByRelationAggregateInput;
+
+    @Field(() => work_schedulesOrderByRelationAggregateInput, {nullable:true})
+    work_schedules_created_byTousers?: work_schedulesOrderByRelationAggregateInput;
+
+    @Field(() => work_schedulesOrderByRelationAggregateInput, {nullable:true})
+    work_schedules_updated_byTousers?: work_schedulesOrderByRelationAggregateInput;
+
+    @Field(() => delivery_pricingOrderByRelationAggregateInput, {nullable:true})
+    delivery_pricing_organization_idTousers?: delivery_pricingOrderByRelationAggregateInput;
 }

@@ -277,29 +277,80 @@ type delivery_pricing {
   name: String!
   drive_type: drive_type!
   days: [String!]
-  start_time: String!
-  end_time: String!
+  start_time: DateTime!
+  end_time: DateTime!
   min_price: Int
   rules: JSON!
   price_per_km: Int!
+  organization_id: String!
   created_at: DateTime!
   updated_at: DateTime!
   created_by: String
   updated_by: String
   users_delivery_pricing_created_byTousers: users
   users_delivery_pricing_updated_byTousers: users
+  delivery_pricing_organization_idTousers: users!
 }
 
 enum drive_type {
   car
   bike
-  floot
+  foot
 }
 
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
 scalar JSON
+
+type work_schedules {
+  id: ID!
+  organization_id: String!
+  organization: organization!
+  days: [String!]
+  start_time: DateTime!
+  end_time: DateTime!
+  max_start_time: DateTime!
+  created_at: DateTime!
+  updated_at: DateTime!
+  created_by: String
+  updated_by: String
+  work_schedules_created_byTousers: users
+  work_schedules_updated_byTousers: users
+}
+
+type OrganizationCount {
+  work_schedules_organization_idTorganization: Int!
+}
+
+type organization {
+  id: ID!
+  name: String!
+  active: Boolean!
+  system_type: organization_system_type!
+  phone: String!
+  webhook: String
+  group_id: String
+  apelsin_login: String
+  apelsin_password: String
+  sender_name: String
+  sender_number: String
+  description: String
+  created_at: DateTime!
+  updated_at: DateTime!
+  created_by: String
+  updated_by: String
+  work_schedules_organization_idTorganization: [work_schedules!]
+  organization_created_byTousers: users
+  organization_updated_byTousers: users
+  _count: OrganizationCount!
+}
+
+enum organization_system_type {
+  iiko
+  r_keeper
+  jowi
+}
 
 type UsersCount {
   otp: Int!
@@ -324,6 +375,11 @@ type UsersCount {
   delivery_pricing_updated_byTousers: Int!
   city_created_byTousers: Int!
   city_updated_byTousers: Int!
+  organization_created_byTousers: Int!
+  organization_updated_byTousers: Int!
+  work_schedules_created_byTousers: Int!
+  work_schedules_updated_byTousers: Int!
+  delivery_pricing_organization_idTousers: Int!
 }
 
 type users {
@@ -358,6 +414,11 @@ type users {
   delivery_pricing_updated_byTousers: [delivery_pricing!]
   city_created_byTousers: [city!]
   city_updated_byTousers: [city!]
+  organization_created_byTousers: [organization!]
+  organization_updated_byTousers: [organization!]
+  work_schedules_created_byTousers: [work_schedules!]
+  work_schedules_updated_byTousers: [work_schedules!]
+  delivery_pricing_organization_idTousers: [delivery_pricing!]
   _count: UsersCount!
 }
 
@@ -394,6 +455,16 @@ type BatchPayload {
   count: Float!
 }
 
+type Organization {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type WorkSchedule {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 type Query {
   roles(where: rolesWhereInput, orderBy: [rolesOrderByWithRelationInput!], cursor: rolesWhereUniqueInput, take: Int, skip: Int, distinct: [RolesScalarFieldEnum!]): [roles!]!
   rolesConnection(where: rolesWhereInput!): PrismaAggregateCount!
@@ -409,6 +480,12 @@ type Query {
   deliveryPricings(where: delivery_pricingWhereInput, orderBy: [delivery_pricingOrderByWithRelationInput!], cursor: delivery_pricingWhereUniqueInput, take: Int, skip: Int, distinct: [Delivery_pricingScalarFieldEnum!]): [delivery_pricing!]!
   deliveryPricingsConnection(where: delivery_pricingWhereInput!): PrismaAggregateCount!
   deliveryPricing(id: String!): delivery_pricing!
+  organizations(where: organizationWhereInput, orderBy: [organizationOrderByWithRelationInput!], cursor: organizationWhereUniqueInput, take: Int, skip: Int, distinct: [OrganizationScalarFieldEnum!]): [organization!]!
+  organizationsConnection(where: organizationWhereInput!): PrismaAggregateCount!
+  organization(id: String!): organization!
+  workSchedulesConnection(where: work_schedulesWhereInput!): PrismaAggregateCount!
+  workSchedules(where: work_schedulesWhereInput, orderBy: [work_schedulesOrderByWithRelationInput!], cursor: work_schedulesWhereUniqueInput, take: Int, skip: Int, distinct: [Work_schedulesScalarFieldEnum!]): [work_schedules!]!
+  workSchedule(id: String!): work_schedules!
 }
 
 input rolesWhereInput {
@@ -563,6 +640,11 @@ input usersWhereInput {
   delivery_pricing_updated_byTousers: Delivery_pricingListRelationFilter
   city_created_byTousers: CityListRelationFilter
   city_updated_byTousers: CityListRelationFilter
+  organization_created_byTousers: OrganizationListRelationFilter
+  organization_updated_byTousers: OrganizationListRelationFilter
+  work_schedules_created_byTousers: Work_schedulesListRelationFilter
+  work_schedules_updated_byTousers: Work_schedulesListRelationFilter
+  delivery_pricing_organization_idTousers: Delivery_pricingListRelationFilter
 }
 
 input Enumuser_statusFilter {
@@ -897,17 +979,19 @@ input delivery_pricingWhereInput {
   name: StringFilter
   drive_type: Enumdrive_typeFilter
   days: StringNullableListFilter
-  start_time: StringFilter
-  end_time: StringFilter
+  start_time: DateTimeFilter
+  end_time: DateTimeFilter
   min_price: IntNullableFilter
   rules: JsonFilter
   price_per_km: IntFilter
+  organization_id: StringFilter
   created_at: DateTimeFilter
   updated_at: DateTimeFilter
   created_by: StringNullableFilter
   updated_by: StringNullableFilter
   users_delivery_pricing_created_byTousers: UsersRelationFilter
   users_delivery_pricing_updated_byTousers: UsersRelationFilter
+  delivery_pricing_organization_idTousers: UsersRelationFilter
 }
 
 input Enumdrive_typeFilter {
@@ -970,6 +1054,81 @@ input JsonFilter {
   not: JSON
 }
 
+input OrganizationListRelationFilter {
+  every: organizationWhereInput
+  some: organizationWhereInput
+  none: organizationWhereInput
+}
+
+input organizationWhereInput {
+  AND: [organizationWhereInput!]
+  OR: [organizationWhereInput!]
+  NOT: [organizationWhereInput!]
+  id: StringFilter
+  name: StringFilter
+  active: BoolFilter
+  system_type: Enumorganization_system_typeFilter
+  phone: StringFilter
+  webhook: StringNullableFilter
+  group_id: StringNullableFilter
+  apelsin_login: StringNullableFilter
+  apelsin_password: StringNullableFilter
+  sender_name: StringNullableFilter
+  sender_number: StringNullableFilter
+  description: StringNullableFilter
+  created_at: DateTimeFilter
+  updated_at: DateTimeFilter
+  created_by: StringNullableFilter
+  updated_by: StringNullableFilter
+  work_schedules_organization_idTorganization: Work_schedulesListRelationFilter
+  organization_created_byTousers: UsersRelationFilter
+  organization_updated_byTousers: UsersRelationFilter
+}
+
+input Enumorganization_system_typeFilter {
+  equals: organization_system_type
+  in: [organization_system_type!]
+  notIn: [organization_system_type!]
+  not: NestedEnumorganization_system_typeFilter
+}
+
+input NestedEnumorganization_system_typeFilter {
+  equals: organization_system_type
+  in: [organization_system_type!]
+  notIn: [organization_system_type!]
+  not: NestedEnumorganization_system_typeFilter
+}
+
+input Work_schedulesListRelationFilter {
+  every: work_schedulesWhereInput
+  some: work_schedulesWhereInput
+  none: work_schedulesWhereInput
+}
+
+input work_schedulesWhereInput {
+  AND: [work_schedulesWhereInput!]
+  OR: [work_schedulesWhereInput!]
+  NOT: [work_schedulesWhereInput!]
+  id: StringFilter
+  organization_id: StringFilter
+  organization: OrganizationRelationFilter
+  days: StringNullableListFilter
+  start_time: DateTimeFilter
+  end_time: DateTimeFilter
+  max_start_time: DateTimeFilter
+  created_at: DateTimeFilter
+  updated_at: DateTimeFilter
+  created_by: StringNullableFilter
+  updated_by: StringNullableFilter
+  work_schedules_created_byTousers: UsersRelationFilter
+  work_schedules_updated_byTousers: UsersRelationFilter
+}
+
+input OrganizationRelationFilter {
+  is: organizationWhereInput
+  isNot: organizationWhereInput
+}
+
 input rolesOrderByWithRelationInput {
   id: SortOrder
   name: SortOrder
@@ -1021,6 +1180,11 @@ input usersOrderByWithRelationInput {
   delivery_pricing_updated_byTousers: delivery_pricingOrderByRelationAggregateInput
   city_created_byTousers: cityOrderByRelationAggregateInput
   city_updated_byTousers: cityOrderByRelationAggregateInput
+  organization_created_byTousers: organizationOrderByRelationAggregateInput
+  organization_updated_byTousers: organizationOrderByRelationAggregateInput
+  work_schedules_created_byTousers: work_schedulesOrderByRelationAggregateInput
+  work_schedules_updated_byTousers: work_schedulesOrderByRelationAggregateInput
+  delivery_pricing_organization_idTousers: delivery_pricingOrderByRelationAggregateInput
 }
 
 input otpOrderByRelationAggregateInput {
@@ -1060,6 +1224,14 @@ input delivery_pricingOrderByRelationAggregateInput {
 }
 
 input cityOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input organizationOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input work_schedulesOrderByRelationAggregateInput {
   _count: SortOrder
 }
 
@@ -1148,12 +1320,14 @@ input delivery_pricingOrderByWithRelationInput {
   min_price: SortOrder
   rules: SortOrder
   price_per_km: SortOrder
+  organization_id: SortOrder
   created_at: SortOrder
   updated_at: SortOrder
   created_by: SortOrder
   updated_by: SortOrder
   users_delivery_pricing_created_byTousers: usersOrderByWithRelationInput
   users_delivery_pricing_updated_byTousers: usersOrderByWithRelationInput
+  delivery_pricing_organization_idTousers: usersOrderByWithRelationInput
 }
 
 input delivery_pricingWhereUniqueInput {
@@ -1172,6 +1346,85 @@ enum Delivery_pricingScalarFieldEnum {
   min_price
   rules
   price_per_km
+  organization_id
+  created_at
+  updated_at
+  created_by
+  updated_by
+}
+
+input organizationOrderByWithRelationInput {
+  id: SortOrder
+  name: SortOrder
+  active: SortOrder
+  system_type: SortOrder
+  phone: SortOrder
+  webhook: SortOrder
+  group_id: SortOrder
+  apelsin_login: SortOrder
+  apelsin_password: SortOrder
+  sender_name: SortOrder
+  sender_number: SortOrder
+  description: SortOrder
+  created_at: SortOrder
+  updated_at: SortOrder
+  created_by: SortOrder
+  updated_by: SortOrder
+  work_schedules_organization_idTorganization: work_schedulesOrderByRelationAggregateInput
+  organization_created_byTousers: usersOrderByWithRelationInput
+  organization_updated_byTousers: usersOrderByWithRelationInput
+}
+
+input organizationWhereUniqueInput {
+  id: String
+}
+
+enum OrganizationScalarFieldEnum {
+  id
+  name
+  active
+  system_type
+  phone
+  webhook
+  group_id
+  apelsin_login
+  apelsin_password
+  sender_name
+  sender_number
+  description
+  created_at
+  updated_at
+  created_by
+  updated_by
+}
+
+input work_schedulesOrderByWithRelationInput {
+  id: SortOrder
+  organization_id: SortOrder
+  organization: organizationOrderByWithRelationInput
+  days: SortOrder
+  start_time: SortOrder
+  end_time: SortOrder
+  max_start_time: SortOrder
+  created_at: SortOrder
+  updated_at: SortOrder
+  created_by: SortOrder
+  updated_by: SortOrder
+  work_schedules_created_byTousers: usersOrderByWithRelationInput
+  work_schedules_updated_byTousers: usersOrderByWithRelationInput
+}
+
+input work_schedulesWhereUniqueInput {
+  id: String
+}
+
+enum Work_schedulesScalarFieldEnum {
+  id
+  organization_id
+  days
+  start_time
+  end_time
+  max_start_time
   created_at
   updated_at
   created_by
@@ -1198,6 +1451,12 @@ type Mutation {
   createDeliveryPricing(data: delivery_pricingCreateInput!): delivery_pricing!
   updateDeliveryPricing(data: delivery_pricingUpdateInput!, where: delivery_pricingWhereUniqueInput!): delivery_pricing!
   removeDeliveryPricing(id: String!): delivery_pricing!
+  organizationCreate(data: organizationCreateInput!): organization!
+  updateOrganization(data: organizationUpdateInput!, where: organizationWhereUniqueInput!): organization!
+  removeOrganization(id: String!): Organization!
+  createWorkSchedule(data: work_schedulesCreateInput!): work_schedules!
+  updateWorkSchedule(data: work_schedulesUpdateInput!, where: work_schedulesWhereUniqueInput!): WorkSchedule!
+  removeWorkSchedule(id: Int!): WorkSchedule!
 }
 
 input rolesCreateInput {
@@ -1249,6 +1508,11 @@ input usersCreateWithoutRoles_roles_created_byTousersInput {
   delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+  organization_created_byTousers: organizationCreateNestedManyWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: organizationCreateNestedManyWithoutOrganization_updated_byTousersInput
+  work_schedules_created_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput
+  delivery_pricing_organization_idTousers: delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput
 }
 
 input otpCreateNestedManyWithoutUsersInput {
@@ -1346,6 +1610,11 @@ input usersCreateWithoutPermissions_permissions_updated_byTousersInput {
   delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+  organization_created_byTousers: organizationCreateNestedManyWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: organizationCreateNestedManyWithoutOrganization_updated_byTousersInput
+  work_schedules_created_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput
+  delivery_pricing_organization_idTousers: delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput
 }
 
 input postCreateNestedManyWithoutUsers_post_created_byTousersInput {
@@ -1409,6 +1678,11 @@ input usersCreateWithoutPost_updated_byTousersInput {
   delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+  organization_created_byTousers: organizationCreateNestedManyWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: organizationCreateNestedManyWithoutOrganization_updated_byTousersInput
+  work_schedules_created_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput
+  delivery_pricing_organization_idTousers: delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput
 }
 
 input permissionsCreateNestedManyWithoutUsers_permissions_updated_byTousersInput {
@@ -1467,6 +1741,11 @@ input usersCreateWithoutPermissions_permissions_created_byTousersInput {
   delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+  organization_created_byTousers: organizationCreateNestedManyWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: organizationCreateNestedManyWithoutOrganization_updated_byTousersInput
+  work_schedules_created_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput
+  delivery_pricing_organization_idTousers: delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput
 }
 
 input postCreateNestedManyWithoutUsers_post_updated_byTousersInput {
@@ -1530,6 +1809,11 @@ input usersCreateWithoutPost_post_created_byTousersInput {
   delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+  organization_created_byTousers: organizationCreateNestedManyWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: organizationCreateNestedManyWithoutOrganization_updated_byTousersInput
+  work_schedules_created_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput
+  delivery_pricing_organization_idTousers: delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput
 }
 
 input postCreateNestedManyWithoutUsers_post_user_idTousersInput {
@@ -1610,6 +1894,11 @@ input usersCreateWithoutCity_created_byTousersInput {
   delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
   delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+  organization_created_byTousers: organizationCreateNestedManyWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: organizationCreateNestedManyWithoutOrganization_updated_byTousersInput
+  work_schedules_created_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput
+  delivery_pricing_organization_idTousers: delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput
 }
 
 input rolesCreateNestedManyWithoutUsers_roles_created_byTousersInput {
@@ -1667,6 +1956,11 @@ input usersCreateWithoutRoles_roles_updated_byTousersInput {
   delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+  organization_created_byTousers: organizationCreateNestedManyWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: organizationCreateNestedManyWithoutOrganization_updated_byTousersInput
+  work_schedules_created_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput
+  delivery_pricing_organization_idTousers: delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput
 }
 
 input roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_created_byTousersInput {
@@ -1750,6 +2044,11 @@ input usersCreateWithoutUsers_permissions_usersTousers_permissions_created_byInp
   delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+  organization_created_byTousers: organizationCreateNestedManyWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: organizationCreateNestedManyWithoutOrganization_updated_byTousersInput
+  work_schedules_created_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput
+  delivery_pricing_organization_idTousers: delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput
 }
 
 input rolesCreateNestedManyWithoutUsers_roles_updated_byTousersInput {
@@ -1820,6 +2119,11 @@ input usersCreateWithoutRoles_permissions_roles_permissions_created_byTousersInp
   delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+  organization_created_byTousers: organizationCreateNestedManyWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: organizationCreateNestedManyWithoutOrganization_updated_byTousersInput
+  work_schedules_created_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput
+  delivery_pricing_organization_idTousers: delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput
 }
 
 input roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_updated_byTousersInput {
@@ -1902,6 +2206,11 @@ input usersCreateWithoutUsers_roles_usersTousers_roles_created_byInput {
   delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+  organization_created_byTousers: organizationCreateNestedManyWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: organizationCreateNestedManyWithoutOrganization_updated_byTousersInput
+  work_schedules_created_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput
+  delivery_pricing_organization_idTousers: delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput
 }
 
 input users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_created_byInput {
@@ -1985,6 +2294,11 @@ input usersCreateWithoutRoles_permissions_roles_permissions_updated_byTousersInp
   delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+  organization_created_byTousers: organizationCreateNestedManyWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: organizationCreateNestedManyWithoutOrganization_updated_byTousersInput
+  work_schedules_created_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput
+  delivery_pricing_organization_idTousers: delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput
 }
 
 input users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_updated_byInput {
@@ -2037,6 +2351,11 @@ input usersCreateWithoutUsers_permissions_usersTousers_permissions_user_idInput 
   delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+  organization_created_byTousers: organizationCreateNestedManyWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: organizationCreateNestedManyWithoutOrganization_updated_byTousersInput
+  work_schedules_created_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput
+  delivery_pricing_organization_idTousers: delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput
 }
 
 input users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_created_byInput {
@@ -2111,6 +2430,11 @@ input usersCreateWithoutUsers_roles_usersTousers_roles_updated_byInput {
   delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+  organization_created_byTousers: organizationCreateNestedManyWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: organizationCreateNestedManyWithoutOrganization_updated_byTousersInput
+  work_schedules_created_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput
+  delivery_pricing_organization_idTousers: delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput
 }
 
 input users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_user_idInput {
@@ -2163,6 +2487,11 @@ input usersCreateWithoutUsers_permissions_usersTousers_permissions_updated_byInp
   delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+  organization_created_byTousers: organizationCreateNestedManyWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: organizationCreateNestedManyWithoutOrganization_updated_byTousersInput
+  work_schedules_created_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput
+  delivery_pricing_organization_idTousers: delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput
 }
 
 input users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_updated_byInput {
@@ -2215,6 +2544,11 @@ input usersCreateWithoutUsers_roles_usersTousers_roles_user_idInput {
   delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+  organization_created_byTousers: organizationCreateNestedManyWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: organizationCreateNestedManyWithoutOrganization_updated_byTousersInput
+  work_schedules_created_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput
+  delivery_pricing_organization_idTousers: delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput
 }
 
 input post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput {
@@ -2271,6 +2605,11 @@ input usersCreateWithoutPost_prop_types_updated_byTousersInput {
   delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+  organization_created_byTousers: organizationCreateNestedManyWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: organizationCreateNestedManyWithoutOrganization_updated_byTousersInput
+  work_schedules_created_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput
+  delivery_pricing_organization_idTousers: delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput
 }
 
 input users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput {
@@ -2325,15 +2664,15 @@ input delivery_pricingCreateWithoutUsers_delivery_pricing_created_byTousersInput
   name: String!
   drive_type: drive_type
   days: [String!]
-  start_time: String!
-  end_time: String!
+  start_time: DateTime!
+  end_time: DateTime!
   min_price: Int
   rules: JSON!
   price_per_km: Int
   created_at: DateTime
   updated_at: DateTime
-  updated_by: String
   users_delivery_pricing_updated_byTousers: usersCreateNestedOneWithoutDelivery_pricing_updated_byTousersInput
+  delivery_pricing_organization_idTousers: usersCreateNestedOneWithoutDelivery_pricing_organization_idTousersInput!
 }
 
 input usersCreateNestedOneWithoutDelivery_pricing_updated_byTousersInput {
@@ -2373,6 +2712,11 @@ input usersCreateWithoutDelivery_pricing_updated_byTousersInput {
   delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+  organization_created_byTousers: organizationCreateNestedManyWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: organizationCreateNestedManyWithoutOrganization_updated_byTousersInput
+  work_schedules_created_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput
+  delivery_pricing_organization_idTousers: delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput
 }
 
 input post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput {
@@ -2429,6 +2773,11 @@ input usersCreateWithoutPost_prop_types_created_byTousersInput {
   delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+  organization_created_byTousers: organizationCreateNestedManyWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: organizationCreateNestedManyWithoutOrganization_updated_byTousersInput
+  work_schedules_created_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput
+  delivery_pricing_organization_idTousers: delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput
 }
 
 input delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput {
@@ -2445,15 +2794,15 @@ input delivery_pricingCreateWithoutUsers_delivery_pricing_updated_byTousersInput
   name: String!
   drive_type: drive_type
   days: [String!]
-  start_time: String!
-  end_time: String!
+  start_time: DateTime!
+  end_time: DateTime!
   min_price: Int
   rules: JSON!
   price_per_km: Int
   created_at: DateTime
   updated_at: DateTime
-  updated_by: String
   users_delivery_pricing_created_byTousers: usersCreateNestedOneWithoutDelivery_pricing_created_byTousersInput
+  delivery_pricing_organization_idTousers: usersCreateNestedOneWithoutDelivery_pricing_organization_idTousersInput!
 }
 
 input usersCreateNestedOneWithoutDelivery_pricing_created_byTousersInput {
@@ -2493,6 +2842,11 @@ input usersCreateWithoutDelivery_pricing_created_byTousersInput {
   delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+  organization_created_byTousers: organizationCreateNestedManyWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: organizationCreateNestedManyWithoutOrganization_updated_byTousersInput
+  work_schedules_created_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput
+  delivery_pricing_organization_idTousers: delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput
 }
 
 input cityCreateNestedManyWithoutUsers_city_created_byTousersInput {
@@ -2550,16 +2904,118 @@ input usersCreateWithoutCity_updated_byTousersInput {
   delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
   delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
+  organization_created_byTousers: organizationCreateNestedManyWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: organizationCreateNestedManyWithoutOrganization_updated_byTousersInput
+  work_schedules_created_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput
+  delivery_pricing_organization_idTousers: delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput
 }
 
-input usersCreateOrConnectWithoutCity_updated_byTousersInput {
-  where: usersWhereUniqueInput!
-  create: usersCreateWithoutCity_updated_byTousersInput!
+input organizationCreateNestedManyWithoutOrganization_created_byTousersInput {
+  create: [organizationCreateWithoutOrganization_created_byTousersInput!]
+  connectOrCreate: [organizationCreateOrConnectWithoutOrganization_created_byTousersInput!]
+  createMany: organizationCreateManyOrganization_created_byTousersInputEnvelope
+  connect: [organizationWhereUniqueInput!]
 }
 
-input usersWhereUniqueInput {
+input organizationCreateWithoutOrganization_created_byTousersInput {
   id: String
-  phone: String
+  name: String!
+  active: Boolean
+  system_type: organization_system_type
+  phone: String!
+  webhook: String
+  group_id: String
+  apelsin_login: String
+  apelsin_password: String
+  sender_name: String
+  sender_number: String
+  description: String
+  created_at: DateTime
+  updated_at: DateTime
+  work_schedules_organization_idTorganization: work_schedulesCreateNestedManyWithoutOrganizationInput
+  organization_updated_byTousers: usersCreateNestedOneWithoutOrganization_updated_byTousersInput
+}
+
+input work_schedulesCreateNestedManyWithoutOrganizationInput {
+  create: [work_schedulesCreateWithoutOrganizationInput!]
+  connectOrCreate: [work_schedulesCreateOrConnectWithoutOrganizationInput!]
+  createMany: work_schedulesCreateManyOrganizationInputEnvelope
+  connect: [work_schedulesWhereUniqueInput!]
+}
+
+input work_schedulesCreateWithoutOrganizationInput {
+  id: String
+  days: [String!]
+  start_time: DateTime!
+  end_time: DateTime!
+  max_start_time: DateTime!
+  created_at: DateTime
+  updated_at: DateTime
+  work_schedules_created_byTousers: usersCreateNestedOneWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: usersCreateNestedOneWithoutWork_schedules_updated_byTousersInput
+}
+
+input usersCreateNestedOneWithoutWork_schedules_created_byTousersInput {
+  create: usersCreateWithoutWork_schedules_created_byTousersInput
+  connectOrCreate: usersCreateOrConnectWithoutWork_schedules_created_byTousersInput
+  connect: usersWhereUniqueInput
+}
+
+input usersCreateWithoutWork_schedules_created_byTousersInput {
+  id: String
+  phone: String!
+  first_name: String
+  last_name: String
+  password: String
+  is_super_user: Boolean
+  status: user_status!
+  created_at: DateTime
+  updated_at: DateTime
+  otp: otpCreateNestedManyWithoutUsersInput
+  permissions_permissions_created_byTousers: permissionsCreateNestedManyWithoutUsers_permissions_created_byTousersInput
+  permissions_permissions_updated_byTousers: permissionsCreateNestedManyWithoutUsers_permissions_updated_byTousersInput
+  post_post_created_byTousers: postCreateNestedManyWithoutUsers_post_created_byTousersInput
+  post_updated_byTousers: postCreateNestedManyWithoutUsers_post_updated_byTousersInput
+  post_post_user_idTousers: postCreateNestedManyWithoutUsers_post_user_idTousersInput
+  roles_roles_created_byTousers: rolesCreateNestedManyWithoutUsers_roles_created_byTousersInput
+  roles_roles_updated_byTousers: rolesCreateNestedManyWithoutUsers_roles_updated_byTousersInput
+  roles_permissions_roles_permissions_created_byTousers: roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_created_byTousersInput
+  roles_permissions_roles_permissions_updated_byTousers: roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_updated_byTousersInput
+  users_permissions_usersTousers_permissions_created_by: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_created_byInput
+  users_permissions_usersTousers_permissions_updated_by: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_updated_byInput
+  users_permissions_usersTousers_permissions_user_id: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_user_idInput
+  users_roles_usersTousers_roles_created_by: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_created_byInput
+  users_roles_usersTousers_roles_updated_by: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_updated_byInput
+  users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
+  post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
+  post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
+  delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
+  city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
+  city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+  organization_created_byTousers: organizationCreateNestedManyWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: organizationCreateNestedManyWithoutOrganization_updated_byTousersInput
+  work_schedules_updated_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput
+  delivery_pricing_organization_idTousers: delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput
+}
+
+input cityCreateNestedManyWithoutUsers_city_updated_byTousersInput {
+  create: [cityCreateWithoutUsers_city_updated_byTousersInput!]
+  connectOrCreate: [cityCreateOrConnectWithoutUsers_city_updated_byTousersInput!]
+  createMany: cityCreateManyUsers_city_updated_byTousersInputEnvelope
+  connect: [cityWhereUniqueInput!]
+}
+
+input cityCreateWithoutUsers_city_updated_byTousersInput {
+  id: String
+  name: String!
+  created_at: DateTime
+  updated_at: DateTime
+  users_city_created_byTousers: usersCreateNestedOneWithoutCity_created_byTousersInput
+  users_city_parent_idTousers: cityCreateNestedOneWithoutCity_parent_idTocityInput
+  post_city_idTocity: postCreateNestedManyWithoutCity_city_idTocityInput
+  city_parent_idTocity: cityCreateNestedManyWithoutUsers_city_parent_idTousersInput
 }
 
 input cityCreateNestedOneWithoutCity_parent_idTocityInput {
@@ -2640,81 +3096,379 @@ input usersCreateWithoutPost_post_user_idTousersInput {
   delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
   city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
   city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+  organization_created_byTousers: organizationCreateNestedManyWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: organizationCreateNestedManyWithoutOrganization_updated_byTousersInput
+  work_schedules_created_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput
+  delivery_pricing_organization_idTousers: delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput
 }
 
-input cityCreateNestedManyWithoutUsers_city_updated_byTousersInput {
-  create: [cityCreateWithoutUsers_city_updated_byTousersInput!]
-  connectOrCreate: [cityCreateOrConnectWithoutUsers_city_updated_byTousersInput!]
-  createMany: cityCreateManyUsers_city_updated_byTousersInputEnvelope
-  connect: [cityWhereUniqueInput!]
+input organizationCreateNestedManyWithoutOrganization_updated_byTousersInput {
+  create: [organizationCreateWithoutOrganization_updated_byTousersInput!]
+  connectOrCreate: [organizationCreateOrConnectWithoutOrganization_updated_byTousersInput!]
+  createMany: organizationCreateManyOrganization_updated_byTousersInputEnvelope
+  connect: [organizationWhereUniqueInput!]
 }
 
-input cityCreateWithoutUsers_city_updated_byTousersInput {
+input organizationCreateWithoutOrganization_updated_byTousersInput {
   id: String
   name: String!
+  active: Boolean
+  system_type: organization_system_type
+  phone: String!
+  webhook: String
+  group_id: String
+  apelsin_login: String
+  apelsin_password: String
+  sender_name: String
+  sender_number: String
+  description: String
   created_at: DateTime
   updated_at: DateTime
-  users_city_created_byTousers: usersCreateNestedOneWithoutCity_created_byTousersInput
-  users_city_parent_idTousers: cityCreateNestedOneWithoutCity_parent_idTocityInput
-  post_city_idTocity: postCreateNestedManyWithoutCity_city_idTocityInput
-  city_parent_idTocity: cityCreateNestedManyWithoutUsers_city_parent_idTousersInput
+  work_schedules_organization_idTorganization: work_schedulesCreateNestedManyWithoutOrganizationInput
+  organization_created_byTousers: usersCreateNestedOneWithoutOrganization_created_byTousersInput
 }
 
-input cityCreateNestedManyWithoutUsers_city_parent_idTousersInput {
-  create: [cityCreateWithoutUsers_city_parent_idTousersInput!]
-  connectOrCreate: [cityCreateOrConnectWithoutUsers_city_parent_idTousersInput!]
-  createMany: cityCreateManyUsers_city_parent_idTousersInputEnvelope
-  connect: [cityWhereUniqueInput!]
+input usersCreateNestedOneWithoutOrganization_created_byTousersInput {
+  create: usersCreateWithoutOrganization_created_byTousersInput
+  connectOrCreate: usersCreateOrConnectWithoutOrganization_created_byTousersInput
+  connect: usersWhereUniqueInput
 }
 
-input cityCreateWithoutUsers_city_parent_idTousersInput {
+input usersCreateWithoutOrganization_created_byTousersInput {
+  id: String
+  phone: String!
+  first_name: String
+  last_name: String
+  password: String
+  is_super_user: Boolean
+  status: user_status!
+  created_at: DateTime
+  updated_at: DateTime
+  otp: otpCreateNestedManyWithoutUsersInput
+  permissions_permissions_created_byTousers: permissionsCreateNestedManyWithoutUsers_permissions_created_byTousersInput
+  permissions_permissions_updated_byTousers: permissionsCreateNestedManyWithoutUsers_permissions_updated_byTousersInput
+  post_post_created_byTousers: postCreateNestedManyWithoutUsers_post_created_byTousersInput
+  post_updated_byTousers: postCreateNestedManyWithoutUsers_post_updated_byTousersInput
+  post_post_user_idTousers: postCreateNestedManyWithoutUsers_post_user_idTousersInput
+  roles_roles_created_byTousers: rolesCreateNestedManyWithoutUsers_roles_created_byTousersInput
+  roles_roles_updated_byTousers: rolesCreateNestedManyWithoutUsers_roles_updated_byTousersInput
+  roles_permissions_roles_permissions_created_byTousers: roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_created_byTousersInput
+  roles_permissions_roles_permissions_updated_byTousers: roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_updated_byTousersInput
+  users_permissions_usersTousers_permissions_created_by: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_created_byInput
+  users_permissions_usersTousers_permissions_updated_by: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_updated_byInput
+  users_permissions_usersTousers_permissions_user_id: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_user_idInput
+  users_roles_usersTousers_roles_created_by: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_created_byInput
+  users_roles_usersTousers_roles_updated_by: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_updated_byInput
+  users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
+  post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
+  post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
+  delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
+  city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
+  city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+  organization_updated_byTousers: organizationCreateNestedManyWithoutOrganization_updated_byTousersInput
+  work_schedules_created_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput
+  delivery_pricing_organization_idTousers: delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput
+}
+
+input work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput {
+  create: [work_schedulesCreateWithoutWork_schedules_created_byTousersInput!]
+  connectOrCreate: [work_schedulesCreateOrConnectWithoutWork_schedules_created_byTousersInput!]
+  createMany: work_schedulesCreateManyWork_schedules_created_byTousersInputEnvelope
+  connect: [work_schedulesWhereUniqueInput!]
+}
+
+input work_schedulesCreateWithoutWork_schedules_created_byTousersInput {
+  id: String
+  organization: organizationCreateNestedOneWithoutWork_schedules_organization_idTorganizationInput!
+  days: [String!]
+  start_time: DateTime!
+  end_time: DateTime!
+  max_start_time: DateTime!
+  created_at: DateTime
+  updated_at: DateTime
+  work_schedules_updated_byTousers: usersCreateNestedOneWithoutWork_schedules_updated_byTousersInput
+}
+
+input organizationCreateNestedOneWithoutWork_schedules_organization_idTorganizationInput {
+  create: organizationCreateWithoutWork_schedules_organization_idTorganizationInput
+  connectOrCreate: organizationCreateOrConnectWithoutWork_schedules_organization_idTorganizationInput
+  connect: organizationWhereUniqueInput
+}
+
+input organizationCreateWithoutWork_schedules_organization_idTorganizationInput {
   id: String
   name: String!
+  active: Boolean
+  system_type: organization_system_type
+  phone: String!
+  webhook: String
+  group_id: String
+  apelsin_login: String
+  apelsin_password: String
+  sender_name: String
+  sender_number: String
+  description: String
   created_at: DateTime
   updated_at: DateTime
-  users_city_created_byTousers: usersCreateNestedOneWithoutCity_created_byTousersInput
-  users_city_updated_byTousers: usersCreateNestedOneWithoutCity_updated_byTousersInput
-  post_city_idTocity: postCreateNestedManyWithoutCity_city_idTocityInput
-  city_parent_idTocity: cityCreateNestedManyWithoutUsers_city_parent_idTousersInput
+  organization_created_byTousers: usersCreateNestedOneWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: usersCreateNestedOneWithoutOrganization_updated_byTousersInput
 }
 
-input cityCreateOrConnectWithoutUsers_city_parent_idTousersInput {
-  where: cityWhereUniqueInput!
-  create: cityCreateWithoutUsers_city_parent_idTousersInput!
+input usersCreateNestedOneWithoutOrganization_updated_byTousersInput {
+  create: usersCreateWithoutOrganization_updated_byTousersInput
+  connectOrCreate: usersCreateOrConnectWithoutOrganization_updated_byTousersInput
+  connect: usersWhereUniqueInput
 }
 
-input cityWhereUniqueInput {
+input usersCreateWithoutOrganization_updated_byTousersInput {
   id: String
+  phone: String!
+  first_name: String
+  last_name: String
+  password: String
+  is_super_user: Boolean
+  status: user_status!
+  created_at: DateTime
+  updated_at: DateTime
+  otp: otpCreateNestedManyWithoutUsersInput
+  permissions_permissions_created_byTousers: permissionsCreateNestedManyWithoutUsers_permissions_created_byTousersInput
+  permissions_permissions_updated_byTousers: permissionsCreateNestedManyWithoutUsers_permissions_updated_byTousersInput
+  post_post_created_byTousers: postCreateNestedManyWithoutUsers_post_created_byTousersInput
+  post_updated_byTousers: postCreateNestedManyWithoutUsers_post_updated_byTousersInput
+  post_post_user_idTousers: postCreateNestedManyWithoutUsers_post_user_idTousersInput
+  roles_roles_created_byTousers: rolesCreateNestedManyWithoutUsers_roles_created_byTousersInput
+  roles_roles_updated_byTousers: rolesCreateNestedManyWithoutUsers_roles_updated_byTousersInput
+  roles_permissions_roles_permissions_created_byTousers: roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_created_byTousersInput
+  roles_permissions_roles_permissions_updated_byTousers: roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_updated_byTousersInput
+  users_permissions_usersTousers_permissions_created_by: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_created_byInput
+  users_permissions_usersTousers_permissions_updated_by: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_updated_byInput
+  users_permissions_usersTousers_permissions_user_id: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_user_idInput
+  users_roles_usersTousers_roles_created_by: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_created_byInput
+  users_roles_usersTousers_roles_updated_by: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_updated_byInput
+  users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
+  post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
+  post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
+  delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
+  city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
+  city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+  organization_created_byTousers: organizationCreateNestedManyWithoutOrganization_created_byTousersInput
+  work_schedules_created_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput
+  delivery_pricing_organization_idTousers: delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput
 }
 
-input cityCreateManyUsers_city_parent_idTousersInputEnvelope {
-  data: [cityCreateManyUsers_city_parent_idTousersInput!]!
+input work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput {
+  create: [work_schedulesCreateWithoutWork_schedules_updated_byTousersInput!]
+  connectOrCreate: [work_schedulesCreateOrConnectWithoutWork_schedules_updated_byTousersInput!]
+  createMany: work_schedulesCreateManyWork_schedules_updated_byTousersInputEnvelope
+  connect: [work_schedulesWhereUniqueInput!]
+}
+
+input work_schedulesCreateWithoutWork_schedules_updated_byTousersInput {
+  id: String
+  organization: organizationCreateNestedOneWithoutWork_schedules_organization_idTorganizationInput!
+  days: [String!]
+  start_time: DateTime!
+  end_time: DateTime!
+  max_start_time: DateTime!
+  created_at: DateTime
+  updated_at: DateTime
+  work_schedules_created_byTousers: usersCreateNestedOneWithoutWork_schedules_created_byTousersInput
+}
+
+input work_schedulesCreateOrConnectWithoutWork_schedules_updated_byTousersInput {
+  where: work_schedulesWhereUniqueInput!
+  create: work_schedulesCreateWithoutWork_schedules_updated_byTousersInput!
+}
+
+input work_schedulesCreateManyWork_schedules_updated_byTousersInputEnvelope {
+  data: [work_schedulesCreateManyWork_schedules_updated_byTousersInput!]!
   skipDuplicates: Boolean
 }
 
-input cityCreateManyUsers_city_parent_idTousersInput {
+input work_schedulesCreateManyWork_schedules_updated_byTousersInput {
   id: String
+  organization_id: String!
+  days: [String!]
+  start_time: DateTime!
+  end_time: DateTime!
+  max_start_time: DateTime!
+  created_at: DateTime
+  updated_at: DateTime
+  created_by: String
+}
+
+input delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput {
+  create: [delivery_pricingCreateWithoutDelivery_pricing_organization_idTousersInput!]
+  connectOrCreate: [delivery_pricingCreateOrConnectWithoutDelivery_pricing_organization_idTousersInput!]
+  createMany: delivery_pricingCreateManyDelivery_pricing_organization_idTousersInputEnvelope
+  connect: [delivery_pricingWhereUniqueInput!]
+}
+
+input delivery_pricingCreateWithoutDelivery_pricing_organization_idTousersInput {
+  id: String
+  active: Boolean
+  default: Boolean
   name: String!
+  drive_type: drive_type
+  days: [String!]
+  start_time: DateTime!
+  end_time: DateTime!
+  min_price: Int
+  rules: JSON!
+  price_per_km: Int
+  created_at: DateTime
+  updated_at: DateTime
+  users_delivery_pricing_created_byTousers: usersCreateNestedOneWithoutDelivery_pricing_created_byTousersInput
+  users_delivery_pricing_updated_byTousers: usersCreateNestedOneWithoutDelivery_pricing_updated_byTousersInput
+}
+
+input delivery_pricingCreateOrConnectWithoutDelivery_pricing_organization_idTousersInput {
+  where: delivery_pricingWhereUniqueInput!
+  create: delivery_pricingCreateWithoutDelivery_pricing_organization_idTousersInput!
+}
+
+input delivery_pricingCreateManyDelivery_pricing_organization_idTousersInputEnvelope {
+  data: [delivery_pricingCreateManyDelivery_pricing_organization_idTousersInput!]!
+  skipDuplicates: Boolean
+}
+
+input delivery_pricingCreateManyDelivery_pricing_organization_idTousersInput {
+  id: String
+  active: Boolean
+  default: Boolean
+  name: String!
+  drive_type: drive_type
+  days: [String!]
+  start_time: DateTime!
+  end_time: DateTime!
+  min_price: Int
+  rules: JSON!
+  price_per_km: Int
   created_at: DateTime
   updated_at: DateTime
   created_by: String
   updated_by: String
 }
 
-input cityCreateOrConnectWithoutUsers_city_updated_byTousersInput {
-  where: cityWhereUniqueInput!
-  create: cityCreateWithoutUsers_city_updated_byTousersInput!
+input usersCreateOrConnectWithoutOrganization_updated_byTousersInput {
+  where: usersWhereUniqueInput!
+  create: usersCreateWithoutOrganization_updated_byTousersInput!
 }
 
-input cityCreateManyUsers_city_updated_byTousersInputEnvelope {
-  data: [cityCreateManyUsers_city_updated_byTousersInput!]!
+input usersWhereUniqueInput {
+  id: String
+  phone: String
+}
+
+input organizationCreateOrConnectWithoutWork_schedules_organization_idTorganizationInput {
+  where: organizationWhereUniqueInput!
+  create: organizationCreateWithoutWork_schedules_organization_idTorganizationInput!
+}
+
+input usersCreateNestedOneWithoutWork_schedules_updated_byTousersInput {
+  create: usersCreateWithoutWork_schedules_updated_byTousersInput
+  connectOrCreate: usersCreateOrConnectWithoutWork_schedules_updated_byTousersInput
+  connect: usersWhereUniqueInput
+}
+
+input usersCreateWithoutWork_schedules_updated_byTousersInput {
+  id: String
+  phone: String!
+  first_name: String
+  last_name: String
+  password: String
+  is_super_user: Boolean
+  status: user_status!
+  created_at: DateTime
+  updated_at: DateTime
+  otp: otpCreateNestedManyWithoutUsersInput
+  permissions_permissions_created_byTousers: permissionsCreateNestedManyWithoutUsers_permissions_created_byTousersInput
+  permissions_permissions_updated_byTousers: permissionsCreateNestedManyWithoutUsers_permissions_updated_byTousersInput
+  post_post_created_byTousers: postCreateNestedManyWithoutUsers_post_created_byTousersInput
+  post_updated_byTousers: postCreateNestedManyWithoutUsers_post_updated_byTousersInput
+  post_post_user_idTousers: postCreateNestedManyWithoutUsers_post_user_idTousersInput
+  roles_roles_created_byTousers: rolesCreateNestedManyWithoutUsers_roles_created_byTousersInput
+  roles_roles_updated_byTousers: rolesCreateNestedManyWithoutUsers_roles_updated_byTousersInput
+  roles_permissions_roles_permissions_created_byTousers: roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_created_byTousersInput
+  roles_permissions_roles_permissions_updated_byTousers: roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_updated_byTousersInput
+  users_permissions_usersTousers_permissions_created_by: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_created_byInput
+  users_permissions_usersTousers_permissions_updated_by: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_updated_byInput
+  users_permissions_usersTousers_permissions_user_id: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_user_idInput
+  users_roles_usersTousers_roles_created_by: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_created_byInput
+  users_roles_usersTousers_roles_updated_by: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_updated_byInput
+  users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
+  post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
+  post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
+  delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
+  city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
+  city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+  organization_created_byTousers: organizationCreateNestedManyWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: organizationCreateNestedManyWithoutOrganization_updated_byTousersInput
+  work_schedules_created_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput
+  delivery_pricing_organization_idTousers: delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput
+}
+
+input usersCreateOrConnectWithoutWork_schedules_updated_byTousersInput {
+  where: usersWhereUniqueInput!
+  create: usersCreateWithoutWork_schedules_updated_byTousersInput!
+}
+
+input work_schedulesCreateOrConnectWithoutWork_schedules_created_byTousersInput {
+  where: work_schedulesWhereUniqueInput!
+  create: work_schedulesCreateWithoutWork_schedules_created_byTousersInput!
+}
+
+input work_schedulesCreateManyWork_schedules_created_byTousersInputEnvelope {
+  data: [work_schedulesCreateManyWork_schedules_created_byTousersInput!]!
   skipDuplicates: Boolean
 }
 
-input cityCreateManyUsers_city_updated_byTousersInput {
+input work_schedulesCreateManyWork_schedules_created_byTousersInput {
+  id: String
+  organization_id: String!
+  days: [String!]
+  start_time: DateTime!
+  end_time: DateTime!
+  max_start_time: DateTime!
+  created_at: DateTime
+  updated_at: DateTime
+  updated_by: String
+}
+
+input usersCreateOrConnectWithoutOrganization_created_byTousersInput {
+  where: usersWhereUniqueInput!
+  create: usersCreateWithoutOrganization_created_byTousersInput!
+}
+
+input organizationCreateOrConnectWithoutOrganization_updated_byTousersInput {
+  where: organizationWhereUniqueInput!
+  create: organizationCreateWithoutOrganization_updated_byTousersInput!
+}
+
+input organizationCreateManyOrganization_updated_byTousersInputEnvelope {
+  data: [organizationCreateManyOrganization_updated_byTousersInput!]!
+  skipDuplicates: Boolean
+}
+
+input organizationCreateManyOrganization_updated_byTousersInput {
   id: String
   name: String!
-  parent_id: String
+  active: Boolean
+  system_type: organization_system_type
+  phone: String!
+  webhook: String
+  group_id: String
+  apelsin_login: String
+  apelsin_password: String
+  sender_name: String
+  sender_number: String
+  description: String
   created_at: DateTime
   updated_at: DateTime
   created_by: String
@@ -2761,6 +3515,126 @@ input cityCreateOrConnectWithoutCity_parent_idTocityInput {
   create: cityCreateWithoutCity_parent_idTocityInput!
 }
 
+input cityWhereUniqueInput {
+  id: String
+}
+
+input cityCreateNestedManyWithoutUsers_city_parent_idTousersInput {
+  create: [cityCreateWithoutUsers_city_parent_idTousersInput!]
+  connectOrCreate: [cityCreateOrConnectWithoutUsers_city_parent_idTousersInput!]
+  createMany: cityCreateManyUsers_city_parent_idTousersInputEnvelope
+  connect: [cityWhereUniqueInput!]
+}
+
+input cityCreateWithoutUsers_city_parent_idTousersInput {
+  id: String
+  name: String!
+  created_at: DateTime
+  updated_at: DateTime
+  users_city_created_byTousers: usersCreateNestedOneWithoutCity_created_byTousersInput
+  users_city_updated_byTousers: usersCreateNestedOneWithoutCity_updated_byTousersInput
+  post_city_idTocity: postCreateNestedManyWithoutCity_city_idTocityInput
+  city_parent_idTocity: cityCreateNestedManyWithoutUsers_city_parent_idTousersInput
+}
+
+input cityCreateOrConnectWithoutUsers_city_parent_idTousersInput {
+  where: cityWhereUniqueInput!
+  create: cityCreateWithoutUsers_city_parent_idTousersInput!
+}
+
+input cityCreateManyUsers_city_parent_idTousersInputEnvelope {
+  data: [cityCreateManyUsers_city_parent_idTousersInput!]!
+  skipDuplicates: Boolean
+}
+
+input cityCreateManyUsers_city_parent_idTousersInput {
+  id: String
+  name: String!
+  created_at: DateTime
+  updated_at: DateTime
+  created_by: String
+  updated_by: String
+}
+
+input cityCreateOrConnectWithoutUsers_city_updated_byTousersInput {
+  where: cityWhereUniqueInput!
+  create: cityCreateWithoutUsers_city_updated_byTousersInput!
+}
+
+input cityCreateManyUsers_city_updated_byTousersInputEnvelope {
+  data: [cityCreateManyUsers_city_updated_byTousersInput!]!
+  skipDuplicates: Boolean
+}
+
+input cityCreateManyUsers_city_updated_byTousersInput {
+  id: String
+  name: String!
+  parent_id: String
+  created_at: DateTime
+  updated_at: DateTime
+  created_by: String
+}
+
+input usersCreateOrConnectWithoutWork_schedules_created_byTousersInput {
+  where: usersWhereUniqueInput!
+  create: usersCreateWithoutWork_schedules_created_byTousersInput!
+}
+
+input work_schedulesCreateOrConnectWithoutOrganizationInput {
+  where: work_schedulesWhereUniqueInput!
+  create: work_schedulesCreateWithoutOrganizationInput!
+}
+
+input work_schedulesCreateManyOrganizationInputEnvelope {
+  data: [work_schedulesCreateManyOrganizationInput!]!
+  skipDuplicates: Boolean
+}
+
+input work_schedulesCreateManyOrganizationInput {
+  id: String
+  days: [String!]
+  start_time: DateTime!
+  end_time: DateTime!
+  max_start_time: DateTime!
+  created_at: DateTime
+  updated_at: DateTime
+  created_by: String
+  updated_by: String
+}
+
+input organizationCreateOrConnectWithoutOrganization_created_byTousersInput {
+  where: organizationWhereUniqueInput!
+  create: organizationCreateWithoutOrganization_created_byTousersInput!
+}
+
+input organizationCreateManyOrganization_created_byTousersInputEnvelope {
+  data: [organizationCreateManyOrganization_created_byTousersInput!]!
+  skipDuplicates: Boolean
+}
+
+input organizationCreateManyOrganization_created_byTousersInput {
+  id: String
+  name: String!
+  active: Boolean
+  system_type: organization_system_type
+  phone: String!
+  webhook: String
+  group_id: String
+  apelsin_login: String
+  apelsin_password: String
+  sender_name: String
+  sender_number: String
+  description: String
+  created_at: DateTime
+  updated_at: DateTime
+  updated_by: String
+}
+
+input usersCreateOrConnectWithoutCity_updated_byTousersInput {
+  where: usersWhereUniqueInput!
+  create: usersCreateWithoutCity_updated_byTousersInput!
+}
+
 input cityCreateOrConnectWithoutUsers_city_created_byTousersInput {
   where: cityWhereUniqueInput!
   create: cityCreateWithoutUsers_city_created_byTousersInput!
@@ -2785,6 +3659,55 @@ input usersCreateOrConnectWithoutDelivery_pricing_created_byTousersInput {
   create: usersCreateWithoutDelivery_pricing_created_byTousersInput!
 }
 
+input usersCreateNestedOneWithoutDelivery_pricing_organization_idTousersInput {
+  create: usersCreateWithoutDelivery_pricing_organization_idTousersInput
+  connectOrCreate: usersCreateOrConnectWithoutDelivery_pricing_organization_idTousersInput
+  connect: usersWhereUniqueInput
+}
+
+input usersCreateWithoutDelivery_pricing_organization_idTousersInput {
+  id: String
+  phone: String!
+  first_name: String
+  last_name: String
+  password: String
+  is_super_user: Boolean
+  status: user_status!
+  created_at: DateTime
+  updated_at: DateTime
+  otp: otpCreateNestedManyWithoutUsersInput
+  permissions_permissions_created_byTousers: permissionsCreateNestedManyWithoutUsers_permissions_created_byTousersInput
+  permissions_permissions_updated_byTousers: permissionsCreateNestedManyWithoutUsers_permissions_updated_byTousersInput
+  post_post_created_byTousers: postCreateNestedManyWithoutUsers_post_created_byTousersInput
+  post_updated_byTousers: postCreateNestedManyWithoutUsers_post_updated_byTousersInput
+  post_post_user_idTousers: postCreateNestedManyWithoutUsers_post_user_idTousersInput
+  roles_roles_created_byTousers: rolesCreateNestedManyWithoutUsers_roles_created_byTousersInput
+  roles_roles_updated_byTousers: rolesCreateNestedManyWithoutUsers_roles_updated_byTousersInput
+  roles_permissions_roles_permissions_created_byTousers: roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_created_byTousersInput
+  roles_permissions_roles_permissions_updated_byTousers: roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_updated_byTousersInput
+  users_permissions_usersTousers_permissions_created_by: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_created_byInput
+  users_permissions_usersTousers_permissions_updated_by: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_updated_byInput
+  users_permissions_usersTousers_permissions_user_id: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_user_idInput
+  users_roles_usersTousers_roles_created_by: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_created_byInput
+  users_roles_usersTousers_roles_updated_by: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_updated_byInput
+  users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
+  post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
+  post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
+  delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
+  city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
+  city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+  organization_created_byTousers: organizationCreateNestedManyWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: organizationCreateNestedManyWithoutOrganization_updated_byTousersInput
+  work_schedules_created_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput
+}
+
+input usersCreateOrConnectWithoutDelivery_pricing_organization_idTousersInput {
+  where: usersWhereUniqueInput!
+  create: usersCreateWithoutDelivery_pricing_organization_idTousersInput!
+}
+
 input delivery_pricingCreateOrConnectWithoutUsers_delivery_pricing_updated_byTousersInput {
   where: delivery_pricingWhereUniqueInput!
   create: delivery_pricingCreateWithoutUsers_delivery_pricing_updated_byTousersInput!
@@ -2802,14 +3725,15 @@ input delivery_pricingCreateManyUsers_delivery_pricing_updated_byTousersInput {
   name: String!
   drive_type: drive_type
   days: [String!]
-  start_time: String!
-  end_time: String!
+  start_time: DateTime!
+  end_time: DateTime!
   min_price: Int
   rules: JSON!
   price_per_km: Int
+  organization_id: String!
   created_at: DateTime
   updated_at: DateTime
-  updated_by: String
+  created_by: String
 }
 
 input usersCreateOrConnectWithoutPost_prop_types_created_byTousersInput {
@@ -2863,11 +3787,12 @@ input delivery_pricingCreateManyUsers_delivery_pricing_created_byTousersInput {
   name: String!
   drive_type: drive_type
   days: [String!]
-  start_time: String!
-  end_time: String!
+  start_time: DateTime!
+  end_time: DateTime!
   min_price: Int
   rules: JSON!
   price_per_km: Int
+  organization_id: String!
   created_at: DateTime
   updated_at: DateTime
   updated_by: String
@@ -3395,6 +4320,11 @@ input usersUpdateWithoutRoles_roles_created_byTousersInput {
   delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+  organization_created_byTousers: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput
+  work_schedules_created_byTousers: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput
+  delivery_pricing_organization_idTousers: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput
 }
 
 input otpUpdateManyWithoutUsersNestedInput {
@@ -3536,6 +4466,11 @@ input usersUpdateWithoutPermissions_permissions_updated_byTousersInput {
   delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+  organization_created_byTousers: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput
+  work_schedules_created_byTousers: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput
+  delivery_pricing_organization_idTousers: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput
 }
 
 input postUpdateManyWithoutUsers_post_created_byTousersNestedInput {
@@ -3621,6 +4556,11 @@ input usersUpdateWithoutPost_updated_byTousersInput {
   delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+  organization_created_byTousers: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput
+  work_schedules_created_byTousers: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput
+  delivery_pricing_organization_idTousers: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput
 }
 
 input permissionsUpdateManyWithoutUsers_permissions_updated_byTousersNestedInput {
@@ -3701,6 +4641,11 @@ input usersUpdateWithoutPermissions_permissions_created_byTousersInput {
   delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+  organization_created_byTousers: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput
+  work_schedules_created_byTousers: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput
+  delivery_pricing_organization_idTousers: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput
 }
 
 input postUpdateManyWithoutUsers_post_updated_byTousersNestedInput {
@@ -3786,6 +4731,11 @@ input usersUpdateWithoutPost_post_created_byTousersInput {
   delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+  organization_created_byTousers: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput
+  work_schedules_created_byTousers: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput
+  delivery_pricing_organization_idTousers: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput
 }
 
 input postUpdateManyWithoutUsers_post_user_idTousersNestedInput {
@@ -3895,6 +4845,11 @@ input usersUpdateWithoutCity_created_byTousersInput {
   delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
   delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+  organization_created_byTousers: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput
+  work_schedules_created_byTousers: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput
+  delivery_pricing_organization_idTousers: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput
 }
 
 input rolesUpdateManyWithoutUsers_roles_created_byTousersNestedInput {
@@ -3974,6 +4929,11 @@ input usersUpdateWithoutRoles_roles_updated_byTousersInput {
   delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+  organization_created_byTousers: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput
+  work_schedules_created_byTousers: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput
+  delivery_pricing_organization_idTousers: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput
 }
 
 input roles_permissionsUpdateManyWithoutUsers_roles_permissions_created_byTousersNestedInput {
@@ -4099,6 +5059,11 @@ input usersUpdateWithoutUsers_permissions_usersTousers_permissions_created_byInp
   delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+  organization_created_byTousers: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput
+  work_schedules_created_byTousers: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput
+  delivery_pricing_organization_idTousers: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput
 }
 
 input rolesUpdateManyWithoutUsers_roles_updated_byTousersNestedInput {
@@ -4204,6 +5169,11 @@ input usersUpdateWithoutRoles_permissions_roles_permissions_created_byTousersInp
   delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+  organization_created_byTousers: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput
+  work_schedules_created_byTousers: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput
+  delivery_pricing_organization_idTousers: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput
 }
 
 input roles_permissionsUpdateManyWithoutUsers_roles_permissions_updated_byTousersNestedInput {
@@ -4328,6 +5298,11 @@ input usersUpdateWithoutUsers_roles_usersTousers_roles_created_byInput {
   delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+  organization_created_byTousers: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput
+  work_schedules_created_byTousers: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput
+  delivery_pricing_organization_idTousers: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput
 }
 
 input users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_created_byNestedInput {
@@ -4453,6 +5428,11 @@ input usersUpdateWithoutRoles_permissions_roles_permissions_updated_byTousersInp
   delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+  organization_created_byTousers: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput
+  work_schedules_created_byTousers: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput
+  delivery_pricing_organization_idTousers: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput
 }
 
 input users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_updated_byNestedInput {
@@ -4525,6 +5505,11 @@ input usersUpdateWithoutUsers_permissions_usersTousers_permissions_user_idInput 
   delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+  organization_created_byTousers: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput
+  work_schedules_created_byTousers: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput
+  delivery_pricing_organization_idTousers: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput
 }
 
 input users_rolesUpdateManyWithoutUsers_usersTousers_roles_created_byNestedInput {
@@ -4623,6 +5608,11 @@ input usersUpdateWithoutUsers_roles_usersTousers_roles_updated_byInput {
   delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+  organization_created_byTousers: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput
+  work_schedules_created_byTousers: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput
+  delivery_pricing_organization_idTousers: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput
 }
 
 input users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_user_idNestedInput {
@@ -4697,6 +5687,11 @@ input usersUpdateWithoutUsers_permissions_usersTousers_permissions_updated_byInp
   delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+  organization_created_byTousers: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput
+  work_schedules_created_byTousers: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput
+  delivery_pricing_organization_idTousers: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput
 }
 
 input users_rolesUpdateManyWithoutUsers_usersTousers_roles_updated_byNestedInput {
@@ -4769,6 +5764,11 @@ input usersUpdateWithoutUsers_roles_usersTousers_roles_user_idInput {
   delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+  organization_created_byTousers: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput
+  work_schedules_created_byTousers: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput
+  delivery_pricing_organization_idTousers: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput
 }
 
 input post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput {
@@ -4847,6 +5847,11 @@ input usersUpdateWithoutPost_prop_types_updated_byTousersInput {
   delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+  organization_created_byTousers: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput
+  work_schedules_created_byTousers: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput
+  delivery_pricing_organization_idTousers: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput
 }
 
 input users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput {
@@ -4928,15 +5933,15 @@ input delivery_pricingUpdateWithoutUsers_delivery_pricing_created_byTousersInput
   name: String
   drive_type: drive_type
   days: [String!]
-  start_time: String
-  end_time: String
+  start_time: DateTime
+  end_time: DateTime
   min_price: Int
   rules: JSON
   price_per_km: Int
   created_at: DateTime
   updated_at: DateTime
-  updated_by: String
   users_delivery_pricing_updated_byTousers: usersUpdateOneWithoutDelivery_pricing_updated_byTousersNestedInput
+  delivery_pricing_organization_idTousers: usersUpdateOneRequiredWithoutDelivery_pricing_organization_idTousersNestedInput
 }
 
 input usersUpdateOneWithoutDelivery_pricing_updated_byTousersNestedInput {
@@ -4985,6 +5990,11 @@ input usersUpdateWithoutDelivery_pricing_updated_byTousersInput {
   delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+  organization_created_byTousers: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput
+  work_schedules_created_byTousers: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput
+  delivery_pricing_organization_idTousers: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput
 }
 
 input post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput {
@@ -5063,6 +6073,11 @@ input usersUpdateWithoutPost_prop_types_created_byTousersInput {
   delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+  organization_created_byTousers: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput
+  work_schedules_created_byTousers: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput
+  delivery_pricing_organization_idTousers: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput
 }
 
 input delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput {
@@ -5092,15 +6107,15 @@ input delivery_pricingUpdateWithoutUsers_delivery_pricing_updated_byTousersInput
   name: String
   drive_type: drive_type
   days: [String!]
-  start_time: String
-  end_time: String
+  start_time: DateTime
+  end_time: DateTime
   min_price: Int
   rules: JSON
   price_per_km: Int
   created_at: DateTime
   updated_at: DateTime
-  updated_by: String
   users_delivery_pricing_created_byTousers: usersUpdateOneWithoutDelivery_pricing_created_byTousersNestedInput
+  delivery_pricing_organization_idTousers: usersUpdateOneRequiredWithoutDelivery_pricing_organization_idTousersNestedInput
 }
 
 input usersUpdateOneWithoutDelivery_pricing_created_byTousersNestedInput {
@@ -5149,6 +6164,11 @@ input usersUpdateWithoutDelivery_pricing_created_byTousersInput {
   delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+  organization_created_byTousers: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput
+  work_schedules_created_byTousers: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput
+  delivery_pricing_organization_idTousers: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput
 }
 
 input cityUpdateManyWithoutUsers_city_created_byTousersNestedInput {
@@ -5228,6 +6248,166 @@ input usersUpdateWithoutCity_updated_byTousersInput {
   delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
   delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
+  organization_created_byTousers: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput
+  work_schedules_created_byTousers: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput
+  delivery_pricing_organization_idTousers: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput
+}
+
+input organizationUpdateManyWithoutOrganization_created_byTousersNestedInput {
+  create: [organizationCreateWithoutOrganization_created_byTousersInput!]
+  connectOrCreate: [organizationCreateOrConnectWithoutOrganization_created_byTousersInput!]
+  upsert: [organizationUpsertWithWhereUniqueWithoutOrganization_created_byTousersInput!]
+  createMany: organizationCreateManyOrganization_created_byTousersInputEnvelope
+  set: [organizationWhereUniqueInput!]
+  disconnect: [organizationWhereUniqueInput!]
+  delete: [organizationWhereUniqueInput!]
+  connect: [organizationWhereUniqueInput!]
+  update: [organizationUpdateWithWhereUniqueWithoutOrganization_created_byTousersInput!]
+  updateMany: [organizationUpdateManyWithWhereWithoutOrganization_created_byTousersInput!]
+  deleteMany: [organizationScalarWhereInput!]
+}
+
+input organizationUpsertWithWhereUniqueWithoutOrganization_created_byTousersInput {
+  where: organizationWhereUniqueInput!
+  update: organizationUpdateWithoutOrganization_created_byTousersInput!
+  create: organizationCreateWithoutOrganization_created_byTousersInput!
+}
+
+input organizationUpdateWithoutOrganization_created_byTousersInput {
+  id: String
+  name: String
+  active: Boolean
+  system_type: organization_system_type
+  phone: String
+  webhook: String
+  group_id: String
+  apelsin_login: String
+  apelsin_password: String
+  sender_name: String
+  sender_number: String
+  description: String
+  created_at: DateTime
+  updated_at: DateTime
+  work_schedules_organization_idTorganization: work_schedulesUpdateManyWithoutOrganizationNestedInput
+  organization_updated_byTousers: usersUpdateOneWithoutOrganization_updated_byTousersNestedInput
+}
+
+input work_schedulesUpdateManyWithoutOrganizationNestedInput {
+  create: [work_schedulesCreateWithoutOrganizationInput!]
+  connectOrCreate: [work_schedulesCreateOrConnectWithoutOrganizationInput!]
+  upsert: [work_schedulesUpsertWithWhereUniqueWithoutOrganizationInput!]
+  createMany: work_schedulesCreateManyOrganizationInputEnvelope
+  set: [work_schedulesWhereUniqueInput!]
+  disconnect: [work_schedulesWhereUniqueInput!]
+  delete: [work_schedulesWhereUniqueInput!]
+  connect: [work_schedulesWhereUniqueInput!]
+  update: [work_schedulesUpdateWithWhereUniqueWithoutOrganizationInput!]
+  updateMany: [work_schedulesUpdateManyWithWhereWithoutOrganizationInput!]
+  deleteMany: [work_schedulesScalarWhereInput!]
+}
+
+input work_schedulesUpsertWithWhereUniqueWithoutOrganizationInput {
+  where: work_schedulesWhereUniqueInput!
+  update: work_schedulesUpdateWithoutOrganizationInput!
+  create: work_schedulesCreateWithoutOrganizationInput!
+}
+
+input work_schedulesUpdateWithoutOrganizationInput {
+  id: String
+  days: [String!]
+  start_time: DateTime
+  end_time: DateTime
+  max_start_time: DateTime
+  created_at: DateTime
+  updated_at: DateTime
+  work_schedules_created_byTousers: usersUpdateOneWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: usersUpdateOneWithoutWork_schedules_updated_byTousersNestedInput
+}
+
+input usersUpdateOneWithoutWork_schedules_created_byTousersNestedInput {
+  create: usersCreateWithoutWork_schedules_created_byTousersInput
+  connectOrCreate: usersCreateOrConnectWithoutWork_schedules_created_byTousersInput
+  upsert: usersUpsertWithoutWork_schedules_created_byTousersInput
+  disconnect: Boolean
+  delete: Boolean
+  connect: usersWhereUniqueInput
+  update: usersUpdateWithoutWork_schedules_created_byTousersInput
+}
+
+input usersUpsertWithoutWork_schedules_created_byTousersInput {
+  update: usersUpdateWithoutWork_schedules_created_byTousersInput!
+  create: usersCreateWithoutWork_schedules_created_byTousersInput!
+}
+
+input usersUpdateWithoutWork_schedules_created_byTousersInput {
+  id: String
+  phone: String
+  first_name: String
+  last_name: String
+  password: String
+  is_super_user: Boolean
+  status: user_status
+  created_at: DateTime
+  updated_at: DateTime
+  otp: otpUpdateManyWithoutUsersNestedInput
+  permissions_permissions_created_byTousers: permissionsUpdateManyWithoutUsers_permissions_created_byTousersNestedInput
+  permissions_permissions_updated_byTousers: permissionsUpdateManyWithoutUsers_permissions_updated_byTousersNestedInput
+  post_post_created_byTousers: postUpdateManyWithoutUsers_post_created_byTousersNestedInput
+  post_updated_byTousers: postUpdateManyWithoutUsers_post_updated_byTousersNestedInput
+  post_post_user_idTousers: postUpdateManyWithoutUsers_post_user_idTousersNestedInput
+  roles_roles_created_byTousers: rolesUpdateManyWithoutUsers_roles_created_byTousersNestedInput
+  roles_roles_updated_byTousers: rolesUpdateManyWithoutUsers_roles_updated_byTousersNestedInput
+  roles_permissions_roles_permissions_created_byTousers: roles_permissionsUpdateManyWithoutUsers_roles_permissions_created_byTousersNestedInput
+  roles_permissions_roles_permissions_updated_byTousers: roles_permissionsUpdateManyWithoutUsers_roles_permissions_updated_byTousersNestedInput
+  users_permissions_usersTousers_permissions_created_by: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_created_byNestedInput
+  users_permissions_usersTousers_permissions_updated_by: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_updated_byNestedInput
+  users_permissions_usersTousers_permissions_user_id: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_user_idNestedInput
+  users_roles_usersTousers_roles_created_by: users_rolesUpdateManyWithoutUsers_usersTousers_roles_created_byNestedInput
+  users_roles_usersTousers_roles_updated_by: users_rolesUpdateManyWithoutUsers_usersTousers_roles_updated_byNestedInput
+  users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
+  post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
+  post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
+  delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
+  city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
+  city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+  organization_created_byTousers: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput
+  work_schedules_updated_byTousers: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput
+  delivery_pricing_organization_idTousers: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput
+}
+
+input cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput {
+  create: [cityCreateWithoutUsers_city_updated_byTousersInput!]
+  connectOrCreate: [cityCreateOrConnectWithoutUsers_city_updated_byTousersInput!]
+  upsert: [cityUpsertWithWhereUniqueWithoutUsers_city_updated_byTousersInput!]
+  createMany: cityCreateManyUsers_city_updated_byTousersInputEnvelope
+  set: [cityWhereUniqueInput!]
+  disconnect: [cityWhereUniqueInput!]
+  delete: [cityWhereUniqueInput!]
+  connect: [cityWhereUniqueInput!]
+  update: [cityUpdateWithWhereUniqueWithoutUsers_city_updated_byTousersInput!]
+  updateMany: [cityUpdateManyWithWhereWithoutUsers_city_updated_byTousersInput!]
+  deleteMany: [cityScalarWhereInput!]
+}
+
+input cityUpsertWithWhereUniqueWithoutUsers_city_updated_byTousersInput {
+  where: cityWhereUniqueInput!
+  update: cityUpdateWithoutUsers_city_updated_byTousersInput!
+  create: cityCreateWithoutUsers_city_updated_byTousersInput!
+}
+
+input cityUpdateWithoutUsers_city_updated_byTousersInput {
+  id: String
+  name: String
+  created_at: DateTime
+  updated_at: DateTime
+  users_city_created_byTousers: usersUpdateOneWithoutCity_created_byTousersNestedInput
+  users_city_parent_idTousers: cityUpdateOneWithoutCity_parent_idTocityNestedInput
+  post_city_idTocity: postUpdateManyWithoutCity_city_idTocityNestedInput
+  city_parent_idTocity: cityUpdateManyWithoutUsers_city_parent_idTousersNestedInput
 }
 
 input cityUpdateOneWithoutCity_parent_idTocityNestedInput {
@@ -5337,37 +6517,531 @@ input usersUpdateWithoutPost_post_user_idTousersInput {
   delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
   city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
   city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+  organization_created_byTousers: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput
+  work_schedules_created_byTousers: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput
+  delivery_pricing_organization_idTousers: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput
 }
 
-input cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput {
-  create: [cityCreateWithoutUsers_city_updated_byTousersInput!]
-  connectOrCreate: [cityCreateOrConnectWithoutUsers_city_updated_byTousersInput!]
-  upsert: [cityUpsertWithWhereUniqueWithoutUsers_city_updated_byTousersInput!]
-  createMany: cityCreateManyUsers_city_updated_byTousersInputEnvelope
-  set: [cityWhereUniqueInput!]
-  disconnect: [cityWhereUniqueInput!]
-  delete: [cityWhereUniqueInput!]
-  connect: [cityWhereUniqueInput!]
-  update: [cityUpdateWithWhereUniqueWithoutUsers_city_updated_byTousersInput!]
-  updateMany: [cityUpdateManyWithWhereWithoutUsers_city_updated_byTousersInput!]
-  deleteMany: [cityScalarWhereInput!]
+input organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput {
+  create: [organizationCreateWithoutOrganization_updated_byTousersInput!]
+  connectOrCreate: [organizationCreateOrConnectWithoutOrganization_updated_byTousersInput!]
+  upsert: [organizationUpsertWithWhereUniqueWithoutOrganization_updated_byTousersInput!]
+  createMany: organizationCreateManyOrganization_updated_byTousersInputEnvelope
+  set: [organizationWhereUniqueInput!]
+  disconnect: [organizationWhereUniqueInput!]
+  delete: [organizationWhereUniqueInput!]
+  connect: [organizationWhereUniqueInput!]
+  update: [organizationUpdateWithWhereUniqueWithoutOrganization_updated_byTousersInput!]
+  updateMany: [organizationUpdateManyWithWhereWithoutOrganization_updated_byTousersInput!]
+  deleteMany: [organizationScalarWhereInput!]
 }
 
-input cityUpsertWithWhereUniqueWithoutUsers_city_updated_byTousersInput {
-  where: cityWhereUniqueInput!
-  update: cityUpdateWithoutUsers_city_updated_byTousersInput!
-  create: cityCreateWithoutUsers_city_updated_byTousersInput!
+input organizationUpsertWithWhereUniqueWithoutOrganization_updated_byTousersInput {
+  where: organizationWhereUniqueInput!
+  update: organizationUpdateWithoutOrganization_updated_byTousersInput!
+  create: organizationCreateWithoutOrganization_updated_byTousersInput!
 }
 
-input cityUpdateWithoutUsers_city_updated_byTousersInput {
+input organizationUpdateWithoutOrganization_updated_byTousersInput {
   id: String
   name: String
+  active: Boolean
+  system_type: organization_system_type
+  phone: String
+  webhook: String
+  group_id: String
+  apelsin_login: String
+  apelsin_password: String
+  sender_name: String
+  sender_number: String
+  description: String
   created_at: DateTime
   updated_at: DateTime
-  users_city_created_byTousers: usersUpdateOneWithoutCity_created_byTousersNestedInput
-  users_city_parent_idTousers: cityUpdateOneWithoutCity_parent_idTocityNestedInput
-  post_city_idTocity: postUpdateManyWithoutCity_city_idTocityNestedInput
-  city_parent_idTocity: cityUpdateManyWithoutUsers_city_parent_idTousersNestedInput
+  work_schedules_organization_idTorganization: work_schedulesUpdateManyWithoutOrganizationNestedInput
+  organization_created_byTousers: usersUpdateOneWithoutOrganization_created_byTousersNestedInput
+}
+
+input usersUpdateOneWithoutOrganization_created_byTousersNestedInput {
+  create: usersCreateWithoutOrganization_created_byTousersInput
+  connectOrCreate: usersCreateOrConnectWithoutOrganization_created_byTousersInput
+  upsert: usersUpsertWithoutOrganization_created_byTousersInput
+  disconnect: Boolean
+  delete: Boolean
+  connect: usersWhereUniqueInput
+  update: usersUpdateWithoutOrganization_created_byTousersInput
+}
+
+input usersUpsertWithoutOrganization_created_byTousersInput {
+  update: usersUpdateWithoutOrganization_created_byTousersInput!
+  create: usersCreateWithoutOrganization_created_byTousersInput!
+}
+
+input usersUpdateWithoutOrganization_created_byTousersInput {
+  id: String
+  phone: String
+  first_name: String
+  last_name: String
+  password: String
+  is_super_user: Boolean
+  status: user_status
+  created_at: DateTime
+  updated_at: DateTime
+  otp: otpUpdateManyWithoutUsersNestedInput
+  permissions_permissions_created_byTousers: permissionsUpdateManyWithoutUsers_permissions_created_byTousersNestedInput
+  permissions_permissions_updated_byTousers: permissionsUpdateManyWithoutUsers_permissions_updated_byTousersNestedInput
+  post_post_created_byTousers: postUpdateManyWithoutUsers_post_created_byTousersNestedInput
+  post_updated_byTousers: postUpdateManyWithoutUsers_post_updated_byTousersNestedInput
+  post_post_user_idTousers: postUpdateManyWithoutUsers_post_user_idTousersNestedInput
+  roles_roles_created_byTousers: rolesUpdateManyWithoutUsers_roles_created_byTousersNestedInput
+  roles_roles_updated_byTousers: rolesUpdateManyWithoutUsers_roles_updated_byTousersNestedInput
+  roles_permissions_roles_permissions_created_byTousers: roles_permissionsUpdateManyWithoutUsers_roles_permissions_created_byTousersNestedInput
+  roles_permissions_roles_permissions_updated_byTousers: roles_permissionsUpdateManyWithoutUsers_roles_permissions_updated_byTousersNestedInput
+  users_permissions_usersTousers_permissions_created_by: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_created_byNestedInput
+  users_permissions_usersTousers_permissions_updated_by: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_updated_byNestedInput
+  users_permissions_usersTousers_permissions_user_id: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_user_idNestedInput
+  users_roles_usersTousers_roles_created_by: users_rolesUpdateManyWithoutUsers_usersTousers_roles_created_byNestedInput
+  users_roles_usersTousers_roles_updated_by: users_rolesUpdateManyWithoutUsers_usersTousers_roles_updated_byNestedInput
+  users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
+  post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
+  post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
+  delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
+  city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
+  city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+  organization_updated_byTousers: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput
+  work_schedules_created_byTousers: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput
+  delivery_pricing_organization_idTousers: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput
+}
+
+input work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput {
+  create: [work_schedulesCreateWithoutWork_schedules_created_byTousersInput!]
+  connectOrCreate: [work_schedulesCreateOrConnectWithoutWork_schedules_created_byTousersInput!]
+  upsert: [work_schedulesUpsertWithWhereUniqueWithoutWork_schedules_created_byTousersInput!]
+  createMany: work_schedulesCreateManyWork_schedules_created_byTousersInputEnvelope
+  set: [work_schedulesWhereUniqueInput!]
+  disconnect: [work_schedulesWhereUniqueInput!]
+  delete: [work_schedulesWhereUniqueInput!]
+  connect: [work_schedulesWhereUniqueInput!]
+  update: [work_schedulesUpdateWithWhereUniqueWithoutWork_schedules_created_byTousersInput!]
+  updateMany: [work_schedulesUpdateManyWithWhereWithoutWork_schedules_created_byTousersInput!]
+  deleteMany: [work_schedulesScalarWhereInput!]
+}
+
+input work_schedulesUpsertWithWhereUniqueWithoutWork_schedules_created_byTousersInput {
+  where: work_schedulesWhereUniqueInput!
+  update: work_schedulesUpdateWithoutWork_schedules_created_byTousersInput!
+  create: work_schedulesCreateWithoutWork_schedules_created_byTousersInput!
+}
+
+input work_schedulesUpdateWithoutWork_schedules_created_byTousersInput {
+  id: String
+  organization: organizationUpdateOneRequiredWithoutWork_schedules_organization_idTorganizationNestedInput
+  days: [String!]
+  start_time: DateTime
+  end_time: DateTime
+  max_start_time: DateTime
+  created_at: DateTime
+  updated_at: DateTime
+  work_schedules_updated_byTousers: usersUpdateOneWithoutWork_schedules_updated_byTousersNestedInput
+}
+
+input organizationUpdateOneRequiredWithoutWork_schedules_organization_idTorganizationNestedInput {
+  create: organizationCreateWithoutWork_schedules_organization_idTorganizationInput
+  connectOrCreate: organizationCreateOrConnectWithoutWork_schedules_organization_idTorganizationInput
+  upsert: organizationUpsertWithoutWork_schedules_organization_idTorganizationInput
+  connect: organizationWhereUniqueInput
+  update: organizationUpdateWithoutWork_schedules_organization_idTorganizationInput
+}
+
+input organizationUpsertWithoutWork_schedules_organization_idTorganizationInput {
+  update: organizationUpdateWithoutWork_schedules_organization_idTorganizationInput!
+  create: organizationCreateWithoutWork_schedules_organization_idTorganizationInput!
+}
+
+input organizationUpdateWithoutWork_schedules_organization_idTorganizationInput {
+  id: String
+  name: String
+  active: Boolean
+  system_type: organization_system_type
+  phone: String
+  webhook: String
+  group_id: String
+  apelsin_login: String
+  apelsin_password: String
+  sender_name: String
+  sender_number: String
+  description: String
+  created_at: DateTime
+  updated_at: DateTime
+  organization_created_byTousers: usersUpdateOneWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: usersUpdateOneWithoutOrganization_updated_byTousersNestedInput
+}
+
+input usersUpdateOneWithoutOrganization_updated_byTousersNestedInput {
+  create: usersCreateWithoutOrganization_updated_byTousersInput
+  connectOrCreate: usersCreateOrConnectWithoutOrganization_updated_byTousersInput
+  upsert: usersUpsertWithoutOrganization_updated_byTousersInput
+  disconnect: Boolean
+  delete: Boolean
+  connect: usersWhereUniqueInput
+  update: usersUpdateWithoutOrganization_updated_byTousersInput
+}
+
+input usersUpsertWithoutOrganization_updated_byTousersInput {
+  update: usersUpdateWithoutOrganization_updated_byTousersInput!
+  create: usersCreateWithoutOrganization_updated_byTousersInput!
+}
+
+input usersUpdateWithoutOrganization_updated_byTousersInput {
+  id: String
+  phone: String
+  first_name: String
+  last_name: String
+  password: String
+  is_super_user: Boolean
+  status: user_status
+  created_at: DateTime
+  updated_at: DateTime
+  otp: otpUpdateManyWithoutUsersNestedInput
+  permissions_permissions_created_byTousers: permissionsUpdateManyWithoutUsers_permissions_created_byTousersNestedInput
+  permissions_permissions_updated_byTousers: permissionsUpdateManyWithoutUsers_permissions_updated_byTousersNestedInput
+  post_post_created_byTousers: postUpdateManyWithoutUsers_post_created_byTousersNestedInput
+  post_updated_byTousers: postUpdateManyWithoutUsers_post_updated_byTousersNestedInput
+  post_post_user_idTousers: postUpdateManyWithoutUsers_post_user_idTousersNestedInput
+  roles_roles_created_byTousers: rolesUpdateManyWithoutUsers_roles_created_byTousersNestedInput
+  roles_roles_updated_byTousers: rolesUpdateManyWithoutUsers_roles_updated_byTousersNestedInput
+  roles_permissions_roles_permissions_created_byTousers: roles_permissionsUpdateManyWithoutUsers_roles_permissions_created_byTousersNestedInput
+  roles_permissions_roles_permissions_updated_byTousers: roles_permissionsUpdateManyWithoutUsers_roles_permissions_updated_byTousersNestedInput
+  users_permissions_usersTousers_permissions_created_by: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_created_byNestedInput
+  users_permissions_usersTousers_permissions_updated_by: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_updated_byNestedInput
+  users_permissions_usersTousers_permissions_user_id: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_user_idNestedInput
+  users_roles_usersTousers_roles_created_by: users_rolesUpdateManyWithoutUsers_usersTousers_roles_created_byNestedInput
+  users_roles_usersTousers_roles_updated_by: users_rolesUpdateManyWithoutUsers_usersTousers_roles_updated_byNestedInput
+  users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
+  post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
+  post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
+  delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
+  city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
+  city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+  organization_created_byTousers: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput
+  work_schedules_created_byTousers: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput
+  delivery_pricing_organization_idTousers: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput
+}
+
+input work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput {
+  create: [work_schedulesCreateWithoutWork_schedules_updated_byTousersInput!]
+  connectOrCreate: [work_schedulesCreateOrConnectWithoutWork_schedules_updated_byTousersInput!]
+  upsert: [work_schedulesUpsertWithWhereUniqueWithoutWork_schedules_updated_byTousersInput!]
+  createMany: work_schedulesCreateManyWork_schedules_updated_byTousersInputEnvelope
+  set: [work_schedulesWhereUniqueInput!]
+  disconnect: [work_schedulesWhereUniqueInput!]
+  delete: [work_schedulesWhereUniqueInput!]
+  connect: [work_schedulesWhereUniqueInput!]
+  update: [work_schedulesUpdateWithWhereUniqueWithoutWork_schedules_updated_byTousersInput!]
+  updateMany: [work_schedulesUpdateManyWithWhereWithoutWork_schedules_updated_byTousersInput!]
+  deleteMany: [work_schedulesScalarWhereInput!]
+}
+
+input work_schedulesUpsertWithWhereUniqueWithoutWork_schedules_updated_byTousersInput {
+  where: work_schedulesWhereUniqueInput!
+  update: work_schedulesUpdateWithoutWork_schedules_updated_byTousersInput!
+  create: work_schedulesCreateWithoutWork_schedules_updated_byTousersInput!
+}
+
+input work_schedulesUpdateWithoutWork_schedules_updated_byTousersInput {
+  id: String
+  organization: organizationUpdateOneRequiredWithoutWork_schedules_organization_idTorganizationNestedInput
+  days: [String!]
+  start_time: DateTime
+  end_time: DateTime
+  max_start_time: DateTime
+  created_at: DateTime
+  updated_at: DateTime
+  work_schedules_created_byTousers: usersUpdateOneWithoutWork_schedules_created_byTousersNestedInput
+}
+
+input work_schedulesUpdateWithWhereUniqueWithoutWork_schedules_updated_byTousersInput {
+  where: work_schedulesWhereUniqueInput!
+  data: work_schedulesUpdateWithoutWork_schedules_updated_byTousersInput!
+}
+
+input work_schedulesUpdateManyWithWhereWithoutWork_schedules_updated_byTousersInput {
+  where: work_schedulesScalarWhereInput!
+  data: work_schedulesUpdateManyMutationInput!
+}
+
+input work_schedulesScalarWhereInput {
+  AND: [work_schedulesScalarWhereInput!]
+  OR: [work_schedulesScalarWhereInput!]
+  NOT: [work_schedulesScalarWhereInput!]
+  id: StringFilter
+  organization_id: StringFilter
+  days: StringNullableListFilter
+  start_time: DateTimeFilter
+  end_time: DateTimeFilter
+  max_start_time: DateTimeFilter
+  created_at: DateTimeFilter
+  updated_at: DateTimeFilter
+  created_by: StringNullableFilter
+  updated_by: StringNullableFilter
+}
+
+input work_schedulesUpdateManyMutationInput {
+  id: String
+  days: [String!]
+  start_time: DateTime
+  end_time: DateTime
+  max_start_time: DateTime
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+input delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput {
+  create: [delivery_pricingCreateWithoutDelivery_pricing_organization_idTousersInput!]
+  connectOrCreate: [delivery_pricingCreateOrConnectWithoutDelivery_pricing_organization_idTousersInput!]
+  upsert: [delivery_pricingUpsertWithWhereUniqueWithoutDelivery_pricing_organization_idTousersInput!]
+  createMany: delivery_pricingCreateManyDelivery_pricing_organization_idTousersInputEnvelope
+  set: [delivery_pricingWhereUniqueInput!]
+  disconnect: [delivery_pricingWhereUniqueInput!]
+  delete: [delivery_pricingWhereUniqueInput!]
+  connect: [delivery_pricingWhereUniqueInput!]
+  update: [delivery_pricingUpdateWithWhereUniqueWithoutDelivery_pricing_organization_idTousersInput!]
+  updateMany: [delivery_pricingUpdateManyWithWhereWithoutDelivery_pricing_organization_idTousersInput!]
+  deleteMany: [delivery_pricingScalarWhereInput!]
+}
+
+input delivery_pricingUpsertWithWhereUniqueWithoutDelivery_pricing_organization_idTousersInput {
+  where: delivery_pricingWhereUniqueInput!
+  update: delivery_pricingUpdateWithoutDelivery_pricing_organization_idTousersInput!
+  create: delivery_pricingCreateWithoutDelivery_pricing_organization_idTousersInput!
+}
+
+input delivery_pricingUpdateWithoutDelivery_pricing_organization_idTousersInput {
+  id: String
+  active: Boolean
+  default: Boolean
+  name: String
+  drive_type: drive_type
+  days: [String!]
+  start_time: DateTime
+  end_time: DateTime
+  min_price: Int
+  rules: JSON
+  price_per_km: Int
+  created_at: DateTime
+  updated_at: DateTime
+  users_delivery_pricing_created_byTousers: usersUpdateOneWithoutDelivery_pricing_created_byTousersNestedInput
+  users_delivery_pricing_updated_byTousers: usersUpdateOneWithoutDelivery_pricing_updated_byTousersNestedInput
+}
+
+input delivery_pricingUpdateWithWhereUniqueWithoutDelivery_pricing_organization_idTousersInput {
+  where: delivery_pricingWhereUniqueInput!
+  data: delivery_pricingUpdateWithoutDelivery_pricing_organization_idTousersInput!
+}
+
+input delivery_pricingUpdateManyWithWhereWithoutDelivery_pricing_organization_idTousersInput {
+  where: delivery_pricingScalarWhereInput!
+  data: delivery_pricingUpdateManyMutationInput!
+}
+
+input delivery_pricingScalarWhereInput {
+  AND: [delivery_pricingScalarWhereInput!]
+  OR: [delivery_pricingScalarWhereInput!]
+  NOT: [delivery_pricingScalarWhereInput!]
+  id: StringFilter
+  active: BoolFilter
+  default: BoolFilter
+  name: StringFilter
+  drive_type: Enumdrive_typeFilter
+  days: StringNullableListFilter
+  start_time: DateTimeFilter
+  end_time: DateTimeFilter
+  min_price: IntNullableFilter
+  rules: JsonFilter
+  price_per_km: IntFilter
+  organization_id: StringFilter
+  created_at: DateTimeFilter
+  updated_at: DateTimeFilter
+  created_by: StringNullableFilter
+  updated_by: StringNullableFilter
+}
+
+input delivery_pricingUpdateManyMutationInput {
+  id: String
+  active: Boolean
+  default: Boolean
+  name: String
+  drive_type: drive_type
+  days: [String!]
+  start_time: DateTime
+  end_time: DateTime
+  min_price: Int
+  rules: JSON
+  price_per_km: Int
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+input usersUpdateOneWithoutWork_schedules_updated_byTousersNestedInput {
+  create: usersCreateWithoutWork_schedules_updated_byTousersInput
+  connectOrCreate: usersCreateOrConnectWithoutWork_schedules_updated_byTousersInput
+  upsert: usersUpsertWithoutWork_schedules_updated_byTousersInput
+  disconnect: Boolean
+  delete: Boolean
+  connect: usersWhereUniqueInput
+  update: usersUpdateWithoutWork_schedules_updated_byTousersInput
+}
+
+input usersUpsertWithoutWork_schedules_updated_byTousersInput {
+  update: usersUpdateWithoutWork_schedules_updated_byTousersInput!
+  create: usersCreateWithoutWork_schedules_updated_byTousersInput!
+}
+
+input usersUpdateWithoutWork_schedules_updated_byTousersInput {
+  id: String
+  phone: String
+  first_name: String
+  last_name: String
+  password: String
+  is_super_user: Boolean
+  status: user_status
+  created_at: DateTime
+  updated_at: DateTime
+  otp: otpUpdateManyWithoutUsersNestedInput
+  permissions_permissions_created_byTousers: permissionsUpdateManyWithoutUsers_permissions_created_byTousersNestedInput
+  permissions_permissions_updated_byTousers: permissionsUpdateManyWithoutUsers_permissions_updated_byTousersNestedInput
+  post_post_created_byTousers: postUpdateManyWithoutUsers_post_created_byTousersNestedInput
+  post_updated_byTousers: postUpdateManyWithoutUsers_post_updated_byTousersNestedInput
+  post_post_user_idTousers: postUpdateManyWithoutUsers_post_user_idTousersNestedInput
+  roles_roles_created_byTousers: rolesUpdateManyWithoutUsers_roles_created_byTousersNestedInput
+  roles_roles_updated_byTousers: rolesUpdateManyWithoutUsers_roles_updated_byTousersNestedInput
+  roles_permissions_roles_permissions_created_byTousers: roles_permissionsUpdateManyWithoutUsers_roles_permissions_created_byTousersNestedInput
+  roles_permissions_roles_permissions_updated_byTousers: roles_permissionsUpdateManyWithoutUsers_roles_permissions_updated_byTousersNestedInput
+  users_permissions_usersTousers_permissions_created_by: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_created_byNestedInput
+  users_permissions_usersTousers_permissions_updated_by: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_updated_byNestedInput
+  users_permissions_usersTousers_permissions_user_id: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_user_idNestedInput
+  users_roles_usersTousers_roles_created_by: users_rolesUpdateManyWithoutUsers_usersTousers_roles_created_byNestedInput
+  users_roles_usersTousers_roles_updated_by: users_rolesUpdateManyWithoutUsers_usersTousers_roles_updated_byNestedInput
+  users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
+  post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
+  post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
+  delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
+  city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
+  city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+  organization_created_byTousers: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput
+  work_schedules_created_byTousers: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput
+  delivery_pricing_organization_idTousers: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput
+}
+
+input work_schedulesUpdateWithWhereUniqueWithoutWork_schedules_created_byTousersInput {
+  where: work_schedulesWhereUniqueInput!
+  data: work_schedulesUpdateWithoutWork_schedules_created_byTousersInput!
+}
+
+input work_schedulesUpdateManyWithWhereWithoutWork_schedules_created_byTousersInput {
+  where: work_schedulesScalarWhereInput!
+  data: work_schedulesUpdateManyMutationInput!
+}
+
+input organizationUpdateWithWhereUniqueWithoutOrganization_updated_byTousersInput {
+  where: organizationWhereUniqueInput!
+  data: organizationUpdateWithoutOrganization_updated_byTousersInput!
+}
+
+input organizationUpdateManyWithWhereWithoutOrganization_updated_byTousersInput {
+  where: organizationScalarWhereInput!
+  data: organizationUpdateManyMutationInput!
+}
+
+input organizationScalarWhereInput {
+  AND: [organizationScalarWhereInput!]
+  OR: [organizationScalarWhereInput!]
+  NOT: [organizationScalarWhereInput!]
+  id: StringFilter
+  name: StringFilter
+  active: BoolFilter
+  system_type: Enumorganization_system_typeFilter
+  phone: StringFilter
+  webhook: StringNullableFilter
+  group_id: StringNullableFilter
+  apelsin_login: StringNullableFilter
+  apelsin_password: StringNullableFilter
+  sender_name: StringNullableFilter
+  sender_number: StringNullableFilter
+  description: StringNullableFilter
+  created_at: DateTimeFilter
+  updated_at: DateTimeFilter
+  created_by: StringNullableFilter
+  updated_by: StringNullableFilter
+}
+
+input organizationUpdateManyMutationInput {
+  id: String
+  name: String
+  active: Boolean
+  system_type: organization_system_type
+  phone: String
+  webhook: String
+  group_id: String
+  apelsin_login: String
+  apelsin_password: String
+  sender_name: String
+  sender_number: String
+  description: String
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+input postUpdateWithWhereUniqueWithoutCity_city_idTocityInput {
+  where: postWhereUniqueInput!
+  data: postUpdateWithoutCity_city_idTocityInput!
+}
+
+input postUpdateManyWithWhereWithoutCity_city_idTocityInput {
+  where: postScalarWhereInput!
+  data: postUpdateManyMutationInput!
+}
+
+input postScalarWhereInput {
+  AND: [postScalarWhereInput!]
+  OR: [postScalarWhereInput!]
+  NOT: [postScalarWhereInput!]
+  id: StringFilter
+  user_id: StringFilter
+  created_at: DateTimeFilter
+  updated_at: DateTimeFilter
+  created_by: StringNullableFilter
+  updated_by: StringNullableFilter
+  price: IntFilter
+  price_type: Enumprice_typeFilter
+  status: EnumstatusFilter
+  sale_type: Enumsale_typeFilter
+  latitude: FloatFilter
+  longitude: FloatFilter
+  address: StringFilter
+  comments_count: IntFilter
+  city_id: StringFilter
+}
+
+input postUpdateManyMutationInput {
+  id: String
+  created_at: DateTime
+  updated_at: DateTime
+  price: Int
+  price_type: price_type
+  status: status
+  sale_type: sale_type
+  latitude: Float
+  longitude: Float
+  address: String
+  comments_count: Int
 }
 
 input cityUpdateManyWithoutUsers_city_parent_idTousersNestedInput {
@@ -5441,49 +7115,24 @@ input cityUpdateManyWithWhereWithoutUsers_city_updated_byTousersInput {
   data: cityUpdateManyMutationInput!
 }
 
-input postUpdateWithWhereUniqueWithoutCity_city_idTocityInput {
-  where: postWhereUniqueInput!
-  data: postUpdateWithoutCity_city_idTocityInput!
+input work_schedulesUpdateWithWhereUniqueWithoutOrganizationInput {
+  where: work_schedulesWhereUniqueInput!
+  data: work_schedulesUpdateWithoutOrganizationInput!
 }
 
-input postUpdateManyWithWhereWithoutCity_city_idTocityInput {
-  where: postScalarWhereInput!
-  data: postUpdateManyMutationInput!
+input work_schedulesUpdateManyWithWhereWithoutOrganizationInput {
+  where: work_schedulesScalarWhereInput!
+  data: work_schedulesUpdateManyMutationInput!
 }
 
-input postScalarWhereInput {
-  AND: [postScalarWhereInput!]
-  OR: [postScalarWhereInput!]
-  NOT: [postScalarWhereInput!]
-  id: StringFilter
-  user_id: StringFilter
-  created_at: DateTimeFilter
-  updated_at: DateTimeFilter
-  created_by: StringNullableFilter
-  updated_by: StringNullableFilter
-  price: IntFilter
-  price_type: Enumprice_typeFilter
-  status: EnumstatusFilter
-  sale_type: Enumsale_typeFilter
-  latitude: FloatFilter
-  longitude: FloatFilter
-  address: StringFilter
-  comments_count: IntFilter
-  city_id: StringFilter
+input organizationUpdateWithWhereUniqueWithoutOrganization_created_byTousersInput {
+  where: organizationWhereUniqueInput!
+  data: organizationUpdateWithoutOrganization_created_byTousersInput!
 }
 
-input postUpdateManyMutationInput {
-  id: String
-  created_at: DateTime
-  updated_at: DateTime
-  price: Int
-  price_type: price_type
-  status: status
-  sale_type: sale_type
-  latitude: Float
-  longitude: Float
-  address: String
-  comments_count: Int
+input organizationUpdateManyWithWhereWithoutOrganization_created_byTousersInput {
+  where: organizationScalarWhereInput!
+  data: organizationUpdateManyMutationInput!
 }
 
 input cityUpdateWithWhereUniqueWithoutUsers_city_created_byTousersInput {
@@ -5496,6 +7145,57 @@ input cityUpdateManyWithWhereWithoutUsers_city_created_byTousersInput {
   data: cityUpdateManyMutationInput!
 }
 
+input usersUpdateOneRequiredWithoutDelivery_pricing_organization_idTousersNestedInput {
+  create: usersCreateWithoutDelivery_pricing_organization_idTousersInput
+  connectOrCreate: usersCreateOrConnectWithoutDelivery_pricing_organization_idTousersInput
+  upsert: usersUpsertWithoutDelivery_pricing_organization_idTousersInput
+  connect: usersWhereUniqueInput
+  update: usersUpdateWithoutDelivery_pricing_organization_idTousersInput
+}
+
+input usersUpsertWithoutDelivery_pricing_organization_idTousersInput {
+  update: usersUpdateWithoutDelivery_pricing_organization_idTousersInput!
+  create: usersCreateWithoutDelivery_pricing_organization_idTousersInput!
+}
+
+input usersUpdateWithoutDelivery_pricing_organization_idTousersInput {
+  id: String
+  phone: String
+  first_name: String
+  last_name: String
+  password: String
+  is_super_user: Boolean
+  status: user_status
+  created_at: DateTime
+  updated_at: DateTime
+  otp: otpUpdateManyWithoutUsersNestedInput
+  permissions_permissions_created_byTousers: permissionsUpdateManyWithoutUsers_permissions_created_byTousersNestedInput
+  permissions_permissions_updated_byTousers: permissionsUpdateManyWithoutUsers_permissions_updated_byTousersNestedInput
+  post_post_created_byTousers: postUpdateManyWithoutUsers_post_created_byTousersNestedInput
+  post_updated_byTousers: postUpdateManyWithoutUsers_post_updated_byTousersNestedInput
+  post_post_user_idTousers: postUpdateManyWithoutUsers_post_user_idTousersNestedInput
+  roles_roles_created_byTousers: rolesUpdateManyWithoutUsers_roles_created_byTousersNestedInput
+  roles_roles_updated_byTousers: rolesUpdateManyWithoutUsers_roles_updated_byTousersNestedInput
+  roles_permissions_roles_permissions_created_byTousers: roles_permissionsUpdateManyWithoutUsers_roles_permissions_created_byTousersNestedInput
+  roles_permissions_roles_permissions_updated_byTousers: roles_permissionsUpdateManyWithoutUsers_roles_permissions_updated_byTousersNestedInput
+  users_permissions_usersTousers_permissions_created_by: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_created_byNestedInput
+  users_permissions_usersTousers_permissions_updated_by: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_updated_byNestedInput
+  users_permissions_usersTousers_permissions_user_id: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_user_idNestedInput
+  users_roles_usersTousers_roles_created_by: users_rolesUpdateManyWithoutUsers_usersTousers_roles_created_byNestedInput
+  users_roles_usersTousers_roles_updated_by: users_rolesUpdateManyWithoutUsers_usersTousers_roles_updated_byNestedInput
+  users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
+  post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
+  post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
+  delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
+  city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
+  city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+  organization_created_byTousers: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput
+  work_schedules_created_byTousers: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput
+}
+
 input delivery_pricingUpdateWithWhereUniqueWithoutUsers_delivery_pricing_updated_byTousersInput {
   where: delivery_pricingWhereUniqueInput!
   data: delivery_pricingUpdateWithoutUsers_delivery_pricing_updated_byTousersInput!
@@ -5504,44 +7204,6 @@ input delivery_pricingUpdateWithWhereUniqueWithoutUsers_delivery_pricing_updated
 input delivery_pricingUpdateManyWithWhereWithoutUsers_delivery_pricing_updated_byTousersInput {
   where: delivery_pricingScalarWhereInput!
   data: delivery_pricingUpdateManyMutationInput!
-}
-
-input delivery_pricingScalarWhereInput {
-  AND: [delivery_pricingScalarWhereInput!]
-  OR: [delivery_pricingScalarWhereInput!]
-  NOT: [delivery_pricingScalarWhereInput!]
-  id: StringFilter
-  active: BoolFilter
-  default: BoolFilter
-  name: StringFilter
-  drive_type: Enumdrive_typeFilter
-  days: StringNullableListFilter
-  start_time: StringFilter
-  end_time: StringFilter
-  min_price: IntNullableFilter
-  rules: JsonFilter
-  price_per_km: IntFilter
-  created_at: DateTimeFilter
-  updated_at: DateTimeFilter
-  created_by: StringNullableFilter
-  updated_by: StringNullableFilter
-}
-
-input delivery_pricingUpdateManyMutationInput {
-  id: String
-  active: Boolean
-  default: Boolean
-  name: String
-  drive_type: drive_type
-  days: [String!]
-  start_time: String
-  end_time: String
-  min_price: Int
-  rules: JSON
-  price_per_km: Int
-  created_at: DateTime
-  updated_at: DateTime
-  updated_by: String
 }
 
 input post_prop_typesUpdateWithWhereUniqueWithoutUsers_post_prop_types_updated_byTousersInput {
@@ -5959,16 +7621,16 @@ input delivery_pricingCreateInput {
   name: String!
   drive_type: drive_type
   days: [String!]
-  start_time: String!
-  end_time: String!
+  start_time: DateTime!
+  end_time: DateTime!
   min_price: Int
   rules: JSON!
   price_per_km: Int
   created_at: DateTime
   updated_at: DateTime
-  updated_by: String
   users_delivery_pricing_created_byTousers: usersCreateNestedOneWithoutDelivery_pricing_created_byTousersInput
   users_delivery_pricing_updated_byTousers: usersCreateNestedOneWithoutDelivery_pricing_updated_byTousersInput
+  delivery_pricing_organization_idTousers: usersCreateNestedOneWithoutDelivery_pricing_organization_idTousersInput!
 }
 
 input delivery_pricingUpdateInput {
@@ -5978,14 +7640,80 @@ input delivery_pricingUpdateInput {
   name: String
   drive_type: drive_type
   days: [String!]
-  start_time: String
-  end_time: String
+  start_time: DateTime
+  end_time: DateTime
   min_price: Int
   rules: JSON
   price_per_km: Int
   created_at: DateTime
   updated_at: DateTime
-  updated_by: String
   users_delivery_pricing_created_byTousers: usersUpdateOneWithoutDelivery_pricing_created_byTousersNestedInput
   users_delivery_pricing_updated_byTousers: usersUpdateOneWithoutDelivery_pricing_updated_byTousersNestedInput
+  delivery_pricing_organization_idTousers: usersUpdateOneRequiredWithoutDelivery_pricing_organization_idTousersNestedInput
+}
+
+input organizationCreateInput {
+  id: String
+  name: String!
+  active: Boolean
+  system_type: organization_system_type
+  phone: String!
+  webhook: String
+  group_id: String
+  apelsin_login: String
+  apelsin_password: String
+  sender_name: String
+  sender_number: String
+  description: String
+  created_at: DateTime
+  updated_at: DateTime
+  work_schedules_organization_idTorganization: work_schedulesCreateNestedManyWithoutOrganizationInput
+  organization_created_byTousers: usersCreateNestedOneWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: usersCreateNestedOneWithoutOrganization_updated_byTousersInput
+}
+
+input organizationUpdateInput {
+  id: String
+  name: String
+  active: Boolean
+  system_type: organization_system_type
+  phone: String
+  webhook: String
+  group_id: String
+  apelsin_login: String
+  apelsin_password: String
+  sender_name: String
+  sender_number: String
+  description: String
+  created_at: DateTime
+  updated_at: DateTime
+  work_schedules_organization_idTorganization: work_schedulesUpdateManyWithoutOrganizationNestedInput
+  organization_created_byTousers: usersUpdateOneWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: usersUpdateOneWithoutOrganization_updated_byTousersNestedInput
+}
+
+input work_schedulesCreateInput {
+  id: String
+  organization: organizationCreateNestedOneWithoutWork_schedules_organization_idTorganizationInput!
+  days: [String!]
+  start_time: DateTime!
+  end_time: DateTime!
+  max_start_time: DateTime!
+  created_at: DateTime
+  updated_at: DateTime
+  work_schedules_created_byTousers: usersCreateNestedOneWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: usersCreateNestedOneWithoutWork_schedules_updated_byTousersInput
+}
+
+input work_schedulesUpdateInput {
+  id: String
+  organization: organizationUpdateOneRequiredWithoutWork_schedules_organization_idTorganizationNestedInput
+  days: [String!]
+  start_time: DateTime
+  end_time: DateTime
+  max_start_time: DateTime
+  created_at: DateTime
+  updated_at: DateTime
+  work_schedules_created_byTousers: usersUpdateOneWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: usersUpdateOneWithoutWork_schedules_updated_byTousersNestedInput
 }

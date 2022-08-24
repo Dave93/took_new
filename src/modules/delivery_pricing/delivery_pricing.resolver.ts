@@ -2,11 +2,11 @@ import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { DeliveryPricingService } from './delivery_pricing.service';
 import { DeliveryPricing } from './entities/delivery_pricing.entity';
 import { delivery_pricing } from 'src/@generated/delivery-pricing/delivery-pricing.model';
-import { CreateOnedeliveryPricingArgs } from 'src/@generated/prisma/create-onedelivery-pricing.args';
 import { FindManydeliveryPricingArgs } from 'src/@generated/prisma/find-manydelivery-pricing.args';
 import { PrismaAggregateCount } from '@common/dtos/prisma-aggregate-count';
 import { delivery_pricingWhereInput } from 'src/@generated/delivery-pricing/delivery-pricing-where.input';
 import { UpdateOnedeliveryPricingArgs } from 'src/@generated/prisma/update-onedelivery-pricing.args';
+import { CreateOnedeliveryPricingArgs } from 'src/helpers/create-one.args';
 
 @Resolver(() => delivery_pricing)
 export class DeliveryPricingResolver {

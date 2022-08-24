@@ -39,6 +39,9 @@ export class delivery_pricingCountOrderByAggregateInput {
     price_per_km?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    organization_id?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     created_at?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})

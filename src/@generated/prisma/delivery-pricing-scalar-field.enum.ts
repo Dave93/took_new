@@ -12,6 +12,7 @@ export enum Delivery_pricingScalarFieldEnum {
     min_price = "min_price",
     rules = "rules",
     price_per_km = "price_per_km",
+    organization_id = "organization_id",
     created_at = "created_at",
     updated_at = "updated_at",
     created_by = "created_by",
