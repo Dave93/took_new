@@ -12,6 +12,9 @@ export class Work_schedulesCountAggregate {
     name!: number;
 
     @Field(() => Int, {nullable:false})
+    active!: number;
+
+    @Field(() => Int, {nullable:false})
     organization_id!: number;
 
     @Field(() => Int, {nullable:false})

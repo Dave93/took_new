@@ -1,4 +1,4 @@
-import { Field } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 import { ArgsType } from '@nestjs/graphql';
 import { delivery_pricingCreateInput } from 'src/@generated/delivery-pricing/delivery-pricing-create.input';
 import { Type } from 'class-transformer';
@@ -13,48 +13,49 @@ import { organizationCreateInput } from 'src/@generated/organization/organizatio
 import { organizationUncheckedCreateInput } from 'src/@generated/organization/organization-unchecked-create.input';
 import { work_schedulesCreateInput } from 'src/@generated/work-schedules/work-schedules-create.input';
 import { work_schedulesUncheckedCreateInput } from 'src/@generated/work-schedules/work-schedules-unchecked-create.input';
+const classes = require('extends-classes');
 
 type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
 type XOR<T, U> = T extends object ? (U extends object ? (Without<T, U> & U) | (Without<U, T> & T) : U) : T;
 
 @ArgsType()
 export class CreateOnedeliveryPricingArgs {
-  @Field(() => delivery_pricingCreateInput, { nullable: false })
-  @Type(() => delivery_pricingCreateInput)
+  @Field(() => delivery_pricingUncheckedCreateInput, { nullable: false })
+  @Type(() => delivery_pricingUncheckedCreateInput)
   data!: XOR<delivery_pricingCreateInput, delivery_pricingUncheckedCreateInput>;
 }
 
 @ArgsType()
 export class CreateOnepermissionsArgs {
-  @Field(() => permissionsCreateInput, { nullable: false })
-  @Type(() => permissionsCreateInput)
+  @Field(() => permissionsUncheckedCreateInput, { nullable: false })
+  @Type(() => permissionsUncheckedCreateInput)
   data!: XOR<permissionsCreateInput, permissionsUncheckedCreateInput>;
 }
 
 @ArgsType()
 export class CreateOnerolesArgs {
-  @Field(() => rolesCreateInput, { nullable: false })
-  @Type(() => rolesCreateInput)
+  @Field(() => rolesUncheckedCreateInput, { nullable: false })
+  @Type(() => rolesUncheckedCreateInput)
   data!: XOR<rolesCreateInput, rolesUncheckedCreateInput>;
 }
 
 @ArgsType()
 export class CreateOnerolesPermissionsArgs {
-  @Field(() => roles_permissionsCreateInput, { nullable: false })
-  @Type(() => roles_permissionsCreateInput)
+  @Field(() => roles_permissionsUncheckedCreateInput, { nullable: false })
+  @Type(() => roles_permissionsUncheckedCreateInput)
   data!: XOR<roles_permissionsCreateInput, roles_permissionsUncheckedCreateInput>;
 }
 
 @ArgsType()
 export class organizationCreateArgs {
-  @Field(() => organizationCreateInput, { nullable: false })
-  @Type(() => organizationCreateInput)
+  @Field(() => organizationUncheckedCreateInput, { nullable: false })
+  @Type(() => organizationUncheckedCreateInput)
   data!: XOR<organizationCreateInput, organizationUncheckedCreateInput>;
 }
 
 @ArgsType()
 export class work_schedulesCreateArgs {
-  @Field(() => work_schedulesCreateInput, { nullable: false })
-  @Type(() => work_schedulesCreateInput)
+  @Field(() => work_schedulesUncheckedCreateInput, { nullable: false })
+  @Type(() => work_schedulesUncheckedCreateInput)
   data: XOR<work_schedulesCreateInput, work_schedulesUncheckedCreateInput>;
 }

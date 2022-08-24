@@ -10,6 +10,9 @@ export class work_schedulesCreateManyInput {
     @Field(() => String, {nullable:false})
     name!: string;
 
+    @Field(() => Boolean, {nullable:true})
+    active?: boolean;
+
     @Field(() => String, {nullable:false})
     organization_id!: string;
 

@@ -10,6 +10,9 @@ export class work_schedulesUncheckedUpdateManyWithoutWork_schedules_organization
     @Field(() => String, {nullable:true})
     name?: string;
 
+    @Field(() => Boolean, {nullable:true})
+    active?: boolean;
+
     @Field(() => [String], {nullable:true})
     days?: Array<string>;
 

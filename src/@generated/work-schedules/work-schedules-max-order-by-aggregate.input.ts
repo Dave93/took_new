@@ -12,6 +12,9 @@ export class work_schedulesMaxOrderByAggregateInput {
     name?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    active?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     organization_id?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})

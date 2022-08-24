@@ -13,6 +13,9 @@ export class work_schedules {
     @Field(() => String, {nullable:false})
     name!: string;
 
+    @Field(() => Boolean, {nullable:false,defaultValue:true})
+    active!: boolean;
+
     @Field(() => String, {nullable:false})
     organization_id!: string;
 

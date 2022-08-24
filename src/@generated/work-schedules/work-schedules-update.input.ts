@@ -13,6 +13,9 @@ export class work_schedulesUpdateInput {
     @Field(() => String, {nullable:true})
     name?: string;
 
+    @Field(() => Boolean, {nullable:true})
+    active?: boolean;
+
     @Field(() => organizationUpdateOneRequiredWithoutWork_schedules_organization_idTorganizationNestedInput, {nullable:true})
     organization?: organizationUpdateOneRequiredWithoutWork_schedules_organization_idTorganizationNestedInput;
 

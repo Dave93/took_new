@@ -13,6 +13,9 @@ export class work_schedulesCreateInput {
     @Field(() => String, {nullable:false})
     name!: string;
 
+    @Field(() => Boolean, {nullable:true})
+    active?: boolean;
+
     @Field(() => organizationCreateNestedOneWithoutWork_schedules_organization_idTorganizationInput, {nullable:false})
     organization!: organizationCreateNestedOneWithoutWork_schedules_organization_idTorganizationInput;
 

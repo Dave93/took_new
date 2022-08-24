@@ -3,6 +3,7 @@ import { registerEnumType } from '@nestjs/graphql';
 export enum Work_schedulesScalarFieldEnum {
     id = "id",
     name = "name",
+    active = "active",
     organization_id = "organization_id",
     days = "days",
     start_time = "start_time",

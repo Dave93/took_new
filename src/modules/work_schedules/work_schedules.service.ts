@@ -22,7 +22,12 @@ export class WorkSchedulesService {
   }
 
   findAll(params: FindManyworkSchedulesArgs) {
-    return this.prismaService.work_schedules.findMany(params);
+    return this.prismaService.work_schedules.findMany({
+      ...params,
+      include: {
+        organization: true,
+      },
+    });
   }
 
   findOne(id: string) {

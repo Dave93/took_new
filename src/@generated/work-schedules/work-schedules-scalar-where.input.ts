@@ -1,6 +1,7 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { StringFilter } from '../prisma/string-filter.input';
+import { BoolFilter } from '../prisma/bool-filter.input';
 import { StringNullableListFilter } from '../prisma/string-nullable-list-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { StringNullableFilter } from '../prisma/string-nullable-filter.input';
@@ -22,6 +23,9 @@ export class work_schedulesScalarWhereInput {
 
     @Field(() => StringFilter, {nullable:true})
     name?: StringFilter;
+
+    @Field(() => BoolFilter, {nullable:true})
+    active?: BoolFilter;
 
     @Field(() => StringFilter, {nullable:true})
     organization_id?: StringFilter;

@@ -13,6 +13,9 @@ export class Work_schedulesGroupBy {
     @Field(() => String, {nullable:false})
     name!: string;
 
+    @Field(() => Boolean, {nullable:false})
+    active!: boolean;
+
     @Field(() => String, {nullable:false})
     organization_id!: string;
 

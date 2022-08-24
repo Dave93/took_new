@@ -13,7 +13,7 @@ export class WorkSchedulesResolver {
   constructor(private readonly workSchedulesService: WorkSchedulesService) {}
 
   @Mutation(() => work_schedules)
-  createWorkSchedule(@Args() createWorkScheduleInput: work_schedulesCreateArgs) {
+  workScheduleCreate(@Args() createWorkScheduleInput: work_schedulesCreateArgs) {
     return this.workSchedulesService.create(createWorkScheduleInput);
   }
   @Query(() => PrismaAggregateCount, { name: 'workSchedulesConnection' })

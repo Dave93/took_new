@@ -10,6 +10,9 @@ export class work_schedulesCreateManyOrganizationInput {
     @Field(() => String, {nullable:false})
     name!: string;
 
+    @Field(() => Boolean, {nullable:true})
+    active?: boolean;
+
     @Field(() => [String], {nullable:true})
     days?: Array<string>;
 

@@ -10,6 +10,9 @@ export class work_schedulesUncheckedUpdateWithoutWork_schedules_created_byTouser
     @Field(() => String, {nullable:true})
     name?: string;
 
+    @Field(() => Boolean, {nullable:true})
+    active?: boolean;
+
     @Field(() => String, {nullable:true})
     organization_id?: string;
 
