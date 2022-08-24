@@ -22,7 +22,7 @@ export class DeliveryPricingResolver {
     return this.deliveryPricingService.findAll(params);
   }
 
-  @Query(() => PrismaAggregateCount, { name: 'deliveryPricingConnection' })
+  @Query(() => PrismaAggregateCount, { name: 'deliveryPricingsConnection' })
   deliveryPricingConnection(@Args('where') where: delivery_pricingWhereInput) {
     return this.deliveryPricingService.deliveryPricingConnection(where);
   }

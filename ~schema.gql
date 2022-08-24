@@ -407,7 +407,7 @@ type Query {
   permission(id: String!): permissions!
   auth(id: Int!): Auth!
   deliveryPricings(where: delivery_pricingWhereInput, orderBy: [delivery_pricingOrderByWithRelationInput!], cursor: delivery_pricingWhereUniqueInput, take: Int, skip: Int, distinct: [Delivery_pricingScalarFieldEnum!]): [delivery_pricing!]!
-  deliveryPricingConnection(where: delivery_pricingWhereInput!): PrismaAggregateCount!
+  deliveryPricingsConnection(where: delivery_pricingWhereInput!): PrismaAggregateCount!
   deliveryPricing(id: String!): delivery_pricing!
 }
 
