@@ -17,7 +17,7 @@ export class TerminalsResolver {
     return this.terminalsService.create(createTerminalInput);
   }
 
-  @Query(() => PrismaAggregateCount, { name: 'terminalConnection' })
+  @Query(() => PrismaAggregateCount, { name: 'terminalsConnection' })
   terminalConnection(@Args('where') where: terminalsWhereInput) {
     return this.terminalsService.terminalConnection(where);
   }

@@ -515,7 +515,7 @@ type Query {
   workSchedulesConnection(where: work_schedulesWhereInput!): PrismaAggregateCount!
   workSchedules(where: work_schedulesWhereInput, orderBy: [work_schedulesOrderByWithRelationInput!], cursor: work_schedulesWhereUniqueInput, take: Int, skip: Int, distinct: [Work_schedulesScalarFieldEnum!]): [work_schedules!]!
   workSchedule(id: String!): work_schedules!
-  terminalConnection(where: terminalsWhereInput!): PrismaAggregateCount!
+  terminalsConnection(where: terminalsWhereInput!): PrismaAggregateCount!
   terminals(where: terminalsWhereInput, orderBy: [terminalsOrderByWithRelationInput!], cursor: terminalsWhereUniqueInput, take: Int, skip: Int, distinct: [TerminalsScalarFieldEnum!]): [terminals!]!
   terminal(id: String!): terminals!
 }
@@ -1534,6 +1534,7 @@ input terminalsOrderByWithRelationInput {
 
 input terminalsWhereUniqueInput {
   id: String
+  external_id: String
 }
 
 enum TerminalsScalarFieldEnum {
