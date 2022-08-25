@@ -1,4 +1,4 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field } from '@nestjs/graphql';
 import { ArgsType } from '@nestjs/graphql';
 import { delivery_pricingCreateInput } from 'src/@generated/delivery-pricing/delivery-pricing-create.input';
 import { Type } from 'class-transformer';
@@ -13,7 +13,8 @@ import { organizationCreateInput } from 'src/@generated/organization/organizatio
 import { organizationUncheckedCreateInput } from 'src/@generated/organization/organization-unchecked-create.input';
 import { work_schedulesCreateInput } from 'src/@generated/work-schedules/work-schedules-create.input';
 import { work_schedulesUncheckedCreateInput } from 'src/@generated/work-schedules/work-schedules-unchecked-create.input';
-const classes = require('extends-classes');
+import { terminalsCreateInput } from 'src/@generated/terminals/terminals-create.input';
+import { terminalsUncheckedCreateInput } from 'src/@generated/terminals/terminals-unchecked-create.input';
 
 type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
 type XOR<T, U> = T extends object ? (U extends object ? (Without<T, U> & U) | (Without<U, T> & T) : U) : T;
@@ -58,4 +59,11 @@ export class work_schedulesCreateArgs {
   @Field(() => work_schedulesUncheckedCreateInput, { nullable: false })
   @Type(() => work_schedulesUncheckedCreateInput)
   data: XOR<work_schedulesCreateInput, work_schedulesUncheckedCreateInput>;
+}
+
+@ArgsType()
+export class terminalsCreateArgs {
+  @Field(() => terminalsUncheckedCreateInput, { nullable: false })
+  @Type(() => terminalsUncheckedCreateInput)
+  data: XOR<terminalsCreateInput, terminalsUncheckedCreateInput>;
 }

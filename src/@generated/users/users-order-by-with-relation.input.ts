@@ -13,6 +13,7 @@ import { delivery_pricingOrderByRelationAggregateInput } from '../delivery-prici
 import { cityOrderByRelationAggregateInput } from '../city/city-order-by-relation-aggregate.input';
 import { organizationOrderByRelationAggregateInput } from '../organization/organization-order-by-relation-aggregate.input';
 import { work_schedulesOrderByRelationAggregateInput } from '../work-schedules/work-schedules-order-by-relation-aggregate.input';
+import { terminalsOrderByRelationAggregateInput } from '../terminals/terminals-order-by-relation-aggregate.input';
 
 @InputType()
 export class usersOrderByWithRelationInput {
@@ -122,6 +123,9 @@ export class usersOrderByWithRelationInput {
     @Field(() => work_schedulesOrderByRelationAggregateInput, {nullable:true})
     work_schedules_updated_byTousers?: work_schedulesOrderByRelationAggregateInput;
 
-    @Field(() => delivery_pricingOrderByRelationAggregateInput, {nullable:true})
-    delivery_pricing_organization_idTousers?: delivery_pricingOrderByRelationAggregateInput;
+    @Field(() => terminalsOrderByRelationAggregateInput, {nullable:true})
+    terminals_created_byTousers?: terminalsOrderByRelationAggregateInput;
+
+    @Field(() => terminalsOrderByRelationAggregateInput, {nullable:true})
+    terminals_updated_byTousers?: terminalsOrderByRelationAggregateInput;
 }

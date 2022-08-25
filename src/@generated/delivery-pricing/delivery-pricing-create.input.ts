@@ -3,9 +3,9 @@ import { InputType } from '@nestjs/graphql';
 import { drive_type } from '../prisma/drive-type.enum';
 import { Int } from '@nestjs/graphql';
 import { GraphQLJSON } from 'graphql-type-json';
+import { organizationCreateNestedOneWithoutDelivery_pricing_organization_idTorganizationInput } from '../organization/organization-create-nested-one-without-delivery-pricing-organization-id-torganization.input';
 import { usersCreateNestedOneWithoutDelivery_pricing_created_byTousersInput } from '../users/users-create-nested-one-without-delivery-pricing-created-by-tousers.input';
 import { usersCreateNestedOneWithoutDelivery_pricing_updated_byTousersInput } from '../users/users-create-nested-one-without-delivery-pricing-updated-by-tousers.input';
-import { usersCreateNestedOneWithoutDelivery_pricing_organization_idTousersInput } from '../users/users-create-nested-one-without-delivery-pricing-organization-id-tousers.input';
 
 @InputType()
 export class delivery_pricingCreateInput {
@@ -43,6 +43,9 @@ export class delivery_pricingCreateInput {
     @Field(() => Int, {nullable:true})
     price_per_km?: number;
 
+    @Field(() => organizationCreateNestedOneWithoutDelivery_pricing_organization_idTorganizationInput, {nullable:false})
+    organization!: organizationCreateNestedOneWithoutDelivery_pricing_organization_idTorganizationInput;
+
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;
 
@@ -54,7 +57,4 @@ export class delivery_pricingCreateInput {
 
     @Field(() => usersCreateNestedOneWithoutDelivery_pricing_updated_byTousersInput, {nullable:true})
     users_delivery_pricing_updated_byTousers?: usersCreateNestedOneWithoutDelivery_pricing_updated_byTousersInput;
-
-    @Field(() => usersCreateNestedOneWithoutDelivery_pricing_organization_idTousersInput, {nullable:false})
-    delivery_pricing_organization_idTousers!: usersCreateNestedOneWithoutDelivery_pricing_organization_idTousersInput;
 }

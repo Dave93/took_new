@@ -1,3 +1,4 @@
+import { CacheControlService } from '@modules/cache_control/cache_control.service';
 import { Injectable } from '@nestjs/common';
 import { FindManyworkSchedulesArgs } from 'src/@generated/prisma/find-manywork-schedules.args';
 import { UpdateOneworkSchedulesArgs } from 'src/@generated/prisma/update-onework-schedules.args';
@@ -7,9 +8,11 @@ import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class WorkSchedulesService {
-  constructor(private readonly prismaService: PrismaService) {}
-  create(createWorkScheduleInput: work_schedulesCreateArgs) {
-    return this.prismaService.work_schedules.create(createWorkScheduleInput);
+  constructor(private readonly prismaService: PrismaService, private readonly cacheControl: CacheControlService) {}
+  async create(createWorkScheduleInput: work_schedulesCreateArgs) {
+    let rest = await this.prismaService.work_schedules.create(createWorkScheduleInput);
+    await this.cacheControl.cacheWorkSchedules();
+    return rest;
   }
 
   workSchedulesConnection(where: work_schedulesWhereInput) {
@@ -38,8 +41,10 @@ export class WorkSchedulesService {
     });
   }
 
-  update(updateWorkScheduleInput: UpdateOneworkSchedulesArgs) {
-    return this.prismaService.work_schedules.update(updateWorkScheduleInput);
+  async update(updateWorkScheduleInput: UpdateOneworkSchedulesArgs) {
+    let res = await this.prismaService.work_schedules.update(updateWorkScheduleInput);
+    await this.cacheControl.cacheWorkSchedules();
+    return res;
   }
 
   remove(id: number) {

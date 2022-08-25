@@ -4,6 +4,8 @@ import { ID } from '@nestjs/graphql';
 import { organization_system_type } from './organization-system-type.enum';
 import { work_schedules } from '../work-schedules/work-schedules.model';
 import { users } from '../users/users.model';
+import { delivery_pricing } from '../delivery-pricing/delivery-pricing.model';
+import { terminals } from '../terminals/terminals.model';
 import { OrganizationCount } from '../prisma/organization-count.output';
 
 @ObjectType()
@@ -26,6 +28,9 @@ export class organization {
 
     @Field(() => String, {nullable:false})
     phone!: string;
+
+    @Field(() => String, {nullable:true})
+    iiko_login!: string | null;
 
     @Field(() => String, {nullable:true})
     webhook!: string | null;
@@ -68,6 +73,12 @@ export class organization {
 
     @Field(() => users, {nullable:true})
     organization_updated_byTousers?: users | null;
+
+    @Field(() => [delivery_pricing], {nullable:true})
+    delivery_pricing_organization_idTorganization?: Array<delivery_pricing>;
+
+    @Field(() => [terminals], {nullable:true})
+    terminals_organization_idTorganization?: Array<terminals>;
 
     @Field(() => OrganizationCount, {nullable:false})
     _count?: OrganizationCount;

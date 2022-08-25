@@ -1,4 +1,4 @@
-import { Module, Global } from '@nestjs/common';
+import { Module, Global, CacheModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { EnvironmentModule } from '@nestjs-steroids/environment';
@@ -15,6 +15,9 @@ import { RolesPermissionsModule } from './modules/roles_permissions/roles_permis
 import { DeliveryPricingModule } from './modules/delivery_pricing/delivery_pricing.module';
 import { OrganizationsModule } from './modules/organizations/organizations.module';
 import { WorkSchedulesModule } from './modules/work_schedules/work_schedules.module';
+import { CacheControlModule } from './modules/cache_control/cache_control.module';
+import { TerminalsModule } from './modules/terminals/terminals.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Global()
 @Module({
@@ -22,6 +25,7 @@ import { WorkSchedulesModule } from './modules/work_schedules/work_schedules.mod
     ConfigModule.forRoot({
       envFilePath: ['.env'],
     }),
+    ScheduleModule.forRoot(),
     // DatabaseModule,
     // AdminModule,
     // AuthModule,
@@ -31,6 +35,7 @@ import { WorkSchedulesModule } from './modules/work_schedules/work_schedules.mod
     //   driver: MercuriusDriver,
     //   autoSchemaFile: '~schema.gql',
     // }),
+    CacheModule.register(),
     RolesModule,
     RolesPermissionsModule,
     PermissionsModule,
@@ -42,6 +47,8 @@ import { WorkSchedulesModule } from './modules/work_schedules/work_schedules.mod
     DeliveryPricingModule,
     OrganizationsModule,
     WorkSchedulesModule,
+    TerminalsModule,
+    CacheControlModule,
   ],
   providers: [PrismaService],
 })

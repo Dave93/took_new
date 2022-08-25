@@ -26,7 +26,8 @@ import { organizationCreateNestedManyWithoutOrganization_created_byTousersInput 
 import { organizationCreateNestedManyWithoutOrganization_updated_byTousersInput } from '../organization/organization-create-nested-many-without-organization-updated-by-tousers.input';
 import { work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput } from '../work-schedules/work-schedules-create-nested-many-without-work-schedules-created-by-tousers.input';
 import { work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput } from '../work-schedules/work-schedules-create-nested-many-without-work-schedules-updated-by-tousers.input';
-import { delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput } from '../delivery-pricing/delivery-pricing-create-nested-many-without-delivery-pricing-organization-id-tousers.input';
+import { terminalsCreateNestedManyWithoutTerminals_created_byTousersInput } from '../terminals/terminals-create-nested-many-without-terminals-created-by-tousers.input';
+import { terminalsCreateNestedManyWithoutTerminals_updated_byTousersInput } from '../terminals/terminals-create-nested-many-without-terminals-updated-by-tousers.input';
 
 @InputType()
 export class usersCreateWithoutPost_prop_types_created_byTousersInput {
@@ -133,6 +134,9 @@ export class usersCreateWithoutPost_prop_types_created_byTousersInput {
     @Field(() => work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput, {nullable:true})
     work_schedules_updated_byTousers?: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput;
 
-    @Field(() => delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput, {nullable:true})
-    delivery_pricing_organization_idTousers?: delivery_pricingCreateNestedManyWithoutDelivery_pricing_organization_idTousersInput;
+    @Field(() => terminalsCreateNestedManyWithoutTerminals_created_byTousersInput, {nullable:true})
+    terminals_created_byTousers?: terminalsCreateNestedManyWithoutTerminals_created_byTousersInput;
+
+    @Field(() => terminalsCreateNestedManyWithoutTerminals_updated_byTousersInput, {nullable:true})
+    terminals_updated_byTousers?: terminalsCreateNestedManyWithoutTerminals_updated_byTousersInput;
 }

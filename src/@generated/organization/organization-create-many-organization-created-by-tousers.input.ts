@@ -24,6 +24,9 @@ export class organizationCreateManyOrganization_created_byTousersInput {
     phone!: string;
 
     @Field(() => String, {nullable:true})
+    iiko_login?: string;
+
+    @Field(() => String, {nullable:true})
     webhook?: string;
 
     @Field(() => String, {nullable:true})

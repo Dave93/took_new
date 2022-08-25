@@ -37,6 +37,9 @@ export class organizationScalarWhereInput {
     phone?: StringFilter;
 
     @Field(() => StringNullableFilter, {nullable:true})
+    iiko_login?: StringNullableFilter;
+
+    @Field(() => StringNullableFilter, {nullable:true})
     webhook?: StringNullableFilter;
 
     @Field(() => StringNullableFilter, {nullable:true})

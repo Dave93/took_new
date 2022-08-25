@@ -26,7 +26,8 @@ import { organizationUpdateManyWithoutOrganization_created_byTousersNestedInput 
 import { organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput } from '../organization/organization-update-many-without-organization-updated-by-tousers-nested.input';
 import { work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput } from '../work-schedules/work-schedules-update-many-without-work-schedules-created-by-tousers-nested.input';
 import { work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput } from '../work-schedules/work-schedules-update-many-without-work-schedules-updated-by-tousers-nested.input';
-import { delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput } from '../delivery-pricing/delivery-pricing-update-many-without-delivery-pricing-organization-id-tousers-nested.input';
+import { terminalsUpdateManyWithoutTerminals_created_byTousersNestedInput } from '../terminals/terminals-update-many-without-terminals-created-by-tousers-nested.input';
+import { terminalsUpdateManyWithoutTerminals_updated_byTousersNestedInput } from '../terminals/terminals-update-many-without-terminals-updated-by-tousers-nested.input';
 
 @InputType()
 export class usersUpdateWithoutPermissions_permissions_created_byTousersInput {
@@ -133,6 +134,9 @@ export class usersUpdateWithoutPermissions_permissions_created_byTousersInput {
     @Field(() => work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput, {nullable:true})
     work_schedules_updated_byTousers?: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput;
 
-    @Field(() => delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput, {nullable:true})
-    delivery_pricing_organization_idTousers?: delivery_pricingUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput;
+    @Field(() => terminalsUpdateManyWithoutTerminals_created_byTousersNestedInput, {nullable:true})
+    terminals_created_byTousers?: terminalsUpdateManyWithoutTerminals_created_byTousersNestedInput;
+
+    @Field(() => terminalsUpdateManyWithoutTerminals_updated_byTousersNestedInput, {nullable:true})
+    terminals_updated_byTousers?: terminalsUpdateManyWithoutTerminals_updated_byTousersNestedInput;
 }

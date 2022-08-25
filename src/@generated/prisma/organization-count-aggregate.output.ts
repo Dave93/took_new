@@ -24,6 +24,9 @@ export class OrganizationCountAggregate {
     phone!: number;
 
     @Field(() => Int, {nullable:false})
+    iiko_login!: number;
+
+    @Field(() => Int, {nullable:false})
     webhook!: number;
 
     @Field(() => Int, {nullable:false})

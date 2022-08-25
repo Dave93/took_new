@@ -17,6 +17,7 @@ import { Delivery_pricingListRelationFilter } from '../prisma/delivery-pricing-l
 import { CityListRelationFilter } from '../prisma/city-list-relation-filter.input';
 import { OrganizationListRelationFilter } from '../prisma/organization-list-relation-filter.input';
 import { Work_schedulesListRelationFilter } from '../prisma/work-schedules-list-relation-filter.input';
+import { TerminalsListRelationFilter } from '../prisma/terminals-list-relation-filter.input';
 
 @InputType()
 export class usersWhereInput {
@@ -135,6 +136,9 @@ export class usersWhereInput {
     @Field(() => Work_schedulesListRelationFilter, {nullable:true})
     work_schedules_updated_byTousers?: Work_schedulesListRelationFilter;
 
-    @Field(() => Delivery_pricingListRelationFilter, {nullable:true})
-    delivery_pricing_organization_idTousers?: Delivery_pricingListRelationFilter;
+    @Field(() => TerminalsListRelationFilter, {nullable:true})
+    terminals_created_byTousers?: TerminalsListRelationFilter;
+
+    @Field(() => TerminalsListRelationFilter, {nullable:true})
+    terminals_updated_byTousers?: TerminalsListRelationFilter;
 }

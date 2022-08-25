@@ -1,6 +1,8 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { organization_system_type } from './organization-system-type.enum';
+import { delivery_pricingUncheckedCreateNestedManyWithoutOrganizationInput } from '../delivery-pricing/delivery-pricing-unchecked-create-nested-many-without-organization.input';
+import { terminalsUncheckedCreateNestedManyWithoutOrganizationInput } from '../terminals/terminals-unchecked-create-nested-many-without-organization.input';
 
 @InputType()
 export class organizationUncheckedCreateWithoutWork_schedules_organization_idTorganizationInput {
@@ -22,6 +24,9 @@ export class organizationUncheckedCreateWithoutWork_schedules_organization_idTor
 
     @Field(() => String, {nullable:false})
     phone!: string;
+
+    @Field(() => String, {nullable:true})
+    iiko_login?: string;
 
     @Field(() => String, {nullable:true})
     webhook?: string;
@@ -55,4 +60,10 @@ export class organizationUncheckedCreateWithoutWork_schedules_organization_idTor
 
     @Field(() => String, {nullable:true})
     updated_by?: string;
+
+    @Field(() => delivery_pricingUncheckedCreateNestedManyWithoutOrganizationInput, {nullable:true})
+    delivery_pricing_organization_idTorganization?: delivery_pricingUncheckedCreateNestedManyWithoutOrganizationInput;
+
+    @Field(() => terminalsUncheckedCreateNestedManyWithoutOrganizationInput, {nullable:true})
+    terminals_organization_idTorganization?: terminalsUncheckedCreateNestedManyWithoutOrganizationInput;
 }

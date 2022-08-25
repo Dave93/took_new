@@ -3,6 +3,8 @@ import { InputType } from '@nestjs/graphql';
 import { SortOrder } from '../prisma/sort-order.enum';
 import { work_schedulesOrderByRelationAggregateInput } from '../work-schedules/work-schedules-order-by-relation-aggregate.input';
 import { usersOrderByWithRelationInput } from '../users/users-order-by-with-relation.input';
+import { delivery_pricingOrderByRelationAggregateInput } from '../delivery-pricing/delivery-pricing-order-by-relation-aggregate.input';
+import { terminalsOrderByRelationAggregateInput } from '../terminals/terminals-order-by-relation-aggregate.input';
 
 @InputType()
 export class organizationOrderByWithRelationInput {
@@ -24,6 +26,9 @@ export class organizationOrderByWithRelationInput {
 
     @Field(() => SortOrder, {nullable:true})
     phone?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    iiko_login?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
     webhook?: keyof typeof SortOrder;
@@ -66,4 +71,10 @@ export class organizationOrderByWithRelationInput {
 
     @Field(() => usersOrderByWithRelationInput, {nullable:true})
     organization_updated_byTousers?: usersOrderByWithRelationInput;
+
+    @Field(() => delivery_pricingOrderByRelationAggregateInput, {nullable:true})
+    delivery_pricing_organization_idTorganization?: delivery_pricingOrderByRelationAggregateInput;
+
+    @Field(() => terminalsOrderByRelationAggregateInput, {nullable:true})
+    terminals_organization_idTorganization?: terminalsOrderByRelationAggregateInput;
 }

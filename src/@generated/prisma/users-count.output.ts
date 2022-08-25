@@ -84,5 +84,8 @@ export class UsersCount {
     work_schedules_updated_byTousers!: number;
 
     @Field(() => Int, {nullable:false})
-    delivery_pricing_organization_idTousers!: number;
+    terminals_created_byTousers!: number;
+
+    @Field(() => Int, {nullable:false})
+    terminals_updated_byTousers!: number;
 }

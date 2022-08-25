@@ -24,6 +24,9 @@ export class organizationMinOrderByAggregateInput {
     phone?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    iiko_login?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     webhook?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})

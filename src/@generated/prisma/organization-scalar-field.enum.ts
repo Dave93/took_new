@@ -7,6 +7,7 @@ export enum OrganizationScalarFieldEnum {
     active = "active",
     system_type = "system_type",
     phone = "phone",
+    iiko_login = "iiko_login",
     webhook = "webhook",
     group_id = "group_id",
     apelsin_login = "apelsin_login",

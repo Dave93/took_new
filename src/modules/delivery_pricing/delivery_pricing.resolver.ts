@@ -13,7 +13,7 @@ export class DeliveryPricingResolver {
   constructor(private readonly deliveryPricingService: DeliveryPricingService) {}
 
   @Mutation(() => delivery_pricing)
-  createDeliveryPricing(@Args() createDeliveryPricingInput: CreateOnedeliveryPricingArgs) {
+  deliveryPricingCreate(@Args() createDeliveryPricingInput: CreateOnedeliveryPricingArgs) {
     return this.deliveryPricingService.create(createDeliveryPricingInput);
   }
 

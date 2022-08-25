@@ -8,6 +8,7 @@ import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { IntNullableFilter } from '../prisma/int-nullable-filter.input';
 import { JsonFilter } from '../prisma/json-filter.input';
 import { IntFilter } from '../prisma/int-filter.input';
+import { OrganizationRelationFilter } from '../prisma/organization-relation-filter.input';
 import { StringNullableFilter } from '../prisma/string-nullable-filter.input';
 import { UsersRelationFilter } from '../prisma/users-relation-filter.input';
 
@@ -59,6 +60,9 @@ export class delivery_pricingWhereInput {
     @Field(() => StringFilter, {nullable:true})
     organization_id?: StringFilter;
 
+    @Field(() => OrganizationRelationFilter, {nullable:true})
+    organization?: OrganizationRelationFilter;
+
     @Field(() => DateTimeFilter, {nullable:true})
     created_at?: DateTimeFilter;
 
@@ -76,7 +80,4 @@ export class delivery_pricingWhereInput {
 
     @Field(() => UsersRelationFilter, {nullable:true})
     users_delivery_pricing_updated_byTousers?: UsersRelationFilter;
-
-    @Field(() => UsersRelationFilter, {nullable:true})
-    delivery_pricing_organization_idTousers?: UsersRelationFilter;
 }

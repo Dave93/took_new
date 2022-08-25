@@ -14,6 +14,7 @@ import { delivery_pricing } from '../delivery-pricing/delivery-pricing.model';
 import { city } from '../city/city.model';
 import { organization } from '../organization/organization.model';
 import { work_schedules } from '../work-schedules/work-schedules.model';
+import { terminals } from '../terminals/terminals.model';
 import { UsersCount } from '../prisma/users-count.output';
 
 @ObjectType()
@@ -124,8 +125,11 @@ export class users {
     @Field(() => [work_schedules], {nullable:true})
     work_schedules_updated_byTousers?: Array<work_schedules>;
 
-    @Field(() => [delivery_pricing], {nullable:true})
-    delivery_pricing_organization_idTousers?: Array<delivery_pricing>;
+    @Field(() => [terminals], {nullable:true})
+    terminals_created_byTousers?: Array<terminals>;
+
+    @Field(() => [terminals], {nullable:true})
+    terminals_updated_byTousers?: Array<terminals>;
 
     @Field(() => UsersCount, {nullable:false})
     _count?: UsersCount;

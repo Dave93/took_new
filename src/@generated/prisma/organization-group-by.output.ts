@@ -27,6 +27,9 @@ export class OrganizationGroupBy {
     phone!: string;
 
     @Field(() => String, {nullable:true})
+    iiko_login?: string;
+
+    @Field(() => String, {nullable:true})
     webhook?: string;
 
     @Field(() => String, {nullable:true})

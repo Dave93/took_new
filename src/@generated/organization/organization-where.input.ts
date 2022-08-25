@@ -7,6 +7,8 @@ import { Enumorganization_system_typeFilter } from '../prisma/enumorganization-s
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { Work_schedulesListRelationFilter } from '../prisma/work-schedules-list-relation-filter.input';
 import { UsersRelationFilter } from '../prisma/users-relation-filter.input';
+import { Delivery_pricingListRelationFilter } from '../prisma/delivery-pricing-list-relation-filter.input';
+import { TerminalsListRelationFilter } from '../prisma/terminals-list-relation-filter.input';
 
 @InputType()
 export class organizationWhereInput {
@@ -37,6 +39,9 @@ export class organizationWhereInput {
 
     @Field(() => StringFilter, {nullable:true})
     phone?: StringFilter;
+
+    @Field(() => StringNullableFilter, {nullable:true})
+    iiko_login?: StringNullableFilter;
 
     @Field(() => StringNullableFilter, {nullable:true})
     webhook?: StringNullableFilter;
@@ -79,4 +84,10 @@ export class organizationWhereInput {
 
     @Field(() => UsersRelationFilter, {nullable:true})
     organization_updated_byTousers?: UsersRelationFilter;
+
+    @Field(() => Delivery_pricingListRelationFilter, {nullable:true})
+    delivery_pricing_organization_idTorganization?: Delivery_pricingListRelationFilter;
+
+    @Field(() => TerminalsListRelationFilter, {nullable:true})
+    terminals_organization_idTorganization?: TerminalsListRelationFilter;
 }

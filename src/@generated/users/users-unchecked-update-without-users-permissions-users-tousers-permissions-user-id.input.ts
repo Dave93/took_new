@@ -26,7 +26,8 @@ import { organizationUncheckedUpdateManyWithoutOrganization_created_byTousersNes
 import { organizationUncheckedUpdateManyWithoutOrganization_updated_byTousersNestedInput } from '../organization/organization-unchecked-update-many-without-organization-updated-by-tousers-nested.input';
 import { work_schedulesUncheckedUpdateManyWithoutWork_schedules_created_byTousersNestedInput } from '../work-schedules/work-schedules-unchecked-update-many-without-work-schedules-created-by-tousers-nested.input';
 import { work_schedulesUncheckedUpdateManyWithoutWork_schedules_updated_byTousersNestedInput } from '../work-schedules/work-schedules-unchecked-update-many-without-work-schedules-updated-by-tousers-nested.input';
-import { delivery_pricingUncheckedUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput } from '../delivery-pricing/delivery-pricing-unchecked-update-many-without-delivery-pricing-organization-id-tousers-nested.input';
+import { terminalsUncheckedUpdateManyWithoutTerminals_created_byTousersNestedInput } from '../terminals/terminals-unchecked-update-many-without-terminals-created-by-tousers-nested.input';
+import { terminalsUncheckedUpdateManyWithoutTerminals_updated_byTousersNestedInput } from '../terminals/terminals-unchecked-update-many-without-terminals-updated-by-tousers-nested.input';
 
 @InputType()
 export class usersUncheckedUpdateWithoutUsers_permissions_usersTousers_permissions_user_idInput {
@@ -133,6 +134,9 @@ export class usersUncheckedUpdateWithoutUsers_permissions_usersTousers_permissio
     @Field(() => work_schedulesUncheckedUpdateManyWithoutWork_schedules_updated_byTousersNestedInput, {nullable:true})
     work_schedules_updated_byTousers?: work_schedulesUncheckedUpdateManyWithoutWork_schedules_updated_byTousersNestedInput;
 
-    @Field(() => delivery_pricingUncheckedUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput, {nullable:true})
-    delivery_pricing_organization_idTousers?: delivery_pricingUncheckedUpdateManyWithoutDelivery_pricing_organization_idTousersNestedInput;
+    @Field(() => terminalsUncheckedUpdateManyWithoutTerminals_created_byTousersNestedInput, {nullable:true})
+    terminals_created_byTousers?: terminalsUncheckedUpdateManyWithoutTerminals_created_byTousersNestedInput;
+
+    @Field(() => terminalsUncheckedUpdateManyWithoutTerminals_updated_byTousersNestedInput, {nullable:true})
+    terminals_updated_byTousers?: terminalsUncheckedUpdateManyWithoutTerminals_updated_byTousersNestedInput;
 }
