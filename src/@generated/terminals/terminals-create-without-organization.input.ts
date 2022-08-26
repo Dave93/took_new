@@ -3,6 +3,7 @@ import { InputType } from '@nestjs/graphql';
 import { Float } from '@nestjs/graphql';
 import { usersCreateNestedOneWithoutTerminals_created_byTousersInput } from '../users/users-create-nested-one-without-terminals-created-by-tousers.input';
 import { usersCreateNestedOneWithoutTerminals_updated_byTousersInput } from '../users/users-create-nested-one-without-terminals-updated-by-tousers.input';
+import { users_terminalsCreateNestedManyWithoutTerminalsInput } from '../users-terminals/users-terminals-create-nested-many-without-terminals.input';
 
 @InputType()
 export class terminalsCreateWithoutOrganizationInput {
@@ -42,4 +43,7 @@ export class terminalsCreateWithoutOrganizationInput {
 
     @Field(() => usersCreateNestedOneWithoutTerminals_updated_byTousersInput, {nullable:true})
     terminals_updated_byTousers?: usersCreateNestedOneWithoutTerminals_updated_byTousersInput;
+
+    @Field(() => users_terminalsCreateNestedManyWithoutTerminalsInput, {nullable:true})
+    users_terminals?: users_terminalsCreateNestedManyWithoutTerminalsInput;
 }

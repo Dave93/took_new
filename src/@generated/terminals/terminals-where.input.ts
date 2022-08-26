@@ -7,6 +7,7 @@ import { FloatFilter } from '../prisma/float-filter.input';
 import { OrganizationRelationFilter } from '../prisma/organization-relation-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { UsersRelationFilter } from '../prisma/users-relation-filter.input';
+import { Users_terminalsListRelationFilter } from '../prisma/users-terminals-list-relation-filter.input';
 
 @InputType()
 export class terminalsWhereInput {
@@ -67,4 +68,7 @@ export class terminalsWhereInput {
 
     @Field(() => UsersRelationFilter, {nullable:true})
     terminals_updated_byTousers?: UsersRelationFilter;
+
+    @Field(() => Users_terminalsListRelationFilter, {nullable:true})
+    users_terminals?: Users_terminalsListRelationFilter;
 }

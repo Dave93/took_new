@@ -3,6 +3,7 @@ import { InputType } from '@nestjs/graphql';
 import { SortOrder } from '../prisma/sort-order.enum';
 import { organizationOrderByWithRelationInput } from '../organization/organization-order-by-with-relation.input';
 import { usersOrderByWithRelationInput } from '../users/users-order-by-with-relation.input';
+import { users_terminalsOrderByRelationAggregateInput } from '../users-terminals/users-terminals-order-by-relation-aggregate.input';
 
 @InputType()
 export class terminalsOrderByWithRelationInput {
@@ -54,4 +55,7 @@ export class terminalsOrderByWithRelationInput {
 
     @Field(() => usersOrderByWithRelationInput, {nullable:true})
     terminals_updated_byTousers?: usersOrderByWithRelationInput;
+
+    @Field(() => users_terminalsOrderByRelationAggregateInput, {nullable:true})
+    users_terminals?: users_terminalsOrderByRelationAggregateInput;
 }

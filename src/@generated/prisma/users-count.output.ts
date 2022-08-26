@@ -88,4 +88,10 @@ export class UsersCount {
 
     @Field(() => Int, {nullable:false})
     terminals_updated_byTousers!: number;
+
+    @Field(() => Int, {nullable:false})
+    users_terminals!: number;
+
+    @Field(() => Int, {nullable:false})
+    users_work_schedules!: number;
 }

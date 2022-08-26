@@ -2,6 +2,7 @@ import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { usersCreateNestedOneWithoutWork_schedules_created_byTousersInput } from '../users/users-create-nested-one-without-work-schedules-created-by-tousers.input';
 import { usersCreateNestedOneWithoutWork_schedules_updated_byTousersInput } from '../users/users-create-nested-one-without-work-schedules-updated-by-tousers.input';
+import { users_work_schedulesCreateNestedManyWithoutWork_schedulesInput } from '../users-work-schedules/users-work-schedules-create-nested-many-without-work-schedules.input';
 
 @InputType()
 export class work_schedulesCreateWithoutOrganizationInput {
@@ -38,4 +39,7 @@ export class work_schedulesCreateWithoutOrganizationInput {
 
     @Field(() => usersCreateNestedOneWithoutWork_schedules_updated_byTousersInput, {nullable:true})
     work_schedules_updated_byTousers?: usersCreateNestedOneWithoutWork_schedules_updated_byTousersInput;
+
+    @Field(() => users_work_schedulesCreateNestedManyWithoutWork_schedulesInput, {nullable:true})
+    users_work_schedules?: users_work_schedulesCreateNestedManyWithoutWork_schedulesInput;
 }

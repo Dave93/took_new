@@ -1,6 +1,8 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { user_status } from '../prisma/user-status.enum';
+import { drive_type } from '../prisma/drive-type.enum';
+import { Float } from '@nestjs/graphql';
 import { otpUncheckedUpdateManyWithoutUsersNestedInput } from '../otp/otp-unchecked-update-many-without-users-nested.input';
 import { permissionsUncheckedUpdateManyWithoutUsers_permissions_created_byTousersNestedInput } from '../permissions/permissions-unchecked-update-many-without-users-permissions-created-by-tousers-nested.input';
 import { permissionsUncheckedUpdateManyWithoutUsers_permissions_updated_byTousersNestedInput } from '../permissions/permissions-unchecked-update-many-without-users-permissions-updated-by-tousers-nested.input';
@@ -28,6 +30,8 @@ import { work_schedulesUncheckedUpdateManyWithoutWork_schedules_created_byTouser
 import { work_schedulesUncheckedUpdateManyWithoutWork_schedules_updated_byTousersNestedInput } from '../work-schedules/work-schedules-unchecked-update-many-without-work-schedules-updated-by-tousers-nested.input';
 import { terminalsUncheckedUpdateManyWithoutTerminals_created_byTousersNestedInput } from '../terminals/terminals-unchecked-update-many-without-terminals-created-by-tousers-nested.input';
 import { terminalsUncheckedUpdateManyWithoutTerminals_updated_byTousersNestedInput } from '../terminals/terminals-unchecked-update-many-without-terminals-updated-by-tousers-nested.input';
+import { users_terminalsUncheckedUpdateManyWithoutUsersNestedInput } from '../users-terminals/users-terminals-unchecked-update-many-without-users-nested.input';
+import { users_work_schedulesUncheckedUpdateManyWithoutUsersNestedInput } from '../users-work-schedules/users-work-schedules-unchecked-update-many-without-users-nested.input';
 
 @InputType()
 export class usersUncheckedUpdateWithoutUsers_permissions_usersTousers_permissions_user_idInput {
@@ -52,6 +56,33 @@ export class usersUncheckedUpdateWithoutUsers_permissions_usersTousers_permissio
 
     @Field(() => user_status, {nullable:true})
     status?: keyof typeof user_status;
+
+    @Field(() => drive_type, {nullable:true})
+    drive_type?: keyof typeof drive_type;
+
+    @Field(() => String, {nullable:true})
+    card_name?: string;
+
+    @Field(() => String, {nullable:true})
+    card_number?: string;
+
+    @Field(() => Date, {nullable:true})
+    birth_date?: Date | string;
+
+    @Field(() => String, {nullable:true})
+    car_model?: string;
+
+    @Field(() => String, {nullable:true})
+    car_number?: string;
+
+    @Field(() => Boolean, {nullable:true})
+    is_online?: boolean;
+
+    @Field(() => Float, {nullable:true})
+    latitude?: number;
+
+    @Field(() => Float, {nullable:true})
+    longitude?: number;
 
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;
@@ -139,4 +170,10 @@ export class usersUncheckedUpdateWithoutUsers_permissions_usersTousers_permissio
 
     @Field(() => terminalsUncheckedUpdateManyWithoutTerminals_updated_byTousersNestedInput, {nullable:true})
     terminals_updated_byTousers?: terminalsUncheckedUpdateManyWithoutTerminals_updated_byTousersNestedInput;
+
+    @Field(() => users_terminalsUncheckedUpdateManyWithoutUsersNestedInput, {nullable:true})
+    users_terminals?: users_terminalsUncheckedUpdateManyWithoutUsersNestedInput;
+
+    @Field(() => users_work_schedulesUncheckedUpdateManyWithoutUsersNestedInput, {nullable:true})
+    users_work_schedules?: users_work_schedulesUncheckedUpdateManyWithoutUsersNestedInput;
 }

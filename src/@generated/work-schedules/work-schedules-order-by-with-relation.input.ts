@@ -3,6 +3,7 @@ import { InputType } from '@nestjs/graphql';
 import { SortOrder } from '../prisma/sort-order.enum';
 import { organizationOrderByWithRelationInput } from '../organization/organization-order-by-with-relation.input';
 import { usersOrderByWithRelationInput } from '../users/users-order-by-with-relation.input';
+import { users_work_schedulesOrderByRelationAggregateInput } from '../users-work-schedules/users-work-schedules-order-by-relation-aggregate.input';
 
 @InputType()
 export class work_schedulesOrderByWithRelationInput {
@@ -51,4 +52,7 @@ export class work_schedulesOrderByWithRelationInput {
 
     @Field(() => usersOrderByWithRelationInput, {nullable:true})
     work_schedules_updated_byTousers?: usersOrderByWithRelationInput;
+
+    @Field(() => users_work_schedulesOrderByRelationAggregateInput, {nullable:true})
+    users_work_schedules?: users_work_schedulesOrderByRelationAggregateInput;
 }

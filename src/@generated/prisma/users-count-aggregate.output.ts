@@ -27,6 +27,33 @@ export class UsersCountAggregate {
     status!: number;
 
     @Field(() => Int, {nullable:false})
+    drive_type!: number;
+
+    @Field(() => Int, {nullable:false})
+    card_name!: number;
+
+    @Field(() => Int, {nullable:false})
+    card_number!: number;
+
+    @Field(() => Int, {nullable:false})
+    birth_date!: number;
+
+    @Field(() => Int, {nullable:false})
+    car_model!: number;
+
+    @Field(() => Int, {nullable:false})
+    car_number!: number;
+
+    @Field(() => Int, {nullable:false})
+    is_online!: number;
+
+    @Field(() => Int, {nullable:false})
+    latitude!: number;
+
+    @Field(() => Int, {nullable:false})
+    longitude!: number;
+
+    @Field(() => Int, {nullable:false})
     created_at!: number;
 
     @Field(() => Int, {nullable:false})

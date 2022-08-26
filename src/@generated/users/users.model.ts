@@ -2,6 +2,8 @@ import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
 import { ID } from '@nestjs/graphql';
 import { user_status } from '../prisma/user-status.enum';
+import { drive_type } from '../prisma/drive-type.enum';
+import { Float } from '@nestjs/graphql';
 import { otp } from '../otp/otp.model';
 import { permissions } from '../permissions/permissions.model';
 import { post } from '../post/post.model';
@@ -15,6 +17,8 @@ import { city } from '../city/city.model';
 import { organization } from '../organization/organization.model';
 import { work_schedules } from '../work-schedules/work-schedules.model';
 import { terminals } from '../terminals/terminals.model';
+import { users_terminals } from '../users-terminals/users-terminals.model';
+import { users_work_schedules } from '../users-work-schedules/users-work-schedules.model';
 import { UsersCount } from '../prisma/users-count.output';
 
 @ObjectType()
@@ -40,6 +44,33 @@ export class users {
 
     @Field(() => user_status, {nullable:false})
     status!: keyof typeof user_status;
+
+    @Field(() => drive_type, {nullable:true})
+    drive_type!: keyof typeof drive_type | null;
+
+    @Field(() => String, {nullable:true})
+    card_name!: string | null;
+
+    @Field(() => String, {nullable:true})
+    card_number!: string | null;
+
+    @Field(() => Date, {nullable:true})
+    birth_date!: Date | null;
+
+    @Field(() => String, {nullable:true})
+    car_model!: string | null;
+
+    @Field(() => String, {nullable:true})
+    car_number!: string | null;
+
+    @Field(() => Boolean, {nullable:false,defaultValue:false})
+    is_online!: boolean;
+
+    @Field(() => Float, {nullable:true,defaultValue:0})
+    latitude!: number | null;
+
+    @Field(() => Float, {nullable:true,defaultValue:0})
+    longitude!: number | null;
 
     @Field(() => Date, {nullable:false})
     created_at!: Date;
@@ -130,6 +161,12 @@ export class users {
 
     @Field(() => [terminals], {nullable:true})
     terminals_updated_byTousers?: Array<terminals>;
+
+    @Field(() => [users_terminals], {nullable:true})
+    users_terminals?: Array<users_terminals>;
+
+    @Field(() => [users_work_schedules], {nullable:true})
+    users_work_schedules?: Array<users_work_schedules>;
 
     @Field(() => UsersCount, {nullable:false})
     _count?: UsersCount;

@@ -27,6 +27,33 @@ export class usersMaxOrderByAggregateInput {
     status?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    drive_type?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    card_name?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    card_number?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    birth_date?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    car_model?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    car_number?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    is_online?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    latitude?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    longitude?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     created_at?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})

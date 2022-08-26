@@ -1,6 +1,8 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { user_status } from '../prisma/user-status.enum';
+import { drive_type } from '../prisma/drive-type.enum';
+import { Float } from '@nestjs/graphql';
 import { otpUpdateManyWithoutUsersNestedInput } from '../otp/otp-update-many-without-users-nested.input';
 import { permissionsUpdateManyWithoutUsers_permissions_created_byTousersNestedInput } from '../permissions/permissions-update-many-without-users-permissions-created-by-tousers-nested.input';
 import { permissionsUpdateManyWithoutUsers_permissions_updated_byTousersNestedInput } from '../permissions/permissions-update-many-without-users-permissions-updated-by-tousers-nested.input';
@@ -28,6 +30,8 @@ import { work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedIn
 import { work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput } from '../work-schedules/work-schedules-update-many-without-work-schedules-updated-by-tousers-nested.input';
 import { terminalsUpdateManyWithoutTerminals_created_byTousersNestedInput } from '../terminals/terminals-update-many-without-terminals-created-by-tousers-nested.input';
 import { terminalsUpdateManyWithoutTerminals_updated_byTousersNestedInput } from '../terminals/terminals-update-many-without-terminals-updated-by-tousers-nested.input';
+import { users_terminalsUpdateManyWithoutUsersNestedInput } from '../users-terminals/users-terminals-update-many-without-users-nested.input';
+import { users_work_schedulesUpdateManyWithoutUsersNestedInput } from '../users-work-schedules/users-work-schedules-update-many-without-users-nested.input';
 
 @InputType()
 export class usersUpdateWithoutDelivery_pricing_updated_byTousersInput {
@@ -52,6 +56,33 @@ export class usersUpdateWithoutDelivery_pricing_updated_byTousersInput {
 
     @Field(() => user_status, {nullable:true})
     status?: keyof typeof user_status;
+
+    @Field(() => drive_type, {nullable:true})
+    drive_type?: keyof typeof drive_type;
+
+    @Field(() => String, {nullable:true})
+    card_name?: string;
+
+    @Field(() => String, {nullable:true})
+    card_number?: string;
+
+    @Field(() => Date, {nullable:true})
+    birth_date?: Date | string;
+
+    @Field(() => String, {nullable:true})
+    car_model?: string;
+
+    @Field(() => String, {nullable:true})
+    car_number?: string;
+
+    @Field(() => Boolean, {nullable:true})
+    is_online?: boolean;
+
+    @Field(() => Float, {nullable:true})
+    latitude?: number;
+
+    @Field(() => Float, {nullable:true})
+    longitude?: number;
 
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;
@@ -139,4 +170,10 @@ export class usersUpdateWithoutDelivery_pricing_updated_byTousersInput {
 
     @Field(() => terminalsUpdateManyWithoutTerminals_updated_byTousersNestedInput, {nullable:true})
     terminals_updated_byTousers?: terminalsUpdateManyWithoutTerminals_updated_byTousersNestedInput;
+
+    @Field(() => users_terminalsUpdateManyWithoutUsersNestedInput, {nullable:true})
+    users_terminals?: users_terminalsUpdateManyWithoutUsersNestedInput;
+
+    @Field(() => users_work_schedulesUpdateManyWithoutUsersNestedInput, {nullable:true})
+    users_work_schedules?: users_work_schedulesUpdateManyWithoutUsersNestedInput;
 }

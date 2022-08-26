@@ -3,6 +3,8 @@ import { ObjectType } from '@nestjs/graphql';
 import { ID } from '@nestjs/graphql';
 import { organization } from '../organization/organization.model';
 import { users } from '../users/users.model';
+import { users_work_schedules } from '../users-work-schedules/users-work-schedules.model';
+import { Work_schedulesCount } from '../prisma/work-schedules-count.output';
 
 @ObjectType()
 export class work_schedules {
@@ -51,4 +53,10 @@ export class work_schedules {
 
     @Field(() => users, {nullable:true})
     work_schedules_updated_byTousers?: users | null;
+
+    @Field(() => [users_work_schedules], {nullable:true})
+    users_work_schedules?: Array<users_work_schedules>;
+
+    @Field(() => Work_schedulesCount, {nullable:false})
+    _count?: Work_schedulesCount;
 }

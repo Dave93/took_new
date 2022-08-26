@@ -18,6 +18,7 @@ import { WorkSchedulesModule } from './modules/work_schedules/work_schedules.mod
 import { CacheControlModule } from './modules/cache_control/cache_control.module';
 import { TerminalsModule } from './modules/terminals/terminals.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { UsersModule } from './modules/users/users.module';
 
 @Global()
 @Module({
@@ -49,6 +50,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     WorkSchedulesModule,
     TerminalsModule,
     CacheControlModule,
+    UsersModule,
   ],
   providers: [PrismaService],
 })

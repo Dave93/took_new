@@ -14,6 +14,8 @@ import { cityOrderByRelationAggregateInput } from '../city/city-order-by-relatio
 import { organizationOrderByRelationAggregateInput } from '../organization/organization-order-by-relation-aggregate.input';
 import { work_schedulesOrderByRelationAggregateInput } from '../work-schedules/work-schedules-order-by-relation-aggregate.input';
 import { terminalsOrderByRelationAggregateInput } from '../terminals/terminals-order-by-relation-aggregate.input';
+import { users_terminalsOrderByRelationAggregateInput } from '../users-terminals/users-terminals-order-by-relation-aggregate.input';
+import { users_work_schedulesOrderByRelationAggregateInput } from '../users-work-schedules/users-work-schedules-order-by-relation-aggregate.input';
 
 @InputType()
 export class usersOrderByWithRelationInput {
@@ -38,6 +40,33 @@ export class usersOrderByWithRelationInput {
 
     @Field(() => SortOrder, {nullable:true})
     status?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    drive_type?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    card_name?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    card_number?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    birth_date?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    car_model?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    car_number?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    is_online?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    latitude?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    longitude?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
     created_at?: keyof typeof SortOrder;
@@ -128,4 +157,10 @@ export class usersOrderByWithRelationInput {
 
     @Field(() => terminalsOrderByRelationAggregateInput, {nullable:true})
     terminals_updated_byTousers?: terminalsOrderByRelationAggregateInput;
+
+    @Field(() => users_terminalsOrderByRelationAggregateInput, {nullable:true})
+    users_terminals?: users_terminalsOrderByRelationAggregateInput;
+
+    @Field(() => users_work_schedulesOrderByRelationAggregateInput, {nullable:true})
+    users_work_schedules?: users_work_schedulesOrderByRelationAggregateInput;
 }

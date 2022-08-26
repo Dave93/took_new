@@ -9,12 +9,8 @@ import { terminalsCreateArgs } from 'src/helpers/create-one.args';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
-export class TerminalsService implements OnModuleInit {
+export class TerminalsService {
   constructor(private readonly prismaService: PrismaService, private readonly cacheControl: CacheControlService) {}
-
-  async onModuleInit() {
-    await this.getAllTerminalsFromIiko();
-  }
 
   async create(createTerminalInput: terminalsCreateArgs) {
     let res = await this.prismaService.terminals.create(createTerminalInput);
@@ -70,42 +66,44 @@ export class TerminalsService implements OnModuleInit {
 
     let iikoUrl = 'https://api-ru.iiko.services/api/1/';
     organizations.forEach(async (organization) => {
-      const {
-        data: { token },
-      } = await axios.post(`${iikoUrl}access_token`, {
-        apiLogin: organization.iiko_login,
-      });
-      const { data } = await axios.post(
-        `${iikoUrl}terminal_groups`,
-        {
-          organizationIds: [organization.external_id],
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+      if (organization.iiko_login && organization.external_id) {
+        const {
+          data: { token },
+        } = await axios.post(`${iikoUrl}access_token`, {
+          apiLogin: organization.iiko_login,
+        });
+        const { data } = await axios.post(
+          `${iikoUrl}terminal_groups`,
+          {
+            organizationIds: [organization.external_id],
           },
-        },
-      );
-      if (data.terminalGroups && data.terminalGroups[0].items) {
-        data.terminalGroups[0].items.forEach(async (terminal) => {
-          await this.prismaService.terminals.upsert({
-            where: {
-              external_id: terminal.id,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
             },
-            create: {
-              external_id: terminal.id,
-              name: terminal.name,
-              organization: {
-                connect: {
-                  id: organization.id,
+          },
+        );
+        if (data.terminalGroups && data.terminalGroups[0].items) {
+          data.terminalGroups[0].items.forEach(async (terminal) => {
+            await this.prismaService.terminals.upsert({
+              where: {
+                external_id: terminal.id,
+              },
+              create: {
+                external_id: terminal.id,
+                name: terminal.name,
+                organization: {
+                  connect: {
+                    id: organization.id,
+                  },
                 },
               },
-            },
-            update: {
-              external_id: terminal.id,
-            },
+              update: {
+                external_id: terminal.id,
+              },
+            });
           });
-        });
+        }
       }
     });
 

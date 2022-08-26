@@ -15,7 +15,7 @@ export class RolesResolver {
   constructor(private readonly rolesService: RolesService) {}
 
   @Mutation(() => roles)
-  createRole(@Args() createPermissionInput: CreateOnerolesArgs) {
+  roleCreate(@Args() createPermissionInput: CreateOnerolesArgs) {
     return this.rolesService.create(createPermissionInput);
   }
 

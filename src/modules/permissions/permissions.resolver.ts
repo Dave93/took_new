@@ -12,7 +12,7 @@ export class PermissionsResolver {
   constructor(private readonly permissionsService: PermissionsService) {}
 
   @Mutation(() => permissions)
-  createPermission(@Args() createPermissionInput: CreateOnepermissionsArgs) {
+  permissionCreate(@Args() createPermissionInput: CreateOnepermissionsArgs) {
     return this.permissionsService.create(createPermissionInput);
   }
 

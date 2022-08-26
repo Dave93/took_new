@@ -15,6 +15,8 @@ import { work_schedulesCreateInput } from 'src/@generated/work-schedules/work-sc
 import { work_schedulesUncheckedCreateInput } from 'src/@generated/work-schedules/work-schedules-unchecked-create.input';
 import { terminalsCreateInput } from 'src/@generated/terminals/terminals-create.input';
 import { terminalsUncheckedCreateInput } from 'src/@generated/terminals/terminals-unchecked-create.input';
+import { usersUncheckedCreateInput } from 'src/@generated/users/users-unchecked-create.input';
+import { usersCreateInput } from 'src/@generated/users/users-create.input';
 
 type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
 type XOR<T, U> = T extends object ? (U extends object ? (Without<T, U> & U) | (Without<U, T> & T) : U) : T;
@@ -66,4 +68,11 @@ export class terminalsCreateArgs {
   @Field(() => terminalsUncheckedCreateInput, { nullable: false })
   @Type(() => terminalsUncheckedCreateInput)
   data: XOR<terminalsCreateInput, terminalsUncheckedCreateInput>;
+}
+
+@ArgsType()
+export class usersCreateArgs {
+  @Field(() => usersUncheckedCreateInput, { nullable: false })
+  @Type(() => usersUncheckedCreateInput)
+  data: XOR<usersCreateInput, usersUncheckedCreateInput>;
 }

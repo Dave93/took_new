@@ -1,6 +1,8 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { user_status } from '../prisma/user-status.enum';
+import { drive_type } from '../prisma/drive-type.enum';
+import { Float } from '@nestjs/graphql';
 import { otpUncheckedCreateNestedManyWithoutUsersInput } from '../otp/otp-unchecked-create-nested-many-without-users.input';
 import { permissionsUncheckedCreateNestedManyWithoutUsers_permissions_created_byTousersInput } from '../permissions/permissions-unchecked-create-nested-many-without-users-permissions-created-by-tousers.input';
 import { permissionsUncheckedCreateNestedManyWithoutUsers_permissions_updated_byTousersInput } from '../permissions/permissions-unchecked-create-nested-many-without-users-permissions-updated-by-tousers.input';
@@ -28,6 +30,8 @@ import { work_schedulesUncheckedCreateNestedManyWithoutWork_schedules_created_by
 import { work_schedulesUncheckedCreateNestedManyWithoutWork_schedules_updated_byTousersInput } from '../work-schedules/work-schedules-unchecked-create-nested-many-without-work-schedules-updated-by-tousers.input';
 import { terminalsUncheckedCreateNestedManyWithoutTerminals_created_byTousersInput } from '../terminals/terminals-unchecked-create-nested-many-without-terminals-created-by-tousers.input';
 import { terminalsUncheckedCreateNestedManyWithoutTerminals_updated_byTousersInput } from '../terminals/terminals-unchecked-create-nested-many-without-terminals-updated-by-tousers.input';
+import { users_terminalsUncheckedCreateNestedManyWithoutUsersInput } from '../users-terminals/users-terminals-unchecked-create-nested-many-without-users.input';
+import { users_work_schedulesUncheckedCreateNestedManyWithoutUsersInput } from '../users-work-schedules/users-work-schedules-unchecked-create-nested-many-without-users.input';
 
 @InputType()
 export class usersUncheckedCreateWithoutCity_updated_byTousersInput {
@@ -52,6 +56,33 @@ export class usersUncheckedCreateWithoutCity_updated_byTousersInput {
 
     @Field(() => user_status, {nullable:false})
     status!: keyof typeof user_status;
+
+    @Field(() => drive_type, {nullable:true})
+    drive_type?: keyof typeof drive_type;
+
+    @Field(() => String, {nullable:true})
+    card_name?: string;
+
+    @Field(() => String, {nullable:true})
+    card_number?: string;
+
+    @Field(() => Date, {nullable:true})
+    birth_date?: Date | string;
+
+    @Field(() => String, {nullable:true})
+    car_model?: string;
+
+    @Field(() => String, {nullable:true})
+    car_number?: string;
+
+    @Field(() => Boolean, {nullable:true})
+    is_online?: boolean;
+
+    @Field(() => Float, {nullable:true})
+    latitude?: number;
+
+    @Field(() => Float, {nullable:true})
+    longitude?: number;
 
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;
@@ -139,4 +170,10 @@ export class usersUncheckedCreateWithoutCity_updated_byTousersInput {
 
     @Field(() => terminalsUncheckedCreateNestedManyWithoutTerminals_updated_byTousersInput, {nullable:true})
     terminals_updated_byTousers?: terminalsUncheckedCreateNestedManyWithoutTerminals_updated_byTousersInput;
+
+    @Field(() => users_terminalsUncheckedCreateNestedManyWithoutUsersInput, {nullable:true})
+    users_terminals?: users_terminalsUncheckedCreateNestedManyWithoutUsersInput;
+
+    @Field(() => users_work_schedulesUncheckedCreateNestedManyWithoutUsersInput, {nullable:true})
+    users_work_schedules?: users_work_schedulesUncheckedCreateNestedManyWithoutUsersInput;
 }

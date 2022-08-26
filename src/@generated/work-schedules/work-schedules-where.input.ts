@@ -7,6 +7,7 @@ import { StringNullableListFilter } from '../prisma/string-nullable-list-filter.
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { StringNullableFilter } from '../prisma/string-nullable-filter.input';
 import { UsersRelationFilter } from '../prisma/users-relation-filter.input';
+import { Users_work_schedulesListRelationFilter } from '../prisma/users-work-schedules-list-relation-filter.input';
 
 @InputType()
 export class work_schedulesWhereInput {
@@ -64,4 +65,7 @@ export class work_schedulesWhereInput {
 
     @Field(() => UsersRelationFilter, {nullable:true})
     work_schedules_updated_byTousers?: UsersRelationFilter;
+
+    @Field(() => Users_work_schedulesListRelationFilter, {nullable:true})
+    users_work_schedules?: Users_work_schedulesListRelationFilter;
 }

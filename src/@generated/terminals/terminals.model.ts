@@ -4,6 +4,8 @@ import { ID } from '@nestjs/graphql';
 import { Float } from '@nestjs/graphql';
 import { organization } from '../organization/organization.model';
 import { users } from '../users/users.model';
+import { users_terminals } from '../users-terminals/users-terminals.model';
+import { TerminalsCount } from '../prisma/terminals-count.output';
 
 @ObjectType()
 export class terminals {
@@ -55,4 +57,10 @@ export class terminals {
 
     @Field(() => users, {nullable:true})
     terminals_updated_byTousers?: users | null;
+
+    @Field(() => [users_terminals], {nullable:true})
+    users_terminals?: Array<users_terminals>;
+
+    @Field(() => TerminalsCount, {nullable:false})
+    _count?: TerminalsCount;
 }

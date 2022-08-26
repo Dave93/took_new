@@ -4,6 +4,9 @@ import { StringFilter } from '../prisma/string-filter.input';
 import { StringNullableFilter } from '../prisma/string-nullable-filter.input';
 import { BoolFilter } from '../prisma/bool-filter.input';
 import { Enumuser_statusFilter } from '../prisma/enumuser-status-filter.input';
+import { Enumdrive_typeNullableFilter } from '../prisma/enumdrive-type-nullable-filter.input';
+import { DateTimeNullableFilter } from '../prisma/date-time-nullable-filter.input';
+import { FloatNullableFilter } from '../prisma/float-nullable-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { OtpListRelationFilter } from '../prisma/otp-list-relation-filter.input';
 import { PermissionsListRelationFilter } from '../prisma/permissions-list-relation-filter.input';
@@ -18,6 +21,8 @@ import { CityListRelationFilter } from '../prisma/city-list-relation-filter.inpu
 import { OrganizationListRelationFilter } from '../prisma/organization-list-relation-filter.input';
 import { Work_schedulesListRelationFilter } from '../prisma/work-schedules-list-relation-filter.input';
 import { TerminalsListRelationFilter } from '../prisma/terminals-list-relation-filter.input';
+import { Users_terminalsListRelationFilter } from '../prisma/users-terminals-list-relation-filter.input';
+import { Users_work_schedulesListRelationFilter } from '../prisma/users-work-schedules-list-relation-filter.input';
 
 @InputType()
 export class usersWhereInput {
@@ -51,6 +56,33 @@ export class usersWhereInput {
 
     @Field(() => Enumuser_statusFilter, {nullable:true})
     status?: Enumuser_statusFilter;
+
+    @Field(() => Enumdrive_typeNullableFilter, {nullable:true})
+    drive_type?: Enumdrive_typeNullableFilter;
+
+    @Field(() => StringNullableFilter, {nullable:true})
+    card_name?: StringNullableFilter;
+
+    @Field(() => StringNullableFilter, {nullable:true})
+    card_number?: StringNullableFilter;
+
+    @Field(() => DateTimeNullableFilter, {nullable:true})
+    birth_date?: DateTimeNullableFilter;
+
+    @Field(() => StringNullableFilter, {nullable:true})
+    car_model?: StringNullableFilter;
+
+    @Field(() => StringNullableFilter, {nullable:true})
+    car_number?: StringNullableFilter;
+
+    @Field(() => BoolFilter, {nullable:true})
+    is_online?: BoolFilter;
+
+    @Field(() => FloatNullableFilter, {nullable:true})
+    latitude?: FloatNullableFilter;
+
+    @Field(() => FloatNullableFilter, {nullable:true})
+    longitude?: FloatNullableFilter;
 
     @Field(() => DateTimeFilter, {nullable:true})
     created_at?: DateTimeFilter;
@@ -141,4 +173,10 @@ export class usersWhereInput {
 
     @Field(() => TerminalsListRelationFilter, {nullable:true})
     terminals_updated_byTousers?: TerminalsListRelationFilter;
+
+    @Field(() => Users_terminalsListRelationFilter, {nullable:true})
+    users_terminals?: Users_terminalsListRelationFilter;
+
+    @Field(() => Users_work_schedulesListRelationFilter, {nullable:true})
+    users_work_schedules?: Users_work_schedulesListRelationFilter;
 }

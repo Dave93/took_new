@@ -1,5 +1,6 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
+import { users_work_schedulesUncheckedUpdateManyWithoutWork_schedulesNestedInput } from '../users-work-schedules/users-work-schedules-unchecked-update-many-without-work-schedules-nested.input';
 
 @InputType()
 export class work_schedulesUncheckedUpdateInput {
@@ -39,4 +40,7 @@ export class work_schedulesUncheckedUpdateInput {
 
     @Field(() => String, {nullable:true})
     updated_by?: string;
+
+    @Field(() => users_work_schedulesUncheckedUpdateManyWithoutWork_schedulesNestedInput, {nullable:true})
+    users_work_schedules?: users_work_schedulesUncheckedUpdateManyWithoutWork_schedulesNestedInput;
 }
