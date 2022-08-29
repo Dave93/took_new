@@ -1788,8 +1788,8 @@ type Mutation {
   updateUser(data: usersUpdateInput!, where: usersWhereUniqueInput!): users!
   removeUser(id: Int!): users!
   linkUserToRoles(userId: String!, roleId: String!): users_roles!
-  linkUserToTerminals(userId: String!, terminalId: [String!]!): users_terminals!
-  linkUserToWorkSchedules(userId: String!, workScheduleId: [String!]!): users_work_schedules!
+  linkUserToTerminals(userId: String!, terminalId: [String!]!): BatchPayload!
+  linkUserToWorkSchedules(userId: String!, workScheduleId: [String!]!): BatchPayload!
 }
 
 input rolesUncheckedCreateInput {

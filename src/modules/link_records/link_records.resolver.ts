@@ -4,6 +4,7 @@ import { LinkRecord } from './entities/link_record.entity';
 import { users_roles } from 'src/@generated/users-roles/users-roles.model';
 import { users_terminals } from 'src/@generated/users-terminals/users-terminals.model';
 import { users_work_schedules } from 'src/@generated/users-work-schedules/users-work-schedules.model';
+import { BatchPayload } from '@helpers';
 
 @Resolver(() => LinkRecord)
 export class LinkRecordsResolver {
@@ -17,7 +18,7 @@ export class LinkRecordsResolver {
     return this.linkRecordsService.linkUserToRoles(userId, roleId);
   }
 
-  @Mutation(() => users_terminals)
+  @Mutation(() => BatchPayload)
   linkUserToTerminals(
     @Args('userId', { type: () => String }) userId: string,
     @Args('terminalId', { type: () => [String] }) terminalId: string[],
@@ -25,7 +26,7 @@ export class LinkRecordsResolver {
     return this.linkRecordsService.linkUserToTerminals(userId, terminalId);
   }
 
-  @Mutation(() => users_work_schedules)
+  @Mutation(() => BatchPayload)
   linkUserToWorkSchedules(
     @Args('userId', { type: () => String }) userId: string,
     @Args('workScheduleId', { type: () => [String] }) workScheduleId: string[],

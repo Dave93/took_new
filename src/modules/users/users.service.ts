@@ -41,17 +41,46 @@ export class UsersService {
     });
   }
 
-  findOne(id: string) {
-    return this.prismaService.users.findUnique({
+  async findOne(id: string) {
+    let res = await this.prismaService.users.findUnique({
       where: {
         id,
       },
       include: {
-        users_terminals: true,
-        users_work_schedules: true,
-        users_roles_usersTousers_roles_user_id: true,
+        users_terminals: {
+          include: {
+            terminals: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        },
+        users_work_schedules: {
+          include: {
+            work_schedules: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        },
+        users_roles_usersTousers_roles_user_id: {
+          include: {
+            roles: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        },
       },
     });
+
+    return res;
   }
 
   update(updateUserInput: UpdateOneusersArgs) {
