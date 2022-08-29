@@ -19,6 +19,7 @@ import { CacheControlModule } from './modules/cache_control/cache_control.module
 import { TerminalsModule } from './modules/terminals/terminals.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { UsersModule } from './modules/users/users.module';
+import { LinkRecordsModule } from './modules/link_records/link_records.module';
 
 @Global()
 @Module({
@@ -51,6 +52,7 @@ import { UsersModule } from './modules/users/users.module';
     TerminalsModule,
     CacheControlModule,
     UsersModule,
+    LinkRecordsModule,
   ],
   providers: [PrismaService],
 })
