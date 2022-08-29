@@ -1,7 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { CreateLinkRecordInput } from './dto/create-link_record.input';
-import { UpdateLinkRecordInput } from './dto/update-link_record.input';
 
 @Injectable()
 export class LinkRecordsService {
@@ -18,6 +16,34 @@ export class LinkRecordsService {
         user_id,
         role_id,
       },
+    });
+  }
+
+  async linkUserToTerminals(user_id: string, terminal_id: string[]) {
+    await this.prismaService.users_terminals.deleteMany({
+      where: {
+        user_id,
+      },
+    });
+    return this.prismaService.users_terminals.createMany({
+      data: terminal_id.map((id) => ({
+        user_id,
+        terminal_id: id,
+      })),
+    });
+  }
+
+  async linkUserToWorkSchedules(userId: string, workScheduleId: string[]) {
+    await this.prismaService.users_work_schedules.deleteMany({
+      where: {
+        user_id: userId,
+      },
+    });
+    return this.prismaService.users_work_schedules.createMany({
+      data: workScheduleId.map((id) => ({
+        user_id: userId,
+        work_schedule_id: id,
+      })),
     });
   }
 }
