@@ -36,6 +36,7 @@ export class AuthResolver {
 
   @Mutation(() => SendOtpToken, { nullable: true })
   async sendOtp(@Args('phone', { type: () => String }) phone: string): Promise<SendOtpToken> {
+    console.log('davr');
     let result = await this.authService.sendOtp(phone);
     return result;
   }

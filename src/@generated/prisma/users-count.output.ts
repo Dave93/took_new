@@ -94,4 +94,13 @@ export class UsersCount {
 
     @Field(() => Int, {nullable:false})
     users_work_schedules!: number;
+
+    @Field(() => Int, {nullable:false})
+    work_schedule_entries_created_byTousers!: number;
+
+    @Field(() => Int, {nullable:false})
+    work_schedule_entries_updated_byTousers!: number;
+
+    @Field(() => Int, {nullable:false})
+    work_schedule_entries_users!: number;
 }

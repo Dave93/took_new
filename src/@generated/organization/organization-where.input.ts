@@ -4,6 +4,7 @@ import { StringFilter } from '../prisma/string-filter.input';
 import { StringNullableFilter } from '../prisma/string-nullable-filter.input';
 import { BoolFilter } from '../prisma/bool-filter.input';
 import { Enumorganization_system_typeFilter } from '../prisma/enumorganization-system-type-filter.input';
+import { IntFilter } from '../prisma/int-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { Work_schedulesListRelationFilter } from '../prisma/work-schedules-list-relation-filter.input';
 import { UsersRelationFilter } from '../prisma/users-relation-filter.input';
@@ -63,6 +64,12 @@ export class organizationWhereInput {
 
     @Field(() => StringNullableFilter, {nullable:true})
     description?: StringNullableFilter;
+
+    @Field(() => IntFilter, {nullable:true})
+    max_distance?: IntFilter;
+
+    @Field(() => IntFilter, {nullable:true})
+    max_active_order_count?: IntFilter;
 
     @Field(() => DateTimeFilter, {nullable:true})
     created_at?: DateTimeFilter;

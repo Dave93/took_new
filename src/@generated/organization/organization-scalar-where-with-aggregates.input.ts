@@ -4,6 +4,7 @@ import { StringWithAggregatesFilter } from '../prisma/string-with-aggregates-fil
 import { StringNullableWithAggregatesFilter } from '../prisma/string-nullable-with-aggregates-filter.input';
 import { BoolWithAggregatesFilter } from '../prisma/bool-with-aggregates-filter.input';
 import { Enumorganization_system_typeWithAggregatesFilter } from '../prisma/enumorganization-system-type-with-aggregates-filter.input';
+import { IntWithAggregatesFilter } from '../prisma/int-with-aggregates-filter.input';
 import { DateTimeWithAggregatesFilter } from '../prisma/date-time-with-aggregates-filter.input';
 
 @InputType()
@@ -59,6 +60,12 @@ export class organizationScalarWhereWithAggregatesInput {
 
     @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
     description?: StringNullableWithAggregatesFilter;
+
+    @Field(() => IntWithAggregatesFilter, {nullable:true})
+    max_distance?: IntWithAggregatesFilter;
+
+    @Field(() => IntWithAggregatesFilter, {nullable:true})
+    max_active_order_count?: IntWithAggregatesFilter;
 
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     created_at?: DateTimeWithAggregatesFilter;

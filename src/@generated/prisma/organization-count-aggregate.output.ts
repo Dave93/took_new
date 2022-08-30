@@ -48,6 +48,12 @@ export class OrganizationCountAggregate {
     description!: number;
 
     @Field(() => Int, {nullable:false})
+    max_distance!: number;
+
+    @Field(() => Int, {nullable:false})
+    max_active_order_count!: number;
+
+    @Field(() => Int, {nullable:false})
     created_at!: number;
 
     @Field(() => Int, {nullable:false})

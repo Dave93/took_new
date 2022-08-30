@@ -1,3 +1,4 @@
+import { CacheControlService } from '@modules/cache_control/cache_control.service';
 import { Injectable } from '@nestjs/common';
 import { FindManyorganizationArgs } from 'src/@generated/organization/find-manyorganization.args';
 import { organizationWhereInput } from 'src/@generated/organization/organization-where.input';
@@ -7,9 +8,11 @@ import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class OrganizationsService {
-  constructor(private readonly prismaService: PrismaService) {}
-  create(createOrganizationInput: organizationCreateArgs) {
-    return this.prismaService.organization.create(createOrganizationInput);
+  constructor(private readonly prismaService: PrismaService, private readonly cacheControl: CacheControlService) {}
+  async create(createOrganizationInput: organizationCreateArgs) {
+    let res = await this.prismaService.organization.create(createOrganizationInput);
+    await this.cacheControl.cacheOrganizations();
+    return res;
   }
 
   organizationConnection(where: organizationWhereInput) {
@@ -33,8 +36,10 @@ export class OrganizationsService {
     });
   }
 
-  update(updateOrganizationInput: UpdateOneorganizationArgs) {
-    return this.prismaService.organization.update(updateOrganizationInput);
+  async update(updateOrganizationInput: UpdateOneorganizationArgs) {
+    let res = await this.prismaService.organization.update(updateOrganizationInput);
+    await this.cacheControl.cacheOrganizations();
+    return res;
   }
 
   remove(id: string) {

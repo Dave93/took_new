@@ -1,6 +1,7 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { organization_system_type } from './organization-system-type.enum';
+import { Int } from '@nestjs/graphql';
 import { work_schedulesUncheckedUpdateManyWithoutOrganizationNestedInput } from '../work-schedules/work-schedules-unchecked-update-many-without-organization-nested.input';
 import { delivery_pricingUncheckedUpdateManyWithoutOrganizationNestedInput } from '../delivery-pricing/delivery-pricing-unchecked-update-many-without-organization-nested.input';
 import { terminalsUncheckedUpdateManyWithoutOrganizationNestedInput } from '../terminals/terminals-unchecked-update-many-without-organization-nested.input';
@@ -49,6 +50,12 @@ export class organizationUncheckedUpdateInput {
 
     @Field(() => String, {nullable:true})
     description?: string;
+
+    @Field(() => Int, {nullable:true})
+    max_distance?: number;
+
+    @Field(() => Int, {nullable:true})
+    max_active_order_count?: number;
 
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;

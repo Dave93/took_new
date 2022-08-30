@@ -4,6 +4,7 @@ import { SortOrder } from '../prisma/sort-order.enum';
 import { organizationOrderByWithRelationInput } from '../organization/organization-order-by-with-relation.input';
 import { usersOrderByWithRelationInput } from '../users/users-order-by-with-relation.input';
 import { users_work_schedulesOrderByRelationAggregateInput } from '../users-work-schedules/users-work-schedules-order-by-relation-aggregate.input';
+import { work_schedule_entriesOrderByRelationAggregateInput } from '../work-schedule-entries/work-schedule-entries-order-by-relation-aggregate.input';
 
 @InputType()
 export class work_schedulesOrderByWithRelationInput {
@@ -55,4 +56,7 @@ export class work_schedulesOrderByWithRelationInput {
 
     @Field(() => users_work_schedulesOrderByRelationAggregateInput, {nullable:true})
     users_work_schedules?: users_work_schedulesOrderByRelationAggregateInput;
+
+    @Field(() => work_schedule_entriesOrderByRelationAggregateInput, {nullable:true})
+    work_schedule_entries_work_schedules?: work_schedule_entriesOrderByRelationAggregateInput;
 }

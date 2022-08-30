@@ -7,4 +7,7 @@ export class Work_schedulesCount {
 
     @Field(() => Int, {nullable:false})
     users_work_schedules!: number;
+
+    @Field(() => Int, {nullable:false})
+    work_schedule_entries_work_schedules!: number;
 }

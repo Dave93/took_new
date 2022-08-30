@@ -15,6 +15,9 @@ export class rolesOrderByWithAggregationInput {
     name?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    code?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     active?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})

@@ -16,6 +16,7 @@ import { work_schedulesOrderByRelationAggregateInput } from '../work-schedules/w
 import { terminalsOrderByRelationAggregateInput } from '../terminals/terminals-order-by-relation-aggregate.input';
 import { users_terminalsOrderByRelationAggregateInput } from '../users-terminals/users-terminals-order-by-relation-aggregate.input';
 import { users_work_schedulesOrderByRelationAggregateInput } from '../users-work-schedules/users-work-schedules-order-by-relation-aggregate.input';
+import { work_schedule_entriesOrderByRelationAggregateInput } from '../work-schedule-entries/work-schedule-entries-order-by-relation-aggregate.input';
 
 @InputType()
 export class usersOrderByWithRelationInput {
@@ -163,4 +164,13 @@ export class usersOrderByWithRelationInput {
 
     @Field(() => users_work_schedulesOrderByRelationAggregateInput, {nullable:true})
     users_work_schedules?: users_work_schedulesOrderByRelationAggregateInput;
+
+    @Field(() => work_schedule_entriesOrderByRelationAggregateInput, {nullable:true})
+    work_schedule_entries_created_byTousers?: work_schedule_entriesOrderByRelationAggregateInput;
+
+    @Field(() => work_schedule_entriesOrderByRelationAggregateInput, {nullable:true})
+    work_schedule_entries_updated_byTousers?: work_schedule_entriesOrderByRelationAggregateInput;
+
+    @Field(() => work_schedule_entriesOrderByRelationAggregateInput, {nullable:true})
+    work_schedule_entries_users?: work_schedule_entriesOrderByRelationAggregateInput;
 }

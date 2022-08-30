@@ -23,6 +23,7 @@ import { Work_schedulesListRelationFilter } from '../prisma/work-schedules-list-
 import { TerminalsListRelationFilter } from '../prisma/terminals-list-relation-filter.input';
 import { Users_terminalsListRelationFilter } from '../prisma/users-terminals-list-relation-filter.input';
 import { Users_work_schedulesListRelationFilter } from '../prisma/users-work-schedules-list-relation-filter.input';
+import { Work_schedule_entriesListRelationFilter } from '../prisma/work-schedule-entries-list-relation-filter.input';
 
 @InputType()
 export class usersWhereInput {
@@ -179,4 +180,13 @@ export class usersWhereInput {
 
     @Field(() => Users_work_schedulesListRelationFilter, {nullable:true})
     users_work_schedules?: Users_work_schedulesListRelationFilter;
+
+    @Field(() => Work_schedule_entriesListRelationFilter, {nullable:true})
+    work_schedule_entries_created_byTousers?: Work_schedule_entriesListRelationFilter;
+
+    @Field(() => Work_schedule_entriesListRelationFilter, {nullable:true})
+    work_schedule_entries_updated_byTousers?: Work_schedule_entriesListRelationFilter;
+
+    @Field(() => Work_schedule_entriesListRelationFilter, {nullable:true})
+    work_schedule_entries_users?: Work_schedule_entriesListRelationFilter;
 }

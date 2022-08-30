@@ -20,6 +20,7 @@ import { TerminalsModule } from './modules/terminals/terminals.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { UsersModule } from './modules/users/users.module';
 import { LinkRecordsModule } from './modules/link_records/link_records.module';
+import { WorkScheduleEntriesModule } from './modules/work_schedule_entries/work_schedule_entries.module';
 
 @Global()
 @Module({
@@ -53,6 +54,7 @@ import { LinkRecordsModule } from './modules/link_records/link_records.module';
     CacheControlModule,
     UsersModule,
     LinkRecordsModule,
+    WorkScheduleEntriesModule,
   ],
   providers: [PrismaService],
 })

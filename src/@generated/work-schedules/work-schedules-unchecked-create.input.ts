@@ -1,6 +1,7 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { users_work_schedulesUncheckedCreateNestedManyWithoutWork_schedulesInput } from '../users-work-schedules/users-work-schedules-unchecked-create-nested-many-without-work-schedules.input';
+import { work_schedule_entriesUncheckedCreateNestedManyWithoutWork_schedule_entries_work_schedulesInput } from '../work-schedule-entries/work-schedule-entries-unchecked-create-nested-many-without-work-schedule-entries-work-schedules.input';
 
 @InputType()
 export class work_schedulesUncheckedCreateInput {
@@ -43,4 +44,7 @@ export class work_schedulesUncheckedCreateInput {
 
     @Field(() => users_work_schedulesUncheckedCreateNestedManyWithoutWork_schedulesInput, {nullable:true})
     users_work_schedules?: users_work_schedulesUncheckedCreateNestedManyWithoutWork_schedulesInput;
+
+    @Field(() => work_schedule_entriesUncheckedCreateNestedManyWithoutWork_schedule_entries_work_schedulesInput, {nullable:true})
+    work_schedule_entries_work_schedules?: work_schedule_entriesUncheckedCreateNestedManyWithoutWork_schedule_entries_work_schedulesInput;
 }

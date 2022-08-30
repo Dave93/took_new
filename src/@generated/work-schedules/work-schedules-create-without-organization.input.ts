@@ -3,6 +3,7 @@ import { InputType } from '@nestjs/graphql';
 import { usersCreateNestedOneWithoutWork_schedules_created_byTousersInput } from '../users/users-create-nested-one-without-work-schedules-created-by-tousers.input';
 import { usersCreateNestedOneWithoutWork_schedules_updated_byTousersInput } from '../users/users-create-nested-one-without-work-schedules-updated-by-tousers.input';
 import { users_work_schedulesCreateNestedManyWithoutWork_schedulesInput } from '../users-work-schedules/users-work-schedules-create-nested-many-without-work-schedules.input';
+import { work_schedule_entriesCreateNestedManyWithoutWork_schedule_entries_work_schedulesInput } from '../work-schedule-entries/work-schedule-entries-create-nested-many-without-work-schedule-entries-work-schedules.input';
 
 @InputType()
 export class work_schedulesCreateWithoutOrganizationInput {
@@ -42,4 +43,7 @@ export class work_schedulesCreateWithoutOrganizationInput {
 
     @Field(() => users_work_schedulesCreateNestedManyWithoutWork_schedulesInput, {nullable:true})
     users_work_schedules?: users_work_schedulesCreateNestedManyWithoutWork_schedulesInput;
+
+    @Field(() => work_schedule_entriesCreateNestedManyWithoutWork_schedule_entries_work_schedulesInput, {nullable:true})
+    work_schedule_entries_work_schedules?: work_schedule_entriesCreateNestedManyWithoutWork_schedule_entries_work_schedulesInput;
 }

@@ -12,6 +12,9 @@ export class rolesUncheckedUpdateWithoutUsers_roles_updated_byTousersInput {
     @Field(() => String, {nullable:true})
     name?: string;
 
+    @Field(() => String, {nullable:true})
+    code?: string;
+
     @Field(() => Boolean, {nullable:true})
     active?: boolean;
 

@@ -6,9 +6,25 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TokenService } from './services';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard, PermissionsGuard } from './guards';
 
 @Module({
-  providers: [AuthResolver, AuthService, PrismaService, TokenService, JwtStrategy],
+  providers: [
+    AuthResolver,
+    AuthService,
+    PrismaService,
+    TokenService,
+    JwtStrategy,
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: JwtAuthGuard,
+    // },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: PermissionsGuard,
+    // },
+  ],
   imports: [
     ConfigModule.forRoot(),
     JwtModule.registerAsync({
@@ -22,5 +38,6 @@ import { JwtStrategy } from './jwt.strategy';
       inject: [ConfigService],
     }),
   ],
+  exports: [JwtStrategy, TokenService, AuthService],
 })
 export class AuthModule {}

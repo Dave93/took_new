@@ -32,6 +32,9 @@ import { work_schedulesUncheckedUpdateManyWithoutWork_schedules_updated_byTouser
 import { terminalsUncheckedUpdateManyWithoutTerminals_created_byTousersNestedInput } from '../terminals/terminals-unchecked-update-many-without-terminals-created-by-tousers-nested.input';
 import { users_terminalsUncheckedUpdateManyWithoutUsersNestedInput } from '../users-terminals/users-terminals-unchecked-update-many-without-users-nested.input';
 import { users_work_schedulesUncheckedUpdateManyWithoutUsersNestedInput } from '../users-work-schedules/users-work-schedules-unchecked-update-many-without-users-nested.input';
+import { work_schedule_entriesUncheckedUpdateManyWithoutWork_schedule_entries_created_byTousersNestedInput } from '../work-schedule-entries/work-schedule-entries-unchecked-update-many-without-work-schedule-entries-created-by-tousers-nested.input';
+import { work_schedule_entriesUncheckedUpdateManyWithoutWork_schedule_entries_updated_byTousersNestedInput } from '../work-schedule-entries/work-schedule-entries-unchecked-update-many-without-work-schedule-entries-updated-by-tousers-nested.input';
+import { work_schedule_entriesUncheckedUpdateManyWithoutWork_schedule_entries_usersNestedInput } from '../work-schedule-entries/work-schedule-entries-unchecked-update-many-without-work-schedule-entries-users-nested.input';
 
 @InputType()
 export class usersUncheckedUpdateWithoutTerminals_updated_byTousersInput {
@@ -176,4 +179,13 @@ export class usersUncheckedUpdateWithoutTerminals_updated_byTousersInput {
 
     @Field(() => users_work_schedulesUncheckedUpdateManyWithoutUsersNestedInput, {nullable:true})
     users_work_schedules?: users_work_schedulesUncheckedUpdateManyWithoutUsersNestedInput;
+
+    @Field(() => work_schedule_entriesUncheckedUpdateManyWithoutWork_schedule_entries_created_byTousersNestedInput, {nullable:true})
+    work_schedule_entries_created_byTousers?: work_schedule_entriesUncheckedUpdateManyWithoutWork_schedule_entries_created_byTousersNestedInput;
+
+    @Field(() => work_schedule_entriesUncheckedUpdateManyWithoutWork_schedule_entries_updated_byTousersNestedInput, {nullable:true})
+    work_schedule_entries_updated_byTousers?: work_schedule_entriesUncheckedUpdateManyWithoutWork_schedule_entries_updated_byTousersNestedInput;
+
+    @Field(() => work_schedule_entriesUncheckedUpdateManyWithoutWork_schedule_entries_usersNestedInput, {nullable:true})
+    work_schedule_entries_users?: work_schedule_entriesUncheckedUpdateManyWithoutWork_schedule_entries_usersNestedInput;
 }

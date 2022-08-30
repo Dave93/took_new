@@ -1,16 +1,23 @@
 import { Reflector } from '@nestjs/core';
-import { Injectable, ExecutionContext, UnauthorizedException } from '@nestjs/common';
+import { Injectable, ExecutionContext, UnauthorizedException, Inject } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ExtractJwt } from 'passport-jwt';
 import { InvalidTokenException } from '@common/http/exceptions';
 import { TokenService } from '../services';
 import { TokenType } from '../enums';
 import { SKIP_AUTH } from '../constants';
+import { GqlExecutionContext } from '@nestjs/graphql';
+import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-host';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
-  constructor(private tokenService: TokenService, private reflector: Reflector) {
+  constructor(private readonly tokenService: TokenService, private reflector: Reflector) {
     super();
+  }
+
+  getRequest(context: ExecutionContext) {
+    const ctx = GqlExecutionContext.create(context);
+    return ctx.getContext().req;
   }
 
   /**
@@ -19,12 +26,20 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
    * @returns super.canActivate(context)
    */
   canActivate(context: ExecutionContext) {
-    const skipAuth = this.reflector.getAllAndOverride<boolean>(SKIP_AUTH, [context.getHandler(), context.getClass()]);
+    let ctx;
+    let request = context.switchToHttp().getRequest();
+    if (request) {
+      ctx = context;
+    } else {
+      ctx = GqlExecutionContext.create(context);
+      request = ctx.getContext().req;
+    }
+    const skipAuth = this.reflector.getAllAndOverride<boolean>(SKIP_AUTH, [ctx.getHandler(), ctx.getClass()]);
     if (skipAuth) {
       return true;
     }
 
-    const accessToken = ExtractJwt.fromAuthHeaderAsBearerToken()(context.switchToHttp().getRequest());
+    const accessToken = ExtractJwt.fromAuthHeaderAsBearerToken()(request);
     if (!accessToken) {
       throw new InvalidTokenException();
     }

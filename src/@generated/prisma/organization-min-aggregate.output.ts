@@ -1,6 +1,7 @@
 import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
 import { organization_system_type } from '../organization/organization-system-type.enum';
+import { Int } from '@nestjs/graphql';
 
 @ObjectType()
 export class OrganizationMinAggregate {
@@ -46,6 +47,12 @@ export class OrganizationMinAggregate {
 
     @Field(() => String, {nullable:true})
     description?: string;
+
+    @Field(() => Int, {nullable:true})
+    max_distance?: number;
+
+    @Field(() => Int, {nullable:true})
+    max_active_order_count?: number;
 
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;

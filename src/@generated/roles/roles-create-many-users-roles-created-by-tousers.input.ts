@@ -10,6 +10,9 @@ export class rolesCreateManyUsers_roles_created_byTousersInput {
     @Field(() => String, {nullable:false})
     name!: string;
 
+    @Field(() => String, {nullable:true})
+    code?: string;
+
     @Field(() => Boolean, {nullable:true})
     active?: boolean;
 

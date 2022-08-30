@@ -15,6 +15,9 @@ export class roles {
     @Field(() => String, {nullable:false})
     name!: string;
 
+    @Field(() => String, {nullable:true})
+    code!: string | null;
+
     @Field(() => Boolean, {nullable:false,defaultValue:true})
     active!: boolean;
 

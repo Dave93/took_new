@@ -19,6 +19,7 @@ import { work_schedules } from '../work-schedules/work-schedules.model';
 import { terminals } from '../terminals/terminals.model';
 import { users_terminals } from '../users-terminals/users-terminals.model';
 import { users_work_schedules } from '../users-work-schedules/users-work-schedules.model';
+import { work_schedule_entries } from '../work-schedule-entries/work-schedule-entries.model';
 import { UsersCount } from '../prisma/users-count.output';
 
 @ObjectType()
@@ -167,6 +168,15 @@ export class users {
 
     @Field(() => [users_work_schedules], {nullable:true})
     users_work_schedules?: Array<users_work_schedules>;
+
+    @Field(() => [work_schedule_entries], {nullable:true})
+    work_schedule_entries_created_byTousers?: Array<work_schedule_entries>;
+
+    @Field(() => [work_schedule_entries], {nullable:true})
+    work_schedule_entries_updated_byTousers?: Array<work_schedule_entries>;
+
+    @Field(() => [work_schedule_entries], {nullable:true})
+    work_schedule_entries_users?: Array<work_schedule_entries>;
 
     @Field(() => UsersCount, {nullable:false})
     _count?: UsersCount;

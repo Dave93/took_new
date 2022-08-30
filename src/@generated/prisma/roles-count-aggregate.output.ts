@@ -12,6 +12,9 @@ export class RolesCountAggregate {
     name!: number;
 
     @Field(() => Int, {nullable:false})
+    code!: number;
+
+    @Field(() => Int, {nullable:false})
     active!: number;
 
     @Field(() => Int, {nullable:false})

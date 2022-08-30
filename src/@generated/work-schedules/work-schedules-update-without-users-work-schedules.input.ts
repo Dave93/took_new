@@ -3,6 +3,7 @@ import { InputType } from '@nestjs/graphql';
 import { organizationUpdateOneRequiredWithoutWork_schedules_organization_idTorganizationNestedInput } from '../organization/organization-update-one-required-without-work-schedules-organization-id-torganization-nested.input';
 import { usersUpdateOneWithoutWork_schedules_created_byTousersNestedInput } from '../users/users-update-one-without-work-schedules-created-by-tousers-nested.input';
 import { usersUpdateOneWithoutWork_schedules_updated_byTousersNestedInput } from '../users/users-update-one-without-work-schedules-updated-by-tousers-nested.input';
+import { work_schedule_entriesUpdateManyWithoutWork_schedule_entries_work_schedulesNestedInput } from '../work-schedule-entries/work-schedule-entries-update-many-without-work-schedule-entries-work-schedules-nested.input';
 
 @InputType()
 export class work_schedulesUpdateWithoutUsers_work_schedulesInput {
@@ -42,4 +43,7 @@ export class work_schedulesUpdateWithoutUsers_work_schedulesInput {
 
     @Field(() => usersUpdateOneWithoutWork_schedules_updated_byTousersNestedInput, {nullable:true})
     work_schedules_updated_byTousers?: usersUpdateOneWithoutWork_schedules_updated_byTousersNestedInput;
+
+    @Field(() => work_schedule_entriesUpdateManyWithoutWork_schedule_entries_work_schedulesNestedInput, {nullable:true})
+    work_schedule_entries_work_schedules?: work_schedule_entriesUpdateManyWithoutWork_schedule_entries_work_schedulesNestedInput;
 }

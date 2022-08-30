@@ -9,4 +9,7 @@ export class rolesWhereUniqueInput {
 
     @Field(() => String, {nullable:true})
     name?: string;
+
+    @Field(() => String, {nullable:true})
+    code?: string;
 }

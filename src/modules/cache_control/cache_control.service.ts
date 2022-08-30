@@ -13,6 +13,7 @@ export class CacheControlService implements OnModuleInit {
     await this.cacheWorkSchedules();
     await this.cacheDeliveryPricing();
     await this.cacheTerminals();
+    await this.cacheOrganizations();
   }
 
   async cacheWorkSchedules() {
@@ -28,5 +29,10 @@ export class CacheControlService implements OnModuleInit {
   async cacheTerminals() {
     let terminals = await this.prismaService.terminals.findMany();
     return this.cacheManager.set('terminals', terminals);
+  }
+
+  async cacheOrganizations() {
+    let organizations = await this.prismaService.organization.findMany();
+    return this.cacheManager.set('organizations', organizations);
   }
 }

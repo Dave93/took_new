@@ -2,6 +2,7 @@ import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
 import { ID } from '@nestjs/graphql';
 import { organization_system_type } from './organization-system-type.enum';
+import { Int } from '@nestjs/graphql';
 import { work_schedules } from '../work-schedules/work-schedules.model';
 import { users } from '../users/users.model';
 import { delivery_pricing } from '../delivery-pricing/delivery-pricing.model';
@@ -52,6 +53,12 @@ export class organization {
 
     @Field(() => String, {nullable:true})
     description!: string | null;
+
+    @Field(() => Int, {nullable:false,defaultValue:0})
+    max_distance!: number;
+
+    @Field(() => Int, {nullable:false,defaultValue:0})
+    max_active_order_count!: number;
 
     @Field(() => Date, {nullable:false})
     created_at!: Date;

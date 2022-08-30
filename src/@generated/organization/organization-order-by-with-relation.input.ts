@@ -52,6 +52,12 @@ export class organizationOrderByWithRelationInput {
     description?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    max_distance?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    max_active_order_count?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     created_at?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})

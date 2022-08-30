@@ -59,7 +59,7 @@ export class TokenService {
   public verifyToken(token: string, type: TokenType) {
     try {
       return this.jwtService.verify(token);
-    } catch ({ name }) {
+    } catch ({ name, ...data }) {
       if (name == TokenError.TokenExpiredError && type == TokenType.AccessToken) {
         throw new AccessTokenExpiredException();
       }

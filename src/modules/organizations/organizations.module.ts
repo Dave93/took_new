@@ -1,9 +1,11 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { OrganizationsService } from './organizations.service';
 import { OrganizationsResolver } from './organizations.resolver';
 import { PrismaService } from 'src/prisma.service';
+import { CacheControlService } from '@modules/cache_control/cache_control.service';
 
 @Module({
-  providers: [OrganizationsResolver, OrganizationsService, PrismaService],
+  imports: [CacheModule.register()],
+  providers: [OrganizationsResolver, OrganizationsService, PrismaService, CacheControlService],
 })
 export class OrganizationsModule {}

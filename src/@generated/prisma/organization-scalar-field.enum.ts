@@ -15,6 +15,8 @@ export enum OrganizationScalarFieldEnum {
     sender_name = "sender_name",
     sender_number = "sender_number",
     description = "description",
+    max_distance = "max_distance",
+    max_active_order_count = "max_active_order_count",
     created_at = "created_at",
     updated_at = "updated_at",
     created_by = "created_by",

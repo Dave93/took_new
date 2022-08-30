@@ -1,7 +1,10 @@
 import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
 import { organization_system_type } from '../organization/organization-system-type.enum';
+import { Int } from '@nestjs/graphql';
 import { OrganizationCountAggregate } from './organization-count-aggregate.output';
+import { OrganizationAvgAggregate } from './organization-avg-aggregate.output';
+import { OrganizationSumAggregate } from './organization-sum-aggregate.output';
 import { OrganizationMinAggregate } from './organization-min-aggregate.output';
 import { OrganizationMaxAggregate } from './organization-max-aggregate.output';
 
@@ -50,6 +53,12 @@ export class OrganizationGroupBy {
     @Field(() => String, {nullable:true})
     description?: string;
 
+    @Field(() => Int, {nullable:false})
+    max_distance!: number;
+
+    @Field(() => Int, {nullable:false})
+    max_active_order_count!: number;
+
     @Field(() => Date, {nullable:false})
     created_at!: Date | string;
 
@@ -64,6 +73,12 @@ export class OrganizationGroupBy {
 
     @Field(() => OrganizationCountAggregate, {nullable:true})
     _count?: OrganizationCountAggregate;
+
+    @Field(() => OrganizationAvgAggregate, {nullable:true})
+    _avg?: OrganizationAvgAggregate;
+
+    @Field(() => OrganizationSumAggregate, {nullable:true})
+    _sum?: OrganizationSumAggregate;
 
     @Field(() => OrganizationMinAggregate, {nullable:true})
     _min?: OrganizationMinAggregate;

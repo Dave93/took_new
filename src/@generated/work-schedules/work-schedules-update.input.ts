@@ -4,6 +4,7 @@ import { organizationUpdateOneRequiredWithoutWork_schedules_organization_idTorga
 import { usersUpdateOneWithoutWork_schedules_created_byTousersNestedInput } from '../users/users-update-one-without-work-schedules-created-by-tousers-nested.input';
 import { usersUpdateOneWithoutWork_schedules_updated_byTousersNestedInput } from '../users/users-update-one-without-work-schedules-updated-by-tousers-nested.input';
 import { users_work_schedulesUpdateManyWithoutWork_schedulesNestedInput } from '../users-work-schedules/users-work-schedules-update-many-without-work-schedules-nested.input';
+import { work_schedule_entriesUpdateManyWithoutWork_schedule_entries_work_schedulesNestedInput } from '../work-schedule-entries/work-schedule-entries-update-many-without-work-schedule-entries-work-schedules-nested.input';
 
 @InputType()
 export class work_schedulesUpdateInput {
@@ -46,4 +47,7 @@ export class work_schedulesUpdateInput {
 
     @Field(() => users_work_schedulesUpdateManyWithoutWork_schedulesNestedInput, {nullable:true})
     users_work_schedules?: users_work_schedulesUpdateManyWithoutWork_schedulesNestedInput;
+
+    @Field(() => work_schedule_entriesUpdateManyWithoutWork_schedule_entries_work_schedulesNestedInput, {nullable:true})
+    work_schedule_entries_work_schedules?: work_schedule_entriesUpdateManyWithoutWork_schedule_entries_work_schedulesNestedInput;
 }

@@ -1,9 +1,9 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { StringFilter } from '../prisma/string-filter.input';
+import { StringNullableFilter } from '../prisma/string-nullable-filter.input';
 import { BoolFilter } from '../prisma/bool-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
-import { StringNullableFilter } from '../prisma/string-nullable-filter.input';
 import { UsersRelationFilter } from '../prisma/users-relation-filter.input';
 import { Roles_permissionsListRelationFilter } from '../prisma/roles-permissions-list-relation-filter.input';
 import { Users_rolesListRelationFilter } from '../prisma/users-roles-list-relation-filter.input';
@@ -25,6 +25,9 @@ export class rolesWhereInput {
 
     @Field(() => StringFilter, {nullable:true})
     name?: StringFilter;
+
+    @Field(() => StringNullableFilter, {nullable:true})
+    code?: StringNullableFilter;
 
     @Field(() => BoolFilter, {nullable:true})
     active?: BoolFilter;

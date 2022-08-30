@@ -32,6 +32,9 @@ import { terminalsUpdateManyWithoutTerminals_created_byTousersNestedInput } from
 import { terminalsUpdateManyWithoutTerminals_updated_byTousersNestedInput } from '../terminals/terminals-update-many-without-terminals-updated-by-tousers-nested.input';
 import { users_terminalsUpdateManyWithoutUsersNestedInput } from '../users-terminals/users-terminals-update-many-without-users-nested.input';
 import { users_work_schedulesUpdateManyWithoutUsersNestedInput } from '../users-work-schedules/users-work-schedules-update-many-without-users-nested.input';
+import { work_schedule_entriesUpdateManyWithoutWork_schedule_entries_created_byTousersNestedInput } from '../work-schedule-entries/work-schedule-entries-update-many-without-work-schedule-entries-created-by-tousers-nested.input';
+import { work_schedule_entriesUpdateManyWithoutWork_schedule_entries_updated_byTousersNestedInput } from '../work-schedule-entries/work-schedule-entries-update-many-without-work-schedule-entries-updated-by-tousers-nested.input';
+import { work_schedule_entriesUpdateManyWithoutWork_schedule_entries_usersNestedInput } from '../work-schedule-entries/work-schedule-entries-update-many-without-work-schedule-entries-users-nested.input';
 
 @InputType()
 export class usersUpdateWithoutUsers_permissions_usersTousers_permissions_updated_byInput {
@@ -176,4 +179,13 @@ export class usersUpdateWithoutUsers_permissions_usersTousers_permissions_update
 
     @Field(() => users_work_schedulesUpdateManyWithoutUsersNestedInput, {nullable:true})
     users_work_schedules?: users_work_schedulesUpdateManyWithoutUsersNestedInput;
+
+    @Field(() => work_schedule_entriesUpdateManyWithoutWork_schedule_entries_created_byTousersNestedInput, {nullable:true})
+    work_schedule_entries_created_byTousers?: work_schedule_entriesUpdateManyWithoutWork_schedule_entries_created_byTousersNestedInput;
+
+    @Field(() => work_schedule_entriesUpdateManyWithoutWork_schedule_entries_updated_byTousersNestedInput, {nullable:true})
+    work_schedule_entries_updated_byTousers?: work_schedule_entriesUpdateManyWithoutWork_schedule_entries_updated_byTousersNestedInput;
+
+    @Field(() => work_schedule_entriesUpdateManyWithoutWork_schedule_entries_usersNestedInput, {nullable:true})
+    work_schedule_entries_users?: work_schedule_entriesUpdateManyWithoutWork_schedule_entries_usersNestedInput;
 }
