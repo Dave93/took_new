@@ -31,7 +31,7 @@ export class WorkSchedulesResolver {
     return this.workSchedulesService.findOne(id);
   }
 
-  @Mutation(() => WorkSchedule)
+  @Mutation(() => work_schedules)
   updateWorkSchedule(@Args() updateWorkScheduleInput: UpdateOneworkSchedulesArgs) {
     return this.workSchedulesService.update(updateWorkScheduleInput);
   }

@@ -8,10 +8,14 @@ import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@modules/auth/guards';
 import { CurrentUser } from '@modules/auth';
 import { users } from '@prisma/client';
+import { CacheControlService } from '@modules/cache_control/cache_control.service';
 
 @Resolver(() => WorkScheduleEntry)
 export class WorkScheduleEntriesResolver {
-  constructor(private readonly workScheduleEntriesService: WorkScheduleEntriesService) {}
+  constructor(
+    private readonly workScheduleEntriesService: WorkScheduleEntriesService,
+    private readonly cacheControl: CacheControlService,
+  ) {}
 
   @Mutation(() => work_schedule_entries)
   @UseGuards(JwtAuthGuard)

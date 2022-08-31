@@ -16,8 +16,8 @@ export class work_schedule_entriesUncheckedCreateWithoutWork_schedule_entries_us
     @Field(() => Date, {nullable:false})
     date_start!: Date | string;
 
-    @Field(() => Date, {nullable:false})
-    date_finish!: Date | string;
+    @Field(() => Date, {nullable:true})
+    date_finish?: Date | string;
 
     @Field(() => Int, {nullable:true})
     duration?: number;

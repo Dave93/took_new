@@ -387,6 +387,8 @@ type organization {
   sender_name: String
   sender_number: String
   description: String
+  max_distance: Int!
+  max_active_order_count: Int!
   created_at: DateTime!
   updated_at: DateTime!
   created_by: String
@@ -1264,6 +1266,8 @@ input organizationWhereInput {
   sender_name: StringNullableFilter
   sender_number: StringNullableFilter
   description: StringNullableFilter
+  max_distance: IntFilter
+  max_active_order_count: IntFilter
   created_at: DateTimeFilter
   updated_at: DateTimeFilter
   created_by: StringNullableFilter
@@ -1693,6 +1697,8 @@ input organizationOrderByWithRelationInput {
   sender_name: SortOrder
   sender_number: SortOrder
   description: SortOrder
+  max_distance: SortOrder
+  max_active_order_count: SortOrder
   created_at: SortOrder
   updated_at: SortOrder
   created_by: SortOrder
@@ -1746,6 +1752,8 @@ enum OrganizationScalarFieldEnum {
   sender_name
   sender_number
   description
+  max_distance
+  max_active_order_count
   created_at
   updated_at
   created_by
@@ -1882,7 +1890,7 @@ type Mutation {
   updateOrganization(data: organizationUpdateInput!, where: organizationWhereUniqueInput!): organization!
   removeOrganization(id: String!): Organization!
   workScheduleCreate(data: work_schedulesUncheckedCreateInput!): work_schedules!
-  updateWorkSchedule(data: work_schedulesUpdateInput!, where: work_schedulesWhereUniqueInput!): WorkSchedule!
+  updateWorkSchedule(data: work_schedulesUpdateInput!, where: work_schedulesWhereUniqueInput!): work_schedules!
   removeWorkSchedule(id: Int!): WorkSchedule!
   terminalCreate(data: terminalsUncheckedCreateInput!): terminals!
   updateTerminal(data: terminalsUpdateInput!, where: terminalsWhereUniqueInput!): terminals!
@@ -3401,6 +3409,8 @@ input organizationCreateWithoutDelivery_pricing_organization_idTorganizationInpu
   sender_name: String
   sender_number: String
   description: String
+  max_distance: Int
+  max_active_order_count: Int
   created_at: DateTime
   updated_at: DateTime
   work_schedules_organization_idTorganization: work_schedulesCreateNestedManyWithoutOrganizationInput
@@ -3750,6 +3760,8 @@ input organizationCreateWithoutOrganization_created_byTousersInput {
   sender_name: String
   sender_number: String
   description: String
+  max_distance: Int
+  max_active_order_count: Int
   created_at: DateTime
   updated_at: DateTime
   work_schedules_organization_idTorganization: work_schedulesCreateNestedManyWithoutOrganizationInput
@@ -3957,6 +3969,8 @@ input organizationCreateWithoutOrganization_updated_byTousersInput {
   sender_name: String
   sender_number: String
   description: String
+  max_distance: Int
+  max_active_order_count: Int
   created_at: DateTime
   updated_at: DateTime
   work_schedules_organization_idTorganization: work_schedulesCreateNestedManyWithoutOrganizationInput
@@ -4068,6 +4082,8 @@ input organizationCreateWithoutWork_schedules_organization_idTorganizationInput 
   sender_name: String
   sender_number: String
   description: String
+  max_distance: Int
+  max_active_order_count: Int
   created_at: DateTime
   updated_at: DateTime
   organization_created_byTousers: usersCreateNestedOneWithoutOrganization_created_byTousersInput
@@ -4297,6 +4313,8 @@ input organizationCreateWithoutTerminals_organization_idTorganizationInput {
   sender_name: String
   sender_number: String
   description: String
+  max_distance: Int
+  max_active_order_count: Int
   created_at: DateTime
   updated_at: DateTime
   work_schedules_organization_idTorganization: work_schedulesCreateNestedManyWithoutOrganizationInput
@@ -5420,6 +5438,8 @@ input organizationCreateManyOrganization_updated_byTousersInput {
   sender_name: String
   sender_number: String
   description: String
+  max_distance: Int
+  max_active_order_count: Int
   created_at: DateTime
   updated_at: DateTime
   created_by: String
@@ -5556,6 +5576,8 @@ input organizationCreateManyOrganization_created_byTousersInput {
   sender_name: String
   sender_number: String
   description: String
+  max_distance: Int
+  max_active_order_count: Int
   created_at: DateTime
   updated_at: DateTime
   updated_by: String
@@ -8121,6 +8143,8 @@ input organizationUpdateWithoutDelivery_pricing_organization_idTorganizationInpu
   sender_name: String
   sender_number: String
   description: String
+  max_distance: Int
+  max_active_order_count: Int
   created_at: DateTime
   updated_at: DateTime
   work_schedules_organization_idTorganization: work_schedulesUpdateManyWithoutOrganizationNestedInput
@@ -8571,6 +8595,8 @@ input organizationUpdateWithoutOrganization_created_byTousersInput {
   sender_name: String
   sender_number: String
   description: String
+  max_distance: Int
+  max_active_order_count: Int
   created_at: DateTime
   updated_at: DateTime
   work_schedules_organization_idTorganization: work_schedulesUpdateManyWithoutOrganizationNestedInput
@@ -8842,6 +8868,8 @@ input organizationUpdateWithoutOrganization_updated_byTousersInput {
   sender_name: String
   sender_number: String
   description: String
+  max_distance: Int
+  max_active_order_count: Int
   created_at: DateTime
   updated_at: DateTime
   work_schedules_organization_idTorganization: work_schedulesUpdateManyWithoutOrganizationNestedInput
@@ -8982,6 +9010,8 @@ input organizationUpdateWithoutWork_schedules_organization_idTorganizationInput 
   sender_name: String
   sender_number: String
   description: String
+  max_distance: Int
+  max_active_order_count: Int
   created_at: DateTime
   updated_at: DateTime
   organization_created_byTousers: usersUpdateOneWithoutOrganization_created_byTousersNestedInput
@@ -9286,6 +9316,8 @@ input organizationUpdateWithoutTerminals_organization_idTorganizationInput {
   sender_name: String
   sender_number: String
   description: String
+  max_distance: Int
+  max_active_order_count: Int
   created_at: DateTime
   updated_at: DateTime
   work_schedules_organization_idTorganization: work_schedulesUpdateManyWithoutOrganizationNestedInput
@@ -10490,6 +10522,8 @@ input organizationScalarWhereInput {
   sender_name: StringNullableFilter
   sender_number: StringNullableFilter
   description: StringNullableFilter
+  max_distance: IntFilter
+  max_active_order_count: IntFilter
   created_at: DateTimeFilter
   updated_at: DateTimeFilter
   created_by: StringNullableFilter
@@ -10511,6 +10545,8 @@ input organizationUpdateManyMutationInput {
   sender_name: String
   sender_number: String
   description: String
+  max_distance: Int
+  max_active_order_count: Int
   created_at: DateTime
   updated_at: DateTime
 }
@@ -11148,6 +11184,8 @@ input organizationUncheckedCreateInput {
   sender_name: String
   sender_number: String
   description: String
+  max_distance: Int
+  max_active_order_count: Int
   created_at: DateTime
   updated_at: DateTime
   created_by: String
@@ -11193,6 +11231,8 @@ input organizationUpdateInput {
   sender_name: String
   sender_number: String
   description: String
+  max_distance: Int
+  max_active_order_count: Int
   created_at: DateTime
   updated_at: DateTime
   work_schedules_organization_idTorganization: work_schedulesUpdateManyWithoutOrganizationNestedInput
