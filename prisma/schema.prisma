@@ -374,6 +374,9 @@ model work_schedule_entries {
   work_schedule_entries_users users @relation("work_schedule_entries_users", fields: [user_id], references: [id], onDelete: NoAction, map: "FK_work_schedule_entries_user_id")
 
   work_schedule_entries_work_schedules work_schedules @relation("work_schedule_entries_work_schedules", fields: [work_schedule_id], references: [id], onDelete: NoAction, map: "FK_work_schedule_entries_work_schedule_id")
+
+  @@index([current_status], map: "fki_work_schedule_entries_current_status")
+  @@index([user_id], map: "fki_work_schedule_entries_user_id")
 }
 
 enum organization_system_type {

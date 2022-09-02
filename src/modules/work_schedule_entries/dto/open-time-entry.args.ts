@@ -8,3 +8,12 @@ export default class OpenTimeEntryArgs {
   @Field(() => Float)
   lon_open: number;
 }
+
+@ArgsType()
+export class CloseTimeEntryArgs {
+  @Field(() => Float)
+  lat_close: number;
+
+  @Field(() => Float)
+  lon_close: number;
+}

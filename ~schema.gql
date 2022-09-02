@@ -283,7 +283,7 @@ type work_schedule_entries {
   user_id: String!
   work_schedule_id: String!
   date_start: DateTime!
-  date_finish: DateTime!
+  date_finish: DateTime
   duration: Int!
   ip_open: String
   ip_close: String
@@ -564,6 +564,15 @@ type BatchPayload {
   count: Float!
 }
 
+type WorkScheduleEnrtiesReportRecord {
+  user_id: String!
+  duration: Float!
+  day: DateTime!
+  late: Boolean!
+  first_name: String!
+  last_name: String!
+}
+
 type Organization {
   """Example field (placeholder)"""
   exampleField: Int!
@@ -601,6 +610,7 @@ type Query {
   usersConnection(where: usersWhereInput!): PrismaAggregateCount!
   users(where: usersWhereInput, orderBy: [usersOrderByWithRelationInput!], cursor: usersWhereUniqueInput, take: Int, skip: Int, distinct: [UsersScalarFieldEnum!]): [users!]!
   user(id: String!): users!
+  workScheduleEntriesReport(start_date: DateTime!, end_date: DateTime!): [WorkScheduleEnrtiesReportRecord!]!
 }
 
 input rolesWhereInput {
@@ -1357,7 +1367,7 @@ input work_schedule_entriesWhereInput {
   user_id: StringFilter
   work_schedule_id: StringFilter
   date_start: DateTimeFilter
-  date_finish: DateTimeFilter
+  date_finish: DateTimeNullableFilter
   duration: IntFilter
   ip_open: StringNullableFilter
   ip_close: StringNullableFilter
@@ -1902,6 +1912,7 @@ type Mutation {
   linkUserToTerminals(userId: String!, terminalId: [String!]!): BatchPayload!
   linkUserToWorkSchedules(userId: String!, workScheduleId: [String!]!): BatchPayload!
   openTimeEntry(lat_open: Float!, lon_open: Float!): work_schedule_entries!
+  closeTimeEntry(lat_close: Float!, lon_close: Float!): work_schedule_entries!
 }
 
 input rolesUncheckedCreateInput {
@@ -4674,7 +4685,7 @@ input work_schedule_entriesCreateNestedManyWithoutWork_schedule_entries_created_
 input work_schedule_entriesCreateWithoutWork_schedule_entries_created_byTousersInput {
   id: String
   date_start: DateTime!
-  date_finish: DateTime!
+  date_finish: DateTime
   duration: Int
   ip_open: String
   ip_close: String
@@ -4760,7 +4771,7 @@ input work_schedule_entriesCreateNestedManyWithoutWork_schedule_entries_usersInp
 input work_schedule_entriesCreateWithoutWork_schedule_entries_usersInput {
   id: String
   date_start: DateTime!
-  date_finish: DateTime!
+  date_finish: DateTime
   duration: Int
   ip_open: String
   ip_close: String
@@ -4846,7 +4857,7 @@ input work_schedule_entriesCreateNestedManyWithoutWork_schedule_entries_updated_
 input work_schedule_entriesCreateWithoutWork_schedule_entries_updated_byTousersInput {
   id: String
   date_start: DateTime!
-  date_finish: DateTime!
+  date_finish: DateTime
   duration: Int
   ip_open: String
   ip_close: String
@@ -4973,7 +4984,7 @@ input work_schedule_entriesCreateManyWork_schedule_entries_updated_byTousersInpu
   user_id: String!
   work_schedule_id: String!
   date_start: DateTime!
-  date_finish: DateTime!
+  date_finish: DateTime
   duration: Int
   ip_open: String
   ip_close: String
@@ -5007,7 +5018,7 @@ input work_schedule_entriesCreateManyWork_schedule_entries_usersInput {
   id: String
   work_schedule_id: String!
   date_start: DateTime!
-  date_finish: DateTime!
+  date_finish: DateTime
   duration: Int
   ip_open: String
   ip_close: String
@@ -5043,7 +5054,7 @@ input work_schedule_entriesCreateManyWork_schedule_entries_created_byTousersInpu
   user_id: String!
   work_schedule_id: String!
   date_start: DateTime!
-  date_finish: DateTime!
+  date_finish: DateTime
   duration: Int
   ip_open: String
   ip_close: String
@@ -5073,7 +5084,7 @@ input work_schedule_entriesCreateNestedManyWithoutWork_schedule_entries_work_sch
 input work_schedule_entriesCreateWithoutWork_schedule_entries_work_schedulesInput {
   id: String
   date_start: DateTime!
-  date_finish: DateTime!
+  date_finish: DateTime
   duration: Int
   ip_open: String
   ip_close: String
@@ -5104,7 +5115,7 @@ input work_schedule_entriesCreateManyWork_schedule_entries_work_schedulesInput {
   id: String
   user_id: String!
   date_start: DateTime!
-  date_finish: DateTime!
+  date_finish: DateTime
   duration: Int
   ip_open: String
   ip_close: String
@@ -10131,7 +10142,7 @@ input work_schedule_entriesScalarWhereInput {
   user_id: StringFilter
   work_schedule_id: StringFilter
   date_start: DateTimeFilter
-  date_finish: DateTimeFilter
+  date_finish: DateTimeNullableFilter
   duration: IntFilter
   ip_open: StringNullableFilter
   ip_close: StringNullableFilter

@@ -1,11 +1,12 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import OpenTimeEntryArgs from './dto/open-time-entry.args';
+import OpenTimeEntryArgs, { CloseTimeEntryArgs } from './dto/open-time-entry.args';
 import { RealIP } from 'nestjs-real-ip';
 import { CurrentUser } from '@modules/auth/decorators';
-import { organization, users, user_status, work_schedule_entry_status } from '@prisma/client';
+import { Prisma, users, user_status, work_schedule_entry_status } from '@prisma/client';
 import { getDistance } from 'geolib';
 import { CacheControlService } from '@modules/cache_control/cache_control.service';
+import { WorkScheduleEnrtiesReportRecord } from '@helpers';
 
 @Injectable()
 export class WorkScheduleEntriesService {
@@ -70,14 +71,13 @@ export class WorkScheduleEntriesService {
 
     let courierRole = user.users_roles_usersTousers_roles_user_id.find((role) => role.roles.code == 'courier');
 
-    console.log(courierRole);
-
     if (!courierRole) {
       return new BadRequestException('User is not a courier');
     }
 
     let openedOpenTime = await this.prismaService.work_schedule_entries.findFirst({
       where: {
+        user_id: user.id,
         current_status: 'open',
       },
     });
@@ -151,6 +151,17 @@ export class WorkScheduleEntriesService {
       isLate = false;
     }
 
+    await this.prismaService.users.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        is_online: true,
+        latitude: openTimeLocation.lat_open,
+        longitude: openTimeLocation.lon_open,
+      },
+    });
+
     let workScheduleEntry = await this.prismaService.work_schedule_entries.create({
       data: {
         ip_open: ip ?? '127.0.0.1',
@@ -165,5 +176,70 @@ export class WorkScheduleEntriesService {
     });
 
     return workScheduleEntry;
+  }
+
+  async closeTimeEntry(openTimeLocation: CloseTimeEntryArgs, @RealIP() ip: string, @CurrentUser() currentUser: users) {
+    let openedOpenTime = await this.prismaService.work_schedule_entries.findFirst({
+      where: {
+        user_id: currentUser.id,
+        current_status: 'open',
+      },
+    });
+
+    if (!openedOpenTime) {
+      return new BadRequestException('There is no open time entry');
+    }
+
+    await this.prismaService.users.update({
+      where: {
+        id: currentUser.id,
+      },
+      data: {
+        is_online: false,
+        latitude: openTimeLocation.lat_close,
+        longitude: openTimeLocation.lon_close,
+      },
+    });
+
+    let dateStart = new Date(openedOpenTime.date_start);
+    let dateEnd = new Date();
+    // get duration in seconds
+    let duration = Math.floor((dateEnd.getTime() - dateStart.getTime()) / 1000);
+    await this.prismaService.work_schedule_entries.update({
+      where: {
+        id: openedOpenTime.id,
+      },
+      data: {
+        ip_close: ip ?? '127.0.0.1',
+        lat_close: openTimeLocation.lat_close,
+        lon_close: openTimeLocation.lon_close,
+        current_status: work_schedule_entry_status.closed,
+        duration,
+        date_finish: new Date(),
+      },
+    });
+    return openedOpenTime;
+  }
+
+  async workScheduleEntriesReportForPeriod(start_date: Date, end_date: Date, user: users) {
+    end_date.setHours(23, 59, 59);
+    let records = await this.prismaService.$queryRaw<WorkScheduleEnrtiesReportRecord[]>`
+        SELECT wse.user_id, sum(wse.duration) as duration, DATE_TRUNC('day', wse.date_start) as day, bool_or(wse.late) as late, us.first_name, us.last_name
+
+        FROM work_schedule_entries wse
+        left join users us ON us.id = wse.user_id
+        WHERE wse.current_status = 'closed' 
+              AND wse.date_start >= ${start_date}
+              AND wse.date_start <= ${end_date}
+        group by wse.user_id, DATE_TRUNC('day', wse.date_start), us.first_name, us.last_name`;
+
+    console.log(records.map((record) => parseInt(record.duration.toString())));
+
+    records = records.map((record) => {
+      record.duration = parseInt(record.duration.toString());
+      return record;
+    });
+
+    return records;
   }
 }
