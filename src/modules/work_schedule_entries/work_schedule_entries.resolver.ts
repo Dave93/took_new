@@ -8,7 +8,7 @@ import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@modules/auth/guards';
 import { CurrentUser } from '@modules/auth';
 import { users } from '@prisma/client';
-import { WorkScheduleEnrtiesReportRecord } from '@helpers';
+import { WorkScheduleEntriesReportRecord } from '@helpers';
 
 @Resolver(() => WorkScheduleEntry)
 export class WorkScheduleEntriesResolver {
@@ -26,7 +26,7 @@ export class WorkScheduleEntriesResolver {
     return this.workScheduleEntriesService.closeTimeEntry(openTimeLocation, ip, user);
   }
 
-  @Query(() => [WorkScheduleEnrtiesReportRecord], { name: 'workScheduleEntriesReport' })
+  @Query(() => [WorkScheduleEntriesReportRecord], { name: 'workScheduleEntriesReport' })
   @UseGuards(JwtAuthGuard)
   workScheduleEntriesReport(
     @Args('start_date') start_date: Date,

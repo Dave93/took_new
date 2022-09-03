@@ -8,7 +8,7 @@ class BatchPayload {
 }
 
 @ObjectType()
-class WorkScheduleEnrtiesReportRecord {
+class WorkScheduleEntriesReportRecord {
   @Field(() => String)
   user_id: string;
 
@@ -28,4 +28,4 @@ class WorkScheduleEnrtiesReportRecord {
   last_name: string;
 }
 
-export { HashHelper, BatchPayload, WorkScheduleEnrtiesReportRecord };
+export { HashHelper, BatchPayload, WorkScheduleEntriesReportRecord };

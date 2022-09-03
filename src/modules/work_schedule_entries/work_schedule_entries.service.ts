@@ -6,7 +6,7 @@ import { CurrentUser } from '@modules/auth/decorators';
 import { Prisma, users, user_status, work_schedule_entry_status } from '@prisma/client';
 import { getDistance } from 'geolib';
 import { CacheControlService } from '@modules/cache_control/cache_control.service';
-import { WorkScheduleEnrtiesReportRecord } from '@helpers';
+import { WorkScheduleEntriesReportRecord } from '@helpers';
 
 @Injectable()
 export class WorkScheduleEntriesService {
@@ -223,7 +223,7 @@ export class WorkScheduleEntriesService {
 
   async workScheduleEntriesReportForPeriod(start_date: Date, end_date: Date, user: users) {
     end_date.setHours(23, 59, 59);
-    let records = await this.prismaService.$queryRaw<WorkScheduleEnrtiesReportRecord[]>`
+    let records = await this.prismaService.$queryRaw<WorkScheduleEntriesReportRecord[]>`
         SELECT wse.user_id, sum(wse.duration) as duration, DATE_TRUNC('day', wse.date_start) as day, bool_or(wse.late) as late, us.first_name, us.last_name
 
         FROM work_schedule_entries wse

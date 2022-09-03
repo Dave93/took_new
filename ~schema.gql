@@ -564,7 +564,7 @@ type BatchPayload {
   count: Float!
 }
 
-type WorkScheduleEnrtiesReportRecord {
+type WorkScheduleEntriesReportRecord {
   user_id: String!
   duration: Float!
   day: DateTime!
@@ -610,7 +610,7 @@ type Query {
   usersConnection(where: usersWhereInput!): PrismaAggregateCount!
   users(where: usersWhereInput, orderBy: [usersOrderByWithRelationInput!], cursor: usersWhereUniqueInput, take: Int, skip: Int, distinct: [UsersScalarFieldEnum!]): [users!]!
   user(id: String!): users!
-  workScheduleEntriesReport(start_date: DateTime!, end_date: DateTime!): [WorkScheduleEnrtiesReportRecord!]!
+  workScheduleEntriesReport(start_date: DateTime!, end_date: DateTime!): [WorkScheduleEntriesReportRecord!]!
 }
 
 input rolesWhereInput {
