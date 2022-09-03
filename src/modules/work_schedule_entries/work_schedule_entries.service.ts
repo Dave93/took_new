@@ -1,17 +1,18 @@
-import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { Cache } from 'cache-manager';
-import OpenTimeEntryArgs from './dto/open-time-entry.args';
+import OpenTimeEntryArgs, { CloseTimeEntryArgs } from './dto/open-time-entry.args';
 import { RealIP } from 'nestjs-real-ip';
 import { CurrentUser } from '@modules/auth/decorators';
-import { users, user_status } from '@prisma/client';
+import { Prisma, users, user_status, work_schedule_entry_status } from '@prisma/client';
 import { getDistance } from 'geolib';
+import { CacheControlService } from '@modules/cache_control/cache_control.service';
+import { WorkScheduleEnrtiesReportRecord } from '@helpers';
 
 @Injectable()
 export class WorkScheduleEntriesService {
-  constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache, private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService, private readonly cacheControl: CacheControlService) {}
 
-  async openTimeEntry(workScheduleId: OpenTimeEntryArgs, @RealIP() ip: string, @CurrentUser() currentUser: users) {
+  async openTimeEntry(openTimeLocation: OpenTimeEntryArgs, @RealIP() ip: string, @CurrentUser() currentUser: users) {
     let user = await this.prismaService.users.findUnique({
       where: {
         id: currentUser.id,
@@ -35,6 +36,7 @@ export class WorkScheduleEntriesService {
                 id: true,
                 longitude: true,
                 latitude: true,
+                organization_id: true,
               },
             },
           },
@@ -48,6 +50,7 @@ export class WorkScheduleEntriesService {
                 end_time: true,
                 days: true,
                 max_start_time: true,
+                name: true,
               },
             },
           },
@@ -55,36 +58,188 @@ export class WorkScheduleEntriesService {
       },
     });
     if (!user) {
-      throw new Error('User not found');
+      return new BadRequestException('User not found');
     }
 
     if (user.status != user_status.active) {
-      throw new Error('User is not active');
+      return new BadRequestException('User is not active');
     }
 
     if (user.users_roles_usersTousers_roles_user_id.length == 0) {
-      throw new Error('User has no roles');
+      return new BadRequestException('User has no roles');
     }
 
     let courierRole = user.users_roles_usersTousers_roles_user_id.find((role) => role.roles.code == 'courier');
 
-    console.log(courierRole);
-
     if (!courierRole) {
-      throw new Error('User is not a courier');
+      return new BadRequestException('User is not a courier');
     }
 
     let openedOpenTime = await this.prismaService.work_schedule_entries.findFirst({
       where: {
+        user_id: user.id,
         current_status: 'open',
       },
     });
 
     if (openedOpenTime) {
-      throw new Error('There is already an open time entry');
+      return new BadRequestException('There is already an open time entry');
     }
 
-    console.log('workScheduleId', workScheduleId);
-    console.log('ip', ip);
+    if (user.users_terminals.length == 0) {
+      return new BadRequestException('User has no terminals');
+    }
+
+    let minDistance = null;
+    let organizationId = null;
+
+    user.users_terminals.forEach((terminal) => {
+      organizationId = terminal.terminals.organization_id;
+      let distance = getDistance(
+        { latitude: terminal.terminals.latitude, longitude: terminal.terminals.longitude },
+        { latitude: openTimeLocation.lat_open, longitude: openTimeLocation.lon_open },
+      );
+      if (!minDistance || distance < minDistance) {
+        minDistance = distance;
+      }
+    });
+
+    let organization = await this.cacheControl.getOrganization(organizationId);
+
+    if (minDistance > organization.max_distance) {
+      return new BadRequestException('User is too far away');
+    }
+
+    let workSchedules = [];
+
+    user.users_work_schedules.forEach((schedule) => {
+      if (schedule.work_schedules.days.includes(new Date().getDay().toString())) {
+        workSchedules.push(schedule.work_schedules);
+      }
+    });
+
+    if (workSchedules.length == 0) {
+      return new BadRequestException('User has no work schedules');
+    }
+
+    let workSchedule = workSchedules.find((schedule) => {
+      /*
+        check if the time  is between the time of start and end
+      */
+      let startTime = new Date(schedule.start_time);
+      let endTime = new Date(schedule.end_time);
+      let currentTime = new Date();
+      if (currentTime.getHours() >= startTime.getHours() && currentTime.getHours() < endTime.getHours()) {
+        return true;
+      }
+      return false;
+    });
+
+    if (!workSchedule) {
+      return new BadRequestException('User is not working');
+    }
+
+    let startTime = new Date(workSchedule.start_time);
+    let maxStartTime = new Date(workSchedule.max_start_time);
+    let startTimeMinutes = startTime.getHours() * 60 + startTime.getMinutes();
+    let maxStartTimeMinutes = maxStartTime.getHours() * 60 + maxStartTime.getMinutes();
+
+    let isLate = true;
+    let currentTime = new Date();
+    let currentTimeMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
+    if (currentTimeMinutes <= maxStartTimeMinutes && currentTimeMinutes >= startTimeMinutes) {
+      isLate = false;
+    }
+
+    await this.prismaService.users.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        is_online: true,
+        latitude: openTimeLocation.lat_open,
+        longitude: openTimeLocation.lon_open,
+      },
+    });
+
+    let workScheduleEntry = await this.prismaService.work_schedule_entries.create({
+      data: {
+        ip_open: ip ?? '127.0.0.1',
+        lat_open: openTimeLocation.lat_open,
+        lon_open: openTimeLocation.lon_open,
+        current_status: work_schedule_entry_status.open,
+        late: isLate,
+        date_start: new Date(),
+        work_schedule_id: workSchedule.id,
+        user_id: user.id,
+      },
+    });
+
+    return workScheduleEntry;
+  }
+
+  async closeTimeEntry(openTimeLocation: CloseTimeEntryArgs, @RealIP() ip: string, @CurrentUser() currentUser: users) {
+    let openedOpenTime = await this.prismaService.work_schedule_entries.findFirst({
+      where: {
+        user_id: currentUser.id,
+        current_status: 'open',
+      },
+    });
+
+    if (!openedOpenTime) {
+      return new BadRequestException('There is no open time entry');
+    }
+
+    await this.prismaService.users.update({
+      where: {
+        id: currentUser.id,
+      },
+      data: {
+        is_online: false,
+        latitude: openTimeLocation.lat_close,
+        longitude: openTimeLocation.lon_close,
+      },
+    });
+
+    let dateStart = new Date(openedOpenTime.date_start);
+    let dateEnd = new Date();
+    // get duration in seconds
+    let duration = Math.floor((dateEnd.getTime() - dateStart.getTime()) / 1000);
+    await this.prismaService.work_schedule_entries.update({
+      where: {
+        id: openedOpenTime.id,
+      },
+      data: {
+        ip_close: ip ?? '127.0.0.1',
+        lat_close: openTimeLocation.lat_close,
+        lon_close: openTimeLocation.lon_close,
+        current_status: work_schedule_entry_status.closed,
+        duration,
+        date_finish: new Date(),
+      },
+    });
+    return openedOpenTime;
+  }
+
+  async workScheduleEntriesReportForPeriod(start_date: Date, end_date: Date, user: users) {
+    end_date.setHours(23, 59, 59);
+    let records = await this.prismaService.$queryRaw<WorkScheduleEnrtiesReportRecord[]>`
+        SELECT wse.user_id, sum(wse.duration) as duration, DATE_TRUNC('day', wse.date_start) as day, bool_or(wse.late) as late, us.first_name, us.last_name
+
+        FROM work_schedule_entries wse
+        left join users us ON us.id = wse.user_id
+        WHERE wse.current_status = 'closed' 
+              AND wse.date_start >= ${start_date}
+              AND wse.date_start <= ${end_date}
+        group by wse.user_id, DATE_TRUNC('day', wse.date_start), us.first_name, us.last_name`;
+
+    console.log(records.map((record) => parseInt(record.duration.toString())));
+
+    records = records.map((record) => {
+      record.duration = parseInt(record.duration.toString());
+      return record;
+    });
+
+    return records;
   }
 }

@@ -16,8 +16,8 @@ export class work_schedule_entriesCreateManyWork_schedule_entries_work_schedules
     @Field(() => Date, {nullable:false})
     date_start!: Date | string;
 
-    @Field(() => Date, {nullable:false})
-    date_finish!: Date | string;
+    @Field(() => Date, {nullable:true})
+    date_finish?: Date | string;
 
     @Field(() => Int, {nullable:true})
     duration?: number;

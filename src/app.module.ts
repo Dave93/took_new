@@ -21,6 +21,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { UsersModule } from './modules/users/users.module';
 import { LinkRecordsModule } from './modules/link_records/link_records.module';
 import { WorkScheduleEntriesModule } from './modules/work_schedule_entries/work_schedule_entries.module';
+import * as redisStore from 'cache-manager-redis-store';
 
 @Global()
 @Module({
@@ -38,7 +39,13 @@ import { WorkScheduleEntriesModule } from './modules/work_schedule_entries/work_
     //   driver: MercuriusDriver,
     //   autoSchemaFile: '~schema.gql',
     // }),
-    CacheModule.register(),
+    CacheModule.register({
+      isGlobal: true,
+      store: redisStore,
+      host: '127.0.0.1',
+      port: 6379,
+    }),
+    CacheControlModule,
     RolesModule,
     RolesPermissionsModule,
     PermissionsModule,
@@ -51,7 +58,6 @@ import { WorkScheduleEntriesModule } from './modules/work_schedule_entries/work_
     OrganizationsModule,
     WorkSchedulesModule,
     TerminalsModule,
-    CacheControlModule,
     UsersModule,
     LinkRecordsModule,
     WorkScheduleEntriesModule,

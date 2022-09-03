@@ -5,7 +5,6 @@ import { PrismaService } from 'src/prisma.service';
 import { CacheControlService } from '@modules/cache_control/cache_control.service';
 
 @Module({
-  imports: [CacheModule.register()],
   providers: [WorkSchedulesResolver, WorkSchedulesService, PrismaService, CacheControlService],
 })
 export class WorkSchedulesModule {}

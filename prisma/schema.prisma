@@ -25,10 +25,10 @@ model otp {
   id          String   @id(map: "PK_32556d9d7b22031d7d0e1fd6723") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   user_id     String   @db.Uuid
   otp         String   @db.VarChar(6)
-  expiry_date DateTime @db.Timestamp(6)
+  expiry_date DateTime @db.Timestamptz(5)
   verified    Boolean  @default(false)
-  created_at  DateTime @default(now()) @db.Timestamp(6)
-  updated_at  DateTime @default(now()) @db.Timestamp(6)
+  created_at  DateTime @default(now()) @db.Timestamptz(5)
+  updated_at  DateTime @default(now()) @db.Timestamptz(5)
   users       users    @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_otp_user")
 }
 
@@ -37,8 +37,8 @@ model permissions {
   slug                                String              @unique(map: "UQ_d090ad82a0e97ce764c06c7b312") @db.VarChar(160)
   description                         String              @db.VarChar(60)
   active                              Boolean             @default(true)
-  created_at                          DateTime            @default(now()) @db.Timestamptz(6)
-  updated_at                          DateTime            @default(now()) @db.Timestamptz(6)
+  created_at                          DateTime            @default(now()) @db.Timestamptz(5)
+  updated_at                          DateTime            @default(now()) @db.Timestamptz(5)
   created_by                          String?             @db.Uuid
   updated_by                          String?             @db.Uuid
   users_permissions_created_byTousers users?              @relation("permissions_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_c398f7100db3e0d9b6a6cd6beaf")
@@ -52,8 +52,8 @@ model roles {
   name                          String              @unique(map: "UQ_648e3f5447f725579d7d4ffdfb7") @db.VarChar(50)
   code                          String?             @unique(map: "UQ_0e2c0e1b4b0b0b0b0b0b0b0b0b0") @db.VarChar(50)
   active                        Boolean             @default(true)
-  created_at                    DateTime            @default(now()) @db.Timestamptz(6)
-  updated_at                    DateTime            @default(now()) @db.Timestamptz(6)
+  created_at                    DateTime            @default(now()) @db.Timestamptz(5)
+  updated_at                    DateTime            @default(now()) @db.Timestamptz(5)
   created_by                    String?             @db.Uuid
   updated_by                    String?             @db.Uuid
   users_roles_created_byTousers users?              @relation("roles_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_4a39f3095781cdd9d6061afaae5")
@@ -98,14 +98,14 @@ model users {
   drive_type                                            drive_type?
   card_name                                             String?                 @db.VarChar(100)
   card_number                                           String?                 @db.VarChar(100)
-  birth_date                                            DateTime?               @db.Timestamp(6)
+  birth_date                                            DateTime?               @db.Timestamptz(5)
   car_model                                             String?                 @db.VarChar(100)
   car_number                                            String?                 @db.VarChar(100)
   is_online                                             Boolean                 @default(false)
   latitude                                              Float?                  @default(0)
   longitude                                             Float?                  @default(0)
-  created_at                                            DateTime                @default(now()) @db.Timestamptz(6)
-  updated_at                                            DateTime                @default(now()) @db.Timestamptz(6)
+  created_at                                            DateTime                @default(now()) @db.Timestamptz(5)
+  updated_at                                            DateTime                @default(now()) @db.Timestamptz(5)
   otp                                                   otp[]
   permissions_permissions_created_byTousers             permissions[]           @relation("permissions_created_byTousers")
   permissions_permissions_updated_byTousers             permissions[]           @relation("permissions_updated_byTousers")
@@ -171,8 +171,8 @@ model city {
   id                           String   @id(map: "PK_city_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   name                         String   @db.VarChar(255)
   parent_id                    String?  @db.Uuid
-  created_at                   DateTime @default(now()) @db.Timestamp(6)
-  updated_at                   DateTime @default(now()) @db.Timestamp(6)
+  created_at                   DateTime @default(now()) @db.Timestamptz(5)
+  updated_at                   DateTime @default(now()) @db.Timestamptz(5)
   created_by                   String?  @db.Uuid
   updated_by                   String?  @db.Uuid
   users_city_created_byTousers users?   @relation("city_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_city_created_by")
@@ -189,8 +189,8 @@ model city {
 model post {
   id                           String     @id(map: "PK_post_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   user_id                      String     @db.Uuid
-  created_at                   DateTime   @default(now()) @db.Timestamp(6)
-  updated_at                   DateTime   @default(now()) @db.Timestamp(6)
+  created_at                   DateTime   @default(now()) @db.Timestamptz(5)
+  updated_at                   DateTime   @default(now()) @db.Timestamptz(5)
   created_by                   String?    @db.Uuid
   updated_by                   String?    @db.Uuid
   users_post_created_byTousers users?     @relation("post_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_post_created_by")
@@ -216,8 +216,8 @@ model post_prop_types {
   sale_type                               sale_type @default(buy)
   name                                    String
   type                                    type      @default(string)
-  created_at                              DateTime  @default(now()) @db.Timestamp(6)
-  updated_at                              DateTime  @default(now()) @db.Timestamp(6)
+  created_at                              DateTime  @default(now()) @db.Timestamptz(5)
+  updated_at                              DateTime  @default(now()) @db.Timestamptz(5)
   created_by                              String?   @db.Uuid
   updated_by                              String?   @db.Uuid
   users_post_prop_types_created_byTousers users?    @relation("post_prop_types_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_post_prop_types_created_by")
@@ -233,16 +233,16 @@ model delivery_pricing {
   name            String
   drive_type      drive_type   @default(car)
   days            String[]
-  start_time      DateTime     @db.Time()
-  end_time        DateTime     @db.Time()
+  start_time      DateTime     @db.Timetz(5)
+  end_time        DateTime     @db.Timetz(5)
   min_price       Int?
   rules           Json
   price_per_km    Int          @default(0)
   organization_id String       @db.Uuid
   organization    organization @relation("delivery_pricing_organization_idTorganization", fields: [organization_id], references: [id], onDelete: NoAction, map: "FK_delivery_pricing_organization_id")
 
-  created_at                               DateTime @default(now()) @db.Timestamp(6)
-  updated_at                               DateTime @default(now()) @db.Timestamp(6)
+  created_at                               DateTime @default(now()) @db.Timestamptz(5)
+  updated_at                               DateTime @default(now()) @db.Timestamptz(5)
   created_by                               String?  @db.Uuid
   updated_by                               String?  @db.Uuid
   users_delivery_pricing_created_byTousers users?   @relation("delivery_pricing_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_delivery_pricing_created_by")
@@ -259,11 +259,11 @@ model work_schedules {
   organization_id                  String       @db.Uuid
   organization                     organization @relation("work_schedules_organization_idTorganization", fields: [organization_id], references: [id], onDelete: NoAction, map: "FK_work_schedules_organization_id")
   days                             String[]
-  start_time                       DateTime     @db.Time(5)
-  end_time                         DateTime     @db.Time(5)
-  max_start_time                   DateTime     @db.Time(5)
-  created_at                       DateTime     @default(now()) @db.Timestamp(5)
-  updated_at                       DateTime     @default(now()) @db.Timestamp(5)
+  start_time                       DateTime     @db.Timetz(5)
+  end_time                         DateTime     @db.Timetz(5)
+  max_start_time                   DateTime     @db.Timetz(5)
+  created_at                       DateTime     @default(now()) @db.Timestamptz(5)
+  updated_at                       DateTime     @default(now()) @db.Timestamptz(5)
   created_by                       String?      @db.Uuid
   updated_by                       String?      @db.Uuid
   work_schedules_created_byTousers users?       @relation("work_schedules_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_work_schedules_created_by")
@@ -285,8 +285,8 @@ model terminals {
   organization_id String       @db.Uuid
   organization    organization @relation("terminals_organization_idTorganization", fields: [organization_id], references: [id], onDelete: NoAction, map: "FK_terminals_organization_id")
 
-  created_at                  DateTime @default(now()) @db.Timestamp(5)
-  updated_at                  DateTime @default(now()) @db.Timestamp(5)
+  created_at                  DateTime @default(now()) @db.Timestamptz(5)
+  updated_at                  DateTime @default(now()) @db.Timestamptz(5)
   created_by                  String?  @db.Uuid
   updated_by                  String?  @db.Uuid
   terminals_created_byTousers users?   @relation("terminals_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_terminals_created_by")
@@ -316,8 +316,8 @@ model organization {
   description            String?
   max_distance           Int                      @default(0)
   max_active_order_count Int                      @default(0)
-  created_at             DateTime                 @default(now()) @db.Timestamp(6)
-  updated_at             DateTime                 @default(now()) @db.Timestamp(6)
+  created_at             DateTime                 @default(now()) @db.Timestamptz(5)
+  updated_at             DateTime                 @default(now()) @db.Timestamptz(5)
   created_by             String?                  @db.Uuid
   updated_by             String?                  @db.Uuid
 
@@ -351,8 +351,8 @@ model work_schedule_entries {
   id               String                     @id(map: "PK_work_schedule_entries_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   user_id          String                     @db.Uuid
   work_schedule_id String                     @db.Uuid
-  date_start       DateTime                   @db.Timestamp(5)
-  date_finish      DateTime                   @db.Timestamp(5)
+  date_start       DateTime                   @db.Timestamptz(5)
+  date_finish      DateTime?                  @db.Timestamptz(5)
   duration         Int                        @default(0)
   ip_open          String?
   ip_close         String?
@@ -374,6 +374,9 @@ model work_schedule_entries {
   work_schedule_entries_users users @relation("work_schedule_entries_users", fields: [user_id], references: [id], onDelete: NoAction, map: "FK_work_schedule_entries_user_id")
 
   work_schedule_entries_work_schedules work_schedules @relation("work_schedule_entries_work_schedules", fields: [work_schedule_id], references: [id], onDelete: NoAction, map: "FK_work_schedule_entries_work_schedule_id")
+
+  @@index([current_status], map: "fki_work_schedule_entries_current_status")
+  @@index([user_id], map: "fki_work_schedule_entries_user_id")
 }
 
 enum organization_system_type {

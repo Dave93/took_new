@@ -22,8 +22,8 @@ export class work_schedule_entries {
     @Field(() => Date, {nullable:false})
     date_start!: Date;
 
-    @Field(() => Date, {nullable:false})
-    date_finish!: Date;
+    @Field(() => Date, {nullable:true})
+    date_finish!: Date | null;
 
     @Field(() => Int, {nullable:false,defaultValue:0})
     duration!: number;
