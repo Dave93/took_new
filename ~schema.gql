@@ -564,6 +564,17 @@ type BatchPayload {
   count: Float!
 }
 
+type WorkScheduleEntriesReportCouriers {
+  id: String!
+  first_name: String!
+  last_name: String!
+}
+
+type WorkScheduleEntriesReportRes {
+  users: [WorkScheduleEntriesReportCouriers!]!
+  work_schedule_entries: [WorkScheduleEntriesReportRecord!]!
+}
+
 type WorkScheduleEntriesReportRecord {
   user_id: String!
   duration: Float!
@@ -610,7 +621,8 @@ type Query {
   usersConnection(where: usersWhereInput!): PrismaAggregateCount!
   users(where: usersWhereInput, orderBy: [usersOrderByWithRelationInput!], cursor: usersWhereUniqueInput, take: Int, skip: Int, distinct: [UsersScalarFieldEnum!]): [users!]!
   user(id: String!): users!
-  workScheduleEntriesReport(start_date: DateTime!, end_date: DateTime!): [WorkScheduleEntriesReportRecord!]!
+  workScheduleEntriesReportConnection(where: work_schedule_entriesReportWhereInput!): PrismaAggregateCount!
+  workScheduleEntriesReport(where: work_schedule_entriesReportWhereInput, orderBy: [work_schedule_entriesOrderByWithRelationInput!], cursor: work_schedule_entriesWhereUniqueInput, take: Int, skip: Int, distinct: [Work_schedule_entriesScalarFieldEnum!]): WorkScheduleEntriesReportRes!
 }
 
 input rolesWhereInput {
@@ -1874,6 +1886,86 @@ enum UsersScalarFieldEnum {
   longitude
   created_at
   updated_at
+}
+
+input work_schedule_entriesReportWhereInput {
+  AND: [work_schedule_entriesReportWhereInput!]
+  OR: [work_schedule_entriesReportWhereInput!]
+  NOT: [work_schedule_entriesReportWhereInput!]
+  id: StringFilter
+  user_id: StringFilter
+  work_schedule_id: StringFilter
+  report_start: DateTime!
+  report_end: DateTime!
+  date_start: DateTimeFilter
+  date_finish: DateTimeNullableFilter
+  duration: IntFilter
+  ip_open: StringNullableFilter
+  ip_close: StringNullableFilter
+  lat_open: FloatFilter
+  lat_close: FloatFilter
+  lon_open: FloatFilter
+  lon_close: FloatFilter
+  current_status: Enumwork_schedule_entry_statusFilter
+  late: BoolFilter
+  created_at: DateTimeFilter
+  updated_at: DateTimeFilter
+  created_by: StringNullableFilter
+  updated_by: StringNullableFilter
+  work_schedule_entries_created_byTousers: UsersRelationFilter
+  work_schedule_entries_updated_byTousers: UsersRelationFilter
+  work_schedule_entries_users: UsersRelationFilter
+  work_schedule_entries_work_schedules: Work_schedulesRelationFilter
+}
+
+input work_schedule_entriesOrderByWithRelationInput {
+  id: SortOrder
+  user_id: SortOrder
+  work_schedule_id: SortOrder
+  date_start: SortOrder
+  date_finish: SortOrder
+  duration: SortOrder
+  ip_open: SortOrder
+  ip_close: SortOrder
+  lat_open: SortOrder
+  lat_close: SortOrder
+  lon_open: SortOrder
+  lon_close: SortOrder
+  current_status: SortOrder
+  late: SortOrder
+  created_at: SortOrder
+  updated_at: SortOrder
+  created_by: SortOrder
+  updated_by: SortOrder
+  work_schedule_entries_created_byTousers: usersOrderByWithRelationInput
+  work_schedule_entries_updated_byTousers: usersOrderByWithRelationInput
+  work_schedule_entries_users: usersOrderByWithRelationInput
+  work_schedule_entries_work_schedules: work_schedulesOrderByWithRelationInput
+}
+
+input work_schedule_entriesWhereUniqueInput {
+  id: String
+}
+
+enum Work_schedule_entriesScalarFieldEnum {
+  id
+  user_id
+  work_schedule_id
+  date_start
+  date_finish
+  duration
+  ip_open
+  ip_close
+  lat_open
+  lat_close
+  lon_open
+  lon_close
+  current_status
+  late
+  created_at
+  updated_at
+  created_by
+  updated_by
 }
 
 type Mutation {
@@ -4968,10 +5060,6 @@ input work_schedulesCreateOrConnectWithoutWork_schedule_entries_work_schedulesIn
 input work_schedule_entriesCreateOrConnectWithoutWork_schedule_entries_updated_byTousersInput {
   where: work_schedule_entriesWhereUniqueInput!
   create: work_schedule_entriesCreateWithoutWork_schedule_entries_updated_byTousersInput!
-}
-
-input work_schedule_entriesWhereUniqueInput {
-  id: String
 }
 
 input work_schedule_entriesCreateManyWork_schedule_entries_updated_byTousersInputEnvelope {

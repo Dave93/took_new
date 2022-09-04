@@ -6,7 +6,12 @@ import { CurrentUser } from '@modules/auth/decorators';
 import { Prisma, users, user_status, work_schedule_entry_status } from '@prisma/client';
 import { getDistance } from 'geolib';
 import { CacheControlService } from '@modules/cache_control/cache_control.service';
-import { WorkScheduleEntriesReportRecord } from '@helpers';
+import {
+  WorkScheduleEntriesReportCouriers,
+  WorkScheduleEntriesReportRecord,
+  WorkScheduleEntriesReportRes,
+} from '@helpers';
+import { WorkScheduleEntriesReportArgs } from './dto/report.args';
 
 @Injectable()
 export class WorkScheduleEntriesService {
@@ -221,16 +226,16 @@ export class WorkScheduleEntriesService {
     return openedOpenTime;
   }
 
-  async workScheduleEntriesReportForPeriod(start_date: Date, end_date: Date, user: users) {
-    end_date.setHours(23, 59, 59);
+  async workScheduleEntriesReport(params: WorkScheduleEntriesReportArgs): Promise<WorkScheduleEntriesReportRes> {
+    params.where.report_end.setHours(23, 59, 59);
     let records = await this.prismaService.$queryRaw<WorkScheduleEntriesReportRecord[]>`
         SELECT wse.user_id, sum(wse.duration) as duration, DATE_TRUNC('day', wse.date_start) as day, bool_or(wse.late) as late, us.first_name, us.last_name
 
         FROM work_schedule_entries wse
         left join users us ON us.id = wse.user_id
         WHERE wse.current_status = 'closed' 
-              AND wse.date_start >= ${start_date}
-              AND wse.date_start <= ${end_date}
+              AND wse.date_start >= ${params.where.report_start}
+              AND wse.date_start <= ${params.where.report_end}
         group by wse.user_id, DATE_TRUNC('day', wse.date_start), us.first_name, us.last_name`;
 
     console.log(records.map((record) => parseInt(record.duration.toString())));
@@ -240,6 +245,37 @@ export class WorkScheduleEntriesService {
       return record;
     });
 
-    return records;
+    let users: WorkScheduleEntriesReportCouriers[] = await this.prismaService.users.findMany({
+      where: {
+        users_roles_usersTousers_roles_user_id: {
+          some: {
+            roles: {
+              code: 'courier',
+            },
+          },
+        },
+      },
+      select: {
+        id: true,
+        first_name: true,
+        last_name: true,
+      },
+      // include: {
+      //   users_roles_usersTousers_roles_user_id: {
+      //     include: {
+      //       roles: {
+      //         select:
+      //       },
+      //     }
+      //   }
+      // }
+    });
+
+    console.log(users);
+
+    return {
+      users: users,
+      work_schedule_entries: records,
+    };
   }
 }
