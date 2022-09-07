@@ -20,6 +20,7 @@ import { terminals } from '../terminals/terminals.model';
 import { users_terminals } from '../users-terminals/users-terminals.model';
 import { users_work_schedules } from '../users-work-schedules/users-work-schedules.model';
 import { work_schedule_entries } from '../work-schedule-entries/work-schedule-entries.model';
+import { customers_comments } from '../customers-comments/customers-comments.model';
 import { UsersCount } from '../prisma/users-count.output';
 
 @ObjectType()
@@ -177,6 +178,9 @@ export class users {
 
     @Field(() => [work_schedule_entries], {nullable:true})
     work_schedule_entries_users?: Array<work_schedule_entries>;
+
+    @Field(() => [customers_comments], {nullable:true})
+    customers_comments_created_byTousers?: Array<customers_comments>;
 
     @Field(() => UsersCount, {nullable:false})
     _count?: UsersCount;

@@ -35,6 +35,7 @@ import { users_terminalsUncheckedCreateNestedManyWithoutUsersInput } from '../us
 import { users_work_schedulesUncheckedCreateNestedManyWithoutUsersInput } from '../users-work-schedules/users-work-schedules-unchecked-create-nested-many-without-users.input';
 import { work_schedule_entriesUncheckedCreateNestedManyWithoutWork_schedule_entries_created_byTousersInput } from '../work-schedule-entries/work-schedule-entries-unchecked-create-nested-many-without-work-schedule-entries-created-by-tousers.input';
 import { work_schedule_entriesUncheckedCreateNestedManyWithoutWork_schedule_entries_usersInput } from '../work-schedule-entries/work-schedule-entries-unchecked-create-nested-many-without-work-schedule-entries-users.input';
+import { customers_commentsUncheckedCreateNestedManyWithoutCustomers_comments_created_byTousersInput } from '../customers-comments/customers-comments-unchecked-create-nested-many-without-customers-comments-created-by-tousers.input';
 
 @InputType()
 export class usersUncheckedCreateWithoutWork_schedule_entries_updated_byTousersInput {
@@ -188,4 +189,7 @@ export class usersUncheckedCreateWithoutWork_schedule_entries_updated_byTousersI
 
     @Field(() => work_schedule_entriesUncheckedCreateNestedManyWithoutWork_schedule_entries_usersInput, {nullable:true})
     work_schedule_entries_users?: work_schedule_entriesUncheckedCreateNestedManyWithoutWork_schedule_entries_usersInput;
+
+    @Field(() => customers_commentsUncheckedCreateNestedManyWithoutCustomers_comments_created_byTousersInput, {nullable:true})
+    customers_comments_created_byTousers?: customers_commentsUncheckedCreateNestedManyWithoutCustomers_comments_created_byTousersInput;
 }

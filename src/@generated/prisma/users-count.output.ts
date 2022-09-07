@@ -103,4 +103,7 @@ export class UsersCount {
 
     @Field(() => Int, {nullable:false})
     work_schedule_entries_users!: number;
+
+    @Field(() => Int, {nullable:false})
+    customers_comments_created_byTousers!: number;
 }

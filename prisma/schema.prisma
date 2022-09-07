@@ -139,6 +139,7 @@ model users {
   work_schedule_entries_created_byTousers               work_schedule_entries[] @relation("work_schedule_entries_created_byTousers")
   work_schedule_entries_updated_byTousers               work_schedule_entries[] @relation("work_schedule_entries_updated_byTousers")
   work_schedule_entries_users                           work_schedule_entries[] @relation("work_schedule_entries_users")
+  customers_comments_created_byTousers                  customers_comments[]    @relation("customers_comments_created_byTousers")
 }
 
 model users_permissions {
@@ -180,8 +181,8 @@ model city {
   users_city_parent_idTousers  city?    @relation("city_parent_idTocity", fields: [parent_id], references: [id], onDelete: NoAction, map: "FK_city_parent_id")
   post_city_idTocity           post[]   @relation("post_city_idTocity")
 
-
   city_parent_idTocity city[] @relation("city_parent_idTocity")
+
   @@index([created_by], map: "fki_FK_city_created_by")
   @@index([updated_by], map: "fki_FK_city_updated_by")
 }
@@ -294,7 +295,6 @@ model terminals {
 
   users_terminals users_terminals[]
 
-
   @@index([created_by], map: "fki_FK_terminals_created_by")
   @@index([updated_by], map: "fki_FK_terminals_updated_by")
 }
@@ -320,7 +320,6 @@ model organization {
   updated_at             DateTime                 @default(now()) @db.Timestamptz(5)
   created_by             String?                  @db.Uuid
   updated_by             String?                  @db.Uuid
-
 
   work_schedules_organization_idTorganization   work_schedules[]   @relation("work_schedules_organization_idTorganization")
   organization_created_byTousers                users?             @relation("organization_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_organization_created_by")
@@ -377,6 +376,24 @@ model work_schedule_entries {
 
   @@index([current_status], map: "fki_work_schedule_entries_current_status")
   @@index([user_id], map: "fki_work_schedule_entries_user_id")
+}
+
+model customers {
+  id                           String               @id(map: "PK_customer_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name                         String
+  phone                        String
+  customers_comments_customers customers_comments[] @relation("customers_comments_customers")
+}
+
+model customers_comments {
+  id          String   @id(map: "PK_customers_comments_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  customer_id String   @db.Uuid
+  comment     String
+  created_at  DateTime @default(now()) @db.Timestamptz(5)
+  created_by  String?  @db.Uuid
+
+  customers_comments_created_byTousers users?    @relation("customers_comments_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_customers_comments_created_by")
+  customers_comments_customers         customers @relation("customers_comments_customers", fields: [customer_id], references: [id], onDelete: NoAction, map: "FK_customers_comments_customer_id")
 }
 
 enum organization_system_type {
