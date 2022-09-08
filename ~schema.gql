@@ -618,6 +618,11 @@ type WorkSchedule {
   exampleField: Int!
 }
 
+type Customer {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 type Query {
   roles(where: rolesWhereInput, orderBy: [rolesOrderByWithRelationInput!], cursor: rolesWhereUniqueInput, take: Int, skip: Int, distinct: [RolesScalarFieldEnum!]): [roles!]!
   rolesConnection(where: rolesWhereInput!): PrismaAggregateCount!
@@ -647,6 +652,9 @@ type Query {
   user(id: String!): users!
   workScheduleEntriesReportConnection(where: work_schedule_entriesReportWhereInput!): PrismaAggregateCount!
   workScheduleEntriesReport(where: work_schedule_entriesReportWhereInput, orderBy: [work_schedule_entriesOrderByWithRelationInput!], cursor: work_schedule_entriesWhereUniqueInput, take: Int, skip: Int, distinct: [Work_schedule_entriesScalarFieldEnum!]): WorkScheduleEntriesReportRes!
+  customersConnection(where: customersWhereInput!): PrismaAggregateCount!
+  customers(where: customersWhereInput, orderBy: [customersOrderByWithRelationInput!], cursor: customersWhereUniqueInput, take: Int, skip: Int, distinct: [CustomersScalarFieldEnum!]): [customers!]!
+  customer(id: String!): customers!
 }
 
 input rolesWhereInput {
@@ -2032,6 +2040,23 @@ enum Work_schedule_entriesScalarFieldEnum {
   updated_by
 }
 
+input customersOrderByWithRelationInput {
+  id: SortOrder
+  name: SortOrder
+  phone: SortOrder
+  customers_comments_customers: customers_commentsOrderByRelationAggregateInput
+}
+
+input customersWhereUniqueInput {
+  id: String
+}
+
+enum CustomersScalarFieldEnum {
+  id
+  name
+  phone
+}
+
 type Mutation {
   roleCreate(data: rolesUncheckedCreateInput!): roles!
   updateRole(data: rolesUpdateInput!, where: rolesWhereUniqueInput!): roles!
@@ -2069,6 +2094,8 @@ type Mutation {
   linkUserToWorkSchedules(userId: String!, workScheduleId: [String!]!): BatchPayload!
   openTimeEntry(lat_open: Float!, lon_open: Float!): work_schedule_entries!
   closeTimeEntry(lat_close: Float!, lon_close: Float!): work_schedule_entries!
+  updateCustomer(updateCustomerInput: UpdateCustomerInput!): Customer!
+  removeCustomer(id: Int!): Customer!
 }
 
 input rolesUncheckedCreateInput {
@@ -5150,10 +5177,6 @@ input customersCreateWithoutCustomers_comments_customersInput {
 input customersCreateOrConnectWithoutCustomers_comments_customersInput {
   where: customersWhereUniqueInput!
   create: customersCreateWithoutCustomers_comments_customersInput!
-}
-
-input customersWhereUniqueInput {
-  id: String
 }
 
 input customers_commentsCreateOrConnectWithoutCustomers_comments_created_byTousersInput {
@@ -12033,4 +12056,10 @@ input usersUpdateInput {
   work_schedule_entries_updated_byTousers: work_schedule_entriesUpdateManyWithoutWork_schedule_entries_updated_byTousersNestedInput
   work_schedule_entries_users: work_schedule_entriesUpdateManyWithoutWork_schedule_entries_usersNestedInput
   customers_comments_created_byTousers: customers_commentsUpdateManyWithoutCustomers_comments_created_byTousersNestedInput
+}
+
+input UpdateCustomerInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }

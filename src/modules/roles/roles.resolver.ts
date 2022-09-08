@@ -55,7 +55,6 @@ export class RolesResolver {
     @Args('permission_ids', { type: () => [String!] }) permission_ids: string[],
   ) {
     let res = await this.rolesService.assignRolePermissions(role_id, permission_ids);
-    console.log(res);
     return res;
   }
 }

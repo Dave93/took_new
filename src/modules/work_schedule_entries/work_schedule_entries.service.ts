@@ -238,8 +238,6 @@ export class WorkScheduleEntriesService {
               AND wse.date_start <= ${params.where.report_end}
         group by wse.user_id, DATE_TRUNC('day', wse.date_start), us.first_name, us.last_name`;
 
-    console.log(records.map((record) => parseInt(record.duration.toString())));
-
     records = records.map((record) => {
       record.duration = parseInt(record.duration.toString());
       return record;
@@ -270,8 +268,6 @@ export class WorkScheduleEntriesService {
       //   }
       // }
     });
-
-    console.log(users);
 
     return {
       users: users,

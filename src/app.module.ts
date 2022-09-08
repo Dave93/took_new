@@ -21,6 +21,8 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { UsersModule } from './modules/users/users.module';
 import { LinkRecordsModule } from './modules/link_records/link_records.module';
 import { WorkScheduleEntriesModule } from './modules/work_schedule_entries/work_schedule_entries.module';
+import { CustomersResolver } from './modules/customers/customers.resolver';
+import { CustomersModule } from './modules/customers/customers.module';
 import * as redisStore from 'cache-manager-redis-store';
 
 @Global()
@@ -61,6 +63,7 @@ import * as redisStore from 'cache-manager-redis-store';
     UsersModule,
     LinkRecordsModule,
     WorkScheduleEntriesModule,
+    CustomersModule,
   ],
   providers: [PrismaService],
 })
