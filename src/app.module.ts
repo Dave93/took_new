@@ -23,6 +23,8 @@ import { LinkRecordsModule } from './modules/link_records/link_records.module';
 import { WorkScheduleEntriesModule } from './modules/work_schedule_entries/work_schedule_entries.module';
 import { CustomersResolver } from './modules/customers/customers.resolver';
 import { CustomersModule } from './modules/customers/customers.module';
+import { OrderStatusModule } from './modules/order_status/order_status.module';
+import { OrdersModule } from './modules/orders/orders.module';
 import * as redisStore from 'cache-manager-redis-store';
 
 @Global()
@@ -64,6 +66,8 @@ import * as redisStore from 'cache-manager-redis-store';
     LinkRecordsModule,
     WorkScheduleEntriesModule,
     CustomersModule,
+    OrderStatusModule,
+    OrdersModule,
   ],
   providers: [PrismaService],
 })

@@ -4,6 +4,8 @@ import { organization_system_type } from './organization-system-type.enum';
 import { Int } from '@nestjs/graphql';
 import { work_schedulesUncheckedCreateNestedManyWithoutOrganizationInput } from '../work-schedules/work-schedules-unchecked-create-nested-many-without-organization.input';
 import { delivery_pricingUncheckedCreateNestedManyWithoutOrganizationInput } from '../delivery-pricing/delivery-pricing-unchecked-create-nested-many-without-organization.input';
+import { order_statusUncheckedCreateNestedManyWithoutOrder_status_organizationInput } from '../order-status/order-status-unchecked-create-nested-many-without-order-status-organization.input';
+import { ordersUncheckedCreateNestedManyWithoutOrders_organizationInput } from '../orders/orders-unchecked-create-nested-many-without-orders-organization.input';
 
 @InputType()
 export class organizationUncheckedCreateWithoutTerminals_organization_idTorganizationInput {
@@ -73,4 +75,10 @@ export class organizationUncheckedCreateWithoutTerminals_organization_idTorganiz
 
     @Field(() => delivery_pricingUncheckedCreateNestedManyWithoutOrganizationInput, {nullable:true})
     delivery_pricing_organization_idTorganization?: delivery_pricingUncheckedCreateNestedManyWithoutOrganizationInput;
+
+    @Field(() => order_statusUncheckedCreateNestedManyWithoutOrder_status_organizationInput, {nullable:true})
+    order_status_organization?: order_statusUncheckedCreateNestedManyWithoutOrder_status_organizationInput;
+
+    @Field(() => ordersUncheckedCreateNestedManyWithoutOrders_organizationInput, {nullable:true})
+    orders_organization?: ordersUncheckedCreateNestedManyWithoutOrders_organizationInput;
 }

@@ -7,4 +7,7 @@ export class TerminalsCount {
 
     @Field(() => Int, {nullable:false})
     users_terminals!: number;
+
+    @Field(() => Int, {nullable:false})
+    orders_terminals!: number;
 }

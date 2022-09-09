@@ -36,6 +36,9 @@ import { users_work_schedulesUpdateManyWithoutUsersNestedInput } from '../users-
 import { work_schedule_entriesUpdateManyWithoutWork_schedule_entries_created_byTousersNestedInput } from '../work-schedule-entries/work-schedule-entries-update-many-without-work-schedule-entries-created-by-tousers-nested.input';
 import { work_schedule_entriesUpdateManyWithoutWork_schedule_entries_updated_byTousersNestedInput } from '../work-schedule-entries/work-schedule-entries-update-many-without-work-schedule-entries-updated-by-tousers-nested.input';
 import { customers_commentsUpdateManyWithoutCustomers_comments_created_byTousersNestedInput } from '../customers-comments/customers-comments-update-many-without-customers-comments-created-by-tousers-nested.input';
+import { ordersUpdateManyWithoutOrders_created_byTousersNestedInput } from '../orders/orders-update-many-without-orders-created-by-tousers-nested.input';
+import { ordersUpdateManyWithoutOrders_updated_byTousersNestedInput } from '../orders/orders-update-many-without-orders-updated-by-tousers-nested.input';
+import { ordersUpdateManyWithoutOrders_couriersNestedInput } from '../orders/orders-update-many-without-orders-couriers-nested.input';
 
 @InputType()
 export class usersUpdateWithoutWork_schedule_entries_usersInput {
@@ -192,4 +195,13 @@ export class usersUpdateWithoutWork_schedule_entries_usersInput {
 
     @Field(() => customers_commentsUpdateManyWithoutCustomers_comments_created_byTousersNestedInput, {nullable:true})
     customers_comments_created_byTousers?: customers_commentsUpdateManyWithoutCustomers_comments_created_byTousersNestedInput;
+
+    @Field(() => ordersUpdateManyWithoutOrders_created_byTousersNestedInput, {nullable:true})
+    orders_created_byTousers?: ordersUpdateManyWithoutOrders_created_byTousersNestedInput;
+
+    @Field(() => ordersUpdateManyWithoutOrders_updated_byTousersNestedInput, {nullable:true})
+    orders_updated_byTousers?: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput;
+
+    @Field(() => ordersUpdateManyWithoutOrders_couriersNestedInput, {nullable:true})
+    orders_couriers?: ordersUpdateManyWithoutOrders_couriersNestedInput;
 }

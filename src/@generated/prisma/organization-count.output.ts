@@ -13,4 +13,10 @@ export class OrganizationCount {
 
     @Field(() => Int, {nullable:false})
     terminals_organization_idTorganization!: number;
+
+    @Field(() => Int, {nullable:false})
+    order_status_organization!: number;
+
+    @Field(() => Int, {nullable:false})
+    orders_organization!: number;
 }

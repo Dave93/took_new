@@ -17,6 +17,8 @@ import { terminalsCreateInput } from 'src/@generated/terminals/terminals-create.
 import { terminalsUncheckedCreateInput } from 'src/@generated/terminals/terminals-unchecked-create.input';
 import { usersUncheckedCreateInput } from 'src/@generated/users/users-unchecked-create.input';
 import { usersCreateInput } from 'src/@generated/users/users-create.input';
+import { order_statusUncheckedCreateInput } from 'src/@generated/order-status/order-status-unchecked-create.input';
+import { order_statusCreateInput } from 'src/@generated/order-status/order-status-create.input';
 
 type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
 type XOR<T, U> = T extends object ? (U extends object ? (Without<T, U> & U) | (Without<U, T> & T) : U) : T;
@@ -75,4 +77,11 @@ export class usersCreateArgs {
   @Field(() => usersUncheckedCreateInput, { nullable: false })
   @Type(() => usersUncheckedCreateInput)
   data: XOR<usersCreateInput, usersUncheckedCreateInput>;
+}
+
+@ArgsType()
+export class order_statusCreateArgs {
+  @Field(() => order_statusUncheckedCreateInput, { nullable: false })
+  @Type(() => order_statusUncheckedCreateInput)
+  data: XOR<order_statusCreateInput, order_statusUncheckedCreateInput>;
 }

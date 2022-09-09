@@ -6,6 +6,8 @@ import { work_schedulesUpdateManyWithoutOrganizationNestedInput } from '../work-
 import { usersUpdateOneWithoutOrganization_updated_byTousersNestedInput } from '../users/users-update-one-without-organization-updated-by-tousers-nested.input';
 import { delivery_pricingUpdateManyWithoutOrganizationNestedInput } from '../delivery-pricing/delivery-pricing-update-many-without-organization-nested.input';
 import { terminalsUpdateManyWithoutOrganizationNestedInput } from '../terminals/terminals-update-many-without-organization-nested.input';
+import { order_statusUpdateManyWithoutOrder_status_organizationNestedInput } from '../order-status/order-status-update-many-without-order-status-organization-nested.input';
+import { ordersUpdateManyWithoutOrders_organizationNestedInput } from '../orders/orders-update-many-without-orders-organization-nested.input';
 
 @InputType()
 export class organizationUpdateWithoutOrganization_created_byTousersInput {
@@ -75,4 +77,10 @@ export class organizationUpdateWithoutOrganization_created_byTousersInput {
 
     @Field(() => terminalsUpdateManyWithoutOrganizationNestedInput, {nullable:true})
     terminals_organization_idTorganization?: terminalsUpdateManyWithoutOrganizationNestedInput;
+
+    @Field(() => order_statusUpdateManyWithoutOrder_status_organizationNestedInput, {nullable:true})
+    order_status_organization?: order_statusUpdateManyWithoutOrder_status_organizationNestedInput;
+
+    @Field(() => ordersUpdateManyWithoutOrders_organizationNestedInput, {nullable:true})
+    orders_organization?: ordersUpdateManyWithoutOrders_organizationNestedInput;
 }

@@ -4,6 +4,7 @@ import { Float } from '@nestjs/graphql';
 import { organizationUpdateOneRequiredWithoutTerminals_organization_idTorganizationNestedInput } from '../organization/organization-update-one-required-without-terminals-organization-id-torganization-nested.input';
 import { usersUpdateOneWithoutTerminals_created_byTousersNestedInput } from '../users/users-update-one-without-terminals-created-by-tousers-nested.input';
 import { usersUpdateOneWithoutTerminals_updated_byTousersNestedInput } from '../users/users-update-one-without-terminals-updated-by-tousers-nested.input';
+import { ordersUpdateManyWithoutOrders_terminalsNestedInput } from '../orders/orders-update-many-without-orders-terminals-nested.input';
 
 @InputType()
 export class terminalsUpdateWithoutUsers_terminalsInput {
@@ -46,4 +47,7 @@ export class terminalsUpdateWithoutUsers_terminalsInput {
 
     @Field(() => usersUpdateOneWithoutTerminals_updated_byTousersNestedInput, {nullable:true})
     terminals_updated_byTousers?: usersUpdateOneWithoutTerminals_updated_byTousersNestedInput;
+
+    @Field(() => ordersUpdateManyWithoutOrders_terminalsNestedInput, {nullable:true})
+    orders_terminals?: ordersUpdateManyWithoutOrders_terminalsNestedInput;
 }

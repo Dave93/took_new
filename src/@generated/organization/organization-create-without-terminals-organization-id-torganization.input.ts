@@ -6,6 +6,8 @@ import { work_schedulesCreateNestedManyWithoutOrganizationInput } from '../work-
 import { usersCreateNestedOneWithoutOrganization_created_byTousersInput } from '../users/users-create-nested-one-without-organization-created-by-tousers.input';
 import { usersCreateNestedOneWithoutOrganization_updated_byTousersInput } from '../users/users-create-nested-one-without-organization-updated-by-tousers.input';
 import { delivery_pricingCreateNestedManyWithoutOrganizationInput } from '../delivery-pricing/delivery-pricing-create-nested-many-without-organization.input';
+import { order_statusCreateNestedManyWithoutOrder_status_organizationInput } from '../order-status/order-status-create-nested-many-without-order-status-organization.input';
+import { ordersCreateNestedManyWithoutOrders_organizationInput } from '../orders/orders-create-nested-many-without-orders-organization.input';
 
 @InputType()
 export class organizationCreateWithoutTerminals_organization_idTorganizationInput {
@@ -75,4 +77,10 @@ export class organizationCreateWithoutTerminals_organization_idTorganizationInpu
 
     @Field(() => delivery_pricingCreateNestedManyWithoutOrganizationInput, {nullable:true})
     delivery_pricing_organization_idTorganization?: delivery_pricingCreateNestedManyWithoutOrganizationInput;
+
+    @Field(() => order_statusCreateNestedManyWithoutOrder_status_organizationInput, {nullable:true})
+    order_status_organization?: order_statusCreateNestedManyWithoutOrder_status_organizationInput;
+
+    @Field(() => ordersCreateNestedManyWithoutOrders_organizationInput, {nullable:true})
+    orders_organization?: ordersCreateNestedManyWithoutOrders_organizationInput;
 }

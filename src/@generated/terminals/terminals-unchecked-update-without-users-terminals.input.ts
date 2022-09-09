@@ -1,6 +1,7 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { Float } from '@nestjs/graphql';
+import { ordersUncheckedUpdateManyWithoutOrders_terminalsNestedInput } from '../orders/orders-unchecked-update-many-without-orders-terminals-nested.input';
 
 @InputType()
 export class terminalsUncheckedUpdateWithoutUsers_terminalsInput {
@@ -43,4 +44,7 @@ export class terminalsUncheckedUpdateWithoutUsers_terminalsInput {
 
     @Field(() => String, {nullable:true})
     updated_by?: string;
+
+    @Field(() => ordersUncheckedUpdateManyWithoutOrders_terminalsNestedInput, {nullable:true})
+    orders_terminals?: ordersUncheckedUpdateManyWithoutOrders_terminalsNestedInput;
 }

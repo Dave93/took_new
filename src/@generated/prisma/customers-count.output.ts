@@ -7,4 +7,7 @@ export class CustomersCount {
 
     @Field(() => Int, {nullable:false})
     customers_comments_customers!: number;
+
+    @Field(() => Int, {nullable:false})
+    orders_customers!: number;
 }

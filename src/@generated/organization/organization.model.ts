@@ -7,6 +7,8 @@ import { work_schedules } from '../work-schedules/work-schedules.model';
 import { users } from '../users/users.model';
 import { delivery_pricing } from '../delivery-pricing/delivery-pricing.model';
 import { terminals } from '../terminals/terminals.model';
+import { order_status } from '../order-status/order-status.model';
+import { orders } from '../orders/orders.model';
 import { OrganizationCount } from '../prisma/organization-count.output';
 
 @ObjectType()
@@ -86,6 +88,12 @@ export class organization {
 
     @Field(() => [terminals], {nullable:true})
     terminals_organization_idTorganization?: Array<terminals>;
+
+    @Field(() => [order_status], {nullable:true})
+    order_status_organization?: Array<order_status>;
+
+    @Field(() => [orders], {nullable:true})
+    orders_organization?: Array<orders>;
 
     @Field(() => OrganizationCount, {nullable:false})
     _count?: OrganizationCount;

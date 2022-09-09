@@ -5,6 +5,7 @@ import { organizationCreateNestedOneWithoutTerminals_organization_idTorganizatio
 import { usersCreateNestedOneWithoutTerminals_created_byTousersInput } from '../users/users-create-nested-one-without-terminals-created-by-tousers.input';
 import { usersCreateNestedOneWithoutTerminals_updated_byTousersInput } from '../users/users-create-nested-one-without-terminals-updated-by-tousers.input';
 import { users_terminalsCreateNestedManyWithoutTerminalsInput } from '../users-terminals/users-terminals-create-nested-many-without-terminals.input';
+import { ordersCreateNestedManyWithoutOrders_terminalsInput } from '../orders/orders-create-nested-many-without-orders-terminals.input';
 
 @InputType()
 export class terminalsCreateInput {
@@ -50,4 +51,7 @@ export class terminalsCreateInput {
 
     @Field(() => users_terminalsCreateNestedManyWithoutTerminalsInput, {nullable:true})
     users_terminals?: users_terminalsCreateNestedManyWithoutTerminalsInput;
+
+    @Field(() => ordersCreateNestedManyWithoutOrders_terminalsInput, {nullable:true})
+    orders_terminals?: ordersCreateNestedManyWithoutOrders_terminalsInput;
 }

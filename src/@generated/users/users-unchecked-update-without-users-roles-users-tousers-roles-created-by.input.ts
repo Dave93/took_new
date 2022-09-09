@@ -36,6 +36,9 @@ import { work_schedule_entriesUncheckedUpdateManyWithoutWork_schedule_entries_cr
 import { work_schedule_entriesUncheckedUpdateManyWithoutWork_schedule_entries_updated_byTousersNestedInput } from '../work-schedule-entries/work-schedule-entries-unchecked-update-many-without-work-schedule-entries-updated-by-tousers-nested.input';
 import { work_schedule_entriesUncheckedUpdateManyWithoutWork_schedule_entries_usersNestedInput } from '../work-schedule-entries/work-schedule-entries-unchecked-update-many-without-work-schedule-entries-users-nested.input';
 import { customers_commentsUncheckedUpdateManyWithoutCustomers_comments_created_byTousersNestedInput } from '../customers-comments/customers-comments-unchecked-update-many-without-customers-comments-created-by-tousers-nested.input';
+import { ordersUncheckedUpdateManyWithoutOrders_created_byTousersNestedInput } from '../orders/orders-unchecked-update-many-without-orders-created-by-tousers-nested.input';
+import { ordersUncheckedUpdateManyWithoutOrders_updated_byTousersNestedInput } from '../orders/orders-unchecked-update-many-without-orders-updated-by-tousers-nested.input';
+import { ordersUncheckedUpdateManyWithoutOrders_couriersNestedInput } from '../orders/orders-unchecked-update-many-without-orders-couriers-nested.input';
 
 @InputType()
 export class usersUncheckedUpdateWithoutUsers_roles_usersTousers_roles_created_byInput {
@@ -192,4 +195,13 @@ export class usersUncheckedUpdateWithoutUsers_roles_usersTousers_roles_created_b
 
     @Field(() => customers_commentsUncheckedUpdateManyWithoutCustomers_comments_created_byTousersNestedInput, {nullable:true})
     customers_comments_created_byTousers?: customers_commentsUncheckedUpdateManyWithoutCustomers_comments_created_byTousersNestedInput;
+
+    @Field(() => ordersUncheckedUpdateManyWithoutOrders_created_byTousersNestedInput, {nullable:true})
+    orders_created_byTousers?: ordersUncheckedUpdateManyWithoutOrders_created_byTousersNestedInput;
+
+    @Field(() => ordersUncheckedUpdateManyWithoutOrders_updated_byTousersNestedInput, {nullable:true})
+    orders_updated_byTousers?: ordersUncheckedUpdateManyWithoutOrders_updated_byTousersNestedInput;
+
+    @Field(() => ordersUncheckedUpdateManyWithoutOrders_couriersNestedInput, {nullable:true})
+    orders_couriers?: ordersUncheckedUpdateManyWithoutOrders_couriersNestedInput;
 }

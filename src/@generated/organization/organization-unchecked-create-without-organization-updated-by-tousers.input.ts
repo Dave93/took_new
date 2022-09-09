@@ -5,6 +5,8 @@ import { Int } from '@nestjs/graphql';
 import { work_schedulesUncheckedCreateNestedManyWithoutOrganizationInput } from '../work-schedules/work-schedules-unchecked-create-nested-many-without-organization.input';
 import { delivery_pricingUncheckedCreateNestedManyWithoutOrganizationInput } from '../delivery-pricing/delivery-pricing-unchecked-create-nested-many-without-organization.input';
 import { terminalsUncheckedCreateNestedManyWithoutOrganizationInput } from '../terminals/terminals-unchecked-create-nested-many-without-organization.input';
+import { order_statusUncheckedCreateNestedManyWithoutOrder_status_organizationInput } from '../order-status/order-status-unchecked-create-nested-many-without-order-status-organization.input';
+import { ordersUncheckedCreateNestedManyWithoutOrders_organizationInput } from '../orders/orders-unchecked-create-nested-many-without-orders-organization.input';
 
 @InputType()
 export class organizationUncheckedCreateWithoutOrganization_updated_byTousersInput {
@@ -74,4 +76,10 @@ export class organizationUncheckedCreateWithoutOrganization_updated_byTousersInp
 
     @Field(() => terminalsUncheckedCreateNestedManyWithoutOrganizationInput, {nullable:true})
     terminals_organization_idTorganization?: terminalsUncheckedCreateNestedManyWithoutOrganizationInput;
+
+    @Field(() => order_statusUncheckedCreateNestedManyWithoutOrder_status_organizationInput, {nullable:true})
+    order_status_organization?: order_statusUncheckedCreateNestedManyWithoutOrder_status_organizationInput;
+
+    @Field(() => ordersUncheckedCreateNestedManyWithoutOrders_organizationInput, {nullable:true})
+    orders_organization?: ordersUncheckedCreateNestedManyWithoutOrders_organizationInput;
 }

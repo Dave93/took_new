@@ -15,8 +15,10 @@ export class CacheControlService implements OnModuleInit {
     await this.cacheDeliveryPricing();
     await this.cacheTerminals();
     await this.cacheOrganizations();
+    await this.cacheOrderStatus();
   }
 
+  /** Caching Start */
   async cacheWorkSchedules() {
     let workSchedules = await this.prismaService.work_schedules.findMany();
     return this.cacheManager.set('workSchedules', workSchedules, { ttl: 0 });
@@ -37,10 +39,21 @@ export class CacheControlService implements OnModuleInit {
     return this.cacheManager.set('organizations', organizations, { ttl: 0 });
   }
 
+  async cacheOrderStatus() {
+    let orderStatus = await this.prismaService.order_status.findMany();
+    return this.cacheManager.set('orderStatus', orderStatus, { ttl: 0 });
+  }
+
+  /** Caching end */
+
+  /** Getters start */
+
   async getOrganization(id: string) {
     let organizations: organization[] = await this.cacheManager.get('organizations');
     return organizations.find((organization) => organization.id === id);
   }
+
+  /** Getters end */
 
   // async getAllWorkSchedules() {
   //   let workSchedules: work_schedules[] = await this.cacheManager.get('workSchedules');

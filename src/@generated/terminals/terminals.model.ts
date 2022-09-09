@@ -5,6 +5,7 @@ import { Float } from '@nestjs/graphql';
 import { organization } from '../organization/organization.model';
 import { users } from '../users/users.model';
 import { users_terminals } from '../users-terminals/users-terminals.model';
+import { orders } from '../orders/orders.model';
 import { TerminalsCount } from '../prisma/terminals-count.output';
 
 @ObjectType()
@@ -60,6 +61,9 @@ export class terminals {
 
     @Field(() => [users_terminals], {nullable:true})
     users_terminals?: Array<users_terminals>;
+
+    @Field(() => [orders], {nullable:true})
+    orders_terminals?: Array<orders>;
 
     @Field(() => TerminalsCount, {nullable:false})
     _count?: TerminalsCount;

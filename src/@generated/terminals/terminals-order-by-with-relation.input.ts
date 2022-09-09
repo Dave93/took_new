@@ -4,6 +4,7 @@ import { SortOrder } from '../prisma/sort-order.enum';
 import { organizationOrderByWithRelationInput } from '../organization/organization-order-by-with-relation.input';
 import { usersOrderByWithRelationInput } from '../users/users-order-by-with-relation.input';
 import { users_terminalsOrderByRelationAggregateInput } from '../users-terminals/users-terminals-order-by-relation-aggregate.input';
+import { ordersOrderByRelationAggregateInput } from '../orders/orders-order-by-relation-aggregate.input';
 
 @InputType()
 export class terminalsOrderByWithRelationInput {
@@ -58,4 +59,7 @@ export class terminalsOrderByWithRelationInput {
 
     @Field(() => users_terminalsOrderByRelationAggregateInput, {nullable:true})
     users_terminals?: users_terminalsOrderByRelationAggregateInput;
+
+    @Field(() => ordersOrderByRelationAggregateInput, {nullable:true})
+    orders_terminals?: ordersOrderByRelationAggregateInput;
 }

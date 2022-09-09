@@ -140,6 +140,9 @@ model users {
   work_schedule_entries_updated_byTousers               work_schedule_entries[] @relation("work_schedule_entries_updated_byTousers")
   work_schedule_entries_users                           work_schedule_entries[] @relation("work_schedule_entries_users")
   customers_comments_created_byTousers                  customers_comments[]    @relation("customers_comments_created_byTousers")
+  orders_created_byTousers                              orders[]                @relation("orders_created_byTousers")
+  orders_updated_byTousers                              orders[]                @relation("orders_updated_byTousers")
+  orders_couriers                                       orders[]                @relation("orders_couriers")
 }
 
 model users_permissions {
@@ -294,6 +297,7 @@ model terminals {
   terminals_updated_byTousers users?   @relation("terminals_updated_byTousers", fields: [updated_by], references: [id], onDelete: NoAction, map: "FK_terminals_updated_by")
 
   users_terminals users_terminals[]
+  orders_terminals orders[]
 
   @@index([created_by], map: "fki_FK_terminals_created_by")
   @@index([updated_by], map: "fki_FK_terminals_updated_by")
@@ -326,6 +330,8 @@ model organization {
   organization_updated_byTousers                users?             @relation("organization_updated_byTousers", fields: [updated_by], references: [id], onDelete: NoAction, map: "FK_organization_updated_by")
   delivery_pricing_organization_idTorganization delivery_pricing[] @relation("delivery_pricing_organization_idTorganization")
   terminals_organization_idTorganization        terminals[]        @relation("terminals_organization_idTorganization")
+  order_status_organization                    order_status[]
+  orders_organization                          orders[]
 }
 
 model users_terminals {
@@ -383,6 +389,7 @@ model customers {
   name                         String
   phone                        String
   customers_comments_customers customers_comments[] @relation("customers_comments_customers")
+  orders_customers            orders[]
 }
 
 model customers_comments {
@@ -394,6 +401,68 @@ model customers_comments {
 
   customers_comments_created_byTousers users?    @relation("customers_comments_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_customers_comments_created_by")
   customers_comments_customers         customers @relation("customers_comments_customers", fields: [customer_id], references: [id], onDelete: NoAction, map: "FK_customers_comments_customer_id")
+  
+}
+
+model order_status {
+  id          String   @id(map: "PK_order_status_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name        String
+  sort        Int      @default(0)
+  organization_id String @db.Uuid
+  color     String?
+  finish      Boolean  @default(false)
+  cancel      Boolean  @default(false)
+  waiting     Boolean  @default(false)
+
+  order_status_organization organization @relation(fields: [organization_id], references: [id], onDelete: NoAction, map: "FK_order_status_organization_id")
+  orders_order_status       orders[]
+}
+
+model orders {
+  id               String         @id(map: "PK_orders_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  organization_id  String         @db.Uuid
+  customer_id      String         @db.Uuid
+  courier_id       String        @db.Uuid
+  terminal_id      String         @db.Uuid
+  order_status_id  String         @db.Uuid
+  delivery_type drive_type         @default(car)
+  from_lat         Float          @default(0)
+  from_lon         Float          @default(0)
+  to_lat           Float          @default(0)
+  to_lon           Float          @default(0)
+  pre_distance     Float          @default(0)
+  pre_duration     Int            @default(0)
+  distance         Float?          @default(0)
+  duration         Int?            @default(0)
+  delivery_price   Float          @default(0)
+  delivery_address String
+  delivery_date    DateTime       @db.Timestamptz(5)
+  finished_date    DateTime?      @db.Timestamptz(5)
+  delivery_comment String?
+  delivery_phone   String
+  delivery_name    String
+  payment_type_id  String         @db.Uuid
+  cancel_reason   String?
+  order_items      Json?
+
+
+  created_at DateTime @default(now()) @db.Timestamptz(5)
+  updated_at DateTime @default(now()) @db.Timestamptz(5)
+  created_by String?  @db.Uuid
+  updated_by String?  @db.Uuid
+
+  orders_created_byTousers users? @relation("orders_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_orders_created_by")
+  orders_updated_byTousers users? @relation("orders_updated_byTousers", fields: [updated_by], references: [id], onDelete: NoAction, map: "FK_orders_updated_by")
+
+  orders_customers customers @relation(fields: [customer_id], references: [id], onDelete: NoAction, map: "FK_orders_customer_id")
+
+  orders_couriers users @relation("orders_couriers", fields: [courier_id], references: [id], onDelete: NoAction, map: "FK_orders_courier_id")
+
+  orders_order_status order_status @relation(fields: [order_status_id], references: [id], onDelete: NoAction, map: "FK_orders_order_status_id")
+
+  orders_organization organization @relation(fields: [organization_id], references: [id], onDelete: NoAction, map: "FK_orders_organization_id")
+
+  orders_terminals terminals @relation(fields: [terminal_id], references: [id], onDelete: NoAction, map: "FK_orders_terminal_id")
 }
 
 enum organization_system_type {

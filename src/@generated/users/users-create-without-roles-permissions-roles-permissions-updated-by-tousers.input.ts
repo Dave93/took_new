@@ -36,6 +36,9 @@ import { work_schedule_entriesCreateNestedManyWithoutWork_schedule_entries_creat
 import { work_schedule_entriesCreateNestedManyWithoutWork_schedule_entries_updated_byTousersInput } from '../work-schedule-entries/work-schedule-entries-create-nested-many-without-work-schedule-entries-updated-by-tousers.input';
 import { work_schedule_entriesCreateNestedManyWithoutWork_schedule_entries_usersInput } from '../work-schedule-entries/work-schedule-entries-create-nested-many-without-work-schedule-entries-users.input';
 import { customers_commentsCreateNestedManyWithoutCustomers_comments_created_byTousersInput } from '../customers-comments/customers-comments-create-nested-many-without-customers-comments-created-by-tousers.input';
+import { ordersCreateNestedManyWithoutOrders_created_byTousersInput } from '../orders/orders-create-nested-many-without-orders-created-by-tousers.input';
+import { ordersCreateNestedManyWithoutOrders_updated_byTousersInput } from '../orders/orders-create-nested-many-without-orders-updated-by-tousers.input';
+import { ordersCreateNestedManyWithoutOrders_couriersInput } from '../orders/orders-create-nested-many-without-orders-couriers.input';
 
 @InputType()
 export class usersCreateWithoutRoles_permissions_roles_permissions_updated_byTousersInput {
@@ -192,4 +195,13 @@ export class usersCreateWithoutRoles_permissions_roles_permissions_updated_byTou
 
     @Field(() => customers_commentsCreateNestedManyWithoutCustomers_comments_created_byTousersInput, {nullable:true})
     customers_comments_created_byTousers?: customers_commentsCreateNestedManyWithoutCustomers_comments_created_byTousersInput;
+
+    @Field(() => ordersCreateNestedManyWithoutOrders_created_byTousersInput, {nullable:true})
+    orders_created_byTousers?: ordersCreateNestedManyWithoutOrders_created_byTousersInput;
+
+    @Field(() => ordersCreateNestedManyWithoutOrders_updated_byTousersInput, {nullable:true})
+    orders_updated_byTousers?: ordersCreateNestedManyWithoutOrders_updated_byTousersInput;
+
+    @Field(() => ordersCreateNestedManyWithoutOrders_couriersInput, {nullable:true})
+    orders_couriers?: ordersCreateNestedManyWithoutOrders_couriersInput;
 }

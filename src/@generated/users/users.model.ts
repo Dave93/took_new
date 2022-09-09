@@ -21,6 +21,7 @@ import { users_terminals } from '../users-terminals/users-terminals.model';
 import { users_work_schedules } from '../users-work-schedules/users-work-schedules.model';
 import { work_schedule_entries } from '../work-schedule-entries/work-schedule-entries.model';
 import { customers_comments } from '../customers-comments/customers-comments.model';
+import { orders } from '../orders/orders.model';
 import { UsersCount } from '../prisma/users-count.output';
 
 @ObjectType()
@@ -181,6 +182,15 @@ export class users {
 
     @Field(() => [customers_comments], {nullable:true})
     customers_comments_created_byTousers?: Array<customers_comments>;
+
+    @Field(() => [orders], {nullable:true})
+    orders_created_byTousers?: Array<orders>;
+
+    @Field(() => [orders], {nullable:true})
+    orders_updated_byTousers?: Array<orders>;
+
+    @Field(() => [orders], {nullable:true})
+    orders_couriers?: Array<orders>;
 
     @Field(() => UsersCount, {nullable:false})
     _count?: UsersCount;

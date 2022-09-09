@@ -8,6 +8,7 @@ import { OrganizationRelationFilter } from '../prisma/organization-relation-filt
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { UsersRelationFilter } from '../prisma/users-relation-filter.input';
 import { Users_terminalsListRelationFilter } from '../prisma/users-terminals-list-relation-filter.input';
+import { OrdersListRelationFilter } from '../prisma/orders-list-relation-filter.input';
 
 @InputType()
 export class terminalsWhereInput {
@@ -71,4 +72,7 @@ export class terminalsWhereInput {
 
     @Field(() => Users_terminalsListRelationFilter, {nullable:true})
     users_terminals?: Users_terminalsListRelationFilter;
+
+    @Field(() => OrdersListRelationFilter, {nullable:true})
+    orders_terminals?: OrdersListRelationFilter;
 }

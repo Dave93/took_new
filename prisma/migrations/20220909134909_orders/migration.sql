@@ -1,0 +1,30 @@
+-- CreateTable
+CREATE TABLE "orders" (
+    "id" UUID NOT NULL DEFAULT uuid_generate_v4(),
+    "organization_id" UUID NOT NULL,
+    "customer_id" UUID NOT NULL,
+    "courier_id" UUID NOT NULL,
+    "terminal_id" UUID NOT NULL,
+    "order_status_id" UUID NOT NULL,
+    "delivery_type_id" UUID NOT NULL,
+    "from_lat" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "from_lon" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "to_lat" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "to_lon" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "pre_distance" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "pre_duration" INTEGER NOT NULL DEFAULT 0,
+    "distance" DOUBLE PRECISION DEFAULT 0,
+    "duration" INTEGER DEFAULT 0,
+    "delivery_price" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "delivery_address" TEXT NOT NULL,
+    "delivery_date" TIMESTAMPTZ(5) NOT NULL,
+    "finished_date" TIMESTAMPTZ(5),
+    "delivery_comment" TEXT,
+    "delivery_phone" TEXT NOT NULL,
+    "delivery_name" TEXT NOT NULL,
+    "payment_type_id" UUID NOT NULL,
+    "cancel_reason" TEXT,
+    "order_items" JSONB,
+
+    CONSTRAINT "PK_orders_id" PRIMARY KEY ("id")
+);

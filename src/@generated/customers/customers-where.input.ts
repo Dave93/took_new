@@ -2,6 +2,7 @@ import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { StringFilter } from '../prisma/string-filter.input';
 import { Customers_commentsListRelationFilter } from '../prisma/customers-comments-list-relation-filter.input';
+import { OrdersListRelationFilter } from '../prisma/orders-list-relation-filter.input';
 
 @InputType()
 export class customersWhereInput {
@@ -26,4 +27,7 @@ export class customersWhereInput {
 
     @Field(() => Customers_commentsListRelationFilter, {nullable:true})
     customers_comments_customers?: Customers_commentsListRelationFilter;
+
+    @Field(() => OrdersListRelationFilter, {nullable:true})
+    orders_customers?: OrdersListRelationFilter;
 }

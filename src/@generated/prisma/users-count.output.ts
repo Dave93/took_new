@@ -106,4 +106,13 @@ export class UsersCount {
 
     @Field(() => Int, {nullable:false})
     customers_comments_created_byTousers!: number;
+
+    @Field(() => Int, {nullable:false})
+    orders_created_byTousers!: number;
+
+    @Field(() => Int, {nullable:false})
+    orders_updated_byTousers!: number;
+
+    @Field(() => Int, {nullable:false})
+    orders_couriers!: number;
 }

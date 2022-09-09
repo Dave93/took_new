@@ -18,6 +18,7 @@ import { users_terminalsOrderByRelationAggregateInput } from '../users-terminals
 import { users_work_schedulesOrderByRelationAggregateInput } from '../users-work-schedules/users-work-schedules-order-by-relation-aggregate.input';
 import { work_schedule_entriesOrderByRelationAggregateInput } from '../work-schedule-entries/work-schedule-entries-order-by-relation-aggregate.input';
 import { customers_commentsOrderByRelationAggregateInput } from '../customers-comments/customers-comments-order-by-relation-aggregate.input';
+import { ordersOrderByRelationAggregateInput } from '../orders/orders-order-by-relation-aggregate.input';
 
 @InputType()
 export class usersOrderByWithRelationInput {
@@ -177,4 +178,13 @@ export class usersOrderByWithRelationInput {
 
     @Field(() => customers_commentsOrderByRelationAggregateInput, {nullable:true})
     customers_comments_created_byTousers?: customers_commentsOrderByRelationAggregateInput;
+
+    @Field(() => ordersOrderByRelationAggregateInput, {nullable:true})
+    orders_created_byTousers?: ordersOrderByRelationAggregateInput;
+
+    @Field(() => ordersOrderByRelationAggregateInput, {nullable:true})
+    orders_updated_byTousers?: ordersOrderByRelationAggregateInput;
+
+    @Field(() => ordersOrderByRelationAggregateInput, {nullable:true})
+    orders_couriers?: ordersOrderByRelationAggregateInput;
 }

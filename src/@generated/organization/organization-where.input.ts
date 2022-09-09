@@ -10,6 +10,8 @@ import { Work_schedulesListRelationFilter } from '../prisma/work-schedules-list-
 import { UsersRelationFilter } from '../prisma/users-relation-filter.input';
 import { Delivery_pricingListRelationFilter } from '../prisma/delivery-pricing-list-relation-filter.input';
 import { TerminalsListRelationFilter } from '../prisma/terminals-list-relation-filter.input';
+import { Order_statusListRelationFilter } from '../prisma/order-status-list-relation-filter.input';
+import { OrdersListRelationFilter } from '../prisma/orders-list-relation-filter.input';
 
 @InputType()
 export class organizationWhereInput {
@@ -97,4 +99,10 @@ export class organizationWhereInput {
 
     @Field(() => TerminalsListRelationFilter, {nullable:true})
     terminals_organization_idTorganization?: TerminalsListRelationFilter;
+
+    @Field(() => Order_statusListRelationFilter, {nullable:true})
+    order_status_organization?: Order_statusListRelationFilter;
+
+    @Field(() => OrdersListRelationFilter, {nullable:true})
+    orders_organization?: OrdersListRelationFilter;
 }

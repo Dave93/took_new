@@ -5,6 +5,8 @@ import { work_schedulesOrderByRelationAggregateInput } from '../work-schedules/w
 import { usersOrderByWithRelationInput } from '../users/users-order-by-with-relation.input';
 import { delivery_pricingOrderByRelationAggregateInput } from '../delivery-pricing/delivery-pricing-order-by-relation-aggregate.input';
 import { terminalsOrderByRelationAggregateInput } from '../terminals/terminals-order-by-relation-aggregate.input';
+import { order_statusOrderByRelationAggregateInput } from '../order-status/order-status-order-by-relation-aggregate.input';
+import { ordersOrderByRelationAggregateInput } from '../orders/orders-order-by-relation-aggregate.input';
 
 @InputType()
 export class organizationOrderByWithRelationInput {
@@ -83,4 +85,10 @@ export class organizationOrderByWithRelationInput {
 
     @Field(() => terminalsOrderByRelationAggregateInput, {nullable:true})
     terminals_organization_idTorganization?: terminalsOrderByRelationAggregateInput;
+
+    @Field(() => order_statusOrderByRelationAggregateInput, {nullable:true})
+    order_status_organization?: order_statusOrderByRelationAggregateInput;
+
+    @Field(() => ordersOrderByRelationAggregateInput, {nullable:true})
+    orders_organization?: ordersOrderByRelationAggregateInput;
 }
