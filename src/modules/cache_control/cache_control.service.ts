@@ -30,7 +30,16 @@ export class CacheControlService implements OnModuleInit {
   }
 
   async cacheTerminals() {
-    let terminals = await this.prismaService.terminals.findMany();
+    let terminals = await this.prismaService.terminals.findMany({
+      include: {
+        organization: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    });
     return this.cacheManager.set('terminals', terminals, { ttl: 0 });
   }
 
@@ -40,7 +49,16 @@ export class CacheControlService implements OnModuleInit {
   }
 
   async cacheOrderStatus() {
-    let orderStatus = await this.prismaService.order_status.findMany();
+    let orderStatus = await this.prismaService.order_status.findMany({
+      include: {
+        order_status_organization: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    });
     return this.cacheManager.set('orderStatus', orderStatus, { ttl: 0 });
   }
 
@@ -51,6 +69,18 @@ export class CacheControlService implements OnModuleInit {
   async getOrganization(id: string) {
     let organizations: organization[] = await this.cacheManager.get('organizations');
     return organizations.find((organization) => organization.id === id);
+  }
+  async getOrganizations() {
+    let organizations: organization[] = await this.cacheManager.get('organizations');
+    return organizations;
+  }
+
+  getTerminals() {
+    return this.cacheManager.get('terminals');
+  }
+
+  getOrderStatus() {
+    return this.cacheManager.get('orderStatus');
   }
 
   /** Getters end */

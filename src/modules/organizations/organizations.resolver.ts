@@ -22,6 +22,11 @@ export class OrganizationsResolver {
     return this.organizationsService.findAll(params);
   }
 
+  @Query(() => [organization], { name: 'cachedOrganizations' })
+  getAllCached() {
+    return this.organizationsService.getAllCached();
+  }
+
   @Query(() => PrismaAggregateCount, { name: 'organizationsConnection' })
   organizationConnection(@Args('where') where: organizationWhereInput) {
     return this.organizationsService.organizationConnection(where);

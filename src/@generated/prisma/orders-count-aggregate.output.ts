@@ -45,10 +45,16 @@ export class OrdersCountAggregate {
     pre_duration!: number;
 
     @Field(() => Int, {nullable:false})
+    order_number!: number;
+
+    @Field(() => Int, {nullable:false})
     distance!: number;
 
     @Field(() => Int, {nullable:false})
     duration!: number;
+
+    @Field(() => Int, {nullable:false})
+    order_price!: number;
 
     @Field(() => Int, {nullable:false})
     delivery_price!: number;
@@ -66,13 +72,7 @@ export class OrdersCountAggregate {
     delivery_comment!: number;
 
     @Field(() => Int, {nullable:false})
-    delivery_phone!: number;
-
-    @Field(() => Int, {nullable:false})
-    delivery_name!: number;
-
-    @Field(() => Int, {nullable:false})
-    payment_type_id!: number;
+    payment_type!: number;
 
     @Field(() => Int, {nullable:false})
     cancel_reason!: number;

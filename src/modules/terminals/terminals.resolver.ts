@@ -27,6 +27,11 @@ export class TerminalsResolver {
     return this.terminalsService.findAll(params);
   }
 
+  @Query(() => [terminals], { name: 'cachedTerminals' })
+  getAllCached() {
+    return this.terminalsService.getAllCached();
+  }
+
   @Query(() => terminals, { name: 'terminal' })
   findOne(@Args('id', { type: () => String }) id: string) {
     return this.terminalsService.findOne(id);

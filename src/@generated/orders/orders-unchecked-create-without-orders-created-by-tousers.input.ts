@@ -47,11 +47,17 @@ export class ordersUncheckedCreateWithoutOrders_created_byTousersInput {
     @Field(() => Int, {nullable:true})
     pre_duration?: number;
 
+    @Field(() => String, {nullable:false})
+    order_number!: string;
+
     @Field(() => Float, {nullable:true})
     distance?: number;
 
     @Field(() => Int, {nullable:true})
     duration?: number;
+
+    @Field(() => Float, {nullable:true})
+    order_price?: number;
 
     @Field(() => Float, {nullable:true})
     delivery_price?: number;
@@ -69,13 +75,7 @@ export class ordersUncheckedCreateWithoutOrders_created_byTousersInput {
     delivery_comment?: string;
 
     @Field(() => String, {nullable:false})
-    delivery_phone!: string;
-
-    @Field(() => String, {nullable:false})
-    delivery_name!: string;
-
-    @Field(() => String, {nullable:false})
-    payment_type_id!: string;
+    payment_type!: string;
 
     @Field(() => String, {nullable:true})
     cancel_reason?: string;

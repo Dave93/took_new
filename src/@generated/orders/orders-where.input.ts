@@ -67,11 +67,17 @@ export class ordersWhereInput {
     @Field(() => IntFilter, {nullable:true})
     pre_duration?: IntFilter;
 
+    @Field(() => StringFilter, {nullable:true})
+    order_number?: StringFilter;
+
     @Field(() => FloatNullableFilter, {nullable:true})
     distance?: FloatNullableFilter;
 
     @Field(() => IntNullableFilter, {nullable:true})
     duration?: IntNullableFilter;
+
+    @Field(() => FloatFilter, {nullable:true})
+    order_price?: FloatFilter;
 
     @Field(() => FloatFilter, {nullable:true})
     delivery_price?: FloatFilter;
@@ -89,13 +95,7 @@ export class ordersWhereInput {
     delivery_comment?: StringNullableFilter;
 
     @Field(() => StringFilter, {nullable:true})
-    delivery_phone?: StringFilter;
-
-    @Field(() => StringFilter, {nullable:true})
-    delivery_name?: StringFilter;
-
-    @Field(() => StringFilter, {nullable:true})
-    payment_type_id?: StringFilter;
+    payment_type?: StringFilter;
 
     @Field(() => StringNullableFilter, {nullable:true})
     cancel_reason?: StringNullableFilter;

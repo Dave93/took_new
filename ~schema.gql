@@ -397,16 +397,16 @@ type orders {
   to_lon: Float!
   pre_distance: Float!
   pre_duration: Int!
+  order_number: String!
   distance: Float
   duration: Int
+  order_price: Float!
   delivery_price: Float!
   delivery_address: String!
   delivery_date: DateTime!
   finished_date: DateTime
   delivery_comment: String
-  delivery_phone: String!
-  delivery_name: String!
-  payment_type_id: String!
+  payment_type: String!
   cancel_reason: String
   order_items: JSON
   created_at: DateTime!
@@ -699,11 +699,6 @@ type OrderStatus {
   exampleField: Int!
 }
 
-type Order {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
 type Query {
   roles(where: rolesWhereInput, orderBy: [rolesOrderByWithRelationInput!], cursor: rolesWhereUniqueInput, take: Int, skip: Int, distinct: [RolesScalarFieldEnum!]): [roles!]!
   rolesConnection(where: rolesWhereInput!): PrismaAggregateCount!
@@ -720,6 +715,7 @@ type Query {
   deliveryPricingsConnection(where: delivery_pricingWhereInput!): PrismaAggregateCount!
   deliveryPricing(id: String!): delivery_pricing!
   organizations(where: organizationWhereInput, orderBy: [organizationOrderByWithRelationInput!], cursor: organizationWhereUniqueInput, take: Int, skip: Int, distinct: [OrganizationScalarFieldEnum!]): [organization!]!
+  cachedOrganizations: [organization!]!
   organizationsConnection(where: organizationWhereInput!): PrismaAggregateCount!
   organization(id: String!): organization!
   workSchedulesConnection(where: work_schedulesWhereInput!): PrismaAggregateCount!
@@ -727,6 +723,7 @@ type Query {
   workSchedule(id: String!): work_schedules!
   terminalsConnection(where: terminalsWhereInput!): PrismaAggregateCount!
   terminals(where: terminalsWhereInput, orderBy: [terminalsOrderByWithRelationInput!], cursor: terminalsWhereUniqueInput, take: Int, skip: Int, distinct: [TerminalsScalarFieldEnum!]): [terminals!]!
+  cachedTerminals: [terminals!]!
   terminal(id: String!): terminals!
   usersConnection(where: usersWhereInput!): PrismaAggregateCount!
   users(where: usersWhereInput, orderBy: [usersOrderByWithRelationInput!], cursor: usersWhereUniqueInput, take: Int, skip: Int, distinct: [UsersScalarFieldEnum!]): [users!]!
@@ -738,9 +735,11 @@ type Query {
   customer(id: String!): customers!
   orderStatusesConnection(where: order_statusWhereInput!): PrismaAggregateCount!
   orderStatuses(where: order_statusWhereInput, orderBy: [order_statusOrderByWithRelationInput!], cursor: order_statusWhereUniqueInput, take: Int, skip: Int, distinct: [Order_statusScalarFieldEnum!]): [order_status!]!
+  cachedOrderStatuses: [order_status!]!
   orderStatus(id: String!): order_status!
-  orders: [Order!]!
-  order(id: Int!): Order!
+  ordersConnection(where: ordersWhereInput!): PrismaAggregateCount!
+  orders(where: ordersWhereInput, orderBy: [ordersOrderByWithRelationInput!], cursor: ordersWhereUniqueInput, take: Int, skip: Int, distinct: [OrdersScalarFieldEnum!]): [orders!]!
+  order(id: String!): orders!
 }
 
 input rolesWhereInput {
@@ -1611,16 +1610,16 @@ input ordersWhereInput {
   to_lon: FloatFilter
   pre_distance: FloatFilter
   pre_duration: IntFilter
+  order_number: StringFilter
   distance: FloatNullableFilter
   duration: IntNullableFilter
+  order_price: FloatFilter
   delivery_price: FloatFilter
   delivery_address: StringFilter
   delivery_date: DateTimeFilter
   finished_date: DateTimeNullableFilter
   delivery_comment: StringNullableFilter
-  delivery_phone: StringFilter
-  delivery_name: StringFilter
-  payment_type_id: StringFilter
+  payment_type: StringFilter
   cancel_reason: StringNullableFilter
   order_items: JsonNullableFilter
   created_at: DateTimeFilter
@@ -2282,6 +2281,81 @@ enum Order_statusScalarFieldEnum {
   finish
   cancel
   waiting
+}
+
+input ordersOrderByWithRelationInput {
+  id: SortOrder
+  organization_id: SortOrder
+  customer_id: SortOrder
+  courier_id: SortOrder
+  terminal_id: SortOrder
+  order_status_id: SortOrder
+  delivery_type: SortOrder
+  from_lat: SortOrder
+  from_lon: SortOrder
+  to_lat: SortOrder
+  to_lon: SortOrder
+  pre_distance: SortOrder
+  pre_duration: SortOrder
+  order_number: SortOrder
+  distance: SortOrder
+  duration: SortOrder
+  order_price: SortOrder
+  delivery_price: SortOrder
+  delivery_address: SortOrder
+  delivery_date: SortOrder
+  finished_date: SortOrder
+  delivery_comment: SortOrder
+  payment_type: SortOrder
+  cancel_reason: SortOrder
+  order_items: SortOrder
+  created_at: SortOrder
+  updated_at: SortOrder
+  created_by: SortOrder
+  updated_by: SortOrder
+  orders_created_byTousers: usersOrderByWithRelationInput
+  orders_updated_byTousers: usersOrderByWithRelationInput
+  orders_customers: customersOrderByWithRelationInput
+  orders_couriers: usersOrderByWithRelationInput
+  orders_order_status: order_statusOrderByWithRelationInput
+  orders_organization: organizationOrderByWithRelationInput
+  orders_terminals: terminalsOrderByWithRelationInput
+}
+
+input ordersWhereUniqueInput {
+  id: String
+}
+
+enum OrdersScalarFieldEnum {
+  id
+  organization_id
+  customer_id
+  courier_id
+  terminal_id
+  order_status_id
+  delivery_type
+  from_lat
+  from_lon
+  to_lat
+  to_lon
+  pre_distance
+  pre_duration
+  order_number
+  distance
+  duration
+  order_price
+  delivery_price
+  delivery_address
+  delivery_date
+  finished_date
+  delivery_comment
+  payment_type
+  cancel_reason
+  order_items
+  created_at
+  updated_at
+  created_by
+  updated_by
 }
 
 type Mutation {
@@ -4892,16 +4966,16 @@ input ordersCreateWithoutOrders_order_statusInput {
   to_lon: Float
   pre_distance: Float
   pre_duration: Int
+  order_number: String!
   distance: Float
   duration: Int
+  order_price: Float
   delivery_price: Float
   delivery_address: String!
   delivery_date: DateTime!
   finished_date: DateTime
   delivery_comment: String
-  delivery_phone: String!
-  delivery_name: String!
-  payment_type_id: String!
+  payment_type: String!
   cancel_reason: String
   order_items: JSON
   created_at: DateTime
@@ -5570,16 +5644,16 @@ input ordersCreateWithoutOrders_customersInput {
   to_lon: Float
   pre_distance: Float
   pre_duration: Int
+  order_number: String!
   distance: Float
   duration: Int
+  order_price: Float
   delivery_price: Float
   delivery_address: String!
   delivery_date: DateTime!
   finished_date: DateTime
   delivery_comment: String
-  delivery_phone: String!
-  delivery_name: String!
-  payment_type_id: String!
+  payment_type: String!
   cancel_reason: String
   order_items: JSON
   created_at: DateTime
@@ -5671,16 +5745,16 @@ input ordersCreateWithoutOrders_created_byTousersInput {
   to_lon: Float
   pre_distance: Float
   pre_duration: Int
+  order_number: String!
   distance: Float
   duration: Int
+  order_price: Float
   delivery_price: Float
   delivery_address: String!
   delivery_date: DateTime!
   finished_date: DateTime
   delivery_comment: String
-  delivery_phone: String!
-  delivery_name: String!
-  payment_type_id: String!
+  payment_type: String!
   cancel_reason: String
   order_items: JSON
   created_at: DateTime
@@ -5799,16 +5873,16 @@ input ordersCreateWithoutOrders_updated_byTousersInput {
   to_lon: Float
   pre_distance: Float
   pre_duration: Int
+  order_number: String!
   distance: Float
   duration: Int
+  order_price: Float
   delivery_price: Float
   delivery_address: String!
   delivery_date: DateTime!
   finished_date: DateTime
   delivery_comment: String
-  delivery_phone: String!
-  delivery_name: String!
-  payment_type_id: String!
+  payment_type: String!
   cancel_reason: String
   order_items: JSON
   created_at: DateTime
@@ -6053,16 +6127,16 @@ input ordersCreateWithoutOrders_couriersInput {
   to_lon: Float
   pre_distance: Float
   pre_duration: Int
+  order_number: String!
   distance: Float
   duration: Int
+  order_price: Float
   delivery_price: Float
   delivery_address: String!
   delivery_date: DateTime!
   finished_date: DateTime
   delivery_comment: String
-  delivery_phone: String!
-  delivery_name: String!
-  payment_type_id: String!
+  payment_type: String!
   cancel_reason: String
   order_items: JSON
   created_at: DateTime
@@ -6146,10 +6220,6 @@ input ordersCreateOrConnectWithoutOrders_couriersInput {
   create: ordersCreateWithoutOrders_couriersInput!
 }
 
-input ordersWhereUniqueInput {
-  id: String
-}
-
 input ordersCreateManyOrders_couriersInputEnvelope {
   data: [ordersCreateManyOrders_couriersInput!]!
   skipDuplicates: Boolean
@@ -6168,16 +6238,16 @@ input ordersCreateManyOrders_couriersInput {
   to_lon: Float
   pre_distance: Float
   pre_duration: Int
+  order_number: String!
   distance: Float
   duration: Int
+  order_price: Float
   delivery_price: Float
   delivery_address: String!
   delivery_date: DateTime!
   finished_date: DateTime
   delivery_comment: String
-  delivery_phone: String!
-  delivery_name: String!
-  payment_type_id: String!
+  payment_type: String!
   cancel_reason: String
   order_items: JSON
   created_at: DateTime
@@ -6230,16 +6300,16 @@ input ordersCreateWithoutOrders_terminalsInput {
   to_lon: Float
   pre_distance: Float
   pre_duration: Int
+  order_number: String!
   distance: Float
   duration: Int
+  order_price: Float
   delivery_price: Float
   delivery_address: String!
   delivery_date: DateTime!
   finished_date: DateTime
   delivery_comment: String
-  delivery_phone: String!
-  delivery_name: String!
-  payment_type_id: String!
+  payment_type: String!
   cancel_reason: String
   order_items: JSON
   created_at: DateTime
@@ -6275,16 +6345,16 @@ input ordersCreateManyOrders_terminalsInput {
   to_lon: Float
   pre_distance: Float
   pre_duration: Int
+  order_number: String!
   distance: Float
   duration: Int
+  order_price: Float
   delivery_price: Float
   delivery_address: String!
   delivery_date: DateTime!
   finished_date: DateTime
   delivery_comment: String
-  delivery_phone: String!
-  delivery_name: String!
-  payment_type_id: String!
+  payment_type: String!
   cancel_reason: String
   order_items: JSON
   created_at: DateTime
@@ -6334,16 +6404,16 @@ input ordersCreateWithoutOrders_organizationInput {
   to_lon: Float
   pre_distance: Float
   pre_duration: Int
+  order_number: String!
   distance: Float
   duration: Int
+  order_price: Float
   delivery_price: Float
   delivery_address: String!
   delivery_date: DateTime!
   finished_date: DateTime
   delivery_comment: String
-  delivery_phone: String!
-  delivery_name: String!
-  payment_type_id: String!
+  payment_type: String!
   cancel_reason: String
   order_items: JSON
   created_at: DateTime
@@ -6379,16 +6449,16 @@ input ordersCreateManyOrders_organizationInput {
   to_lon: Float
   pre_distance: Float
   pre_duration: Int
+  order_number: String!
   distance: Float
   duration: Int
+  order_price: Float
   delivery_price: Float
   delivery_address: String!
   delivery_date: DateTime!
   finished_date: DateTime
   delivery_comment: String
-  delivery_phone: String!
-  delivery_name: String!
-  payment_type_id: String!
+  payment_type: String!
   cancel_reason: String
   order_items: JSON
   created_at: DateTime
@@ -6431,16 +6501,16 @@ input ordersCreateManyOrders_updated_byTousersInput {
   to_lon: Float
   pre_distance: Float
   pre_duration: Int
+  order_number: String!
   distance: Float
   duration: Int
+  order_price: Float
   delivery_price: Float
   delivery_address: String!
   delivery_date: DateTime!
   finished_date: DateTime
   delivery_comment: String
-  delivery_phone: String!
-  delivery_name: String!
-  payment_type_id: String!
+  payment_type: String!
   cancel_reason: String
   order_items: JSON
   created_at: DateTime
@@ -6503,16 +6573,16 @@ input ordersCreateManyOrders_created_byTousersInput {
   to_lon: Float
   pre_distance: Float
   pre_duration: Int
+  order_number: String!
   distance: Float
   duration: Int
+  order_price: Float
   delivery_price: Float
   delivery_address: String!
   delivery_date: DateTime!
   finished_date: DateTime
   delivery_comment: String
-  delivery_phone: String!
-  delivery_name: String!
-  payment_type_id: String!
+  payment_type: String!
   cancel_reason: String
   order_items: JSON
   created_at: DateTime
@@ -6548,16 +6618,16 @@ input ordersCreateManyOrders_customersInput {
   to_lon: Float
   pre_distance: Float
   pre_duration: Int
+  order_number: String!
   distance: Float
   duration: Int
+  order_price: Float
   delivery_price: Float
   delivery_address: String!
   delivery_date: DateTime!
   finished_date: DateTime
   delivery_comment: String
-  delivery_phone: String!
-  delivery_name: String!
-  payment_type_id: String!
+  payment_type: String!
   cancel_reason: String
   order_items: JSON
   created_at: DateTime
@@ -6892,16 +6962,16 @@ input ordersCreateManyOrders_order_statusInput {
   to_lon: Float
   pre_distance: Float
   pre_duration: Int
+  order_number: String!
   distance: Float
   duration: Int
+  order_price: Float
   delivery_price: Float
   delivery_address: String!
   delivery_date: DateTime!
   finished_date: DateTime
   delivery_comment: String
-  delivery_phone: String!
-  delivery_name: String!
-  payment_type_id: String!
+  payment_type: String!
   cancel_reason: String
   order_items: JSON
   created_at: DateTime
@@ -11154,16 +11224,16 @@ input ordersUpdateWithoutOrders_order_statusInput {
   to_lon: Float
   pre_distance: Float
   pre_duration: Int
+  order_number: String
   distance: Float
   duration: Int
+  order_price: Float
   delivery_price: Float
   delivery_address: String
   delivery_date: DateTime
   finished_date: DateTime
   delivery_comment: String
-  delivery_phone: String
-  delivery_name: String
-  payment_type_id: String
+  payment_type: String
   cancel_reason: String
   order_items: JSON
   created_at: DateTime
@@ -12018,16 +12088,16 @@ input ordersUpdateWithoutOrders_customersInput {
   to_lon: Float
   pre_distance: Float
   pre_duration: Int
+  order_number: String
   distance: Float
   duration: Int
+  order_price: Float
   delivery_price: Float
   delivery_address: String
   delivery_date: DateTime
   finished_date: DateTime
   delivery_comment: String
-  delivery_phone: String
-  delivery_name: String
-  payment_type_id: String
+  payment_type: String
   cancel_reason: String
   order_items: JSON
   created_at: DateTime
@@ -12141,16 +12211,16 @@ input ordersUpdateWithoutOrders_created_byTousersInput {
   to_lon: Float
   pre_distance: Float
   pre_duration: Int
+  order_number: String
   distance: Float
   duration: Int
+  order_price: Float
   delivery_price: Float
   delivery_address: String
   delivery_date: DateTime
   finished_date: DateTime
   delivery_comment: String
-  delivery_phone: String
-  delivery_name: String
-  payment_type_id: String
+  payment_type: String
   cancel_reason: String
   order_items: JSON
   created_at: DateTime
@@ -12311,16 +12381,16 @@ input ordersUpdateWithoutOrders_updated_byTousersInput {
   to_lon: Float
   pre_distance: Float
   pre_duration: Int
+  order_number: String
   distance: Float
   duration: Int
+  order_price: Float
   delivery_price: Float
   delivery_address: String
   delivery_date: DateTime
   finished_date: DateTime
   delivery_comment: String
-  delivery_phone: String
-  delivery_name: String
-  payment_type_id: String
+  payment_type: String
   cancel_reason: String
   order_items: JSON
   created_at: DateTime
@@ -12627,16 +12697,16 @@ input ordersUpdateWithoutOrders_couriersInput {
   to_lon: Float
   pre_distance: Float
   pre_duration: Int
+  order_number: String
   distance: Float
   duration: Int
+  order_price: Float
   delivery_price: Float
   delivery_address: String
   delivery_date: DateTime
   finished_date: DateTime
   delivery_comment: String
-  delivery_phone: String
-  delivery_name: String
-  payment_type_id: String
+  payment_type: String
   cancel_reason: String
   order_items: JSON
   created_at: DateTime
@@ -12746,16 +12816,16 @@ input ordersScalarWhereInput {
   to_lon: FloatFilter
   pre_distance: FloatFilter
   pre_duration: IntFilter
+  order_number: StringFilter
   distance: FloatNullableFilter
   duration: IntNullableFilter
+  order_price: FloatFilter
   delivery_price: FloatFilter
   delivery_address: StringFilter
   delivery_date: DateTimeFilter
   finished_date: DateTimeNullableFilter
   delivery_comment: StringNullableFilter
-  delivery_phone: StringFilter
-  delivery_name: StringFilter
-  payment_type_id: StringFilter
+  payment_type: StringFilter
   cancel_reason: StringNullableFilter
   order_items: JsonNullableFilter
   created_at: DateTimeFilter
@@ -12773,16 +12843,16 @@ input ordersUpdateManyMutationInput {
   to_lon: Float
   pre_distance: Float
   pre_duration: Int
+  order_number: String
   distance: Float
   duration: Int
+  order_price: Float
   delivery_price: Float
   delivery_address: String
   delivery_date: DateTime
   finished_date: DateTime
   delivery_comment: String
-  delivery_phone: String
-  delivery_name: String
-  payment_type_id: String
+  payment_type: String
   cancel_reason: String
   order_items: JSON
   created_at: DateTime
@@ -12840,16 +12910,16 @@ input ordersUpdateWithoutOrders_terminalsInput {
   to_lon: Float
   pre_distance: Float
   pre_duration: Int
+  order_number: String
   distance: Float
   duration: Int
+  order_price: Float
   delivery_price: Float
   delivery_address: String
   delivery_date: DateTime
   finished_date: DateTime
   delivery_comment: String
-  delivery_phone: String
-  delivery_name: String
-  payment_type_id: String
+  payment_type: String
   cancel_reason: String
   order_items: JSON
   created_at: DateTime
@@ -12943,16 +13013,16 @@ input ordersUpdateWithoutOrders_organizationInput {
   to_lon: Float
   pre_distance: Float
   pre_duration: Int
+  order_number: String
   distance: Float
   duration: Int
+  order_price: Float
   delivery_price: Float
   delivery_address: String
   delivery_date: DateTime
   finished_date: DateTime
   delivery_comment: String
-  delivery_phone: String
-  delivery_name: String
-  payment_type_id: String
+  payment_type: String
   cancel_reason: String
   order_items: JSON
   created_at: DateTime

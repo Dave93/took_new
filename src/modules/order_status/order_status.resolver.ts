@@ -30,6 +30,11 @@ export class OrderStatusResolver {
     return this.orderStatusService.findAll(params);
   }
 
+  @Query(() => [order_status], { name: 'cachedOrderStatuses' })
+  getAllCached() {
+    return this.orderStatusService.getAllCached();
+  }
+
   @Query(() => order_status, { name: 'orderStatus' })
   findOne(@Args('id', { type: () => String }) id: string) {
     return this.orderStatusService.findOne(id);

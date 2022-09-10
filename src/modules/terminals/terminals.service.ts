@@ -115,4 +115,8 @@ export class TerminalsService {
     await this.cacheControl.cacheTerminals();
     return res;
   }
+
+  getAllCached() {
+    return this.cacheControl.getTerminals();
+  }
 }

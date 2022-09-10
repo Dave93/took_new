@@ -53,11 +53,17 @@ export class orders {
     @Field(() => Int, {nullable:false,defaultValue:0})
     pre_duration!: number;
 
+    @Field(() => String, {nullable:false})
+    order_number!: string;
+
     @Field(() => Float, {nullable:true,defaultValue:0})
     distance!: number | null;
 
     @Field(() => Int, {nullable:true,defaultValue:0})
     duration!: number | null;
+
+    @Field(() => Float, {nullable:false,defaultValue:0})
+    order_price!: number;
 
     @Field(() => Float, {nullable:false,defaultValue:0})
     delivery_price!: number;
@@ -75,13 +81,7 @@ export class orders {
     delivery_comment!: string | null;
 
     @Field(() => String, {nullable:false})
-    delivery_phone!: string;
-
-    @Field(() => String, {nullable:false})
-    delivery_name!: string;
-
-    @Field(() => String, {nullable:false})
-    payment_type_id!: string;
+    payment_type!: string;
 
     @Field(() => String, {nullable:true})
     cancel_reason!: string | null;

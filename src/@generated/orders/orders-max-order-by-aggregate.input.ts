@@ -45,10 +45,16 @@ export class ordersMaxOrderByAggregateInput {
     pre_duration?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    order_number?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     distance?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
     duration?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    order_price?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
     delivery_price?: keyof typeof SortOrder;
@@ -66,13 +72,7 @@ export class ordersMaxOrderByAggregateInput {
     delivery_comment?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    delivery_phone?: keyof typeof SortOrder;
-
-    @Field(() => SortOrder, {nullable:true})
-    delivery_name?: keyof typeof SortOrder;
-
-    @Field(() => SortOrder, {nullable:true})
-    payment_type_id?: keyof typeof SortOrder;
+    payment_type?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
     cancel_reason?: keyof typeof SortOrder;

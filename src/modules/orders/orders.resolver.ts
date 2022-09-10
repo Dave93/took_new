@@ -3,8 +3,13 @@ import { OrdersService } from './orders.service';
 import { Order } from './entities/order.entity';
 import { CreateOrderInput } from './dto/create-order.input';
 import { UpdateOrderInput } from './dto/update-order.input';
+import { orders } from 'src/@generated/orders/orders.model';
+import { FindManyordersArgs } from 'src/@generated/orders/find-manyorders.args';
+import { PrismaAggregateCount } from '@common/dtos/prisma-aggregate-count';
+import { work_schedulesWhereInput } from 'src/@generated/work-schedules/work-schedules-where.input';
+import { ordersWhereInput } from 'src/@generated/orders/orders-where.input';
 
-@Resolver(() => Order)
+@Resolver(() => orders)
 export class OrdersResolver {
   constructor(private readonly ordersService: OrdersService) {}
 
@@ -13,13 +18,18 @@ export class OrdersResolver {
   //   return this.ordersService.create(createOrderInput);
   // }
 
-  @Query(() => [Order], { name: 'orders' })
-  findAll() {
-    return this.ordersService.findAll();
+  @Query(() => PrismaAggregateCount, { name: 'ordersConnection' })
+  ordersConnection(@Args('where') where: ordersWhereInput) {
+    return this.ordersService.ordersConnection(where);
   }
 
-  @Query(() => Order, { name: 'order' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  @Query(() => [orders], { name: 'orders' })
+  findAll(@Args() params: FindManyordersArgs) {
+    return this.ordersService.findAll(params);
+  }
+
+  @Query(() => orders, { name: 'order' })
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.ordersService.findOne(id);
   }
 

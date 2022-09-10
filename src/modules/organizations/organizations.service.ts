@@ -45,4 +45,8 @@ export class OrganizationsService {
   remove(id: string) {
     return `This action removes a #${id} organization`;
   }
+
+  getAllCached() {
+    return this.cacheControl.getOrganizations();
+  }
 }

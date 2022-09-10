@@ -62,11 +62,17 @@ export class ordersScalarWhereWithAggregatesInput {
     @Field(() => IntWithAggregatesFilter, {nullable:true})
     pre_duration?: IntWithAggregatesFilter;
 
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    order_number?: StringWithAggregatesFilter;
+
     @Field(() => FloatNullableWithAggregatesFilter, {nullable:true})
     distance?: FloatNullableWithAggregatesFilter;
 
     @Field(() => IntNullableWithAggregatesFilter, {nullable:true})
     duration?: IntNullableWithAggregatesFilter;
+
+    @Field(() => FloatWithAggregatesFilter, {nullable:true})
+    order_price?: FloatWithAggregatesFilter;
 
     @Field(() => FloatWithAggregatesFilter, {nullable:true})
     delivery_price?: FloatWithAggregatesFilter;
@@ -84,13 +90,7 @@ export class ordersScalarWhereWithAggregatesInput {
     delivery_comment?: StringNullableWithAggregatesFilter;
 
     @Field(() => StringWithAggregatesFilter, {nullable:true})
-    delivery_phone?: StringWithAggregatesFilter;
-
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    delivery_name?: StringWithAggregatesFilter;
-
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    payment_type_id?: StringWithAggregatesFilter;
+    payment_type?: StringWithAggregatesFilter;
 
     @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
     cancel_reason?: StringNullableWithAggregatesFilter;

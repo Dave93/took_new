@@ -38,11 +38,17 @@ export class ordersUpdateWithoutOrders_customersInput {
     @Field(() => Int, {nullable:true})
     pre_duration?: number;
 
+    @Field(() => String, {nullable:true})
+    order_number?: string;
+
     @Field(() => Float, {nullable:true})
     distance?: number;
 
     @Field(() => Int, {nullable:true})
     duration?: number;
+
+    @Field(() => Float, {nullable:true})
+    order_price?: number;
 
     @Field(() => Float, {nullable:true})
     delivery_price?: number;
@@ -60,13 +66,7 @@ export class ordersUpdateWithoutOrders_customersInput {
     delivery_comment?: string;
 
     @Field(() => String, {nullable:true})
-    delivery_phone?: string;
-
-    @Field(() => String, {nullable:true})
-    delivery_name?: string;
-
-    @Field(() => String, {nullable:true})
-    payment_type_id?: string;
+    payment_type?: string;
 
     @Field(() => String, {nullable:true})
     cancel_reason?: string;
