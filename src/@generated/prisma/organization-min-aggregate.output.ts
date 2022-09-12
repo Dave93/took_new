@@ -2,6 +2,7 @@ import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
 import { organization_system_type } from '../organization/organization-system-type.enum';
 import { Int } from '@nestjs/graphql';
+import { organization_payment_types } from '../organization/organization-payment-types.enum';
 
 @ObjectType()
 export class OrganizationMinAggregate {
@@ -53,6 +54,9 @@ export class OrganizationMinAggregate {
 
     @Field(() => Int, {nullable:true})
     max_active_order_count?: number;
+
+    @Field(() => organization_payment_types, {nullable:true})
+    payment_type?: keyof typeof organization_payment_types;
 
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;

@@ -39,6 +39,9 @@ import { customers_commentsUpdateManyWithoutCustomers_comments_created_byTousers
 import { ordersUpdateManyWithoutOrders_created_byTousersNestedInput } from '../orders/orders-update-many-without-orders-created-by-tousers-nested.input';
 import { ordersUpdateManyWithoutOrders_updated_byTousersNestedInput } from '../orders/orders-update-many-without-orders-updated-by-tousers-nested.input';
 import { ordersUpdateManyWithoutOrders_couriersNestedInput } from '../orders/orders-update-many-without-orders-couriers-nested.input';
+import { order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput } from '../order-actions/order-actions-update-many-without-order-actions-created-by-tousers-nested.input';
+import { order_locationsUpdateManyWithoutOrder_locations_created_byTousersNestedInput } from '../order-locations/order-locations-update-many-without-order-locations-created-by-tousers-nested.input';
+import { order_locationsUpdateManyWithoutOrder_locations_couriersNestedInput } from '../order-locations/order-locations-update-many-without-order-locations-couriers-nested.input';
 
 @InputType()
 export class usersUpdateWithoutUsers_roles_usersTousers_roles_updated_byInput {
@@ -204,4 +207,13 @@ export class usersUpdateWithoutUsers_roles_usersTousers_roles_updated_byInput {
 
     @Field(() => ordersUpdateManyWithoutOrders_couriersNestedInput, {nullable:true})
     orders_couriers?: ordersUpdateManyWithoutOrders_couriersNestedInput;
+
+    @Field(() => order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput, {nullable:true})
+    order_actions_created_byTousers?: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput;
+
+    @Field(() => order_locationsUpdateManyWithoutOrder_locations_created_byTousersNestedInput, {nullable:true})
+    order_locations_created_byTousers?: order_locationsUpdateManyWithoutOrder_locations_created_byTousersNestedInput;
+
+    @Field(() => order_locationsUpdateManyWithoutOrder_locations_couriersNestedInput, {nullable:true})
+    order_locations_couriers?: order_locationsUpdateManyWithoutOrder_locations_couriersNestedInput;
 }

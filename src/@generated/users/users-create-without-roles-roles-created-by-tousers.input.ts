@@ -39,6 +39,9 @@ import { customers_commentsCreateNestedManyWithoutCustomers_comments_created_byT
 import { ordersCreateNestedManyWithoutOrders_created_byTousersInput } from '../orders/orders-create-nested-many-without-orders-created-by-tousers.input';
 import { ordersCreateNestedManyWithoutOrders_updated_byTousersInput } from '../orders/orders-create-nested-many-without-orders-updated-by-tousers.input';
 import { ordersCreateNestedManyWithoutOrders_couriersInput } from '../orders/orders-create-nested-many-without-orders-couriers.input';
+import { order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput } from '../order-actions/order-actions-create-nested-many-without-order-actions-created-by-tousers.input';
+import { order_locationsCreateNestedManyWithoutOrder_locations_created_byTousersInput } from '../order-locations/order-locations-create-nested-many-without-order-locations-created-by-tousers.input';
+import { order_locationsCreateNestedManyWithoutOrder_locations_couriersInput } from '../order-locations/order-locations-create-nested-many-without-order-locations-couriers.input';
 
 @InputType()
 export class usersCreateWithoutRoles_roles_created_byTousersInput {
@@ -204,4 +207,13 @@ export class usersCreateWithoutRoles_roles_created_byTousersInput {
 
     @Field(() => ordersCreateNestedManyWithoutOrders_couriersInput, {nullable:true})
     orders_couriers?: ordersCreateNestedManyWithoutOrders_couriersInput;
+
+    @Field(() => order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput, {nullable:true})
+    order_actions_created_byTousers?: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput;
+
+    @Field(() => order_locationsCreateNestedManyWithoutOrder_locations_created_byTousersInput, {nullable:true})
+    order_locations_created_byTousers?: order_locationsCreateNestedManyWithoutOrder_locations_created_byTousersInput;
+
+    @Field(() => order_locationsCreateNestedManyWithoutOrder_locations_couriersInput, {nullable:true})
+    order_locations_couriers?: order_locationsCreateNestedManyWithoutOrder_locations_couriersInput;
 }

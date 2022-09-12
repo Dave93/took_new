@@ -54,6 +54,9 @@ export class OrganizationCountAggregate {
     max_active_order_count!: number;
 
     @Field(() => Int, {nullable:false})
+    payment_type!: number;
+
+    @Field(() => Int, {nullable:false})
     created_at!: number;
 
     @Field(() => Int, {nullable:false})

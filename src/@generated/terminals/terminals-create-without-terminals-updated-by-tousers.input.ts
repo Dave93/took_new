@@ -5,6 +5,8 @@ import { organizationCreateNestedOneWithoutTerminals_organization_idTorganizatio
 import { usersCreateNestedOneWithoutTerminals_created_byTousersInput } from '../users/users-create-nested-one-without-terminals-created-by-tousers.input';
 import { users_terminalsCreateNestedManyWithoutTerminalsInput } from '../users-terminals/users-terminals-create-nested-many-without-terminals.input';
 import { ordersCreateNestedManyWithoutOrders_terminalsInput } from '../orders/orders-create-nested-many-without-orders-terminals.input';
+import { order_actionsCreateNestedManyWithoutOrder_actions_terminalsInput } from '../order-actions/order-actions-create-nested-many-without-order-actions-terminals.input';
+import { order_locationsCreateNestedManyWithoutOrder_locations_terminalsInput } from '../order-locations/order-locations-create-nested-many-without-order-locations-terminals.input';
 
 @InputType()
 export class terminalsCreateWithoutTerminals_updated_byTousersInput {
@@ -50,4 +52,10 @@ export class terminalsCreateWithoutTerminals_updated_byTousersInput {
 
     @Field(() => ordersCreateNestedManyWithoutOrders_terminalsInput, {nullable:true})
     orders_terminals?: ordersCreateNestedManyWithoutOrders_terminalsInput;
+
+    @Field(() => order_actionsCreateNestedManyWithoutOrder_actions_terminalsInput, {nullable:true})
+    order_actions_terminals?: order_actionsCreateNestedManyWithoutOrder_actions_terminalsInput;
+
+    @Field(() => order_locationsCreateNestedManyWithoutOrder_locations_terminalsInput, {nullable:true})
+    order_locations_terminals?: order_locationsCreateNestedManyWithoutOrder_locations_terminalsInput;
 }

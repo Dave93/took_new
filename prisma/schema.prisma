@@ -143,6 +143,9 @@ model users {
   orders_created_byTousers                              orders[]                @relation("orders_created_byTousers")
   orders_updated_byTousers                              orders[]                @relation("orders_updated_byTousers")
   orders_couriers                                       orders[]                @relation("orders_couriers")
+  order_actions_created_byTousers                       order_actions[]         @relation("order_actions_created_byTousers")
+  order_locations_created_byTousers                     order_locations[]       @relation("order_locations_created_byTousers")
+  order_locations_couriers                              order_locations[]       @relation("order_locations_couriers")
 }
 
 model users_permissions {
@@ -298,6 +301,8 @@ model terminals {
 
   users_terminals  users_terminals[]
   orders_terminals orders[]
+  order_actions_terminals order_actions[]
+  order_locations_terminals order_locations[]
 
   @@index([created_by], map: "fki_FK_terminals_created_by")
   @@index([updated_by], map: "fki_FK_terminals_updated_by")
@@ -320,6 +325,7 @@ model organization {
   description            String?
   max_distance           Int                      @default(0)
   max_active_order_count Int                      @default(0)
+  payment_type organization_payment_types @default(client)
   created_at             DateTime                 @default(now()) @db.Timestamptz(5)
   updated_at             DateTime                 @default(now()) @db.Timestamptz(5)
   created_by             String?                  @db.Uuid
@@ -461,6 +467,47 @@ model orders {
   orders_organization organization @relation(fields: [organization_id], references: [id], onDelete: NoAction, map: "FK_orders_organization_id")
 
   orders_terminals terminals @relation(fields: [terminal_id], references: [id], onDelete: NoAction, map: "FK_orders_terminal_id")
+
+  order_actions_orders order_actions[]
+
+  order_locations_orders order_locations[]
+}
+
+model order_actions {
+  id          String   @id(map: "PK_order_actions_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  order_id    String   @db.Uuid
+  duration    Int      @default(0)
+  action      String?
+  action_text String
+  terminal_id String   @db.Uuid
+  created_at  DateTime @default(now()) @db.Timestamptz(5)
+  created_by  String?  @db.Uuid
+
+  order_actions_created_byTousers users? @relation("order_actions_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_order_actions_created_by")
+  order_actions_orders            orders @relation(fields: [order_id], references: [id], onDelete: NoAction, map: "FK_order_actions_order_id")
+  order_actions_terminals         terminals @relation(fields: [terminal_id], references: [id], onDelete: NoAction, map: "FK_order_actions_terminal_id")
+}
+
+model order_locations {
+  id          String   @id(map: "PK_order_locations_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  order_id    String   @db.Uuid
+  terminal_id String   @db.Uuid
+  courier_id  String   @db.Uuid
+  lat         Float    @default(0)
+  lon         Float    @default(0)
+  created_at  DateTime @default(now()) @db.Timestamptz(5)
+  created_by  String?  @db.Uuid
+
+  order_locations_created_byTousers users? @relation("order_locations_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_order_locations_created_by")
+  order_locations_orders            orders @relation(fields: [order_id], references: [id], onDelete: NoAction, map: "FK_order_locations_order_id")
+  order_locations_terminals         terminals @relation(fields: [terminal_id], references: [id], onDelete: NoAction, map: "FK_order_locations_terminal_id")
+  order_locations_couriers          users @relation("order_locations_couriers", fields: [courier_id], references: [id], onDelete: NoAction, map: "FK_order_locations_courier_id")
+}
+
+enum organization_payment_types {
+  cash
+  card
+  client
 }
 
 enum organization_system_type {

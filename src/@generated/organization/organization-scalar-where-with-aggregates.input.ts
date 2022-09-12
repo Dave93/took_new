@@ -5,6 +5,7 @@ import { StringNullableWithAggregatesFilter } from '../prisma/string-nullable-wi
 import { BoolWithAggregatesFilter } from '../prisma/bool-with-aggregates-filter.input';
 import { Enumorganization_system_typeWithAggregatesFilter } from '../prisma/enumorganization-system-type-with-aggregates-filter.input';
 import { IntWithAggregatesFilter } from '../prisma/int-with-aggregates-filter.input';
+import { Enumorganization_payment_typesWithAggregatesFilter } from '../prisma/enumorganization-payment-types-with-aggregates-filter.input';
 import { DateTimeWithAggregatesFilter } from '../prisma/date-time-with-aggregates-filter.input';
 
 @InputType()
@@ -66,6 +67,9 @@ export class organizationScalarWhereWithAggregatesInput {
 
     @Field(() => IntWithAggregatesFilter, {nullable:true})
     max_active_order_count?: IntWithAggregatesFilter;
+
+    @Field(() => Enumorganization_payment_typesWithAggregatesFilter, {nullable:true})
+    payment_type?: Enumorganization_payment_typesWithAggregatesFilter;
 
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     created_at?: DateTimeWithAggregatesFilter;

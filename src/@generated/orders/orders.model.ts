@@ -10,6 +10,9 @@ import { customers } from '../customers/customers.model';
 import { order_status } from '../order-status/order-status.model';
 import { organization } from '../organization/organization.model';
 import { terminals } from '../terminals/terminals.model';
+import { order_actions } from '../order-actions/order-actions.model';
+import { order_locations } from '../order-locations/order-locations.model';
+import { OrdersCount } from '../prisma/orders-count.output';
 
 @ObjectType()
 export class orders {
@@ -121,4 +124,13 @@ export class orders {
 
     @Field(() => terminals, {nullable:false})
     orders_terminals?: terminals;
+
+    @Field(() => [order_actions], {nullable:true})
+    order_actions_orders?: Array<order_actions>;
+
+    @Field(() => [order_locations], {nullable:true})
+    order_locations_orders?: Array<order_locations>;
+
+    @Field(() => OrdersCount, {nullable:false})
+    _count?: OrdersCount;
 }

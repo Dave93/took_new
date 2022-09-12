@@ -383,6 +383,24 @@ type order_status {
   _count: Order_statusCount!
 }
 
+type order_actions {
+  id: ID!
+  order_id: String!
+  duration: Int!
+  action: String
+  action_text: String!
+  terminal_id: String!
+  created_at: DateTime!
+  created_by: String
+  order_actions_created_byTousers: users
+  order_actions_orders: orders!
+  order_actions_terminals: terminals!
+}
+
+type OrdersCount {
+  order_actions_orders: Int!
+}
+
 type orders {
   id: ID!
   organization_id: String!
@@ -420,6 +438,8 @@ type orders {
   orders_order_status: order_status!
   orders_organization: organization!
   orders_terminals: terminals!
+  order_actions_orders: [order_actions!]
+  _count: OrdersCount!
 }
 
 enum drive_type {
@@ -436,6 +456,7 @@ scalar JSON
 type TerminalsCount {
   users_terminals: Int!
   orders_terminals: Int!
+  order_actions_terminals: Int!
 }
 
 type terminals {
@@ -457,6 +478,7 @@ type terminals {
   terminals_updated_byTousers: users
   users_terminals: [users_terminals!]
   orders_terminals: [orders!]
+  order_actions_terminals: [order_actions!]
   _count: TerminalsCount!
 }
 
@@ -485,6 +507,7 @@ type organization {
   description: String
   max_distance: Int!
   max_active_order_count: Int!
+  payment_type: organization_payment_types!
   created_at: DateTime!
   updated_at: DateTime!
   created_by: String
@@ -503,6 +526,12 @@ enum organization_system_type {
   iiko
   r_keeper
   jowi
+}
+
+enum organization_payment_types {
+  cash
+  card
+  client
 }
 
 type delivery_pricing {
@@ -565,6 +594,7 @@ type UsersCount {
   orders_created_byTousers: Int!
   orders_updated_byTousers: Int!
   orders_couriers: Int!
+  order_actions_created_byTousers: Int!
 }
 
 type users {
@@ -623,6 +653,7 @@ type users {
   orders_created_byTousers: [orders!]
   orders_updated_byTousers: [orders!]
   orders_couriers: [orders!]
+  order_actions_created_byTousers: [order_actions!]
   _count: UsersCount!
 }
 
@@ -740,6 +771,7 @@ type Query {
   ordersConnection(where: ordersWhereInput!): PrismaAggregateCount!
   orders(where: ordersWhereInput, orderBy: [ordersOrderByWithRelationInput!], cursor: ordersWhereUniqueInput, take: Int, skip: Int, distinct: [OrdersScalarFieldEnum!]): [orders!]!
   order(id: String!): orders!
+  findForOrder(orderId: String!): [order_actions!]!
 }
 
 input rolesWhereInput {
@@ -919,6 +951,7 @@ input usersWhereInput {
   orders_created_byTousers: OrdersListRelationFilter
   orders_updated_byTousers: OrdersListRelationFilter
   orders_couriers: OrdersListRelationFilter
+  order_actions_created_byTousers: Order_actionsListRelationFilter
 }
 
 input Enumuser_statusFilter {
@@ -1411,6 +1444,7 @@ input organizationWhereInput {
   description: StringNullableFilter
   max_distance: IntFilter
   max_active_order_count: IntFilter
+  payment_type: Enumorganization_payment_typesFilter
   created_at: DateTimeFilter
   updated_at: DateTimeFilter
   created_by: StringNullableFilter
@@ -1436,6 +1470,20 @@ input NestedEnumorganization_system_typeFilter {
   in: [organization_system_type!]
   notIn: [organization_system_type!]
   not: NestedEnumorganization_system_typeFilter
+}
+
+input Enumorganization_payment_typesFilter {
+  equals: organization_payment_types
+  in: [organization_payment_types!]
+  notIn: [organization_payment_types!]
+  not: NestedEnumorganization_payment_typesFilter
+}
+
+input NestedEnumorganization_payment_typesFilter {
+  equals: organization_payment_types
+  in: [organization_payment_types!]
+  notIn: [organization_payment_types!]
+  not: NestedEnumorganization_payment_typesFilter
 }
 
 input Work_schedulesListRelationFilter {
@@ -1564,6 +1612,7 @@ input terminalsWhereInput {
   terminals_updated_byTousers: UsersRelationFilter
   users_terminals: Users_terminalsListRelationFilter
   orders_terminals: OrdersListRelationFilter
+  order_actions_terminals: Order_actionsListRelationFilter
 }
 
 input Users_terminalsListRelationFilter {
@@ -1633,6 +1682,7 @@ input ordersWhereInput {
   orders_order_status: Order_statusRelationFilter
   orders_organization: OrganizationRelationFilter
   orders_terminals: TerminalsRelationFilter
+  order_actions_orders: Order_actionsListRelationFilter
 }
 
 input JsonNullableFilter {
@@ -1705,6 +1755,34 @@ input order_statusWhereInput {
   waiting: BoolFilter
   order_status_organization: OrganizationRelationFilter
   orders_order_status: OrdersListRelationFilter
+}
+
+input Order_actionsListRelationFilter {
+  every: order_actionsWhereInput
+  some: order_actionsWhereInput
+  none: order_actionsWhereInput
+}
+
+input order_actionsWhereInput {
+  AND: [order_actionsWhereInput!]
+  OR: [order_actionsWhereInput!]
+  NOT: [order_actionsWhereInput!]
+  id: StringFilter
+  order_id: StringFilter
+  duration: IntFilter
+  action: StringNullableFilter
+  action_text: StringFilter
+  terminal_id: StringFilter
+  created_at: DateTimeFilter
+  created_by: StringNullableFilter
+  order_actions_created_byTousers: UsersRelationFilter
+  order_actions_orders: OrdersRelationFilter
+  order_actions_terminals: TerminalsRelationFilter
+}
+
+input OrdersRelationFilter {
+  is: ordersWhereInput
+  isNot: ordersWhereInput
 }
 
 input Order_statusListRelationFilter {
@@ -1795,6 +1873,7 @@ input usersOrderByWithRelationInput {
   orders_created_byTousers: ordersOrderByRelationAggregateInput
   orders_updated_byTousers: ordersOrderByRelationAggregateInput
   orders_couriers: ordersOrderByRelationAggregateInput
+  order_actions_created_byTousers: order_actionsOrderByRelationAggregateInput
 }
 
 input otpOrderByRelationAggregateInput {
@@ -1866,6 +1945,10 @@ input customers_commentsOrderByRelationAggregateInput {
 }
 
 input ordersOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input order_actionsOrderByRelationAggregateInput {
   _count: SortOrder
 }
 
@@ -1983,6 +2066,7 @@ input organizationOrderByWithRelationInput {
   description: SortOrder
   max_distance: SortOrder
   max_active_order_count: SortOrder
+  payment_type: SortOrder
   created_at: SortOrder
   updated_at: SortOrder
   created_by: SortOrder
@@ -2044,6 +2128,7 @@ enum OrganizationScalarFieldEnum {
   description
   max_distance
   max_active_order_count
+  payment_type
   created_at
   updated_at
   created_by
@@ -2108,6 +2193,7 @@ input terminalsOrderByWithRelationInput {
   terminals_updated_byTousers: usersOrderByWithRelationInput
   users_terminals: users_terminalsOrderByRelationAggregateInput
   orders_terminals: ordersOrderByRelationAggregateInput
+  order_actions_terminals: order_actionsOrderByRelationAggregateInput
 }
 
 input terminalsWhereUniqueInput {
@@ -2320,6 +2406,7 @@ input ordersOrderByWithRelationInput {
   orders_order_status: order_statusOrderByWithRelationInput
   orders_organization: organizationOrderByWithRelationInput
   orders_terminals: terminalsOrderByWithRelationInput
+  order_actions_orders: order_actionsOrderByRelationAggregateInput
 }
 
 input ordersWhereUniqueInput {
@@ -2489,6 +2576,7 @@ input usersCreateWithoutRoles_permissions_roles_permissions_created_byTousersInp
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input otpCreateNestedManyWithoutUsersInput {
@@ -2610,6 +2698,7 @@ input usersCreateWithoutPermissions_permissions_updated_byTousersInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input postCreateNestedManyWithoutUsers_post_created_byTousersInput {
@@ -2697,6 +2786,7 @@ input usersCreateWithoutPost_updated_byTousersInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input permissionsCreateNestedManyWithoutUsers_permissions_updated_byTousersInput {
@@ -2779,6 +2869,7 @@ input usersCreateWithoutPermissions_permissions_created_byTousersInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input postCreateNestedManyWithoutUsers_post_updated_byTousersInput {
@@ -2866,6 +2957,7 @@ input usersCreateWithoutPost_post_created_byTousersInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input postCreateNestedManyWithoutUsers_post_user_idTousersInput {
@@ -2970,6 +3062,7 @@ input usersCreateWithoutCity_created_byTousersInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input rolesCreateNestedManyWithoutUsers_roles_created_byTousersInput {
@@ -3052,6 +3145,7 @@ input usersCreateWithoutRoles_roles_updated_byTousersInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_created_byTousersInput {
@@ -3159,6 +3253,7 @@ input usersCreateWithoutUsers_permissions_usersTousers_permissions_created_byInp
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input rolesCreateNestedManyWithoutUsers_roles_updated_byTousersInput {
@@ -3241,6 +3336,7 @@ input usersCreateWithoutRoles_roles_created_byTousersInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_updated_byTousersInput {
@@ -3348,6 +3444,7 @@ input usersCreateWithoutUsers_roles_usersTousers_roles_created_byInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_created_byInput {
@@ -3455,6 +3552,7 @@ input usersCreateWithoutRoles_permissions_roles_permissions_updated_byTousersInp
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_updated_byInput {
@@ -3531,6 +3629,7 @@ input usersCreateWithoutUsers_permissions_usersTousers_permissions_user_idInput 
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_created_byInput {
@@ -3653,6 +3752,7 @@ input usersCreateWithoutUsers_roles_usersTousers_roles_updated_byInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_user_idInput {
@@ -3729,6 +3829,7 @@ input usersCreateWithoutUsers_permissions_usersTousers_permissions_updated_byInp
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_updated_byInput {
@@ -3805,6 +3906,7 @@ input usersCreateWithoutUsers_roles_usersTousers_roles_user_idInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput {
@@ -3885,6 +3987,7 @@ input usersCreateWithoutPost_prop_types_updated_byTousersInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput {
@@ -3973,6 +4076,7 @@ input organizationCreateWithoutDelivery_pricing_organization_idTorganizationInpu
   description: String
   max_distance: Int
   max_active_order_count: Int
+  payment_type: organization_payment_types
   created_at: DateTime
   updated_at: DateTime
   work_schedules_organization_idTorganization: work_schedulesCreateNestedManyWithoutOrganizationInput
@@ -4067,6 +4171,7 @@ input usersCreateWithoutWork_schedules_created_byTousersInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput {
@@ -4147,6 +4252,7 @@ input usersCreateWithoutPost_prop_types_created_byTousersInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput {
@@ -4235,6 +4341,7 @@ input usersCreateWithoutDelivery_pricing_created_byTousersInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input cityCreateNestedManyWithoutUsers_city_created_byTousersInput {
@@ -4316,6 +4423,7 @@ input usersCreateWithoutCity_updated_byTousersInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input organizationCreateNestedManyWithoutOrganization_created_byTousersInput {
@@ -4342,6 +4450,7 @@ input organizationCreateWithoutOrganization_created_byTousersInput {
   description: String
   max_distance: Int
   max_active_order_count: Int
+  payment_type: organization_payment_types
   created_at: DateTime
   updated_at: DateTime
   work_schedules_organization_idTorganization: work_schedulesCreateNestedManyWithoutOrganizationInput
@@ -4413,6 +4522,7 @@ input usersCreateWithoutOrganization_updated_byTousersInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input cityCreateNestedManyWithoutUsers_city_updated_byTousersInput {
@@ -4535,6 +4645,7 @@ input usersCreateWithoutPost_post_user_idTousersInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input organizationCreateNestedManyWithoutOrganization_updated_byTousersInput {
@@ -4561,6 +4672,7 @@ input organizationCreateWithoutOrganization_updated_byTousersInput {
   description: String
   max_distance: Int
   max_active_order_count: Int
+  payment_type: organization_payment_types
   created_at: DateTime
   updated_at: DateTime
   work_schedules_organization_idTorganization: work_schedulesCreateNestedManyWithoutOrganizationInput
@@ -4632,6 +4744,7 @@ input usersCreateWithoutOrganization_created_byTousersInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput {
@@ -4680,6 +4793,7 @@ input organizationCreateWithoutWork_schedules_organization_idTorganizationInput 
   description: String
   max_distance: Int
   max_active_order_count: Int
+  payment_type: organization_payment_types
   created_at: DateTime
   updated_at: DateTime
   organization_created_byTousers: usersCreateNestedOneWithoutOrganization_created_byTousersInput
@@ -4776,6 +4890,7 @@ input usersCreateWithoutDelivery_pricing_updated_byTousersInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput {
@@ -4873,6 +4988,7 @@ input usersCreateWithoutUsers_work_schedulesInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input terminalsCreateNestedManyWithoutTerminals_created_byTousersInput {
@@ -4897,6 +5013,7 @@ input terminalsCreateWithoutTerminals_created_byTousersInput {
   terminals_updated_byTousers: usersCreateNestedOneWithoutTerminals_updated_byTousersInput
   users_terminals: users_terminalsCreateNestedManyWithoutTerminalsInput
   orders_terminals: ordersCreateNestedManyWithoutOrders_terminalsInput
+  order_actions_terminals: order_actionsCreateNestedManyWithoutOrder_actions_terminalsInput
 }
 
 input organizationCreateNestedOneWithoutTerminals_organization_idTorganizationInput {
@@ -4922,6 +5039,7 @@ input organizationCreateWithoutTerminals_organization_idTorganizationInput {
   description: String
   max_distance: Int
   max_active_order_count: Int
+  payment_type: organization_payment_types
   created_at: DateTime
   updated_at: DateTime
   work_schedules_organization_idTorganization: work_schedulesCreateNestedManyWithoutOrganizationInput
@@ -4986,6 +5104,7 @@ input ordersCreateWithoutOrders_order_statusInput {
   orders_couriers: usersCreateNestedOneWithoutOrders_couriersInput!
   orders_organization: organizationCreateNestedOneWithoutOrders_organizationInput!
   orders_terminals: terminalsCreateNestedOneWithoutOrders_terminalsInput!
+  order_actions_orders: order_actionsCreateNestedManyWithoutOrder_actions_ordersInput
 }
 
 input usersCreateNestedOneWithoutOrders_created_byTousersInput {
@@ -5049,6 +5168,7 @@ input usersCreateWithoutOrders_created_byTousersInput {
   customers_comments_created_byTousers: customers_commentsCreateNestedManyWithoutCustomers_comments_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input terminalsCreateNestedManyWithoutTerminals_updated_byTousersInput {
@@ -5073,6 +5193,7 @@ input terminalsCreateWithoutTerminals_updated_byTousersInput {
   terminals_created_byTousers: usersCreateNestedOneWithoutTerminals_created_byTousersInput
   users_terminals: users_terminalsCreateNestedManyWithoutTerminalsInput
   orders_terminals: ordersCreateNestedManyWithoutOrders_terminalsInput
+  order_actions_terminals: order_actionsCreateNestedManyWithoutOrder_actions_terminalsInput
 }
 
 input usersCreateNestedOneWithoutTerminals_created_byTousersInput {
@@ -5136,6 +5257,7 @@ input usersCreateWithoutTerminals_created_byTousersInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input users_terminalsCreateNestedManyWithoutUsersInput {
@@ -5170,6 +5292,7 @@ input terminalsCreateWithoutUsers_terminalsInput {
   terminals_created_byTousers: usersCreateNestedOneWithoutTerminals_created_byTousersInput
   terminals_updated_byTousers: usersCreateNestedOneWithoutTerminals_updated_byTousersInput
   orders_terminals: ordersCreateNestedManyWithoutOrders_terminalsInput
+  order_actions_terminals: order_actionsCreateNestedManyWithoutOrder_actions_terminalsInput
 }
 
 input usersCreateNestedOneWithoutTerminals_updated_byTousersInput {
@@ -5233,6 +5356,7 @@ input usersCreateWithoutTerminals_updated_byTousersInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input users_work_schedulesCreateNestedManyWithoutUsersInput {
@@ -5329,6 +5453,7 @@ input usersCreateWithoutWork_schedules_updated_byTousersInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input work_schedule_entriesCreateNestedManyWithoutWork_schedule_entries_created_byTousersInput {
@@ -5419,6 +5544,7 @@ input usersCreateWithoutWork_schedule_entries_updated_byTousersInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input work_schedule_entriesCreateNestedManyWithoutWork_schedule_entries_usersInput {
@@ -5509,6 +5635,7 @@ input usersCreateWithoutWork_schedule_entries_created_byTousersInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input work_schedule_entriesCreateNestedManyWithoutWork_schedule_entries_updated_byTousersInput {
@@ -5599,6 +5726,7 @@ input usersCreateWithoutWork_schedule_entries_usersInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input customers_commentsCreateNestedManyWithoutCustomers_comments_created_byTousersInput {
@@ -5664,6 +5792,7 @@ input ordersCreateWithoutOrders_customersInput {
   orders_order_status: order_statusCreateNestedOneWithoutOrders_order_statusInput!
   orders_organization: organizationCreateNestedOneWithoutOrders_organizationInput!
   orders_terminals: terminalsCreateNestedOneWithoutOrders_terminalsInput!
+  order_actions_orders: order_actionsCreateNestedManyWithoutOrder_actions_ordersInput
 }
 
 input usersCreateNestedOneWithoutOrders_updated_byTousersInput {
@@ -5727,6 +5856,7 @@ input usersCreateWithoutOrders_updated_byTousersInput {
   customers_comments_created_byTousers: customers_commentsCreateNestedManyWithoutCustomers_comments_created_byTousersInput
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input ordersCreateNestedManyWithoutOrders_created_byTousersInput {
@@ -5765,6 +5895,7 @@ input ordersCreateWithoutOrders_created_byTousersInput {
   orders_order_status: order_statusCreateNestedOneWithoutOrders_order_statusInput!
   orders_organization: organizationCreateNestedOneWithoutOrders_organizationInput!
   orders_terminals: terminalsCreateNestedOneWithoutOrders_terminalsInput!
+  order_actions_orders: order_actionsCreateNestedManyWithoutOrder_actions_ordersInput
 }
 
 input customersCreateNestedOneWithoutOrders_customersInput {
@@ -5855,6 +5986,7 @@ input usersCreateWithoutCustomers_comments_created_byTousersInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input ordersCreateNestedManyWithoutOrders_updated_byTousersInput {
@@ -5893,6 +6025,7 @@ input ordersCreateWithoutOrders_updated_byTousersInput {
   orders_order_status: order_statusCreateNestedOneWithoutOrders_order_statusInput!
   orders_organization: organizationCreateNestedOneWithoutOrders_organizationInput!
   orders_terminals: terminalsCreateNestedOneWithoutOrders_terminalsInput!
+  order_actions_orders: order_actionsCreateNestedManyWithoutOrder_actions_ordersInput
 }
 
 input usersCreateNestedOneWithoutOrders_couriersInput {
@@ -5956,11 +6089,62 @@ input usersCreateWithoutOrders_couriersInput {
   customers_comments_created_byTousers: customers_commentsCreateNestedManyWithoutCustomers_comments_created_byTousersInput
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
-input usersCreateOrConnectWithoutOrders_couriersInput {
-  where: usersWhereUniqueInput!
-  create: usersCreateWithoutOrders_couriersInput!
+input order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput {
+  create: [order_actionsCreateWithoutOrder_actions_created_byTousersInput!]
+  connectOrCreate: [order_actionsCreateOrConnectWithoutOrder_actions_created_byTousersInput!]
+  createMany: order_actionsCreateManyOrder_actions_created_byTousersInputEnvelope
+  connect: [order_actionsWhereUniqueInput!]
+}
+
+input order_actionsCreateWithoutOrder_actions_created_byTousersInput {
+  id: String
+  duration: Int
+  action: String
+  action_text: String!
+  created_at: DateTime
+  order_actions_orders: ordersCreateNestedOneWithoutOrder_actions_ordersInput!
+  order_actions_terminals: terminalsCreateNestedOneWithoutOrder_actions_terminalsInput!
+}
+
+input ordersCreateNestedOneWithoutOrder_actions_ordersInput {
+  create: ordersCreateWithoutOrder_actions_ordersInput
+  connectOrCreate: ordersCreateOrConnectWithoutOrder_actions_ordersInput
+  connect: ordersWhereUniqueInput
+}
+
+input ordersCreateWithoutOrder_actions_ordersInput {
+  id: String
+  delivery_type: drive_type
+  from_lat: Float
+  from_lon: Float
+  to_lat: Float
+  to_lon: Float
+  pre_distance: Float
+  pre_duration: Int
+  order_number: String!
+  distance: Float
+  duration: Int
+  order_price: Float
+  delivery_price: Float
+  delivery_address: String!
+  delivery_date: DateTime!
+  finished_date: DateTime
+  delivery_comment: String
+  payment_type: String!
+  cancel_reason: String
+  order_items: JSON
+  created_at: DateTime
+  updated_at: DateTime
+  orders_created_byTousers: usersCreateNestedOneWithoutOrders_created_byTousersInput
+  orders_updated_byTousers: usersCreateNestedOneWithoutOrders_updated_byTousersInput
+  orders_customers: customersCreateNestedOneWithoutOrders_customersInput!
+  orders_couriers: usersCreateNestedOneWithoutOrders_couriersInput!
+  orders_order_status: order_statusCreateNestedOneWithoutOrders_order_statusInput!
+  orders_organization: organizationCreateNestedOneWithoutOrders_organizationInput!
+  orders_terminals: terminalsCreateNestedOneWithoutOrders_terminalsInput!
 }
 
 input order_statusCreateNestedOneWithoutOrders_order_statusInput {
@@ -6003,6 +6187,7 @@ input organizationCreateWithoutOrder_status_organizationInput {
   description: String
   max_distance: Int
   max_active_order_count: Int
+  payment_type: organization_payment_types
   created_at: DateTime
   updated_at: DateTime
   work_schedules_organization_idTorganization: work_schedulesCreateNestedManyWithoutOrganizationInput
@@ -6035,6 +6220,7 @@ input terminalsCreateWithoutOrganizationInput {
   terminals_updated_byTousers: usersCreateNestedOneWithoutTerminals_updated_byTousersInput
   users_terminals: users_terminalsCreateNestedManyWithoutTerminalsInput
   orders_terminals: ordersCreateNestedManyWithoutOrders_terminalsInput
+  order_actions_terminals: order_actionsCreateNestedManyWithoutOrder_actions_terminalsInput
 }
 
 input users_terminalsCreateNestedManyWithoutTerminalsInput {
@@ -6109,6 +6295,7 @@ input usersCreateWithoutUsers_terminalsInput {
   orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input ordersCreateNestedManyWithoutOrders_couriersInput {
@@ -6147,6 +6334,7 @@ input ordersCreateWithoutOrders_couriersInput {
   orders_order_status: order_statusCreateNestedOneWithoutOrders_order_statusInput!
   orders_organization: organizationCreateNestedOneWithoutOrders_organizationInput!
   orders_terminals: terminalsCreateNestedOneWithoutOrders_terminalsInput!
+  order_actions_orders: order_actionsCreateNestedManyWithoutOrder_actions_ordersInput
 }
 
 input organizationCreateNestedOneWithoutOrders_organizationInput {
@@ -6172,6 +6360,7 @@ input organizationCreateWithoutOrders_organizationInput {
   description: String
   max_distance: Int
   max_active_order_count: Int
+  payment_type: organization_payment_types
   created_at: DateTime
   updated_at: DateTime
   work_schedules_organization_idTorganization: work_schedulesCreateNestedManyWithoutOrganizationInput
@@ -6208,11 +6397,268 @@ input terminalsCreateWithoutOrders_terminalsInput {
   terminals_created_byTousers: usersCreateNestedOneWithoutTerminals_created_byTousersInput
   terminals_updated_byTousers: usersCreateNestedOneWithoutTerminals_updated_byTousersInput
   users_terminals: users_terminalsCreateNestedManyWithoutTerminalsInput
+  order_actions_terminals: order_actionsCreateNestedManyWithoutOrder_actions_terminalsInput
+}
+
+input order_actionsCreateNestedManyWithoutOrder_actions_terminalsInput {
+  create: [order_actionsCreateWithoutOrder_actions_terminalsInput!]
+  connectOrCreate: [order_actionsCreateOrConnectWithoutOrder_actions_terminalsInput!]
+  createMany: order_actionsCreateManyOrder_actions_terminalsInputEnvelope
+  connect: [order_actionsWhereUniqueInput!]
+}
+
+input order_actionsCreateWithoutOrder_actions_terminalsInput {
+  id: String
+  duration: Int
+  action: String
+  action_text: String!
+  created_at: DateTime
+  order_actions_created_byTousers: usersCreateNestedOneWithoutOrder_actions_created_byTousersInput
+  order_actions_orders: ordersCreateNestedOneWithoutOrder_actions_ordersInput!
+}
+
+input usersCreateNestedOneWithoutOrder_actions_created_byTousersInput {
+  create: usersCreateWithoutOrder_actions_created_byTousersInput
+  connectOrCreate: usersCreateOrConnectWithoutOrder_actions_created_byTousersInput
+  connect: usersWhereUniqueInput
+}
+
+input usersCreateWithoutOrder_actions_created_byTousersInput {
+  id: String
+  phone: String!
+  first_name: String
+  last_name: String
+  password: String
+  is_super_user: Boolean
+  status: user_status!
+  drive_type: drive_type
+  card_name: String
+  card_number: String
+  birth_date: DateTime
+  car_model: String
+  car_number: String
+  is_online: Boolean
+  latitude: Float
+  longitude: Float
+  created_at: DateTime
+  updated_at: DateTime
+  otp: otpCreateNestedManyWithoutUsersInput
+  permissions_permissions_created_byTousers: permissionsCreateNestedManyWithoutUsers_permissions_created_byTousersInput
+  permissions_permissions_updated_byTousers: permissionsCreateNestedManyWithoutUsers_permissions_updated_byTousersInput
+  post_post_created_byTousers: postCreateNestedManyWithoutUsers_post_created_byTousersInput
+  post_updated_byTousers: postCreateNestedManyWithoutUsers_post_updated_byTousersInput
+  post_post_user_idTousers: postCreateNestedManyWithoutUsers_post_user_idTousersInput
+  roles_roles_created_byTousers: rolesCreateNestedManyWithoutUsers_roles_created_byTousersInput
+  roles_roles_updated_byTousers: rolesCreateNestedManyWithoutUsers_roles_updated_byTousersInput
+  roles_permissions_roles_permissions_created_byTousers: roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_created_byTousersInput
+  roles_permissions_roles_permissions_updated_byTousers: roles_permissionsCreateNestedManyWithoutUsers_roles_permissions_updated_byTousersInput
+  users_permissions_usersTousers_permissions_created_by: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_created_byInput
+  users_permissions_usersTousers_permissions_updated_by: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_updated_byInput
+  users_permissions_usersTousers_permissions_user_id: users_permissionsCreateNestedManyWithoutUsers_usersTousers_permissions_user_idInput
+  users_roles_usersTousers_roles_created_by: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_created_byInput
+  users_roles_usersTousers_roles_updated_by: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_updated_byInput
+  users_roles_usersTousers_roles_user_id: users_rolesCreateNestedManyWithoutUsers_usersTousers_roles_user_idInput
+  post_prop_types_created_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_created_byTousersInput
+  post_prop_types_updated_byTousers: post_prop_typesCreateNestedManyWithoutUsers_post_prop_types_updated_byTousersInput
+  delivery_pricing_created_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_created_byTousersInput
+  delivery_pricing_updated_byTousers: delivery_pricingCreateNestedManyWithoutUsers_delivery_pricing_updated_byTousersInput
+  city_created_byTousers: cityCreateNestedManyWithoutUsers_city_created_byTousersInput
+  city_updated_byTousers: cityCreateNestedManyWithoutUsers_city_updated_byTousersInput
+  organization_created_byTousers: organizationCreateNestedManyWithoutOrganization_created_byTousersInput
+  organization_updated_byTousers: organizationCreateNestedManyWithoutOrganization_updated_byTousersInput
+  work_schedules_created_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput
+  work_schedules_updated_byTousers: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput
+  terminals_created_byTousers: terminalsCreateNestedManyWithoutTerminals_created_byTousersInput
+  terminals_updated_byTousers: terminalsCreateNestedManyWithoutTerminals_updated_byTousersInput
+  users_terminals: users_terminalsCreateNestedManyWithoutUsersInput
+  users_work_schedules: users_work_schedulesCreateNestedManyWithoutUsersInput
+  work_schedule_entries_created_byTousers: work_schedule_entriesCreateNestedManyWithoutWork_schedule_entries_created_byTousersInput
+  work_schedule_entries_updated_byTousers: work_schedule_entriesCreateNestedManyWithoutWork_schedule_entries_updated_byTousersInput
+  work_schedule_entries_users: work_schedule_entriesCreateNestedManyWithoutWork_schedule_entries_usersInput
+  customers_comments_created_byTousers: customers_commentsCreateNestedManyWithoutCustomers_comments_created_byTousersInput
+  orders_created_byTousers: ordersCreateNestedManyWithoutOrders_created_byTousersInput
+  orders_updated_byTousers: ordersCreateNestedManyWithoutOrders_updated_byTousersInput
+  orders_couriers: ordersCreateNestedManyWithoutOrders_couriersInput
+}
+
+input usersCreateOrConnectWithoutOrder_actions_created_byTousersInput {
+  where: usersWhereUniqueInput!
+  create: usersCreateWithoutOrder_actions_created_byTousersInput!
+}
+
+input order_actionsCreateOrConnectWithoutOrder_actions_terminalsInput {
+  where: order_actionsWhereUniqueInput!
+  create: order_actionsCreateWithoutOrder_actions_terminalsInput!
+}
+
+input order_actionsWhereUniqueInput {
+  id: String
+}
+
+input order_actionsCreateManyOrder_actions_terminalsInputEnvelope {
+  data: [order_actionsCreateManyOrder_actions_terminalsInput!]!
+  skipDuplicates: Boolean
+}
+
+input order_actionsCreateManyOrder_actions_terminalsInput {
+  id: String
+  order_id: String!
+  duration: Int
+  action: String
+  action_text: String!
+  created_at: DateTime
+  created_by: String
 }
 
 input terminalsCreateOrConnectWithoutOrders_terminalsInput {
   where: terminalsWhereUniqueInput!
   create: terminalsCreateWithoutOrders_terminalsInput!
+}
+
+input order_actionsCreateNestedManyWithoutOrder_actions_ordersInput {
+  create: [order_actionsCreateWithoutOrder_actions_ordersInput!]
+  connectOrCreate: [order_actionsCreateOrConnectWithoutOrder_actions_ordersInput!]
+  createMany: order_actionsCreateManyOrder_actions_ordersInputEnvelope
+  connect: [order_actionsWhereUniqueInput!]
+}
+
+input order_actionsCreateWithoutOrder_actions_ordersInput {
+  id: String
+  duration: Int
+  action: String
+  action_text: String!
+  created_at: DateTime
+  order_actions_created_byTousers: usersCreateNestedOneWithoutOrder_actions_created_byTousersInput
+  order_actions_terminals: terminalsCreateNestedOneWithoutOrder_actions_terminalsInput!
+}
+
+input terminalsCreateNestedOneWithoutOrder_actions_terminalsInput {
+  create: terminalsCreateWithoutOrder_actions_terminalsInput
+  connectOrCreate: terminalsCreateOrConnectWithoutOrder_actions_terminalsInput
+  connect: terminalsWhereUniqueInput
+}
+
+input terminalsCreateWithoutOrder_actions_terminalsInput {
+  id: String
+  name: String!
+  active: Boolean
+  phone: String
+  address: String
+  latitude: Float
+  longitude: Float
+  external_id: String!
+  organization: organizationCreateNestedOneWithoutTerminals_organization_idTorganizationInput!
+  created_at: DateTime
+  updated_at: DateTime
+  terminals_created_byTousers: usersCreateNestedOneWithoutTerminals_created_byTousersInput
+  terminals_updated_byTousers: usersCreateNestedOneWithoutTerminals_updated_byTousersInput
+  users_terminals: users_terminalsCreateNestedManyWithoutTerminalsInput
+  orders_terminals: ordersCreateNestedManyWithoutOrders_terminalsInput
+}
+
+input ordersCreateNestedManyWithoutOrders_terminalsInput {
+  create: [ordersCreateWithoutOrders_terminalsInput!]
+  connectOrCreate: [ordersCreateOrConnectWithoutOrders_terminalsInput!]
+  createMany: ordersCreateManyOrders_terminalsInputEnvelope
+  connect: [ordersWhereUniqueInput!]
+}
+
+input ordersCreateWithoutOrders_terminalsInput {
+  id: String
+  delivery_type: drive_type
+  from_lat: Float
+  from_lon: Float
+  to_lat: Float
+  to_lon: Float
+  pre_distance: Float
+  pre_duration: Int
+  order_number: String!
+  distance: Float
+  duration: Int
+  order_price: Float
+  delivery_price: Float
+  delivery_address: String!
+  delivery_date: DateTime!
+  finished_date: DateTime
+  delivery_comment: String
+  payment_type: String!
+  cancel_reason: String
+  order_items: JSON
+  created_at: DateTime
+  updated_at: DateTime
+  orders_created_byTousers: usersCreateNestedOneWithoutOrders_created_byTousersInput
+  orders_updated_byTousers: usersCreateNestedOneWithoutOrders_updated_byTousersInput
+  orders_customers: customersCreateNestedOneWithoutOrders_customersInput!
+  orders_couriers: usersCreateNestedOneWithoutOrders_couriersInput!
+  orders_order_status: order_statusCreateNestedOneWithoutOrders_order_statusInput!
+  orders_organization: organizationCreateNestedOneWithoutOrders_organizationInput!
+  order_actions_orders: order_actionsCreateNestedManyWithoutOrder_actions_ordersInput
+}
+
+input ordersCreateOrConnectWithoutOrders_terminalsInput {
+  where: ordersWhereUniqueInput!
+  create: ordersCreateWithoutOrders_terminalsInput!
+}
+
+input ordersCreateManyOrders_terminalsInputEnvelope {
+  data: [ordersCreateManyOrders_terminalsInput!]!
+  skipDuplicates: Boolean
+}
+
+input ordersCreateManyOrders_terminalsInput {
+  id: String
+  organization_id: String!
+  customer_id: String!
+  courier_id: String!
+  order_status_id: String!
+  delivery_type: drive_type
+  from_lat: Float
+  from_lon: Float
+  to_lat: Float
+  to_lon: Float
+  pre_distance: Float
+  pre_duration: Int
+  order_number: String!
+  distance: Float
+  duration: Int
+  order_price: Float
+  delivery_price: Float
+  delivery_address: String!
+  delivery_date: DateTime!
+  finished_date: DateTime
+  delivery_comment: String
+  payment_type: String!
+  cancel_reason: String
+  order_items: JSON
+  created_at: DateTime
+  updated_at: DateTime
+  created_by: String
+  updated_by: String
+}
+
+input terminalsCreateOrConnectWithoutOrder_actions_terminalsInput {
+  where: terminalsWhereUniqueInput!
+  create: terminalsCreateWithoutOrder_actions_terminalsInput!
+}
+
+input order_actionsCreateOrConnectWithoutOrder_actions_ordersInput {
+  where: order_actionsWhereUniqueInput!
+  create: order_actionsCreateWithoutOrder_actions_ordersInput!
+}
+
+input order_actionsCreateManyOrder_actions_ordersInputEnvelope {
+  data: [order_actionsCreateManyOrder_actions_ordersInput!]!
+  skipDuplicates: Boolean
+}
+
+input order_actionsCreateManyOrder_actions_ordersInput {
+  id: String
+  duration: Int
+  action: String
+  action_text: String!
+  terminal_id: String!
+  created_at: DateTime
+  created_by: String
 }
 
 input ordersCreateOrConnectWithoutOrders_couriersInput {
@@ -6284,85 +6730,6 @@ input users_terminalsCreateManyTerminalsInput {
   user_id: String!
 }
 
-input ordersCreateNestedManyWithoutOrders_terminalsInput {
-  create: [ordersCreateWithoutOrders_terminalsInput!]
-  connectOrCreate: [ordersCreateOrConnectWithoutOrders_terminalsInput!]
-  createMany: ordersCreateManyOrders_terminalsInputEnvelope
-  connect: [ordersWhereUniqueInput!]
-}
-
-input ordersCreateWithoutOrders_terminalsInput {
-  id: String
-  delivery_type: drive_type
-  from_lat: Float
-  from_lon: Float
-  to_lat: Float
-  to_lon: Float
-  pre_distance: Float
-  pre_duration: Int
-  order_number: String!
-  distance: Float
-  duration: Int
-  order_price: Float
-  delivery_price: Float
-  delivery_address: String!
-  delivery_date: DateTime!
-  finished_date: DateTime
-  delivery_comment: String
-  payment_type: String!
-  cancel_reason: String
-  order_items: JSON
-  created_at: DateTime
-  updated_at: DateTime
-  orders_created_byTousers: usersCreateNestedOneWithoutOrders_created_byTousersInput
-  orders_updated_byTousers: usersCreateNestedOneWithoutOrders_updated_byTousersInput
-  orders_customers: customersCreateNestedOneWithoutOrders_customersInput!
-  orders_couriers: usersCreateNestedOneWithoutOrders_couriersInput!
-  orders_order_status: order_statusCreateNestedOneWithoutOrders_order_statusInput!
-  orders_organization: organizationCreateNestedOneWithoutOrders_organizationInput!
-}
-
-input ordersCreateOrConnectWithoutOrders_terminalsInput {
-  where: ordersWhereUniqueInput!
-  create: ordersCreateWithoutOrders_terminalsInput!
-}
-
-input ordersCreateManyOrders_terminalsInputEnvelope {
-  data: [ordersCreateManyOrders_terminalsInput!]!
-  skipDuplicates: Boolean
-}
-
-input ordersCreateManyOrders_terminalsInput {
-  id: String
-  organization_id: String!
-  customer_id: String!
-  courier_id: String!
-  order_status_id: String!
-  delivery_type: drive_type
-  from_lat: Float
-  from_lon: Float
-  to_lat: Float
-  to_lon: Float
-  pre_distance: Float
-  pre_duration: Int
-  order_number: String!
-  distance: Float
-  duration: Int
-  order_price: Float
-  delivery_price: Float
-  delivery_address: String!
-  delivery_date: DateTime!
-  finished_date: DateTime
-  delivery_comment: String
-  payment_type: String!
-  cancel_reason: String
-  order_items: JSON
-  created_at: DateTime
-  updated_at: DateTime
-  created_by: String
-  updated_by: String
-}
-
 input terminalsCreateOrConnectWithoutOrganizationInput {
   where: terminalsWhereUniqueInput!
   create: terminalsCreateWithoutOrganizationInput!
@@ -6424,6 +6791,7 @@ input ordersCreateWithoutOrders_organizationInput {
   orders_couriers: usersCreateNestedOneWithoutOrders_couriersInput!
   orders_order_status: order_statusCreateNestedOneWithoutOrders_order_statusInput!
   orders_terminals: terminalsCreateNestedOneWithoutOrders_terminalsInput!
+  order_actions_orders: order_actionsCreateNestedManyWithoutOrder_actions_ordersInput
 }
 
 input ordersCreateOrConnectWithoutOrders_organizationInput {
@@ -6475,6 +6843,36 @@ input organizationCreateOrConnectWithoutOrder_status_organizationInput {
 input order_statusCreateOrConnectWithoutOrders_order_statusInput {
   where: order_statusWhereUniqueInput!
   create: order_statusCreateWithoutOrders_order_statusInput!
+}
+
+input ordersCreateOrConnectWithoutOrder_actions_ordersInput {
+  where: ordersWhereUniqueInput!
+  create: ordersCreateWithoutOrder_actions_ordersInput!
+}
+
+input order_actionsCreateOrConnectWithoutOrder_actions_created_byTousersInput {
+  where: order_actionsWhereUniqueInput!
+  create: order_actionsCreateWithoutOrder_actions_created_byTousersInput!
+}
+
+input order_actionsCreateManyOrder_actions_created_byTousersInputEnvelope {
+  data: [order_actionsCreateManyOrder_actions_created_byTousersInput!]!
+  skipDuplicates: Boolean
+}
+
+input order_actionsCreateManyOrder_actions_created_byTousersInput {
+  id: String
+  order_id: String!
+  duration: Int
+  action: String
+  action_text: String!
+  terminal_id: String!
+  created_at: DateTime
+}
+
+input usersCreateOrConnectWithoutOrders_couriersInput {
+  where: usersWhereUniqueInput!
+  create: usersCreateWithoutOrders_couriersInput!
 }
 
 input ordersCreateOrConnectWithoutOrders_updated_byTousersInput {
@@ -7167,6 +7565,7 @@ input organizationCreateManyOrganization_updated_byTousersInput {
   description: String
   max_distance: Int
   max_active_order_count: Int
+  payment_type: organization_payment_types
   created_at: DateTime
   updated_at: DateTime
   created_by: String
@@ -7305,6 +7704,7 @@ input organizationCreateManyOrganization_created_byTousersInput {
   description: String
   max_distance: Int
   max_active_order_count: Int
+  payment_type: organization_payment_types
   created_at: DateTime
   updated_at: DateTime
   updated_by: String
@@ -7998,6 +8398,7 @@ input usersUpdateWithoutRoles_roles_created_byTousersInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input otpUpdateManyWithoutUsersNestedInput {
@@ -8163,6 +8564,7 @@ input usersUpdateWithoutPermissions_permissions_updated_byTousersInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input postUpdateManyWithoutUsers_post_created_byTousersNestedInput {
@@ -8272,6 +8674,7 @@ input usersUpdateWithoutPost_updated_byTousersInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input permissionsUpdateManyWithoutUsers_permissions_updated_byTousersNestedInput {
@@ -8376,6 +8779,7 @@ input usersUpdateWithoutPermissions_permissions_created_byTousersInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input postUpdateManyWithoutUsers_post_updated_byTousersNestedInput {
@@ -8485,6 +8889,7 @@ input usersUpdateWithoutPost_post_created_byTousersInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input postUpdateManyWithoutUsers_post_user_idTousersNestedInput {
@@ -8618,6 +9023,7 @@ input usersUpdateWithoutCity_created_byTousersInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input rolesUpdateManyWithoutUsers_roles_created_byTousersNestedInput {
@@ -8722,6 +9128,7 @@ input usersUpdateWithoutRoles_roles_updated_byTousersInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input roles_permissionsUpdateManyWithoutUsers_roles_permissions_created_byTousersNestedInput {
@@ -8871,6 +9278,7 @@ input usersUpdateWithoutUsers_permissions_usersTousers_permissions_created_byInp
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input rolesUpdateManyWithoutUsers_roles_updated_byTousersNestedInput {
@@ -9001,6 +9409,7 @@ input usersUpdateWithoutRoles_permissions_roles_permissions_created_byTousersInp
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input roles_permissionsUpdateManyWithoutUsers_roles_permissions_updated_byTousersNestedInput {
@@ -9150,6 +9559,7 @@ input usersUpdateWithoutUsers_roles_usersTousers_roles_created_byInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_created_byNestedInput {
@@ -9299,6 +9709,7 @@ input usersUpdateWithoutRoles_permissions_roles_permissions_updated_byTousersInp
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_updated_byNestedInput {
@@ -9395,6 +9806,7 @@ input usersUpdateWithoutUsers_permissions_usersTousers_permissions_user_idInput 
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input users_rolesUpdateManyWithoutUsers_usersTousers_roles_created_byNestedInput {
@@ -9518,6 +9930,7 @@ input usersUpdateWithoutUsers_roles_usersTousers_roles_updated_byInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_user_idNestedInput {
@@ -9616,6 +10029,7 @@ input usersUpdateWithoutUsers_permissions_usersTousers_permissions_updated_byInp
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input users_rolesUpdateManyWithoutUsers_usersTousers_roles_updated_byNestedInput {
@@ -9712,6 +10126,7 @@ input usersUpdateWithoutUsers_roles_usersTousers_roles_user_idInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput {
@@ -9814,6 +10229,7 @@ input usersUpdateWithoutPost_prop_types_updated_byTousersInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput {
@@ -9936,6 +10352,7 @@ input organizationUpdateWithoutDelivery_pricing_organization_idTorganizationInpu
   description: String
   max_distance: Int
   max_active_order_count: Int
+  payment_type: organization_payment_types
   created_at: DateTime
   updated_at: DateTime
   work_schedules_organization_idTorganization: work_schedulesUpdateManyWithoutOrganizationNestedInput
@@ -10052,6 +10469,7 @@ input usersUpdateWithoutWork_schedules_created_byTousersInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput {
@@ -10154,6 +10572,7 @@ input usersUpdateWithoutPost_prop_types_created_byTousersInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput {
@@ -10264,6 +10683,7 @@ input usersUpdateWithoutDelivery_pricing_created_byTousersInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input cityUpdateManyWithoutUsers_city_created_byTousersNestedInput {
@@ -10367,6 +10787,7 @@ input usersUpdateWithoutCity_updated_byTousersInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input organizationUpdateManyWithoutOrganization_created_byTousersNestedInput {
@@ -10406,6 +10827,7 @@ input organizationUpdateWithoutOrganization_created_byTousersInput {
   description: String
   max_distance: Int
   max_active_order_count: Int
+  payment_type: organization_payment_types
   created_at: DateTime
   updated_at: DateTime
   work_schedules_organization_idTorganization: work_schedulesUpdateManyWithoutOrganizationNestedInput
@@ -10486,6 +10908,7 @@ input usersUpdateWithoutOrganization_updated_byTousersInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput {
@@ -10650,6 +11073,7 @@ input usersUpdateWithoutPost_post_user_idTousersInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput {
@@ -10689,6 +11113,7 @@ input organizationUpdateWithoutOrganization_updated_byTousersInput {
   description: String
   max_distance: Int
   max_active_order_count: Int
+  payment_type: organization_payment_types
   created_at: DateTime
   updated_at: DateTime
   work_schedules_organization_idTorganization: work_schedulesUpdateManyWithoutOrganizationNestedInput
@@ -10769,6 +11194,7 @@ input usersUpdateWithoutOrganization_created_byTousersInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput {
@@ -10837,6 +11263,7 @@ input organizationUpdateWithoutWork_schedules_organization_idTorganizationInput 
   description: String
   max_distance: Int
   max_active_order_count: Int
+  payment_type: organization_payment_types
   created_at: DateTime
   updated_at: DateTime
   organization_created_byTousers: usersUpdateOneWithoutOrganization_created_byTousersNestedInput
@@ -10955,6 +11382,7 @@ input usersUpdateWithoutDelivery_pricing_updated_byTousersInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput {
@@ -11085,6 +11513,7 @@ input usersUpdateWithoutUsers_work_schedulesInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input terminalsUpdateManyWithoutTerminals_created_byTousersNestedInput {
@@ -11122,6 +11551,7 @@ input terminalsUpdateWithoutTerminals_created_byTousersInput {
   terminals_updated_byTousers: usersUpdateOneWithoutTerminals_updated_byTousersNestedInput
   users_terminals: users_terminalsUpdateManyWithoutTerminalsNestedInput
   orders_terminals: ordersUpdateManyWithoutOrders_terminalsNestedInput
+  order_actions_terminals: order_actionsUpdateManyWithoutOrder_actions_terminalsNestedInput
 }
 
 input organizationUpdateOneRequiredWithoutTerminals_organization_idTorganizationNestedInput {
@@ -11154,6 +11584,7 @@ input organizationUpdateWithoutTerminals_organization_idTorganizationInput {
   description: String
   max_distance: Int
   max_active_order_count: Int
+  payment_type: organization_payment_types
   created_at: DateTime
   updated_at: DateTime
   work_schedules_organization_idTorganization: work_schedulesUpdateManyWithoutOrganizationNestedInput
@@ -11244,6 +11675,7 @@ input ordersUpdateWithoutOrders_order_statusInput {
   orders_couriers: usersUpdateOneRequiredWithoutOrders_couriersNestedInput
   orders_organization: organizationUpdateOneRequiredWithoutOrders_organizationNestedInput
   orders_terminals: terminalsUpdateOneRequiredWithoutOrders_terminalsNestedInput
+  order_actions_orders: order_actionsUpdateManyWithoutOrder_actions_ordersNestedInput
 }
 
 input usersUpdateOneWithoutOrders_created_byTousersNestedInput {
@@ -11316,6 +11748,7 @@ input usersUpdateWithoutOrders_created_byTousersInput {
   customers_comments_created_byTousers: customers_commentsUpdateManyWithoutCustomers_comments_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input terminalsUpdateManyWithoutTerminals_updated_byTousersNestedInput {
@@ -11353,6 +11786,7 @@ input terminalsUpdateWithoutTerminals_updated_byTousersInput {
   terminals_created_byTousers: usersUpdateOneWithoutTerminals_created_byTousersNestedInput
   users_terminals: users_terminalsUpdateManyWithoutTerminalsNestedInput
   orders_terminals: ordersUpdateManyWithoutOrders_terminalsNestedInput
+  order_actions_terminals: order_actionsUpdateManyWithoutOrder_actions_terminalsNestedInput
 }
 
 input usersUpdateOneWithoutTerminals_created_byTousersNestedInput {
@@ -11425,6 +11859,7 @@ input usersUpdateWithoutTerminals_created_byTousersInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input users_terminalsUpdateManyWithoutUsersNestedInput {
@@ -11479,6 +11914,7 @@ input terminalsUpdateWithoutUsers_terminalsInput {
   terminals_created_byTousers: usersUpdateOneWithoutTerminals_created_byTousersNestedInput
   terminals_updated_byTousers: usersUpdateOneWithoutTerminals_updated_byTousersNestedInput
   orders_terminals: ordersUpdateManyWithoutOrders_terminalsNestedInput
+  order_actions_terminals: order_actionsUpdateManyWithoutOrder_actions_terminalsNestedInput
 }
 
 input usersUpdateOneWithoutTerminals_updated_byTousersNestedInput {
@@ -11551,6 +11987,7 @@ input usersUpdateWithoutTerminals_updated_byTousersInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input users_work_schedulesUpdateManyWithoutUsersNestedInput {
@@ -11676,6 +12113,7 @@ input usersUpdateWithoutWork_schedules_updated_byTousersInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input work_schedule_entriesUpdateManyWithoutWork_schedule_entries_created_byTousersNestedInput {
@@ -11788,6 +12226,7 @@ input usersUpdateWithoutWork_schedule_entries_updated_byTousersInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input work_schedule_entriesUpdateManyWithoutWork_schedule_entries_usersNestedInput {
@@ -11900,6 +12339,7 @@ input usersUpdateWithoutWork_schedule_entries_created_byTousersInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input work_schedule_entriesUpdateManyWithoutWork_schedule_entries_updated_byTousersNestedInput {
@@ -12010,6 +12450,7 @@ input usersUpdateWithoutWork_schedule_entries_usersInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input customers_commentsUpdateManyWithoutCustomers_comments_created_byTousersNestedInput {
@@ -12108,6 +12549,7 @@ input ordersUpdateWithoutOrders_customersInput {
   orders_order_status: order_statusUpdateOneRequiredWithoutOrders_order_statusNestedInput
   orders_organization: organizationUpdateOneRequiredWithoutOrders_organizationNestedInput
   orders_terminals: terminalsUpdateOneRequiredWithoutOrders_terminalsNestedInput
+  order_actions_orders: order_actionsUpdateManyWithoutOrder_actions_ordersNestedInput
 }
 
 input usersUpdateOneWithoutOrders_updated_byTousersNestedInput {
@@ -12180,6 +12622,7 @@ input usersUpdateWithoutOrders_updated_byTousersInput {
   customers_comments_created_byTousers: customers_commentsUpdateManyWithoutCustomers_comments_created_byTousersNestedInput
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input ordersUpdateManyWithoutOrders_created_byTousersNestedInput {
@@ -12231,6 +12674,7 @@ input ordersUpdateWithoutOrders_created_byTousersInput {
   orders_order_status: order_statusUpdateOneRequiredWithoutOrders_order_statusNestedInput
   orders_organization: organizationUpdateOneRequiredWithoutOrders_organizationNestedInput
   orders_terminals: terminalsUpdateOneRequiredWithoutOrders_terminalsNestedInput
+  order_actions_orders: order_actionsUpdateManyWithoutOrder_actions_ordersNestedInput
 }
 
 input customersUpdateOneRequiredWithoutOrders_customersNestedInput {
@@ -12350,6 +12794,7 @@ input usersUpdateWithoutCustomers_comments_created_byTousersInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input ordersUpdateManyWithoutOrders_updated_byTousersNestedInput {
@@ -12401,6 +12846,7 @@ input ordersUpdateWithoutOrders_updated_byTousersInput {
   orders_order_status: order_statusUpdateOneRequiredWithoutOrders_order_statusNestedInput
   orders_organization: organizationUpdateOneRequiredWithoutOrders_organizationNestedInput
   orders_terminals: terminalsUpdateOneRequiredWithoutOrders_terminalsNestedInput
+  order_actions_orders: order_actionsUpdateManyWithoutOrder_actions_ordersNestedInput
 }
 
 input usersUpdateOneRequiredWithoutOrders_couriersNestedInput {
@@ -12471,6 +12917,82 @@ input usersUpdateWithoutOrders_couriersInput {
   customers_comments_created_byTousers: customers_commentsUpdateManyWithoutCustomers_comments_created_byTousersNestedInput
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
+}
+
+input order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput {
+  create: [order_actionsCreateWithoutOrder_actions_created_byTousersInput!]
+  connectOrCreate: [order_actionsCreateOrConnectWithoutOrder_actions_created_byTousersInput!]
+  upsert: [order_actionsUpsertWithWhereUniqueWithoutOrder_actions_created_byTousersInput!]
+  createMany: order_actionsCreateManyOrder_actions_created_byTousersInputEnvelope
+  set: [order_actionsWhereUniqueInput!]
+  disconnect: [order_actionsWhereUniqueInput!]
+  delete: [order_actionsWhereUniqueInput!]
+  connect: [order_actionsWhereUniqueInput!]
+  update: [order_actionsUpdateWithWhereUniqueWithoutOrder_actions_created_byTousersInput!]
+  updateMany: [order_actionsUpdateManyWithWhereWithoutOrder_actions_created_byTousersInput!]
+  deleteMany: [order_actionsScalarWhereInput!]
+}
+
+input order_actionsUpsertWithWhereUniqueWithoutOrder_actions_created_byTousersInput {
+  where: order_actionsWhereUniqueInput!
+  update: order_actionsUpdateWithoutOrder_actions_created_byTousersInput!
+  create: order_actionsCreateWithoutOrder_actions_created_byTousersInput!
+}
+
+input order_actionsUpdateWithoutOrder_actions_created_byTousersInput {
+  id: String
+  duration: Int
+  action: String
+  action_text: String
+  created_at: DateTime
+  order_actions_orders: ordersUpdateOneRequiredWithoutOrder_actions_ordersNestedInput
+  order_actions_terminals: terminalsUpdateOneRequiredWithoutOrder_actions_terminalsNestedInput
+}
+
+input ordersUpdateOneRequiredWithoutOrder_actions_ordersNestedInput {
+  create: ordersCreateWithoutOrder_actions_ordersInput
+  connectOrCreate: ordersCreateOrConnectWithoutOrder_actions_ordersInput
+  upsert: ordersUpsertWithoutOrder_actions_ordersInput
+  connect: ordersWhereUniqueInput
+  update: ordersUpdateWithoutOrder_actions_ordersInput
+}
+
+input ordersUpsertWithoutOrder_actions_ordersInput {
+  update: ordersUpdateWithoutOrder_actions_ordersInput!
+  create: ordersCreateWithoutOrder_actions_ordersInput!
+}
+
+input ordersUpdateWithoutOrder_actions_ordersInput {
+  id: String
+  delivery_type: drive_type
+  from_lat: Float
+  from_lon: Float
+  to_lat: Float
+  to_lon: Float
+  pre_distance: Float
+  pre_duration: Int
+  order_number: String
+  distance: Float
+  duration: Int
+  order_price: Float
+  delivery_price: Float
+  delivery_address: String
+  delivery_date: DateTime
+  finished_date: DateTime
+  delivery_comment: String
+  payment_type: String
+  cancel_reason: String
+  order_items: JSON
+  created_at: DateTime
+  updated_at: DateTime
+  orders_created_byTousers: usersUpdateOneWithoutOrders_created_byTousersNestedInput
+  orders_updated_byTousers: usersUpdateOneWithoutOrders_updated_byTousersNestedInput
+  orders_customers: customersUpdateOneRequiredWithoutOrders_customersNestedInput
+  orders_couriers: usersUpdateOneRequiredWithoutOrders_couriersNestedInput
+  orders_order_status: order_statusUpdateOneRequiredWithoutOrders_order_statusNestedInput
+  orders_organization: organizationUpdateOneRequiredWithoutOrders_organizationNestedInput
+  orders_terminals: terminalsUpdateOneRequiredWithoutOrders_terminalsNestedInput
 }
 
 input order_statusUpdateOneRequiredWithoutOrders_order_statusNestedInput {
@@ -12527,6 +13049,7 @@ input organizationUpdateWithoutOrder_status_organizationInput {
   description: String
   max_distance: Int
   max_active_order_count: Int
+  payment_type: organization_payment_types
   created_at: DateTime
   updated_at: DateTime
   work_schedules_organization_idTorganization: work_schedulesUpdateManyWithoutOrganizationNestedInput
@@ -12572,6 +13095,7 @@ input terminalsUpdateWithoutOrganizationInput {
   terminals_updated_byTousers: usersUpdateOneWithoutTerminals_updated_byTousersNestedInput
   users_terminals: users_terminalsUpdateManyWithoutTerminalsNestedInput
   orders_terminals: ordersUpdateManyWithoutOrders_terminalsNestedInput
+  order_actions_terminals: order_actionsUpdateManyWithoutOrder_actions_terminalsNestedInput
 }
 
 input users_terminalsUpdateManyWithoutTerminalsNestedInput {
@@ -12666,6 +13190,7 @@ input usersUpdateWithoutUsers_terminalsInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input ordersUpdateManyWithoutOrders_couriersNestedInput {
@@ -12717,6 +13242,7 @@ input ordersUpdateWithoutOrders_couriersInput {
   orders_order_status: order_statusUpdateOneRequiredWithoutOrders_order_statusNestedInput
   orders_organization: organizationUpdateOneRequiredWithoutOrders_organizationNestedInput
   orders_terminals: terminalsUpdateOneRequiredWithoutOrders_terminalsNestedInput
+  order_actions_orders: order_actionsUpdateManyWithoutOrder_actions_ordersNestedInput
 }
 
 input organizationUpdateOneRequiredWithoutOrders_organizationNestedInput {
@@ -12749,6 +13275,7 @@ input organizationUpdateWithoutOrders_organizationInput {
   description: String
   max_distance: Int
   max_active_order_count: Int
+  payment_type: organization_payment_types
   created_at: DateTime
   updated_at: DateTime
   work_schedules_organization_idTorganization: work_schedulesUpdateManyWithoutOrganizationNestedInput
@@ -12787,14 +13314,263 @@ input terminalsUpdateWithoutOrders_terminalsInput {
   terminals_created_byTousers: usersUpdateOneWithoutTerminals_created_byTousersNestedInput
   terminals_updated_byTousers: usersUpdateOneWithoutTerminals_updated_byTousersNestedInput
   users_terminals: users_terminalsUpdateManyWithoutTerminalsNestedInput
+  order_actions_terminals: order_actionsUpdateManyWithoutOrder_actions_terminalsNestedInput
 }
 
-input ordersUpdateWithWhereUniqueWithoutOrders_couriersInput {
+input order_actionsUpdateManyWithoutOrder_actions_terminalsNestedInput {
+  create: [order_actionsCreateWithoutOrder_actions_terminalsInput!]
+  connectOrCreate: [order_actionsCreateOrConnectWithoutOrder_actions_terminalsInput!]
+  upsert: [order_actionsUpsertWithWhereUniqueWithoutOrder_actions_terminalsInput!]
+  createMany: order_actionsCreateManyOrder_actions_terminalsInputEnvelope
+  set: [order_actionsWhereUniqueInput!]
+  disconnect: [order_actionsWhereUniqueInput!]
+  delete: [order_actionsWhereUniqueInput!]
+  connect: [order_actionsWhereUniqueInput!]
+  update: [order_actionsUpdateWithWhereUniqueWithoutOrder_actions_terminalsInput!]
+  updateMany: [order_actionsUpdateManyWithWhereWithoutOrder_actions_terminalsInput!]
+  deleteMany: [order_actionsScalarWhereInput!]
+}
+
+input order_actionsUpsertWithWhereUniqueWithoutOrder_actions_terminalsInput {
+  where: order_actionsWhereUniqueInput!
+  update: order_actionsUpdateWithoutOrder_actions_terminalsInput!
+  create: order_actionsCreateWithoutOrder_actions_terminalsInput!
+}
+
+input order_actionsUpdateWithoutOrder_actions_terminalsInput {
+  id: String
+  duration: Int
+  action: String
+  action_text: String
+  created_at: DateTime
+  order_actions_created_byTousers: usersUpdateOneWithoutOrder_actions_created_byTousersNestedInput
+  order_actions_orders: ordersUpdateOneRequiredWithoutOrder_actions_ordersNestedInput
+}
+
+input usersUpdateOneWithoutOrder_actions_created_byTousersNestedInput {
+  create: usersCreateWithoutOrder_actions_created_byTousersInput
+  connectOrCreate: usersCreateOrConnectWithoutOrder_actions_created_byTousersInput
+  upsert: usersUpsertWithoutOrder_actions_created_byTousersInput
+  disconnect: Boolean
+  delete: Boolean
+  connect: usersWhereUniqueInput
+  update: usersUpdateWithoutOrder_actions_created_byTousersInput
+}
+
+input usersUpsertWithoutOrder_actions_created_byTousersInput {
+  update: usersUpdateWithoutOrder_actions_created_byTousersInput!
+  create: usersCreateWithoutOrder_actions_created_byTousersInput!
+}
+
+input usersUpdateWithoutOrder_actions_created_byTousersInput {
+  id: String
+  phone: String
+  first_name: String
+  last_name: String
+  password: String
+  is_super_user: Boolean
+  status: user_status
+  drive_type: drive_type
+  card_name: String
+  card_number: String
+  birth_date: DateTime
+  car_model: String
+  car_number: String
+  is_online: Boolean
+  latitude: Float
+  longitude: Float
+  created_at: DateTime
+  updated_at: DateTime
+  otp: otpUpdateManyWithoutUsersNestedInput
+  permissions_permissions_created_byTousers: permissionsUpdateManyWithoutUsers_permissions_created_byTousersNestedInput
+  permissions_permissions_updated_byTousers: permissionsUpdateManyWithoutUsers_permissions_updated_byTousersNestedInput
+  post_post_created_byTousers: postUpdateManyWithoutUsers_post_created_byTousersNestedInput
+  post_updated_byTousers: postUpdateManyWithoutUsers_post_updated_byTousersNestedInput
+  post_post_user_idTousers: postUpdateManyWithoutUsers_post_user_idTousersNestedInput
+  roles_roles_created_byTousers: rolesUpdateManyWithoutUsers_roles_created_byTousersNestedInput
+  roles_roles_updated_byTousers: rolesUpdateManyWithoutUsers_roles_updated_byTousersNestedInput
+  roles_permissions_roles_permissions_created_byTousers: roles_permissionsUpdateManyWithoutUsers_roles_permissions_created_byTousersNestedInput
+  roles_permissions_roles_permissions_updated_byTousers: roles_permissionsUpdateManyWithoutUsers_roles_permissions_updated_byTousersNestedInput
+  users_permissions_usersTousers_permissions_created_by: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_created_byNestedInput
+  users_permissions_usersTousers_permissions_updated_by: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_updated_byNestedInput
+  users_permissions_usersTousers_permissions_user_id: users_permissionsUpdateManyWithoutUsers_usersTousers_permissions_user_idNestedInput
+  users_roles_usersTousers_roles_created_by: users_rolesUpdateManyWithoutUsers_usersTousers_roles_created_byNestedInput
+  users_roles_usersTousers_roles_updated_by: users_rolesUpdateManyWithoutUsers_usersTousers_roles_updated_byNestedInput
+  users_roles_usersTousers_roles_user_id: users_rolesUpdateManyWithoutUsers_usersTousers_roles_user_idNestedInput
+  post_prop_types_created_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_created_byTousersNestedInput
+  post_prop_types_updated_byTousers: post_prop_typesUpdateManyWithoutUsers_post_prop_types_updated_byTousersNestedInput
+  delivery_pricing_created_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_created_byTousersNestedInput
+  delivery_pricing_updated_byTousers: delivery_pricingUpdateManyWithoutUsers_delivery_pricing_updated_byTousersNestedInput
+  city_created_byTousers: cityUpdateManyWithoutUsers_city_created_byTousersNestedInput
+  city_updated_byTousers: cityUpdateManyWithoutUsers_city_updated_byTousersNestedInput
+  organization_created_byTousers: organizationUpdateManyWithoutOrganization_created_byTousersNestedInput
+  organization_updated_byTousers: organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput
+  work_schedules_created_byTousers: work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput
+  work_schedules_updated_byTousers: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput
+  terminals_created_byTousers: terminalsUpdateManyWithoutTerminals_created_byTousersNestedInput
+  terminals_updated_byTousers: terminalsUpdateManyWithoutTerminals_updated_byTousersNestedInput
+  users_terminals: users_terminalsUpdateManyWithoutUsersNestedInput
+  users_work_schedules: users_work_schedulesUpdateManyWithoutUsersNestedInput
+  work_schedule_entries_created_byTousers: work_schedule_entriesUpdateManyWithoutWork_schedule_entries_created_byTousersNestedInput
+  work_schedule_entries_updated_byTousers: work_schedule_entriesUpdateManyWithoutWork_schedule_entries_updated_byTousersNestedInput
+  work_schedule_entries_users: work_schedule_entriesUpdateManyWithoutWork_schedule_entries_usersNestedInput
+  customers_comments_created_byTousers: customers_commentsUpdateManyWithoutCustomers_comments_created_byTousersNestedInput
+  orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
+  orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
+  orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+}
+
+input order_actionsUpdateWithWhereUniqueWithoutOrder_actions_terminalsInput {
+  where: order_actionsWhereUniqueInput!
+  data: order_actionsUpdateWithoutOrder_actions_terminalsInput!
+}
+
+input order_actionsUpdateManyWithWhereWithoutOrder_actions_terminalsInput {
+  where: order_actionsScalarWhereInput!
+  data: order_actionsUpdateManyMutationInput!
+}
+
+input order_actionsScalarWhereInput {
+  AND: [order_actionsScalarWhereInput!]
+  OR: [order_actionsScalarWhereInput!]
+  NOT: [order_actionsScalarWhereInput!]
+  id: StringFilter
+  order_id: StringFilter
+  duration: IntFilter
+  action: StringNullableFilter
+  action_text: StringFilter
+  terminal_id: StringFilter
+  created_at: DateTimeFilter
+  created_by: StringNullableFilter
+}
+
+input order_actionsUpdateManyMutationInput {
+  id: String
+  duration: Int
+  action: String
+  action_text: String
+  created_at: DateTime
+}
+
+input order_actionsUpdateManyWithoutOrder_actions_ordersNestedInput {
+  create: [order_actionsCreateWithoutOrder_actions_ordersInput!]
+  connectOrCreate: [order_actionsCreateOrConnectWithoutOrder_actions_ordersInput!]
+  upsert: [order_actionsUpsertWithWhereUniqueWithoutOrder_actions_ordersInput!]
+  createMany: order_actionsCreateManyOrder_actions_ordersInputEnvelope
+  set: [order_actionsWhereUniqueInput!]
+  disconnect: [order_actionsWhereUniqueInput!]
+  delete: [order_actionsWhereUniqueInput!]
+  connect: [order_actionsWhereUniqueInput!]
+  update: [order_actionsUpdateWithWhereUniqueWithoutOrder_actions_ordersInput!]
+  updateMany: [order_actionsUpdateManyWithWhereWithoutOrder_actions_ordersInput!]
+  deleteMany: [order_actionsScalarWhereInput!]
+}
+
+input order_actionsUpsertWithWhereUniqueWithoutOrder_actions_ordersInput {
+  where: order_actionsWhereUniqueInput!
+  update: order_actionsUpdateWithoutOrder_actions_ordersInput!
+  create: order_actionsCreateWithoutOrder_actions_ordersInput!
+}
+
+input order_actionsUpdateWithoutOrder_actions_ordersInput {
+  id: String
+  duration: Int
+  action: String
+  action_text: String
+  created_at: DateTime
+  order_actions_created_byTousers: usersUpdateOneWithoutOrder_actions_created_byTousersNestedInput
+  order_actions_terminals: terminalsUpdateOneRequiredWithoutOrder_actions_terminalsNestedInput
+}
+
+input terminalsUpdateOneRequiredWithoutOrder_actions_terminalsNestedInput {
+  create: terminalsCreateWithoutOrder_actions_terminalsInput
+  connectOrCreate: terminalsCreateOrConnectWithoutOrder_actions_terminalsInput
+  upsert: terminalsUpsertWithoutOrder_actions_terminalsInput
+  connect: terminalsWhereUniqueInput
+  update: terminalsUpdateWithoutOrder_actions_terminalsInput
+}
+
+input terminalsUpsertWithoutOrder_actions_terminalsInput {
+  update: terminalsUpdateWithoutOrder_actions_terminalsInput!
+  create: terminalsCreateWithoutOrder_actions_terminalsInput!
+}
+
+input terminalsUpdateWithoutOrder_actions_terminalsInput {
+  id: String
+  name: String
+  active: Boolean
+  phone: String
+  address: String
+  latitude: Float
+  longitude: Float
+  external_id: String
+  organization: organizationUpdateOneRequiredWithoutTerminals_organization_idTorganizationNestedInput
+  created_at: DateTime
+  updated_at: DateTime
+  terminals_created_byTousers: usersUpdateOneWithoutTerminals_created_byTousersNestedInput
+  terminals_updated_byTousers: usersUpdateOneWithoutTerminals_updated_byTousersNestedInput
+  users_terminals: users_terminalsUpdateManyWithoutTerminalsNestedInput
+  orders_terminals: ordersUpdateManyWithoutOrders_terminalsNestedInput
+}
+
+input ordersUpdateManyWithoutOrders_terminalsNestedInput {
+  create: [ordersCreateWithoutOrders_terminalsInput!]
+  connectOrCreate: [ordersCreateOrConnectWithoutOrders_terminalsInput!]
+  upsert: [ordersUpsertWithWhereUniqueWithoutOrders_terminalsInput!]
+  createMany: ordersCreateManyOrders_terminalsInputEnvelope
+  set: [ordersWhereUniqueInput!]
+  disconnect: [ordersWhereUniqueInput!]
+  delete: [ordersWhereUniqueInput!]
+  connect: [ordersWhereUniqueInput!]
+  update: [ordersUpdateWithWhereUniqueWithoutOrders_terminalsInput!]
+  updateMany: [ordersUpdateManyWithWhereWithoutOrders_terminalsInput!]
+  deleteMany: [ordersScalarWhereInput!]
+}
+
+input ordersUpsertWithWhereUniqueWithoutOrders_terminalsInput {
   where: ordersWhereUniqueInput!
-  data: ordersUpdateWithoutOrders_couriersInput!
+  update: ordersUpdateWithoutOrders_terminalsInput!
+  create: ordersCreateWithoutOrders_terminalsInput!
 }
 
-input ordersUpdateManyWithWhereWithoutOrders_couriersInput {
+input ordersUpdateWithoutOrders_terminalsInput {
+  id: String
+  delivery_type: drive_type
+  from_lat: Float
+  from_lon: Float
+  to_lat: Float
+  to_lon: Float
+  pre_distance: Float
+  pre_duration: Int
+  order_number: String
+  distance: Float
+  duration: Int
+  order_price: Float
+  delivery_price: Float
+  delivery_address: String
+  delivery_date: DateTime
+  finished_date: DateTime
+  delivery_comment: String
+  payment_type: String
+  cancel_reason: String
+  order_items: JSON
+  created_at: DateTime
+  updated_at: DateTime
+  orders_created_byTousers: usersUpdateOneWithoutOrders_created_byTousersNestedInput
+  orders_updated_byTousers: usersUpdateOneWithoutOrders_updated_byTousersNestedInput
+  orders_customers: customersUpdateOneRequiredWithoutOrders_customersNestedInput
+  orders_couriers: usersUpdateOneRequiredWithoutOrders_couriersNestedInput
+  orders_order_status: order_statusUpdateOneRequiredWithoutOrders_order_statusNestedInput
+  orders_organization: organizationUpdateOneRequiredWithoutOrders_organizationNestedInput
+  order_actions_orders: order_actionsUpdateManyWithoutOrder_actions_ordersNestedInput
+}
+
+input ordersUpdateWithWhereUniqueWithoutOrders_terminalsInput {
+  where: ordersWhereUniqueInput!
+  data: ordersUpdateWithoutOrders_terminalsInput!
+}
+
+input ordersUpdateManyWithWhereWithoutOrders_terminalsInput {
   where: ordersScalarWhereInput!
   data: ordersUpdateManyMutationInput!
 }
@@ -12859,6 +13635,26 @@ input ordersUpdateManyMutationInput {
   updated_at: DateTime
 }
 
+input order_actionsUpdateWithWhereUniqueWithoutOrder_actions_ordersInput {
+  where: order_actionsWhereUniqueInput!
+  data: order_actionsUpdateWithoutOrder_actions_ordersInput!
+}
+
+input order_actionsUpdateManyWithWhereWithoutOrder_actions_ordersInput {
+  where: order_actionsScalarWhereInput!
+  data: order_actionsUpdateManyMutationInput!
+}
+
+input ordersUpdateWithWhereUniqueWithoutOrders_couriersInput {
+  where: ordersWhereUniqueInput!
+  data: ordersUpdateWithoutOrders_couriersInput!
+}
+
+input ordersUpdateManyWithWhereWithoutOrders_couriersInput {
+  where: ordersScalarWhereInput!
+  data: ordersUpdateManyMutationInput!
+}
+
 input users_terminalsUpdateWithWhereUniqueWithoutTerminalsInput {
   where: users_terminalsWhereUniqueInput!
   data: users_terminalsUpdateWithoutTerminalsInput!
@@ -12879,67 +13675,6 @@ input users_terminalsScalarWhereInput {
 
 input users_terminalsUncheckedUpdateManyWithoutUsers_terminalsInput {
   terminal_id: String
-}
-
-input ordersUpdateManyWithoutOrders_terminalsNestedInput {
-  create: [ordersCreateWithoutOrders_terminalsInput!]
-  connectOrCreate: [ordersCreateOrConnectWithoutOrders_terminalsInput!]
-  upsert: [ordersUpsertWithWhereUniqueWithoutOrders_terminalsInput!]
-  createMany: ordersCreateManyOrders_terminalsInputEnvelope
-  set: [ordersWhereUniqueInput!]
-  disconnect: [ordersWhereUniqueInput!]
-  delete: [ordersWhereUniqueInput!]
-  connect: [ordersWhereUniqueInput!]
-  update: [ordersUpdateWithWhereUniqueWithoutOrders_terminalsInput!]
-  updateMany: [ordersUpdateManyWithWhereWithoutOrders_terminalsInput!]
-  deleteMany: [ordersScalarWhereInput!]
-}
-
-input ordersUpsertWithWhereUniqueWithoutOrders_terminalsInput {
-  where: ordersWhereUniqueInput!
-  update: ordersUpdateWithoutOrders_terminalsInput!
-  create: ordersCreateWithoutOrders_terminalsInput!
-}
-
-input ordersUpdateWithoutOrders_terminalsInput {
-  id: String
-  delivery_type: drive_type
-  from_lat: Float
-  from_lon: Float
-  to_lat: Float
-  to_lon: Float
-  pre_distance: Float
-  pre_duration: Int
-  order_number: String
-  distance: Float
-  duration: Int
-  order_price: Float
-  delivery_price: Float
-  delivery_address: String
-  delivery_date: DateTime
-  finished_date: DateTime
-  delivery_comment: String
-  payment_type: String
-  cancel_reason: String
-  order_items: JSON
-  created_at: DateTime
-  updated_at: DateTime
-  orders_created_byTousers: usersUpdateOneWithoutOrders_created_byTousersNestedInput
-  orders_updated_byTousers: usersUpdateOneWithoutOrders_updated_byTousersNestedInput
-  orders_customers: customersUpdateOneRequiredWithoutOrders_customersNestedInput
-  orders_couriers: usersUpdateOneRequiredWithoutOrders_couriersNestedInput
-  orders_order_status: order_statusUpdateOneRequiredWithoutOrders_order_statusNestedInput
-  orders_organization: organizationUpdateOneRequiredWithoutOrders_organizationNestedInput
-}
-
-input ordersUpdateWithWhereUniqueWithoutOrders_terminalsInput {
-  where: ordersWhereUniqueInput!
-  data: ordersUpdateWithoutOrders_terminalsInput!
-}
-
-input ordersUpdateManyWithWhereWithoutOrders_terminalsInput {
-  where: ordersScalarWhereInput!
-  data: ordersUpdateManyMutationInput!
 }
 
 input terminalsUpdateWithWhereUniqueWithoutOrganizationInput {
@@ -13033,6 +13768,7 @@ input ordersUpdateWithoutOrders_organizationInput {
   orders_couriers: usersUpdateOneRequiredWithoutOrders_couriersNestedInput
   orders_order_status: order_statusUpdateOneRequiredWithoutOrders_order_statusNestedInput
   orders_terminals: terminalsUpdateOneRequiredWithoutOrders_terminalsNestedInput
+  order_actions_orders: order_actionsUpdateManyWithoutOrder_actions_ordersNestedInput
 }
 
 input ordersUpdateWithWhereUniqueWithoutOrders_organizationInput {
@@ -13043,6 +13779,16 @@ input ordersUpdateWithWhereUniqueWithoutOrders_organizationInput {
 input ordersUpdateManyWithWhereWithoutOrders_organizationInput {
   where: ordersScalarWhereInput!
   data: ordersUpdateManyMutationInput!
+}
+
+input order_actionsUpdateWithWhereUniqueWithoutOrder_actions_created_byTousersInput {
+  where: order_actionsWhereUniqueInput!
+  data: order_actionsUpdateWithoutOrder_actions_created_byTousersInput!
+}
+
+input order_actionsUpdateManyWithWhereWithoutOrder_actions_created_byTousersInput {
+  where: order_actionsScalarWhereInput!
+  data: order_actionsUpdateManyMutationInput!
 }
 
 input ordersUpdateWithWhereUniqueWithoutOrders_updated_byTousersInput {
@@ -13496,6 +14242,7 @@ input organizationScalarWhereInput {
   description: StringNullableFilter
   max_distance: IntFilter
   max_active_order_count: IntFilter
+  payment_type: Enumorganization_payment_typesFilter
   created_at: DateTimeFilter
   updated_at: DateTimeFilter
   created_by: StringNullableFilter
@@ -13519,6 +14266,7 @@ input organizationUpdateManyMutationInput {
   description: String
   max_distance: Int
   max_active_order_count: Int
+  payment_type: organization_payment_types
   created_at: DateTime
   updated_at: DateTime
 }
@@ -14158,6 +14906,7 @@ input organizationUncheckedCreateInput {
   description: String
   max_distance: Int
   max_active_order_count: Int
+  payment_type: organization_payment_types
   created_at: DateTime
   updated_at: DateTime
   created_by: String
@@ -14221,6 +14970,7 @@ input organizationUpdateInput {
   description: String
   max_distance: Int
   max_active_order_count: Int
+  payment_type: organization_payment_types
   created_at: DateTime
   updated_at: DateTime
   work_schedules_organization_idTorganization: work_schedulesUpdateManyWithoutOrganizationNestedInput
@@ -14296,6 +15046,7 @@ input terminalsUncheckedCreateInput {
   updated_by: String
   users_terminals: users_terminalsUncheckedCreateNestedManyWithoutTerminalsInput
   orders_terminals: ordersUncheckedCreateNestedManyWithoutOrders_terminalsInput
+  order_actions_terminals: order_actionsUncheckedCreateNestedManyWithoutOrder_actions_terminalsInput
 }
 
 input users_terminalsUncheckedCreateNestedManyWithoutTerminalsInput {
@@ -14310,6 +15061,13 @@ input ordersUncheckedCreateNestedManyWithoutOrders_terminalsInput {
   connectOrCreate: [ordersCreateOrConnectWithoutOrders_terminalsInput!]
   createMany: ordersCreateManyOrders_terminalsInputEnvelope
   connect: [ordersWhereUniqueInput!]
+}
+
+input order_actionsUncheckedCreateNestedManyWithoutOrder_actions_terminalsInput {
+  create: [order_actionsCreateWithoutOrder_actions_terminalsInput!]
+  connectOrCreate: [order_actionsCreateOrConnectWithoutOrder_actions_terminalsInput!]
+  createMany: order_actionsCreateManyOrder_actions_terminalsInputEnvelope
+  connect: [order_actionsWhereUniqueInput!]
 }
 
 input terminalsUpdateInput {
@@ -14328,6 +15086,7 @@ input terminalsUpdateInput {
   terminals_updated_byTousers: usersUpdateOneWithoutTerminals_updated_byTousersNestedInput
   users_terminals: users_terminalsUpdateManyWithoutTerminalsNestedInput
   orders_terminals: ordersUpdateManyWithoutOrders_terminalsNestedInput
+  order_actions_terminals: order_actionsUpdateManyWithoutOrder_actions_terminalsNestedInput
 }
 
 input usersUncheckedCreateInput {
@@ -14386,6 +15145,7 @@ input usersUncheckedCreateInput {
   orders_created_byTousers: ordersUncheckedCreateNestedManyWithoutOrders_created_byTousersInput
   orders_updated_byTousers: ordersUncheckedCreateNestedManyWithoutOrders_updated_byTousersInput
   orders_couriers: ordersUncheckedCreateNestedManyWithoutOrders_couriersInput
+  order_actions_created_byTousers: order_actionsUncheckedCreateNestedManyWithoutOrder_actions_created_byTousersInput
 }
 
 input otpUncheckedCreateNestedManyWithoutUsersInput {
@@ -14647,6 +15407,13 @@ input ordersUncheckedCreateNestedManyWithoutOrders_couriersInput {
   connect: [ordersWhereUniqueInput!]
 }
 
+input order_actionsUncheckedCreateNestedManyWithoutOrder_actions_created_byTousersInput {
+  create: [order_actionsCreateWithoutOrder_actions_created_byTousersInput!]
+  connectOrCreate: [order_actionsCreateOrConnectWithoutOrder_actions_created_byTousersInput!]
+  createMany: order_actionsCreateManyOrder_actions_created_byTousersInputEnvelope
+  connect: [order_actionsWhereUniqueInput!]
+}
+
 input usersUpdateInput {
   id: String
   phone: String
@@ -14703,6 +15470,7 @@ input usersUpdateInput {
   orders_created_byTousers: ordersUpdateManyWithoutOrders_created_byTousersNestedInput
   orders_updated_byTousers: ordersUpdateManyWithoutOrders_updated_byTousersNestedInput
   orders_couriers: ordersUpdateManyWithoutOrders_couriersNestedInput
+  order_actions_created_byTousers: order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput
 }
 
 input UpdateCustomerInput {

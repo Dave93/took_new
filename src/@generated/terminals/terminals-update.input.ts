@@ -6,6 +6,8 @@ import { usersUpdateOneWithoutTerminals_created_byTousersNestedInput } from '../
 import { usersUpdateOneWithoutTerminals_updated_byTousersNestedInput } from '../users/users-update-one-without-terminals-updated-by-tousers-nested.input';
 import { users_terminalsUpdateManyWithoutTerminalsNestedInput } from '../users-terminals/users-terminals-update-many-without-terminals-nested.input';
 import { ordersUpdateManyWithoutOrders_terminalsNestedInput } from '../orders/orders-update-many-without-orders-terminals-nested.input';
+import { order_actionsUpdateManyWithoutOrder_actions_terminalsNestedInput } from '../order-actions/order-actions-update-many-without-order-actions-terminals-nested.input';
+import { order_locationsUpdateManyWithoutOrder_locations_terminalsNestedInput } from '../order-locations/order-locations-update-many-without-order-locations-terminals-nested.input';
 
 @InputType()
 export class terminalsUpdateInput {
@@ -54,4 +56,10 @@ export class terminalsUpdateInput {
 
     @Field(() => ordersUpdateManyWithoutOrders_terminalsNestedInput, {nullable:true})
     orders_terminals?: ordersUpdateManyWithoutOrders_terminalsNestedInput;
+
+    @Field(() => order_actionsUpdateManyWithoutOrder_actions_terminalsNestedInput, {nullable:true})
+    order_actions_terminals?: order_actionsUpdateManyWithoutOrder_actions_terminalsNestedInput;
+
+    @Field(() => order_locationsUpdateManyWithoutOrder_locations_terminalsNestedInput, {nullable:true})
+    order_locations_terminals?: order_locationsUpdateManyWithoutOrder_locations_terminalsNestedInput;
 }

@@ -22,6 +22,8 @@ import { users_work_schedules } from '../users-work-schedules/users-work-schedul
 import { work_schedule_entries } from '../work-schedule-entries/work-schedule-entries.model';
 import { customers_comments } from '../customers-comments/customers-comments.model';
 import { orders } from '../orders/orders.model';
+import { order_actions } from '../order-actions/order-actions.model';
+import { order_locations } from '../order-locations/order-locations.model';
 import { UsersCount } from '../prisma/users-count.output';
 
 @ObjectType()
@@ -191,6 +193,15 @@ export class users {
 
     @Field(() => [orders], {nullable:true})
     orders_couriers?: Array<orders>;
+
+    @Field(() => [order_actions], {nullable:true})
+    order_actions_created_byTousers?: Array<order_actions>;
+
+    @Field(() => [order_locations], {nullable:true})
+    order_locations_created_byTousers?: Array<order_locations>;
+
+    @Field(() => [order_locations], {nullable:true})
+    order_locations_couriers?: Array<order_locations>;
 
     @Field(() => UsersCount, {nullable:false})
     _count?: UsersCount;

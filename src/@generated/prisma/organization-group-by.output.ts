@@ -2,6 +2,7 @@ import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
 import { organization_system_type } from '../organization/organization-system-type.enum';
 import { Int } from '@nestjs/graphql';
+import { organization_payment_types } from '../organization/organization-payment-types.enum';
 import { OrganizationCountAggregate } from './organization-count-aggregate.output';
 import { OrganizationAvgAggregate } from './organization-avg-aggregate.output';
 import { OrganizationSumAggregate } from './organization-sum-aggregate.output';
@@ -58,6 +59,9 @@ export class OrganizationGroupBy {
 
     @Field(() => Int, {nullable:false})
     max_active_order_count!: number;
+
+    @Field(() => organization_payment_types, {nullable:false})
+    payment_type!: keyof typeof organization_payment_types;
 
     @Field(() => Date, {nullable:false})
     created_at!: Date | string;

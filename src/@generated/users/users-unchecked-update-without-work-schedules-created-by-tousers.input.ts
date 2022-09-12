@@ -39,6 +39,9 @@ import { customers_commentsUncheckedUpdateManyWithoutCustomers_comments_created_
 import { ordersUncheckedUpdateManyWithoutOrders_created_byTousersNestedInput } from '../orders/orders-unchecked-update-many-without-orders-created-by-tousers-nested.input';
 import { ordersUncheckedUpdateManyWithoutOrders_updated_byTousersNestedInput } from '../orders/orders-unchecked-update-many-without-orders-updated-by-tousers-nested.input';
 import { ordersUncheckedUpdateManyWithoutOrders_couriersNestedInput } from '../orders/orders-unchecked-update-many-without-orders-couriers-nested.input';
+import { order_actionsUncheckedUpdateManyWithoutOrder_actions_created_byTousersNestedInput } from '../order-actions/order-actions-unchecked-update-many-without-order-actions-created-by-tousers-nested.input';
+import { order_locationsUncheckedUpdateManyWithoutOrder_locations_created_byTousersNestedInput } from '../order-locations/order-locations-unchecked-update-many-without-order-locations-created-by-tousers-nested.input';
+import { order_locationsUncheckedUpdateManyWithoutOrder_locations_couriersNestedInput } from '../order-locations/order-locations-unchecked-update-many-without-order-locations-couriers-nested.input';
 
 @InputType()
 export class usersUncheckedUpdateWithoutWork_schedules_created_byTousersInput {
@@ -204,4 +207,13 @@ export class usersUncheckedUpdateWithoutWork_schedules_created_byTousersInput {
 
     @Field(() => ordersUncheckedUpdateManyWithoutOrders_couriersNestedInput, {nullable:true})
     orders_couriers?: ordersUncheckedUpdateManyWithoutOrders_couriersNestedInput;
+
+    @Field(() => order_actionsUncheckedUpdateManyWithoutOrder_actions_created_byTousersNestedInput, {nullable:true})
+    order_actions_created_byTousers?: order_actionsUncheckedUpdateManyWithoutOrder_actions_created_byTousersNestedInput;
+
+    @Field(() => order_locationsUncheckedUpdateManyWithoutOrder_locations_created_byTousersNestedInput, {nullable:true})
+    order_locations_created_byTousers?: order_locationsUncheckedUpdateManyWithoutOrder_locations_created_byTousersNestedInput;
+
+    @Field(() => order_locationsUncheckedUpdateManyWithoutOrder_locations_couriersNestedInput, {nullable:true})
+    order_locations_couriers?: order_locationsUncheckedUpdateManyWithoutOrder_locations_couriersNestedInput;
 }

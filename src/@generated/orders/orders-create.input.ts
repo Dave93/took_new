@@ -11,6 +11,8 @@ import { usersCreateNestedOneWithoutOrders_couriersInput } from '../users/users-
 import { order_statusCreateNestedOneWithoutOrders_order_statusInput } from '../order-status/order-status-create-nested-one-without-orders-order-status.input';
 import { organizationCreateNestedOneWithoutOrders_organizationInput } from '../organization/organization-create-nested-one-without-orders-organization.input';
 import { terminalsCreateNestedOneWithoutOrders_terminalsInput } from '../terminals/terminals-create-nested-one-without-orders-terminals.input';
+import { order_actionsCreateNestedManyWithoutOrder_actions_ordersInput } from '../order-actions/order-actions-create-nested-many-without-order-actions-orders.input';
+import { order_locationsCreateNestedManyWithoutOrder_locations_ordersInput } from '../order-locations/order-locations-create-nested-many-without-order-locations-orders.input';
 
 @InputType()
 export class ordersCreateInput {
@@ -101,4 +103,10 @@ export class ordersCreateInput {
 
     @Field(() => terminalsCreateNestedOneWithoutOrders_terminalsInput, {nullable:false})
     orders_terminals!: terminalsCreateNestedOneWithoutOrders_terminalsInput;
+
+    @Field(() => order_actionsCreateNestedManyWithoutOrder_actions_ordersInput, {nullable:true})
+    order_actions_orders?: order_actionsCreateNestedManyWithoutOrder_actions_ordersInput;
+
+    @Field(() => order_locationsCreateNestedManyWithoutOrder_locations_ordersInput, {nullable:true})
+    order_locations_orders?: order_locationsCreateNestedManyWithoutOrder_locations_ordersInput;
 }

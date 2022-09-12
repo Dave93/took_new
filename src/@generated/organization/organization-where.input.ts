@@ -5,6 +5,7 @@ import { StringNullableFilter } from '../prisma/string-nullable-filter.input';
 import { BoolFilter } from '../prisma/bool-filter.input';
 import { Enumorganization_system_typeFilter } from '../prisma/enumorganization-system-type-filter.input';
 import { IntFilter } from '../prisma/int-filter.input';
+import { Enumorganization_payment_typesFilter } from '../prisma/enumorganization-payment-types-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { Work_schedulesListRelationFilter } from '../prisma/work-schedules-list-relation-filter.input';
 import { UsersRelationFilter } from '../prisma/users-relation-filter.input';
@@ -72,6 +73,9 @@ export class organizationWhereInput {
 
     @Field(() => IntFilter, {nullable:true})
     max_active_order_count?: IntFilter;
+
+    @Field(() => Enumorganization_payment_typesFilter, {nullable:true})
+    payment_type?: Enumorganization_payment_typesFilter;
 
     @Field(() => DateTimeFilter, {nullable:true})
     created_at?: DateTimeFilter;

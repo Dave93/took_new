@@ -6,6 +6,8 @@ import { customersOrderByWithRelationInput } from '../customers/customers-order-
 import { order_statusOrderByWithRelationInput } from '../order-status/order-status-order-by-with-relation.input';
 import { organizationOrderByWithRelationInput } from '../organization/organization-order-by-with-relation.input';
 import { terminalsOrderByWithRelationInput } from '../terminals/terminals-order-by-with-relation.input';
+import { order_actionsOrderByRelationAggregateInput } from '../order-actions/order-actions-order-by-relation-aggregate.input';
+import { order_locationsOrderByRelationAggregateInput } from '../order-locations/order-locations-order-by-relation-aggregate.input';
 
 @InputType()
 export class ordersOrderByWithRelationInput {
@@ -117,4 +119,10 @@ export class ordersOrderByWithRelationInput {
 
     @Field(() => terminalsOrderByWithRelationInput, {nullable:true})
     orders_terminals?: terminalsOrderByWithRelationInput;
+
+    @Field(() => order_actionsOrderByRelationAggregateInput, {nullable:true})
+    order_actions_orders?: order_actionsOrderByRelationAggregateInput;
+
+    @Field(() => order_locationsOrderByRelationAggregateInput, {nullable:true})
+    order_locations_orders?: order_locationsOrderByRelationAggregateInput;
 }

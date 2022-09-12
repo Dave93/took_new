@@ -6,6 +6,8 @@ import { organization } from '../organization/organization.model';
 import { users } from '../users/users.model';
 import { users_terminals } from '../users-terminals/users-terminals.model';
 import { orders } from '../orders/orders.model';
+import { order_actions } from '../order-actions/order-actions.model';
+import { order_locations } from '../order-locations/order-locations.model';
 import { TerminalsCount } from '../prisma/terminals-count.output';
 
 @ObjectType()
@@ -64,6 +66,12 @@ export class terminals {
 
     @Field(() => [orders], {nullable:true})
     orders_terminals?: Array<orders>;
+
+    @Field(() => [order_actions], {nullable:true})
+    order_actions_terminals?: Array<order_actions>;
+
+    @Field(() => [order_locations], {nullable:true})
+    order_locations_terminals?: Array<order_locations>;
 
     @Field(() => TerminalsCount, {nullable:false})
     _count?: TerminalsCount;

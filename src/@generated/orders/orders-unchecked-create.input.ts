@@ -4,6 +4,8 @@ import { drive_type } from '../prisma/drive-type.enum';
 import { Float } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
 import { GraphQLJSON } from 'graphql-type-json';
+import { order_actionsUncheckedCreateNestedManyWithoutOrder_actions_ordersInput } from '../order-actions/order-actions-unchecked-create-nested-many-without-order-actions-orders.input';
+import { order_locationsUncheckedCreateNestedManyWithoutOrder_locations_ordersInput } from '../order-locations/order-locations-unchecked-create-nested-many-without-order-locations-orders.input';
 
 @InputType()
 export class ordersUncheckedCreateInput {
@@ -94,4 +96,10 @@ export class ordersUncheckedCreateInput {
 
     @Field(() => String, {nullable:true})
     updated_by?: string;
+
+    @Field(() => order_actionsUncheckedCreateNestedManyWithoutOrder_actions_ordersInput, {nullable:true})
+    order_actions_orders?: order_actionsUncheckedCreateNestedManyWithoutOrder_actions_ordersInput;
+
+    @Field(() => order_locationsUncheckedCreateNestedManyWithoutOrder_locations_ordersInput, {nullable:true})
+    order_locations_orders?: order_locationsUncheckedCreateNestedManyWithoutOrder_locations_ordersInput;
 }

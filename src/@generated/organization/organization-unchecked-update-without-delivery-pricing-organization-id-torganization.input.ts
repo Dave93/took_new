@@ -2,6 +2,7 @@ import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { organization_system_type } from './organization-system-type.enum';
 import { Int } from '@nestjs/graphql';
+import { organization_payment_types } from './organization-payment-types.enum';
 import { work_schedulesUncheckedUpdateManyWithoutOrganizationNestedInput } from '../work-schedules/work-schedules-unchecked-update-many-without-organization-nested.input';
 import { terminalsUncheckedUpdateManyWithoutOrganizationNestedInput } from '../terminals/terminals-unchecked-update-many-without-organization-nested.input';
 import { order_statusUncheckedUpdateManyWithoutOrder_status_organizationNestedInput } from '../order-status/order-status-unchecked-update-many-without-order-status-organization-nested.input';
@@ -57,6 +58,9 @@ export class organizationUncheckedUpdateWithoutDelivery_pricing_organization_idT
 
     @Field(() => Int, {nullable:true})
     max_active_order_count?: number;
+
+    @Field(() => organization_payment_types, {nullable:true})
+    payment_type?: keyof typeof organization_payment_types;
 
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;

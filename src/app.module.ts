@@ -25,6 +25,7 @@ import { CustomersResolver } from './modules/customers/customers.resolver';
 import { CustomersModule } from './modules/customers/customers.module';
 import { OrderStatusModule } from './modules/order_status/order_status.module';
 import { OrdersModule } from './modules/orders/orders.module';
+import { OrderActionsModule } from './modules/order_actions/order_actions.module';
 import * as redisStore from 'cache-manager-redis-store';
 
 @Global()
@@ -68,6 +69,7 @@ import * as redisStore from 'cache-manager-redis-store';
     CustomersModule,
     OrderStatusModule,
     OrdersModule,
+    OrderActionsModule,
   ],
   providers: [PrismaService],
 })

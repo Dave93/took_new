@@ -3,6 +3,7 @@ import { ObjectType } from '@nestjs/graphql';
 import { ID } from '@nestjs/graphql';
 import { organization_system_type } from './organization-system-type.enum';
 import { Int } from '@nestjs/graphql';
+import { organization_payment_types } from './organization-payment-types.enum';
 import { work_schedules } from '../work-schedules/work-schedules.model';
 import { users } from '../users/users.model';
 import { delivery_pricing } from '../delivery-pricing/delivery-pricing.model';
@@ -61,6 +62,9 @@ export class organization {
 
     @Field(() => Int, {nullable:false,defaultValue:0})
     max_active_order_count!: number;
+
+    @Field(() => organization_payment_types, {nullable:false,defaultValue:'client'})
+    payment_type!: keyof typeof organization_payment_types;
 
     @Field(() => Date, {nullable:false})
     created_at!: Date;

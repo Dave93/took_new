@@ -10,6 +10,8 @@ import { customersUpdateOneRequiredWithoutOrders_customersNestedInput } from '..
 import { usersUpdateOneRequiredWithoutOrders_couriersNestedInput } from '../users/users-update-one-required-without-orders-couriers-nested.input';
 import { order_statusUpdateOneRequiredWithoutOrders_order_statusNestedInput } from '../order-status/order-status-update-one-required-without-orders-order-status-nested.input';
 import { terminalsUpdateOneRequiredWithoutOrders_terminalsNestedInput } from '../terminals/terminals-update-one-required-without-orders-terminals-nested.input';
+import { order_actionsUpdateManyWithoutOrder_actions_ordersNestedInput } from '../order-actions/order-actions-update-many-without-order-actions-orders-nested.input';
+import { order_locationsUpdateManyWithoutOrder_locations_ordersNestedInput } from '../order-locations/order-locations-update-many-without-order-locations-orders-nested.input';
 
 @InputType()
 export class ordersUpdateWithoutOrders_organizationInput {
@@ -97,4 +99,10 @@ export class ordersUpdateWithoutOrders_organizationInput {
 
     @Field(() => terminalsUpdateOneRequiredWithoutOrders_terminalsNestedInput, {nullable:true})
     orders_terminals?: terminalsUpdateOneRequiredWithoutOrders_terminalsNestedInput;
+
+    @Field(() => order_actionsUpdateManyWithoutOrder_actions_ordersNestedInput, {nullable:true})
+    order_actions_orders?: order_actionsUpdateManyWithoutOrder_actions_ordersNestedInput;
+
+    @Field(() => order_locationsUpdateManyWithoutOrder_locations_ordersNestedInput, {nullable:true})
+    order_locations_orders?: order_locationsUpdateManyWithoutOrder_locations_ordersNestedInput;
 }

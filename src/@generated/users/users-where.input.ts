@@ -26,6 +26,8 @@ import { Users_work_schedulesListRelationFilter } from '../prisma/users-work-sch
 import { Work_schedule_entriesListRelationFilter } from '../prisma/work-schedule-entries-list-relation-filter.input';
 import { Customers_commentsListRelationFilter } from '../prisma/customers-comments-list-relation-filter.input';
 import { OrdersListRelationFilter } from '../prisma/orders-list-relation-filter.input';
+import { Order_actionsListRelationFilter } from '../prisma/order-actions-list-relation-filter.input';
+import { Order_locationsListRelationFilter } from '../prisma/order-locations-list-relation-filter.input';
 
 @InputType()
 export class usersWhereInput {
@@ -203,4 +205,13 @@ export class usersWhereInput {
 
     @Field(() => OrdersListRelationFilter, {nullable:true})
     orders_couriers?: OrdersListRelationFilter;
+
+    @Field(() => Order_actionsListRelationFilter, {nullable:true})
+    order_actions_created_byTousers?: Order_actionsListRelationFilter;
+
+    @Field(() => Order_locationsListRelationFilter, {nullable:true})
+    order_locations_created_byTousers?: Order_locationsListRelationFilter;
+
+    @Field(() => Order_locationsListRelationFilter, {nullable:true})
+    order_locations_couriers?: Order_locationsListRelationFilter;
 }

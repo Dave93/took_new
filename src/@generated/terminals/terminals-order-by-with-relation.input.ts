@@ -5,6 +5,8 @@ import { organizationOrderByWithRelationInput } from '../organization/organizati
 import { usersOrderByWithRelationInput } from '../users/users-order-by-with-relation.input';
 import { users_terminalsOrderByRelationAggregateInput } from '../users-terminals/users-terminals-order-by-relation-aggregate.input';
 import { ordersOrderByRelationAggregateInput } from '../orders/orders-order-by-relation-aggregate.input';
+import { order_actionsOrderByRelationAggregateInput } from '../order-actions/order-actions-order-by-relation-aggregate.input';
+import { order_locationsOrderByRelationAggregateInput } from '../order-locations/order-locations-order-by-relation-aggregate.input';
 
 @InputType()
 export class terminalsOrderByWithRelationInput {
@@ -62,4 +64,10 @@ export class terminalsOrderByWithRelationInput {
 
     @Field(() => ordersOrderByRelationAggregateInput, {nullable:true})
     orders_terminals?: ordersOrderByRelationAggregateInput;
+
+    @Field(() => order_actionsOrderByRelationAggregateInput, {nullable:true})
+    order_actions_terminals?: order_actionsOrderByRelationAggregateInput;
+
+    @Field(() => order_locationsOrderByRelationAggregateInput, {nullable:true})
+    order_locations_terminals?: order_locationsOrderByRelationAggregateInput;
 }
