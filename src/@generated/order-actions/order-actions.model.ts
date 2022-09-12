@@ -1,6 +1,5 @@
 import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
-import { ID } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
 import { users } from '../users/users.model';
 import { orders } from '../orders/orders.model';
@@ -9,7 +8,7 @@ import { terminals } from '../terminals/terminals.model';
 @ObjectType()
 export class order_actions {
 
-    @Field(() => ID, {nullable:false})
+    @Field(() => String, {nullable:false})
     id!: string;
 
     @Field(() => String, {nullable:false})
