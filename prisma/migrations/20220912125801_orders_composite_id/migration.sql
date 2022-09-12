@@ -45,9 +45,6 @@ ALTER TABLE "orders" DROP CONSTRAINT "FK_orders_organization_id";
 -- DropForeignKey
 ALTER TABLE "orders" DROP CONSTRAINT "FK_orders_updated_by";
 
--- DropForeignKey
-ALTER TABLE "orders" DROP CONSTRAINT "orders_terminal_id_fkey";
-
 -- DropTable
 DROP TABLE "order_actions";
 
