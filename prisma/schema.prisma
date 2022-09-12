@@ -388,7 +388,6 @@ model work_schedule_entries {
 
   @@index([current_status], map: "fki_work_schedule_entries_current_status")
   @@index([user_id], map: "fki_work_schedule_entries_user_id")
-  @@index([created_at], map: "fki_work_schedule_entries_created_at")
 }
 
 model customers {
@@ -472,8 +471,6 @@ model orders {
   order_actions_orders order_actions[]
 
   order_locations_orders order_locations[]
-
-  @@index([created_at], map: "fki_orders_created_at")
 }
 
 model order_actions {
@@ -489,9 +486,6 @@ model order_actions {
   order_actions_created_byTousers users? @relation("order_actions_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_order_actions_created_by")
   order_actions_orders            orders @relation(fields: [order_id], references: [id], onDelete: NoAction, map: "FK_order_actions_order_id")
   order_actions_terminals         terminals @relation(fields: [terminal_id], references: [id], onDelete: NoAction, map: "FK_order_actions_terminal_id")
-
-
-  @@index([created_at], map: "fki_order_actions_created_at")
 }
 
 model order_locations {
