@@ -48,6 +48,9 @@ export class Delivery_pricingGroupBy {
     @Field(() => String, {nullable:false})
     organization_id!: string;
 
+    @Field(() => String, {nullable:true})
+    terminal_id?: string;
+
     @Field(() => Date, {nullable:false})
     created_at!: Date | string;
 

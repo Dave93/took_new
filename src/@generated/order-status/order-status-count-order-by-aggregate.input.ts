@@ -28,4 +28,7 @@ export class order_statusCountOrderByAggregateInput {
 
     @Field(() => SortOrder, {nullable:true})
     waiting?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    need_location?: keyof typeof SortOrder;
 }

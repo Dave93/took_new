@@ -10,6 +10,7 @@ import { delivery_pricingUpdateManyWithoutOrganizationNestedInput } from '../del
 import { terminalsUpdateManyWithoutOrganizationNestedInput } from '../terminals/terminals-update-many-without-organization-nested.input';
 import { order_statusUpdateManyWithoutOrder_status_organizationNestedInput } from '../order-status/order-status-update-many-without-order-status-organization-nested.input';
 import { ordersUpdateManyWithoutOrders_organizationNestedInput } from '../orders/orders-update-many-without-orders-organization-nested.input';
+import { api_tokensUpdateManyWithoutApi_tokens_organizationNestedInput } from '../api-tokens/api-tokens-update-many-without-api-tokens-organization-nested.input';
 
 @InputType()
 export class organizationUpdateInput {
@@ -91,4 +92,7 @@ export class organizationUpdateInput {
 
     @Field(() => ordersUpdateManyWithoutOrders_organizationNestedInput, {nullable:true})
     orders_organization?: ordersUpdateManyWithoutOrders_organizationNestedInput;
+
+    @Field(() => api_tokensUpdateManyWithoutApi_tokens_organizationNestedInput, {nullable:true})
+    api_tokens_organization?: api_tokensUpdateManyWithoutApi_tokens_organizationNestedInput;
 }

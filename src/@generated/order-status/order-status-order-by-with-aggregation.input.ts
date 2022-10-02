@@ -34,6 +34,9 @@ export class order_statusOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
     waiting?: keyof typeof SortOrder;
 
+    @Field(() => SortOrder, {nullable:true})
+    need_location?: keyof typeof SortOrder;
+
     @Field(() => order_statusCountOrderByAggregateInput, {nullable:true})
     _count?: order_statusCountOrderByAggregateInput;
 

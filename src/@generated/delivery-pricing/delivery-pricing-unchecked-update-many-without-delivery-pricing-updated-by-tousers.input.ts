@@ -43,6 +43,9 @@ export class delivery_pricingUncheckedUpdateManyWithoutDelivery_pricing_updated_
     @Field(() => String, {nullable:true})
     organization_id?: string;
 
+    @Field(() => String, {nullable:true})
+    terminal_id?: string;
+
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;
 

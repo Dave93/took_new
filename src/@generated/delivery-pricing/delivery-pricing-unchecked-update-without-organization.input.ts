@@ -40,6 +40,9 @@ export class delivery_pricingUncheckedUpdateWithoutOrganizationInput {
     @Field(() => Int, {nullable:true})
     price_per_km?: number;
 
+    @Field(() => String, {nullable:true})
+    terminal_id?: string;
+
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;
 

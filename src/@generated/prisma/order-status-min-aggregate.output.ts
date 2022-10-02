@@ -28,4 +28,7 @@ export class Order_statusMinAggregate {
 
     @Field(() => Boolean, {nullable:true})
     waiting?: boolean;
+
+    @Field(() => Boolean, {nullable:true})
+    need_location?: boolean;
 }

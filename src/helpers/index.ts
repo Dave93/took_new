@@ -3,6 +3,12 @@ import { users } from 'src/@generated/users/users.model';
 import { HashHelper } from './hash.helper';
 
 @ObjectType()
+class TookSuccessResponse {
+  @Field(() => Boolean, { nullable: false })
+  success: boolean;
+}
+
+@ObjectType()
 class BatchPayload {
   @Field(() => Number)
   count: number;
@@ -56,4 +62,5 @@ export {
   WorkScheduleEntriesReportRecord,
   WorkScheduleEntriesReportRes,
   WorkScheduleEntriesReportCouriers,
+  TookSuccessResponse,
 };

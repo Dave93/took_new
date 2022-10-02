@@ -29,6 +29,9 @@ export class order_locationsScalarWhereWithAggregatesInput {
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     courier_id?: StringWithAggregatesFilter;
 
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    order_status_id?: StringWithAggregatesFilter;
+
     @Field(() => FloatWithAggregatesFilter, {nullable:true})
     lat?: FloatWithAggregatesFilter;
 

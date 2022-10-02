@@ -10,6 +10,7 @@ import { delivery_pricingCreateNestedManyWithoutOrganizationInput } from '../del
 import { terminalsCreateNestedManyWithoutOrganizationInput } from '../terminals/terminals-create-nested-many-without-organization.input';
 import { order_statusCreateNestedManyWithoutOrder_status_organizationInput } from '../order-status/order-status-create-nested-many-without-order-status-organization.input';
 import { ordersCreateNestedManyWithoutOrders_organizationInput } from '../orders/orders-create-nested-many-without-orders-organization.input';
+import { api_tokensCreateNestedManyWithoutApi_tokens_organizationInput } from '../api-tokens/api-tokens-create-nested-many-without-api-tokens-organization.input';
 
 @InputType()
 export class organizationCreateInput {
@@ -91,4 +92,7 @@ export class organizationCreateInput {
 
     @Field(() => ordersCreateNestedManyWithoutOrders_organizationInput, {nullable:true})
     orders_organization?: ordersCreateNestedManyWithoutOrders_organizationInput;
+
+    @Field(() => api_tokensCreateNestedManyWithoutApi_tokens_organizationInput, {nullable:true})
+    api_tokens_organization?: api_tokensCreateNestedManyWithoutApi_tokens_organizationInput;
 }

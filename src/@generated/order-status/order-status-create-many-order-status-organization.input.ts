@@ -25,4 +25,7 @@ export class order_statusCreateManyOrder_status_organizationInput {
 
     @Field(() => Boolean, {nullable:true})
     waiting?: boolean;
+
+    @Field(() => Boolean, {nullable:true})
+    need_location?: boolean;
 }

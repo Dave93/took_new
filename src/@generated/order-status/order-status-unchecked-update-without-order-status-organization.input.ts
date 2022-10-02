@@ -27,6 +27,9 @@ export class order_statusUncheckedUpdateWithoutOrder_status_organizationInput {
     @Field(() => Boolean, {nullable:true})
     waiting?: boolean;
 
+    @Field(() => Boolean, {nullable:true})
+    need_location?: boolean;
+
     @Field(() => ordersUncheckedUpdateManyWithoutOrders_order_statusNestedInput, {nullable:true})
     orders_order_status?: ordersUncheckedUpdateManyWithoutOrders_order_statusNestedInput;
 }

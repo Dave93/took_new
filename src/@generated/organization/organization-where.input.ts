@@ -13,6 +13,7 @@ import { Delivery_pricingListRelationFilter } from '../prisma/delivery-pricing-l
 import { TerminalsListRelationFilter } from '../prisma/terminals-list-relation-filter.input';
 import { Order_statusListRelationFilter } from '../prisma/order-status-list-relation-filter.input';
 import { OrdersListRelationFilter } from '../prisma/orders-list-relation-filter.input';
+import { Api_tokensListRelationFilter } from '../prisma/api-tokens-list-relation-filter.input';
 
 @InputType()
 export class organizationWhereInput {
@@ -109,4 +110,7 @@ export class organizationWhereInput {
 
     @Field(() => OrdersListRelationFilter, {nullable:true})
     orders_organization?: OrdersListRelationFilter;
+
+    @Field(() => Api_tokensListRelationFilter, {nullable:true})
+    api_tokens_organization?: Api_tokensListRelationFilter;
 }

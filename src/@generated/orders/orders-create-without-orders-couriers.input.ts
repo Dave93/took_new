@@ -58,9 +58,6 @@ export class ordersCreateWithoutOrders_couriersInput {
     @Field(() => String, {nullable:false})
     delivery_address!: string;
 
-    @Field(() => Date, {nullable:false})
-    delivery_date!: Date | string;
-
     @Field(() => Date, {nullable:true})
     finished_date?: Date | string;
 
@@ -75,6 +72,9 @@ export class ordersCreateWithoutOrders_couriersInput {
 
     @Field(() => GraphQLJSON, {nullable:true})
     order_items?: any;
+
+    @Field(() => String, {nullable:true})
+    delivery_pricing_id?: string;
 
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;

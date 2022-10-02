@@ -5,12 +5,15 @@ import { rolesWhereInput } from 'src/@generated/roles/roles-where.input';
 import { UpdateOnerolesArgs } from 'src/@generated/roles/update-oneroles.args';
 import { CreateOnerolesArgs } from 'src/helpers/create-one.args';
 import { PrismaService } from 'src/prisma.service';
+import { CacheControlService } from '@modules/cache_control/cache_control.service';
 
 @Injectable()
 export class RolesService {
-  constructor(private readonly prismaService: PrismaService) {}
-  create(createRolesInput: CreateOnerolesArgs) {
-    return this.prismaService.roles.create(createRolesInput);
+  constructor(private readonly prismaService: PrismaService, private readonly cacheControl: CacheControlService) {}
+  async create(createRolesInput: CreateOnerolesArgs) {
+    const res = this.prismaService.roles.create(createRolesInput);
+    await this.cacheControl.invalidateCache('roles');
+    return res;
   }
 
   findAll(params: FindManyrolesArgs) {
@@ -34,8 +37,10 @@ export class RolesService {
     });
   }
 
-  update(updateRoleInput: UpdateOnerolesArgs) {
-    return this.prismaService.roles.update(updateRoleInput);
+  async update(updateRoleInput: UpdateOnerolesArgs) {
+    const res = this.prismaService.roles.update(updateRoleInput);
+    await this.cacheControl.invalidateCache('roles');
+    return res;
   }
 
   remove(id: number) {
@@ -52,11 +57,13 @@ export class RolesService {
         role_id,
       },
     });
-    return this.prismaService.roles_permissions.createMany({
+    const res = this.prismaService.roles_permissions.createMany({
       data: permission_ids.map((permission_id) => ({
         role_id,
         permission_id,
       })),
     });
+    await this.cacheControl.invalidateCache('roles');
+    return res;
   }
 }

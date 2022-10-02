@@ -33,6 +33,9 @@ export class order_status {
     @Field(() => Boolean, {nullable:false,defaultValue:false})
     waiting!: boolean;
 
+    @Field(() => Boolean, {nullable:false,defaultValue:false})
+    need_location!: boolean;
+
     @Field(() => organization, {nullable:false})
     order_status_organization?: organization;
 

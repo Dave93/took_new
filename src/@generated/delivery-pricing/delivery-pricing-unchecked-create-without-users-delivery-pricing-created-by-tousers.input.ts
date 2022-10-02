@@ -43,6 +43,9 @@ export class delivery_pricingUncheckedCreateWithoutUsers_delivery_pricing_create
     @Field(() => String, {nullable:false})
     organization_id!: string;
 
+    @Field(() => String, {nullable:true})
+    terminal_id?: string;
+
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;
 

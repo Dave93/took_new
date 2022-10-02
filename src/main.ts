@@ -1,11 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { HttpResponseInterceptor, HttpExceptionFilter } from '@common/http';
-import * as compression from 'compression';
+import compression from 'compression';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
 import { SwaggerConfig } from '@config';
-import * as helmet from 'helmet';
+import helmet from 'helmet';
 
 const bootstrap = async () => {
   let app;

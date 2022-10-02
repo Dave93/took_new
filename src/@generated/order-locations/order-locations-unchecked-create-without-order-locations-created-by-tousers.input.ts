@@ -17,6 +17,9 @@ export class order_locationsUncheckedCreateWithoutOrder_locations_created_byTous
     @Field(() => String, {nullable:false})
     courier_id!: string;
 
+    @Field(() => String, {nullable:false})
+    order_status_id!: string;
+
     @Field(() => Float, {nullable:true})
     lat?: number;
 

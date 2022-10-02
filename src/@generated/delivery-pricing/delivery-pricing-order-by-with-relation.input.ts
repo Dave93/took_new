@@ -2,6 +2,7 @@ import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { SortOrder } from '../prisma/sort-order.enum';
 import { organizationOrderByWithRelationInput } from '../organization/organization-order-by-with-relation.input';
+import { terminalsOrderByWithRelationInput } from '../terminals/terminals-order-by-with-relation.input';
 import { usersOrderByWithRelationInput } from '../users/users-order-by-with-relation.input';
 
 @InputType()
@@ -43,8 +44,14 @@ export class delivery_pricingOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
     organization_id?: keyof typeof SortOrder;
 
+    @Field(() => SortOrder, {nullable:true})
+    terminal_id?: keyof typeof SortOrder;
+
     @Field(() => organizationOrderByWithRelationInput, {nullable:true})
     organization?: organizationOrderByWithRelationInput;
+
+    @Field(() => terminalsOrderByWithRelationInput, {nullable:true})
+    terminal?: terminalsOrderByWithRelationInput;
 
     @Field(() => SortOrder, {nullable:true})
     created_at?: keyof typeof SortOrder;

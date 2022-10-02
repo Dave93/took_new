@@ -71,7 +71,7 @@ export class AuthService {
     });
     const now = new Date();
     const expiration_time = this.AddMinutesToDate(now, 10);
-
+    console.log(otp);
     const otpEntity = await this.prismaService.otp.create({
       data: {
         user_id: userEntity.id,
@@ -124,7 +124,7 @@ export class AuthService {
   }
 
   async verifyOtp(phone: string, otp: string, verificationKey: string) {
-    var currentdate = new Date();
+    const currentdate = new Date();
 
     if (!verificationKey) {
       throw new BadRequestException('Verification key is missing');
@@ -145,7 +145,7 @@ export class AuthService {
     } catch (err) {
       throw new BadRequestException('Verification key is invalid');
     }
-    var obj = JSON.parse(decoded);
+    const obj = JSON.parse(decoded);
     const check_obj = obj.check;
 
     // Check if the OTP was meant for the same email or phone number for which it is being verified
@@ -189,6 +189,7 @@ export class AuthService {
                 status: true,
                 first_name: true,
                 last_name: true,
+                is_online: true,
               },
             });
 
@@ -207,6 +208,7 @@ export class AuthService {
             dto.last_name = user.last_name;
             dto.status = user_status[user.status];
             dto.is_super_user = user.is_super_user;
+            dto.is_online = user.is_online;
 
             const payload: JwtPayload = { id: user.id, phone: user.phone };
             const token = await this.tokenService.generateAuthToken(payload);
@@ -218,7 +220,7 @@ export class AuthService {
                 permissions: true,
               },
             });
-            const additionalPermissions = permissions.map(({ permissions: { slug } }) => slug);
+            let additionalPermissions = permissions.map(({ permissions: { slug } }) => slug);
             const userRoles = await this.prismaService.users_roles.findMany({
               where: {
                 user_id: user.id,
@@ -235,12 +237,23 @@ export class AuthService {
                 },
               },
             });
+            console.log(userRoles);
+            userRoles.map(({ roles: { roles_permissions } }) => {
+              console.log(roles_permissions);
+            });
+            const rolePermissions = [];
+            userRoles.map(({ roles: { roles_permissions } }) => {
+              roles_permissions.map(({ permissions: { slug } }) => {
+                rolePermissions.push(slug);
+              });
+            });
+            additionalPermissions = [...additionalPermissions, ...rolePermissions];
             return {
               token,
               user: dto,
               access: {
-                additionalPermissions: [],
-                roles: [],
+                additionalPermissions: additionalPermissions,
+                roles: userRoles.map(({ roles: { name, code, active } }) => ({ name, code, active })),
               },
             };
             // const response = { Status: 'Success', Details: 'OTP Matched', Check: check };

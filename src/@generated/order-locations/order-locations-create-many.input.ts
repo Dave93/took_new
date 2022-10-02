@@ -17,6 +17,9 @@ export class order_locationsCreateManyInput {
     @Field(() => String, {nullable:false})
     courier_id!: string;
 
+    @Field(() => String, {nullable:false})
+    order_status_id!: string;
+
     @Field(() => Float, {nullable:true})
     lat?: number;
 

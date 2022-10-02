@@ -26,7 +26,15 @@ import { CustomersModule } from './modules/customers/customers.module';
 import { OrderStatusModule } from './modules/order_status/order_status.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { OrderActionsModule } from './modules/order_actions/order_actions.module';
+import { OrdersLocationsModule } from './modules/orders_locations/orders_locations.module';
+import { BgJobsModule } from './modules/bg_jobs/bg_jobs.module';
+import { BullModule } from '@nestjs/bull';
 import * as redisStore from 'cache-manager-redis-store';
+import { ElasticsearchModule } from '@nestjs/elasticsearch';
+import { SearchModule } from './modules/search/search.module';
+import { ApiTokensModule } from './modules/api_tokens/api_tokens.module';
+import { ExternalModule } from './modules/external/external.module';
+import { ConnectClientsModule } from './modules/connect_clients/connect_clients.module';
 
 @Global()
 @Module({
@@ -43,7 +51,15 @@ import * as redisStore from 'cache-manager-redis-store';
     // GraphQLModule.forRoot<MercuriusDriverConfig>({
     //   driver: MercuriusDriver,
     //   autoSchemaFile: '~schema.gql',
+    // subscription: true,
     // }),
+    BullModule.forRoot({
+      redis: {
+        host: 'localhost',
+        port: 6379,
+      },
+      prefix: 'took_tasks_',
+    }),
     CacheModule.register({
       isGlobal: true,
       store: redisStore,
@@ -58,6 +74,10 @@ import * as redisStore from 'cache-manager-redis-store';
     GraphQLModule.forRoot({
       driver: ApolloDriver,
       autoSchemaFile: '~schema.gql',
+      subscriptions: {
+        'graphql-ws': true,
+        path: '/ws',
+      },
     }),
     DeliveryPricingModule,
     OrganizationsModule,
@@ -70,6 +90,12 @@ import * as redisStore from 'cache-manager-redis-store';
     OrderStatusModule,
     OrdersModule,
     OrderActionsModule,
+    OrdersLocationsModule,
+    BgJobsModule,
+    SearchModule,
+    ApiTokensModule,
+    ExternalModule,
+    ConnectClientsModule,
   ],
   providers: [PrismaService],
 })

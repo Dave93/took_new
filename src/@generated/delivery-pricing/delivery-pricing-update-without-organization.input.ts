@@ -3,6 +3,7 @@ import { InputType } from '@nestjs/graphql';
 import { drive_type } from '../prisma/drive-type.enum';
 import { Int } from '@nestjs/graphql';
 import { GraphQLJSON } from 'graphql-type-json';
+import { terminalsUpdateOneWithoutDelivery_pricing_terminal_idTterminalNestedInput } from '../terminals/terminals-update-one-without-delivery-pricing-terminal-id-tterminal-nested.input';
 import { usersUpdateOneWithoutDelivery_pricing_created_byTousersNestedInput } from '../users/users-update-one-without-delivery-pricing-created-by-tousers-nested.input';
 import { usersUpdateOneWithoutDelivery_pricing_updated_byTousersNestedInput } from '../users/users-update-one-without-delivery-pricing-updated-by-tousers-nested.input';
 
@@ -41,6 +42,9 @@ export class delivery_pricingUpdateWithoutOrganizationInput {
 
     @Field(() => Int, {nullable:true})
     price_per_km?: number;
+
+    @Field(() => terminalsUpdateOneWithoutDelivery_pricing_terminal_idTterminalNestedInput, {nullable:true})
+    terminal?: terminalsUpdateOneWithoutDelivery_pricing_terminal_idTterminalNestedInput;
 
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;

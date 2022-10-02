@@ -30,6 +30,9 @@ export class order_statusUncheckedCreateInput {
     @Field(() => Boolean, {nullable:true})
     waiting?: boolean;
 
+    @Field(() => Boolean, {nullable:true})
+    need_location?: boolean;
+
     @Field(() => ordersUncheckedCreateNestedManyWithoutOrders_order_statusInput, {nullable:true})
     orders_order_status?: ordersUncheckedCreateNestedManyWithoutOrders_order_statusInput;
 }

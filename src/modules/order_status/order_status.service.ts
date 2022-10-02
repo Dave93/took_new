@@ -14,7 +14,7 @@ export class OrderStatusService {
   constructor(private readonly prismaService: PrismaService, private readonly cacheControl: CacheControlService) {}
 
   async create(createOrderStatusInput: order_statusCreateArgs) {
-    let res = await this.prismaService.order_status.create(createOrderStatusInput);
+    const res = await this.prismaService.order_status.create(createOrderStatusInput);
     await this.cacheControl.cacheOrderStatus();
     return res;
   }
@@ -51,7 +51,7 @@ export class OrderStatusService {
   }
 
   async update(updateOrderStatusInput: UpdateOneorderStatusArgs) {
-    let res = await this.prismaService.order_status.update(updateOrderStatusInput);
+    const res = await this.prismaService.order_status.update(updateOrderStatusInput);
     await this.cacheControl.cacheOrderStatus();
     return res;
   }

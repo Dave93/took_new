@@ -38,4 +38,7 @@ export class UserResponseDto {
 
   @Field(() => String, { description: 'Project' })
   project: string;
+
+  @Field(() => Boolean, { description: 'User online/offline' })
+  is_online: boolean;
 }

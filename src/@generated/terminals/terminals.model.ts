@@ -3,11 +3,11 @@ import { ObjectType } from '@nestjs/graphql';
 import { ID } from '@nestjs/graphql';
 import { Float } from '@nestjs/graphql';
 import { organization } from '../organization/organization.model';
-import { users } from '../users/users.model';
 import { users_terminals } from '../users-terminals/users-terminals.model';
 import { orders } from '../orders/orders.model';
 import { order_actions } from '../order-actions/order-actions.model';
 import { order_locations } from '../order-locations/order-locations.model';
+import { delivery_pricing } from '../delivery-pricing/delivery-pricing.model';
 import { TerminalsCount } from '../prisma/terminals-count.output';
 
 @ObjectType()
@@ -49,18 +49,6 @@ export class terminals {
     @Field(() => Date, {nullable:false})
     updated_at!: Date;
 
-    @Field(() => String, {nullable:true})
-    created_by!: string | null;
-
-    @Field(() => String, {nullable:true})
-    updated_by!: string | null;
-
-    @Field(() => users, {nullable:true})
-    terminals_created_byTousers?: users | null;
-
-    @Field(() => users, {nullable:true})
-    terminals_updated_byTousers?: users | null;
-
     @Field(() => [users_terminals], {nullable:true})
     users_terminals?: Array<users_terminals>;
 
@@ -72,6 +60,9 @@ export class terminals {
 
     @Field(() => [order_locations], {nullable:true})
     order_locations_terminals?: Array<order_locations>;
+
+    @Field(() => [delivery_pricing], {nullable:true})
+    delivery_pricing_terminal_idTterminal?: Array<delivery_pricing>;
 
     @Field(() => TerminalsCount, {nullable:false})
     _count?: TerminalsCount;

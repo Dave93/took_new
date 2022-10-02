@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { delivery_pricingWhereInput } from 'src/@generated/delivery-pricing/delivery-pricing-where.input';
 import { FindManydeliveryPricingArgs } from 'src/@generated/prisma/find-manydelivery-pricing.args';
 import { UpdateOnedeliveryPricingArgs } from 'src/@generated/prisma/update-onedelivery-pricing.args';
-import { CreateOnedeliveryPricingArgs } from 'src/helpers/create-one.args';
+import { CreateOnedeliveryPricingArgs, delivery_pricingUpdateArgs } from 'src/helpers/create-one.args';
 
 import { PrismaService } from 'src/prisma.service';
 
@@ -11,7 +11,7 @@ import { PrismaService } from 'src/prisma.service';
 export class DeliveryPricingService {
   constructor(private readonly prismaService: PrismaService, private readonly cacheControl: CacheControlService) {}
   async create(createDeliveryPricingInput: CreateOnedeliveryPricingArgs) {
-    let res = await this.prismaService.delivery_pricing.create(createDeliveryPricingInput);
+    const res = await this.prismaService.delivery_pricing.create(createDeliveryPricingInput);
     await this.cacheControl.cacheDeliveryPricing();
     return res;
   }
@@ -42,8 +42,8 @@ export class DeliveryPricingService {
     });
   }
 
-  async update(updateDeliveryPricingInput: UpdateOnedeliveryPricingArgs) {
-    let res = await this.prismaService.delivery_pricing.update(updateDeliveryPricingInput);
+  async update(updateDeliveryPricingInput: delivery_pricingUpdateArgs) {
+    const res = await this.prismaService.delivery_pricing.update(updateDeliveryPricingInput);
     await this.cacheControl.cacheDeliveryPricing();
     return res;
   }

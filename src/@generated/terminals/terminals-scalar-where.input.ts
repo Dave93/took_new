@@ -50,10 +50,4 @@ export class terminalsScalarWhereInput {
 
     @Field(() => DateTimeFilter, {nullable:true})
     updated_at?: DateTimeFilter;
-
-    @Field(() => StringNullableFilter, {nullable:true})
-    created_by?: StringNullableFilter;
-
-    @Field(() => StringNullableFilter, {nullable:true})
-    updated_by?: StringNullableFilter;
 }

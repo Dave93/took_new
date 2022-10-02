@@ -8,6 +8,7 @@ import { delivery_pricingUncheckedCreateNestedManyWithoutOrganizationInput } fro
 import { terminalsUncheckedCreateNestedManyWithoutOrganizationInput } from '../terminals/terminals-unchecked-create-nested-many-without-organization.input';
 import { order_statusUncheckedCreateNestedManyWithoutOrder_status_organizationInput } from '../order-status/order-status-unchecked-create-nested-many-without-order-status-organization.input';
 import { ordersUncheckedCreateNestedManyWithoutOrders_organizationInput } from '../orders/orders-unchecked-create-nested-many-without-orders-organization.input';
+import { api_tokensUncheckedCreateNestedManyWithoutApi_tokens_organizationInput } from '../api-tokens/api-tokens-unchecked-create-nested-many-without-api-tokens-organization.input';
 
 @InputType()
 export class organizationUncheckedCreateWithoutOrganization_created_byTousersInput {
@@ -86,4 +87,7 @@ export class organizationUncheckedCreateWithoutOrganization_created_byTousersInp
 
     @Field(() => ordersUncheckedCreateNestedManyWithoutOrders_organizationInput, {nullable:true})
     orders_organization?: ordersUncheckedCreateNestedManyWithoutOrders_organizationInput;
+
+    @Field(() => api_tokensUncheckedCreateNestedManyWithoutApi_tokens_organizationInput, {nullable:true})
+    api_tokens_organization?: api_tokensUncheckedCreateNestedManyWithoutApi_tokens_organizationInput;
 }

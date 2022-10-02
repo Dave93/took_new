@@ -16,4 +16,7 @@ export class TerminalsCount {
 
     @Field(() => Int, {nullable:false})
     order_locations_terminals!: number;
+
+    @Field(() => Int, {nullable:false})
+    delivery_pricing_terminal_idTterminal!: number;
 }

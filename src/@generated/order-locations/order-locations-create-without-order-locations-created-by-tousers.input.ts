@@ -11,6 +11,9 @@ export class order_locationsCreateWithoutOrder_locations_created_byTousersInput 
     @Field(() => String, {nullable:true})
     id?: string;
 
+    @Field(() => String, {nullable:false})
+    order_status_id!: string;
+
     @Field(() => Float, {nullable:true})
     lat?: number;
 

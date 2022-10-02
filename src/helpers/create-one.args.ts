@@ -19,6 +19,11 @@ import { usersUncheckedCreateInput } from 'src/@generated/users/users-unchecked-
 import { usersCreateInput } from 'src/@generated/users/users-create.input';
 import { order_statusUncheckedCreateInput } from 'src/@generated/order-status/order-status-unchecked-create.input';
 import { order_statusCreateInput } from 'src/@generated/order-status/order-status-create.input';
+import { api_tokensUncheckedCreateInput } from '../@generated/api-tokens/api-tokens-unchecked-create.input';
+import { api_tokensCreateInput } from '../@generated/api-tokens/api-tokens-create.input';
+import { delivery_pricingUpdateInput } from '../@generated/delivery-pricing/delivery-pricing-update.input';
+import { delivery_pricingUncheckedUpdateInput } from '../@generated/delivery-pricing/delivery-pricing-unchecked-update.input';
+import { delivery_pricingWhereUniqueInput } from '../@generated/delivery-pricing/delivery-pricing-where-unique.input';
 
 type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
 type XOR<T, U> = T extends object ? (U extends object ? (Without<T, U> & U) | (Without<U, T> & T) : U) : T;
@@ -84,4 +89,25 @@ export class order_statusCreateArgs {
   @Field(() => order_statusUncheckedCreateInput, { nullable: false })
   @Type(() => order_statusUncheckedCreateInput)
   data: XOR<order_statusCreateInput, order_statusUncheckedCreateInput>;
+}
+
+@ArgsType()
+export class api_tokensCreateArgs {
+  @Field(() => api_tokensUncheckedCreateInput, { nullable: false })
+  @Type(() => api_tokensUncheckedCreateInput)
+  data: XOR<api_tokensCreateInput, api_tokensUncheckedCreateInput>;
+}
+
+@ArgsType()
+export class delivery_pricingUpdateArgs {
+  @Field(() => delivery_pricingUncheckedUpdateInput, { nullable: false })
+  @Type(() => delivery_pricingUncheckedUpdateInput)
+  data: XOR<delivery_pricingUpdateInput, delivery_pricingUncheckedUpdateInput>;
+  /**
+   * Choose, which delivery_pricing to update.
+   *
+   **/
+  @Field(() => delivery_pricingWhereUniqueInput, { nullable: false })
+  @Type(() => delivery_pricingWhereUniqueInput)
+  where: delivery_pricingWhereUniqueInput;
 }

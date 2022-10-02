@@ -28,8 +28,6 @@ import { organizationUncheckedUpdateManyWithoutOrganization_created_byTousersNes
 import { organizationUncheckedUpdateManyWithoutOrganization_updated_byTousersNestedInput } from '../organization/organization-unchecked-update-many-without-organization-updated-by-tousers-nested.input';
 import { work_schedulesUncheckedUpdateManyWithoutWork_schedules_created_byTousersNestedInput } from '../work-schedules/work-schedules-unchecked-update-many-without-work-schedules-created-by-tousers-nested.input';
 import { work_schedulesUncheckedUpdateManyWithoutWork_schedules_updated_byTousersNestedInput } from '../work-schedules/work-schedules-unchecked-update-many-without-work-schedules-updated-by-tousers-nested.input';
-import { terminalsUncheckedUpdateManyWithoutTerminals_created_byTousersNestedInput } from '../terminals/terminals-unchecked-update-many-without-terminals-created-by-tousers-nested.input';
-import { terminalsUncheckedUpdateManyWithoutTerminals_updated_byTousersNestedInput } from '../terminals/terminals-unchecked-update-many-without-terminals-updated-by-tousers-nested.input';
 import { users_terminalsUncheckedUpdateManyWithoutUsersNestedInput } from '../users-terminals/users-terminals-unchecked-update-many-without-users-nested.input';
 import { users_work_schedulesUncheckedUpdateManyWithoutUsersNestedInput } from '../users-work-schedules/users-work-schedules-unchecked-update-many-without-users-nested.input';
 import { work_schedule_entriesUncheckedUpdateManyWithoutWork_schedule_entries_created_byTousersNestedInput } from '../work-schedule-entries/work-schedule-entries-unchecked-update-many-without-work-schedule-entries-created-by-tousers-nested.input';
@@ -42,6 +40,8 @@ import { ordersUncheckedUpdateManyWithoutOrders_couriersNestedInput } from '../o
 import { order_actionsUncheckedUpdateManyWithoutOrder_actions_created_byTousersNestedInput } from '../order-actions/order-actions-unchecked-update-many-without-order-actions-created-by-tousers-nested.input';
 import { order_locationsUncheckedUpdateManyWithoutOrder_locations_created_byTousersNestedInput } from '../order-locations/order-locations-unchecked-update-many-without-order-locations-created-by-tousers-nested.input';
 import { order_locationsUncheckedUpdateManyWithoutOrder_locations_couriersNestedInput } from '../order-locations/order-locations-unchecked-update-many-without-order-locations-couriers-nested.input';
+import { api_tokensUncheckedUpdateManyWithoutApi_tokens_created_byTousersNestedInput } from '../api-tokens/api-tokens-unchecked-update-many-without-api-tokens-created-by-tousers-nested.input';
+import { api_tokensUncheckedUpdateManyWithoutApi_tokens_updated_byTousersNestedInput } from '../api-tokens/api-tokens-unchecked-update-many-without-api-tokens-updated-by-tousers-nested.input';
 
 @InputType()
 export class usersUncheckedUpdateWithoutDelivery_pricing_created_byTousersInput {
@@ -175,12 +175,6 @@ export class usersUncheckedUpdateWithoutDelivery_pricing_created_byTousersInput 
     @Field(() => work_schedulesUncheckedUpdateManyWithoutWork_schedules_updated_byTousersNestedInput, {nullable:true})
     work_schedules_updated_byTousers?: work_schedulesUncheckedUpdateManyWithoutWork_schedules_updated_byTousersNestedInput;
 
-    @Field(() => terminalsUncheckedUpdateManyWithoutTerminals_created_byTousersNestedInput, {nullable:true})
-    terminals_created_byTousers?: terminalsUncheckedUpdateManyWithoutTerminals_created_byTousersNestedInput;
-
-    @Field(() => terminalsUncheckedUpdateManyWithoutTerminals_updated_byTousersNestedInput, {nullable:true})
-    terminals_updated_byTousers?: terminalsUncheckedUpdateManyWithoutTerminals_updated_byTousersNestedInput;
-
     @Field(() => users_terminalsUncheckedUpdateManyWithoutUsersNestedInput, {nullable:true})
     users_terminals?: users_terminalsUncheckedUpdateManyWithoutUsersNestedInput;
 
@@ -216,4 +210,10 @@ export class usersUncheckedUpdateWithoutDelivery_pricing_created_byTousersInput 
 
     @Field(() => order_locationsUncheckedUpdateManyWithoutOrder_locations_couriersNestedInput, {nullable:true})
     order_locations_couriers?: order_locationsUncheckedUpdateManyWithoutOrder_locations_couriersNestedInput;
+
+    @Field(() => api_tokensUncheckedUpdateManyWithoutApi_tokens_created_byTousersNestedInput, {nullable:true})
+    api_tokens_created_byTousers?: api_tokensUncheckedUpdateManyWithoutApi_tokens_created_byTousersNestedInput;
+
+    @Field(() => api_tokensUncheckedUpdateManyWithoutApi_tokens_updated_byTousersNestedInput, {nullable:true})
+    api_tokens_updated_byTousers?: api_tokensUncheckedUpdateManyWithoutApi_tokens_updated_byTousersNestedInput;
 }

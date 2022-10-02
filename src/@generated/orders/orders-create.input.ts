@@ -59,9 +59,6 @@ export class ordersCreateInput {
     @Field(() => String, {nullable:false})
     delivery_address!: string;
 
-    @Field(() => Date, {nullable:false})
-    delivery_date!: Date | string;
-
     @Field(() => Date, {nullable:true})
     finished_date?: Date | string;
 
@@ -76,6 +73,9 @@ export class ordersCreateInput {
 
     @Field(() => GraphQLJSON, {nullable:true})
     order_items?: any;
+
+    @Field(() => String, {nullable:true})
+    delivery_pricing_id?: string;
 
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;
@@ -92,8 +92,8 @@ export class ordersCreateInput {
     @Field(() => customersCreateNestedOneWithoutOrders_customersInput, {nullable:false})
     orders_customers!: customersCreateNestedOneWithoutOrders_customersInput;
 
-    @Field(() => usersCreateNestedOneWithoutOrders_couriersInput, {nullable:false})
-    orders_couriers!: usersCreateNestedOneWithoutOrders_couriersInput;
+    @Field(() => usersCreateNestedOneWithoutOrders_couriersInput, {nullable:true})
+    orders_couriers?: usersCreateNestedOneWithoutOrders_couriersInput;
 
     @Field(() => order_statusCreateNestedOneWithoutOrders_order_statusInput, {nullable:false})
     orders_order_status!: order_statusCreateNestedOneWithoutOrders_order_statusInput;

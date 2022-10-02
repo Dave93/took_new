@@ -12,12 +12,13 @@ import {
   WorkScheduleEntriesReportRes,
 } from '@helpers';
 import { WorkScheduleEntriesReportArgs } from './dto/report.args';
+import { UserIp } from '../../decorators/user_id';
 
 @Injectable()
 export class WorkScheduleEntriesService {
   constructor(private readonly prismaService: PrismaService, private readonly cacheControl: CacheControlService) {}
 
-  async openTimeEntry(openTimeLocation: OpenTimeEntryArgs, @RealIP() ip: string, @CurrentUser() currentUser: users) {
+  async openTimeEntry(openTimeLocation: OpenTimeEntryArgs, @UserIp() ip: string, @CurrentUser() currentUser: users) {
     let user = await this.prismaService.users.findUnique({
       where: {
         id: currentUser.id,
@@ -183,7 +184,7 @@ export class WorkScheduleEntriesService {
     return workScheduleEntry;
   }
 
-  async closeTimeEntry(openTimeLocation: CloseTimeEntryArgs, @RealIP() ip: string, @CurrentUser() currentUser: users) {
+  async closeTimeEntry(openTimeLocation: CloseTimeEntryArgs, @UserIp() ip: string, @CurrentUser() currentUser: users) {
     let openedOpenTime = await this.prismaService.work_schedule_entries.findFirst({
       where: {
         user_id: currentUser.id,

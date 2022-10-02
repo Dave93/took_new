@@ -28,4 +28,7 @@ export class Order_statusMaxAggregate {
 
     @Field(() => Boolean, {nullable:true})
     waiting?: boolean;
+
+    @Field(() => Boolean, {nullable:true})
+    need_location?: boolean;
 }

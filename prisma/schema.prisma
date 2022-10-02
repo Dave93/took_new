@@ -11,20 +11,20 @@ generator nestgraphql {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "cockroachdb"
   url      = env("DATABASE_URL")
 }
 
 model migrations {
-  id        String @id(map: "PK_8c82d7f526340ab734260ea46be") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id        String @id(map: "PK_8c82d7f526340ab734260ea46be") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   timestamp BigInt
-  name      String @db.VarChar
+  name      String @db.String
 }
 
 model otp {
-  id          String   @id(map: "PK_32556d9d7b22031d7d0e1fd6723") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id          String   @id(map: "PK_32556d9d7b22031d7d0e1fd6723") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   user_id     String   @db.Uuid
-  otp         String   @db.VarChar(6)
+  otp         String   @db.String(6)
   expiry_date DateTime @db.Timestamptz(5)
   verified    Boolean  @default(false)
   created_at  DateTime @default(now()) @db.Timestamptz(5)
@@ -33,9 +33,9 @@ model otp {
 }
 
 model permissions {
-  id                                  String              @id(map: "PK_920331560282b8bd21bb02290df") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  slug                                String              @unique(map: "UQ_d090ad82a0e97ce764c06c7b312") @db.VarChar(160)
-  description                         String              @db.VarChar(60)
+  id                                  String              @id(map: "PK_920331560282b8bd21bb02290df") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  slug                                String              @unique(map: "UQ_d090ad82a0e97ce764c06c7b312") @db.String(160)
+  description                         String              @db.String(60)
   active                              Boolean             @default(true)
   created_at                          DateTime            @default(now()) @db.Timestamptz(5)
   updated_at                          DateTime            @default(now()) @db.Timestamptz(5)
@@ -48,9 +48,9 @@ model permissions {
 }
 
 model roles {
-  id                            String              @id(map: "PK_c1433d71a4838793a49dcad46ab") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  name                          String              @unique(map: "UQ_648e3f5447f725579d7d4ffdfb7") @db.VarChar(50)
-  code                          String?             @unique(map: "UQ_0e2c0e1b4b0b0b0b0b0b0b0b0b0") @db.VarChar(50)
+  id                            String              @id(map: "PK_c1433d71a4838793a49dcad46ab") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                          String              @unique(map: "UQ_648e3f5447f725579d7d4ffdfb7") @db.String(50)
+  code                          String?             @unique(map: "UQ_0e2c0e1b4b0b0b0b0b0b0b0b0b0") @db.String(50)
   active                        Boolean             @default(true)
   created_at                    DateTime            @default(now()) @db.Timestamptz(5)
   updated_at                    DateTime            @default(now()) @db.Timestamptz(5)
@@ -77,30 +77,30 @@ model roles_permissions {
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model typeorm_metadata {
-  type     String  @db.VarChar
-  database String? @db.VarChar
-  schema   String? @db.VarChar
-  table    String? @db.VarChar
-  name     String? @db.VarChar
+  type     String  @db.String
+  database String? @db.String
+  schema   String? @db.String
+  table    String? @db.String
+  name     String? @db.String
   value    String?
 
   @@ignore
 }
 
 model users {
-  id                                                    String                  @id(map: "PK_a3ffb1c0c8416b9fc6f907b7433") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  phone                                                 String                  @unique(map: "UQ_a000cca60bcf04454e727699490") @db.VarChar(20)
-  first_name                                            String?                 @db.VarChar(100)
-  last_name                                             String?                 @db.VarChar(100)
-  password                                              String?                 @db.VarChar
+  id                                                    String                  @id(map: "PK_a3ffb1c0c8416b9fc6f907b7433") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  phone                                                 String                  @unique(map: "UQ_a000cca60bcf04454e727699490") @db.String(20)
+  first_name                                            String?                 @db.String(100)
+  last_name                                             String?                 @db.String(100)
+  password                                              String?                 @db.String
   is_super_user                                         Boolean                 @default(false)
   status                                                user_status
   drive_type                                            drive_type?
-  card_name                                             String?                 @db.VarChar(100)
-  card_number                                           String?                 @db.VarChar(100)
+  card_name                                             String?                 @db.String(100)
+  card_number                                           String?                 @db.String(100)
   birth_date                                            DateTime?               @db.Timestamptz(5)
-  car_model                                             String?                 @db.VarChar(100)
-  car_number                                            String?                 @db.VarChar(100)
+  car_model                                             String?                 @db.String(100)
+  car_number                                            String?                 @db.String(100)
   is_online                                             Boolean                 @default(false)
   latitude                                              Float?                  @default(0)
   longitude                                             Float?                  @default(0)
@@ -132,8 +132,6 @@ model users {
   organization_updated_byTousers                        organization[]          @relation("organization_updated_byTousers")
   work_schedules_created_byTousers                      work_schedules[]        @relation("work_schedules_created_byTousers")
   work_schedules_updated_byTousers                      work_schedules[]        @relation("work_schedules_updated_byTousers")
-  terminals_created_byTousers                           terminals[]             @relation("terminals_created_byTousers")
-  terminals_updated_byTousers                           terminals[]             @relation("terminals_updated_byTousers")
   users_terminals                                       users_terminals[]
   users_work_schedules                                  users_work_schedules[]
   work_schedule_entries_created_byTousers               work_schedule_entries[] @relation("work_schedule_entries_created_byTousers")
@@ -146,6 +144,8 @@ model users {
   order_actions_created_byTousers                       order_actions[]         @relation("order_actions_created_byTousers")
   order_locations_created_byTousers                     order_locations[]       @relation("order_locations_created_byTousers")
   order_locations_couriers                              order_locations[]       @relation("order_locations_couriers")
+  api_tokens_created_byTousers                          api_tokens[]            @relation("api_tokens_created_byTousers")
+    api_tokens_updated_byTousers                          api_tokens[]            @relation("api_tokens_updated_byTousers")
 }
 
 model users_permissions {
@@ -175,8 +175,8 @@ model users_roles {
 }
 
 model city {
-  id                           String   @id(map: "PK_city_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  name                         String   @db.VarChar(255)
+  id                           String   @id(map: "PK_city_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                         String   @db.String(255)
   parent_id                    String?  @db.Uuid
   created_at                   DateTime @default(now()) @db.Timestamptz(5)
   updated_at                   DateTime @default(now()) @db.Timestamptz(5)
@@ -194,7 +194,7 @@ model city {
 }
 
 model post {
-  id                           String     @id(map: "PK_post_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id                           String     @id(map: "PK_post_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   user_id                      String     @db.Uuid
   created_at                   DateTime   @default(now()) @db.Timestamptz(5)
   updated_at                   DateTime   @default(now()) @db.Timestamptz(5)
@@ -219,7 +219,7 @@ model post {
 }
 
 model post_prop_types {
-  id                                      String    @id(map: "PK_post_prop_types_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id                                      String    @id(map: "PK_post_prop_types_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   sale_type                               sale_type @default(buy)
   name                                    String
   type                                    type      @default(string)
@@ -234,19 +234,22 @@ model post_prop_types {
 }
 
 model delivery_pricing {
-  id              String       @id(map: "PK_delivery_pricing_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id              String       @id(map: "PK_delivery_pricing_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   active          Boolean      @default(true)
   default         Boolean      @default(false)
   name            String
   drive_type      drive_type   @default(car)
   days            String[]
-  start_time      DateTime     @db.Timetz(5)
-  end_time        DateTime     @db.Timetz(5)
+  start_time      DateTime     @db.Time()
+  end_time        DateTime     @db.Time()
   min_price       Int?
   rules           Json
   price_per_km    Int          @default(0)
   organization_id String       @db.Uuid
+  terminal_id     String?       @db.Uuid
+
   organization    organization @relation("delivery_pricing_organization_idTorganization", fields: [organization_id], references: [id], onDelete: NoAction, map: "FK_delivery_pricing_organization_id")
+  terminal        terminals?    @relation("delivery_pricing_terminal_idTterminal", fields: [terminal_id], references: [id], onDelete: NoAction, map: "FK_delivery_pricing_terminal_id")
 
   created_at                               DateTime @default(now()) @db.Timestamptz(5)
   updated_at                               DateTime @default(now()) @db.Timestamptz(5)
@@ -260,7 +263,7 @@ model delivery_pricing {
 }
 
 model work_schedules {
-  id                               String       @id(map: "PK_work_schedules_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id                               String       @id(map: "PK_work_schedules_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name                             String
   active                           Boolean      @default(true)
   organization_id                  String       @db.Uuid
@@ -281,7 +284,7 @@ model work_schedules {
 }
 
 model terminals {
-  id              String       @id(map: "PK_terminals_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id              String       @id(map: "PK_terminals_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name            String
   active          Boolean      @default(true)
   phone           String?
@@ -294,22 +297,16 @@ model terminals {
 
   created_at                  DateTime @default(now()) @db.Timestamptz(5)
   updated_at                  DateTime @default(now()) @db.Timestamptz(5)
-  created_by                  String?  @db.Uuid
-  updated_by                  String?  @db.Uuid
-  terminals_created_byTousers users?   @relation("terminals_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_terminals_created_by")
-  terminals_updated_byTousers users?   @relation("terminals_updated_byTousers", fields: [updated_by], references: [id], onDelete: NoAction, map: "FK_terminals_updated_by")
 
   users_terminals  users_terminals[]
   orders_terminals orders[]
   order_actions_terminals order_actions[]
   order_locations_terminals order_locations[]
-
-  @@index([created_by], map: "fki_FK_terminals_created_by")
-  @@index([updated_by], map: "fki_FK_terminals_updated_by")
+  delivery_pricing_terminal_idTterminal delivery_pricing[] @relation("delivery_pricing_terminal_idTterminal")
 }
 
 model organization {
-  id                     String                   @id(map: "PK_organization_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id                     String                   @id(map: "PK_organization_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name                   String
   external_id            String?
   active                 Boolean                  @default(true)
@@ -338,6 +335,7 @@ model organization {
   terminals_organization_idTorganization        terminals[]        @relation("terminals_organization_idTorganization")
   order_status_organization                     order_status[]
   orders_organization                           orders[]
+  api_tokens_organization                       api_tokens[]
 }
 
 model users_terminals {
@@ -359,7 +357,7 @@ model users_work_schedules {
 }
 
 model work_schedule_entries {
-  id               String                     @id(map: "PK_work_schedule_entries_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id               String                     @id(map: "PK_work_schedule_entries_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   user_id          String                     @db.Uuid
   work_schedule_id String                     @db.Uuid
   date_start       DateTime                   @db.Timestamptz(5)
@@ -391,15 +389,15 @@ model work_schedule_entries {
 }
 
 model customers {
-  id                           String               @id(map: "PK_customer_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id                           String               @id(map: "PK_customer_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name                         String
-  phone                        String
+  phone                        String               @unique
   customers_comments_customers customers_comments[] @relation("customers_comments_customers")
   orders_customers             orders[]
 }
 
 model customers_comments {
-  id          String   @id(map: "PK_customers_comments_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id          String   @id(map: "PK_customers_comments_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   customer_id String   @db.Uuid
   comment     String
   created_at  DateTime @default(now()) @db.Timestamptz(5)
@@ -410,7 +408,7 @@ model customers_comments {
 }
 
 model order_status {
-  id              String  @id(map: "PK_order_status_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id              String  @id(map: "PK_order_status_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name            String
   sort            Int     @default(0)
   organization_id String  @db.Uuid
@@ -418,16 +416,17 @@ model order_status {
   finish          Boolean @default(false)
   cancel          Boolean @default(false)
   waiting         Boolean @default(false)
+  need_location   Boolean @default(false)
 
   order_status_organization organization @relation(fields: [organization_id], references: [id], onDelete: NoAction, map: "FK_order_status_organization_id")
   orders_order_status       orders[]
 }
 
 model orders {
-  id               String     @default(dbgenerated("uuid_generate_v4()")) @db.Uuid @unique
+  id               String     @default(dbgenerated("gen_random_uuid()")) @db.Uuid @unique
   organization_id  String     @db.Uuid
   customer_id      String     @db.Uuid
-  courier_id       String     @db.Uuid
+  courier_id       String?     @db.Uuid
   terminal_id      String     @db.Uuid
   order_status_id  String     @db.Uuid
   delivery_type    drive_type @default(car)
@@ -443,12 +442,12 @@ model orders {
   order_price      Float      @default(0)
   delivery_price   Float      @default(0)
   delivery_address String
-  delivery_date    DateTime   @db.Timestamptz(5)
   finished_date    DateTime?  @db.Timestamptz(5)
   delivery_comment String?
   payment_type     String
   cancel_reason    String?
   order_items      Json?
+  delivery_pricing_id String? @db.Uuid
 
   created_at DateTime @default(now()) @db.Timestamptz(5)
   updated_at DateTime @default(now()) @db.Timestamptz(5)
@@ -461,7 +460,7 @@ model orders {
 
   orders_customers customers @relation(fields: [customer_id], references: [id], onDelete: NoAction, map: "FK_orders_customer_id")
 
-  orders_couriers users @relation("orders_couriers", fields: [courier_id], references: [id], onDelete: NoAction, map: "FK_orders_courier_id")
+  orders_couriers users? @relation("orders_couriers", fields: [courier_id], references: [id], onDelete: NoAction, map: "FK_orders_courier_id")
 
   orders_order_status order_status @relation(fields: [order_status_id], references: [id], onDelete: NoAction, map: "FK_orders_order_status_id")
 
@@ -476,7 +475,7 @@ model orders {
 }
 
 model order_actions {
-  id          String   @default(dbgenerated("uuid_generate_v4()")) @db.Uuid @unique
+  id          String   @default(dbgenerated("gen_random_uuid()")) @db.Uuid @unique
   order_id    String   @db.Uuid
   duration    Int      @default(0)
   action      String?
@@ -493,10 +492,11 @@ model order_actions {
 }
 
 model order_locations {
-  id          String   @default(dbgenerated("uuid_generate_v4()")) @db.Uuid @unique
+  id          String   @default(dbgenerated("gen_random_uuid()")) @db.Uuid @unique
   order_id    String   @db.Uuid
   terminal_id String   @db.Uuid
   courier_id  String   @db.Uuid
+  order_status_id String @db.Uuid
   lat         Float    @default(0)
   lon         Float    @default(0)
   created_at  DateTime @default(now()) @db.Timestamptz(5)
@@ -508,6 +508,22 @@ model order_locations {
   order_locations_terminals         terminals @relation(fields: [terminal_id], references: [id], onDelete: NoAction, map: "FK_order_locations_terminal_id")
   order_locations_couriers          users @relation("order_locations_couriers", fields: [courier_id], references: [id], onDelete: NoAction, map: "FK_order_locations_courier_id")
 
+}
+
+model api_tokens {
+    id         String   @id(map: "PK_api_tokens_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid @unique
+    active     Boolean  @default(false)
+    token      String   @unique
+    organization_id String @db.Uuid
+    created_at DateTime @default(now()) @db.Timestamptz(5)
+    updated_at DateTime @default(now()) @db.Timestamptz(5)
+    created_by String?  @db.Uuid
+    updated_by String?  @db.Uuid
+
+    api_tokens_created_byTousers users? @relation("api_tokens_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_api_tokens_created_by")
+    api_tokens_updated_byTousers users? @relation("api_tokens_updated_byTousers", fields: [updated_by], references: [id], onDelete: NoAction, map: "FK_api_tokens_updated_by")
+
+    api_tokens_organization organization @relation(fields: [organization_id], references: [id], onDelete: NoAction, map: "FK_api_tokens_organization_id")
 }
 
 enum organization_payment_types {

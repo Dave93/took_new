@@ -6,4 +6,7 @@ export class customersWhereUniqueInput {
 
     @Field(() => String, {nullable:true})
     id?: string;
+
+    @Field(() => String, {nullable:true})
+    phone?: string;
 }

@@ -17,6 +17,9 @@ export class order_locationsCreateManyOrder_locations_created_byTousersInput {
     @Field(() => String, {nullable:false})
     courier_id!: string;
 
+    @Field(() => String, {nullable:false})
+    order_status_id!: string;
+
     @Field(() => Float, {nullable:true})
     lat?: number;
 

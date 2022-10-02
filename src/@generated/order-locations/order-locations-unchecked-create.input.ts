@@ -17,6 +17,9 @@ export class order_locationsUncheckedCreateInput {
     @Field(() => String, {nullable:false})
     courier_id!: string;
 
+    @Field(() => String, {nullable:false})
+    order_status_id!: string;
+
     @Field(() => Float, {nullable:true})
     lat?: number;
 

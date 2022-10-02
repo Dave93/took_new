@@ -20,7 +20,6 @@ import { Delivery_pricingListRelationFilter } from '../prisma/delivery-pricing-l
 import { CityListRelationFilter } from '../prisma/city-list-relation-filter.input';
 import { OrganizationListRelationFilter } from '../prisma/organization-list-relation-filter.input';
 import { Work_schedulesListRelationFilter } from '../prisma/work-schedules-list-relation-filter.input';
-import { TerminalsListRelationFilter } from '../prisma/terminals-list-relation-filter.input';
 import { Users_terminalsListRelationFilter } from '../prisma/users-terminals-list-relation-filter.input';
 import { Users_work_schedulesListRelationFilter } from '../prisma/users-work-schedules-list-relation-filter.input';
 import { Work_schedule_entriesListRelationFilter } from '../prisma/work-schedule-entries-list-relation-filter.input';
@@ -28,6 +27,7 @@ import { Customers_commentsListRelationFilter } from '../prisma/customers-commen
 import { OrdersListRelationFilter } from '../prisma/orders-list-relation-filter.input';
 import { Order_actionsListRelationFilter } from '../prisma/order-actions-list-relation-filter.input';
 import { Order_locationsListRelationFilter } from '../prisma/order-locations-list-relation-filter.input';
+import { Api_tokensListRelationFilter } from '../prisma/api-tokens-list-relation-filter.input';
 
 @InputType()
 export class usersWhereInput {
@@ -173,12 +173,6 @@ export class usersWhereInput {
     @Field(() => Work_schedulesListRelationFilter, {nullable:true})
     work_schedules_updated_byTousers?: Work_schedulesListRelationFilter;
 
-    @Field(() => TerminalsListRelationFilter, {nullable:true})
-    terminals_created_byTousers?: TerminalsListRelationFilter;
-
-    @Field(() => TerminalsListRelationFilter, {nullable:true})
-    terminals_updated_byTousers?: TerminalsListRelationFilter;
-
     @Field(() => Users_terminalsListRelationFilter, {nullable:true})
     users_terminals?: Users_terminalsListRelationFilter;
 
@@ -214,4 +208,10 @@ export class usersWhereInput {
 
     @Field(() => Order_locationsListRelationFilter, {nullable:true})
     order_locations_couriers?: Order_locationsListRelationFilter;
+
+    @Field(() => Api_tokensListRelationFilter, {nullable:true})
+    api_tokens_created_byTousers?: Api_tokensListRelationFilter;
+
+    @Field(() => Api_tokensListRelationFilter, {nullable:true})
+    api_tokens_updated_byTousers?: Api_tokensListRelationFilter;
 }

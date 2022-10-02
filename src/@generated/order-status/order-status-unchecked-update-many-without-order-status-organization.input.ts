@@ -25,4 +25,7 @@ export class order_statusUncheckedUpdateManyWithoutOrder_status_organizationInpu
 
     @Field(() => Boolean, {nullable:true})
     waiting?: boolean;
+
+    @Field(() => Boolean, {nullable:true})
+    need_location?: boolean;
 }

@@ -8,7 +8,8 @@ export enum Order_statusScalarFieldEnum {
     color = "color",
     finish = "finish",
     cancel = "cancel",
-    waiting = "waiting"
+    waiting = "waiting",
+    need_location = "need_location"
 }
 
 

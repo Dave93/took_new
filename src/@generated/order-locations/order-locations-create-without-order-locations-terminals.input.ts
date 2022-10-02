@@ -11,6 +11,9 @@ export class order_locationsCreateWithoutOrder_locations_terminalsInput {
     @Field(() => String, {nullable:true})
     id?: string;
 
+    @Field(() => String, {nullable:false})
+    order_status_id!: string;
+
     @Field(() => Float, {nullable:true})
     lat?: number;
 

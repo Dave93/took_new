@@ -4,10 +4,11 @@ import { ordersWhereInput } from 'src/@generated/orders/orders-where.input';
 import { PrismaService } from 'src/prisma.service';
 import { CreateOrderInput } from './dto/create-order.input';
 import { UpdateOrderInput } from './dto/update-order.input';
+import { CacheControlService } from '@modules/cache_control/cache_control.service';
 
 @Injectable()
 export class OrdersService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService, private readonly cacheControl: CacheControlService) {}
   create(createOrderInput: CreateOrderInput) {
     return 'This action adds a new order';
   }
@@ -110,6 +111,46 @@ export class OrdersService {
         id: true,
       },
       where,
+    });
+  }
+
+  async getCouriersForOrder(terminalId: string) {
+    const roles: any = await this.cacheControl.getCachedRoles();
+    const courierRole = roles.find((role) => role.code === 'courier');
+    return this.prismaService.users.findMany({
+      where: {
+        users_terminals: {
+          some: {
+            terminal_id: terminalId,
+          },
+        },
+        users_roles_usersTousers_roles_user_id: {
+          some: {
+            role_id: courierRole.id,
+          },
+        },
+        status: 'active',
+      },
+      select: {
+        id: true,
+        first_name: true,
+        last_name: true,
+      },
+    });
+  }
+
+  async changeOrderCourier(orderId: string, courierId: string) {
+    return this.prismaService.orders.update({
+      where: {
+        id: orderId,
+      },
+      data: {
+        orders_couriers: {
+          connect: {
+            id: courierId,
+          },
+        },
+      },
     });
   }
 }

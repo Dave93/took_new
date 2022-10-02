@@ -5,6 +5,7 @@ export enum Order_locationsScalarFieldEnum {
     order_id = "order_id",
     terminal_id = "terminal_id",
     courier_id = "courier_id",
+    order_status_id = "order_status_id",
     lat = "lat",
     lon = "lon",
     created_at = "created_at",

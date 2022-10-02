@@ -11,9 +11,7 @@ export enum TerminalsScalarFieldEnum {
     external_id = "external_id",
     organization_id = "organization_id",
     created_at = "created_at",
-    updated_at = "updated_at",
-    created_by = "created_by",
-    updated_by = "updated_by"
+    updated_at = "updated_at"
 }
 
 

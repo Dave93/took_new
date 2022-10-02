@@ -63,9 +63,6 @@ export class ordersUncheckedUpdateManyWithoutOrders_couriersInput {
     delivery_address?: string;
 
     @Field(() => Date, {nullable:true})
-    delivery_date?: Date | string;
-
-    @Field(() => Date, {nullable:true})
     finished_date?: Date | string;
 
     @Field(() => String, {nullable:true})
@@ -79,6 +76,9 @@ export class ordersUncheckedUpdateManyWithoutOrders_couriersInput {
 
     @Field(() => GraphQLJSON, {nullable:true})
     order_items?: any;
+
+    @Field(() => String, {nullable:true})
+    delivery_pricing_id?: string;
 
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;

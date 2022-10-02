@@ -2,11 +2,11 @@ import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { SortOrder } from '../prisma/sort-order.enum';
 import { organizationOrderByWithRelationInput } from '../organization/organization-order-by-with-relation.input';
-import { usersOrderByWithRelationInput } from '../users/users-order-by-with-relation.input';
 import { users_terminalsOrderByRelationAggregateInput } from '../users-terminals/users-terminals-order-by-relation-aggregate.input';
 import { ordersOrderByRelationAggregateInput } from '../orders/orders-order-by-relation-aggregate.input';
 import { order_actionsOrderByRelationAggregateInput } from '../order-actions/order-actions-order-by-relation-aggregate.input';
 import { order_locationsOrderByRelationAggregateInput } from '../order-locations/order-locations-order-by-relation-aggregate.input';
+import { delivery_pricingOrderByRelationAggregateInput } from '../delivery-pricing/delivery-pricing-order-by-relation-aggregate.input';
 
 @InputType()
 export class terminalsOrderByWithRelationInput {
@@ -47,18 +47,6 @@ export class terminalsOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
     updated_at?: keyof typeof SortOrder;
 
-    @Field(() => SortOrder, {nullable:true})
-    created_by?: keyof typeof SortOrder;
-
-    @Field(() => SortOrder, {nullable:true})
-    updated_by?: keyof typeof SortOrder;
-
-    @Field(() => usersOrderByWithRelationInput, {nullable:true})
-    terminals_created_byTousers?: usersOrderByWithRelationInput;
-
-    @Field(() => usersOrderByWithRelationInput, {nullable:true})
-    terminals_updated_byTousers?: usersOrderByWithRelationInput;
-
     @Field(() => users_terminalsOrderByRelationAggregateInput, {nullable:true})
     users_terminals?: users_terminalsOrderByRelationAggregateInput;
 
@@ -70,4 +58,7 @@ export class terminalsOrderByWithRelationInput {
 
     @Field(() => order_locationsOrderByRelationAggregateInput, {nullable:true})
     order_locations_terminals?: order_locationsOrderByRelationAggregateInput;
+
+    @Field(() => delivery_pricingOrderByRelationAggregateInput, {nullable:true})
+    delivery_pricing_terminal_idTterminal?: delivery_pricingOrderByRelationAggregateInput;
 }

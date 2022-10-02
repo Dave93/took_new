@@ -43,6 +43,9 @@ export class order_statusWhereInput {
     @Field(() => BoolFilter, {nullable:true})
     waiting?: BoolFilter;
 
+    @Field(() => BoolFilter, {nullable:true})
+    need_location?: BoolFilter;
+
     @Field(() => OrganizationRelationFilter, {nullable:true})
     order_status_organization?: OrganizationRelationFilter;
 

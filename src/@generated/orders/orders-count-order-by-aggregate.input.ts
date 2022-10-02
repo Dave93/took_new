@@ -63,9 +63,6 @@ export class ordersCountOrderByAggregateInput {
     delivery_address?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    delivery_date?: keyof typeof SortOrder;
-
-    @Field(() => SortOrder, {nullable:true})
     finished_date?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
@@ -79,6 +76,9 @@ export class ordersCountOrderByAggregateInput {
 
     @Field(() => SortOrder, {nullable:true})
     order_items?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    delivery_pricing_id?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
     created_at?: keyof typeof SortOrder;

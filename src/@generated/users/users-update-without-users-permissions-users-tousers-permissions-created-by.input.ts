@@ -28,8 +28,6 @@ import { organizationUpdateManyWithoutOrganization_created_byTousersNestedInput 
 import { organizationUpdateManyWithoutOrganization_updated_byTousersNestedInput } from '../organization/organization-update-many-without-organization-updated-by-tousers-nested.input';
 import { work_schedulesUpdateManyWithoutWork_schedules_created_byTousersNestedInput } from '../work-schedules/work-schedules-update-many-without-work-schedules-created-by-tousers-nested.input';
 import { work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput } from '../work-schedules/work-schedules-update-many-without-work-schedules-updated-by-tousers-nested.input';
-import { terminalsUpdateManyWithoutTerminals_created_byTousersNestedInput } from '../terminals/terminals-update-many-without-terminals-created-by-tousers-nested.input';
-import { terminalsUpdateManyWithoutTerminals_updated_byTousersNestedInput } from '../terminals/terminals-update-many-without-terminals-updated-by-tousers-nested.input';
 import { users_terminalsUpdateManyWithoutUsersNestedInput } from '../users-terminals/users-terminals-update-many-without-users-nested.input';
 import { users_work_schedulesUpdateManyWithoutUsersNestedInput } from '../users-work-schedules/users-work-schedules-update-many-without-users-nested.input';
 import { work_schedule_entriesUpdateManyWithoutWork_schedule_entries_created_byTousersNestedInput } from '../work-schedule-entries/work-schedule-entries-update-many-without-work-schedule-entries-created-by-tousers-nested.input';
@@ -42,6 +40,8 @@ import { ordersUpdateManyWithoutOrders_couriersNestedInput } from '../orders/ord
 import { order_actionsUpdateManyWithoutOrder_actions_created_byTousersNestedInput } from '../order-actions/order-actions-update-many-without-order-actions-created-by-tousers-nested.input';
 import { order_locationsUpdateManyWithoutOrder_locations_created_byTousersNestedInput } from '../order-locations/order-locations-update-many-without-order-locations-created-by-tousers-nested.input';
 import { order_locationsUpdateManyWithoutOrder_locations_couriersNestedInput } from '../order-locations/order-locations-update-many-without-order-locations-couriers-nested.input';
+import { api_tokensUpdateManyWithoutApi_tokens_created_byTousersNestedInput } from '../api-tokens/api-tokens-update-many-without-api-tokens-created-by-tousers-nested.input';
+import { api_tokensUpdateManyWithoutApi_tokens_updated_byTousersNestedInput } from '../api-tokens/api-tokens-update-many-without-api-tokens-updated-by-tousers-nested.input';
 
 @InputType()
 export class usersUpdateWithoutUsers_permissions_usersTousers_permissions_created_byInput {
@@ -175,12 +175,6 @@ export class usersUpdateWithoutUsers_permissions_usersTousers_permissions_create
     @Field(() => work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput, {nullable:true})
     work_schedules_updated_byTousers?: work_schedulesUpdateManyWithoutWork_schedules_updated_byTousersNestedInput;
 
-    @Field(() => terminalsUpdateManyWithoutTerminals_created_byTousersNestedInput, {nullable:true})
-    terminals_created_byTousers?: terminalsUpdateManyWithoutTerminals_created_byTousersNestedInput;
-
-    @Field(() => terminalsUpdateManyWithoutTerminals_updated_byTousersNestedInput, {nullable:true})
-    terminals_updated_byTousers?: terminalsUpdateManyWithoutTerminals_updated_byTousersNestedInput;
-
     @Field(() => users_terminalsUpdateManyWithoutUsersNestedInput, {nullable:true})
     users_terminals?: users_terminalsUpdateManyWithoutUsersNestedInput;
 
@@ -216,4 +210,10 @@ export class usersUpdateWithoutUsers_permissions_usersTousers_permissions_create
 
     @Field(() => order_locationsUpdateManyWithoutOrder_locations_couriersNestedInput, {nullable:true})
     order_locations_couriers?: order_locationsUpdateManyWithoutOrder_locations_couriersNestedInput;
+
+    @Field(() => api_tokensUpdateManyWithoutApi_tokens_created_byTousersNestedInput, {nullable:true})
+    api_tokens_created_byTousers?: api_tokensUpdateManyWithoutApi_tokens_created_byTousersNestedInput;
+
+    @Field(() => api_tokensUpdateManyWithoutApi_tokens_updated_byTousersNestedInput, {nullable:true})
+    api_tokens_updated_byTousers?: api_tokensUpdateManyWithoutApi_tokens_updated_byTousersNestedInput;
 }

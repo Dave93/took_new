@@ -6,7 +6,4 @@ export class work_schedulesUpdatedaysInput {
 
     @Field(() => [String], {nullable:true})
     set?: Array<string>;
-
-    @Field(() => [String], {nullable:true})
-    push?: Array<string>;
 }

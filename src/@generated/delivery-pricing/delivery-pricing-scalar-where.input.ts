@@ -58,6 +58,9 @@ export class delivery_pricingScalarWhereInput {
     @Field(() => StringFilter, {nullable:true})
     organization_id?: StringFilter;
 
+    @Field(() => StringNullableFilter, {nullable:true})
+    terminal_id?: StringNullableFilter;
+
     @Field(() => DateTimeFilter, {nullable:true})
     created_at?: DateTimeFilter;
 

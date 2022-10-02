@@ -10,6 +10,7 @@ import { delivery_pricing } from '../delivery-pricing/delivery-pricing.model';
 import { terminals } from '../terminals/terminals.model';
 import { order_status } from '../order-status/order-status.model';
 import { orders } from '../orders/orders.model';
+import { api_tokens } from '../api-tokens/api-tokens.model';
 import { OrganizationCount } from '../prisma/organization-count.output';
 
 @ObjectType()
@@ -98,6 +99,9 @@ export class organization {
 
     @Field(() => [orders], {nullable:true})
     orders_organization?: Array<orders>;
+
+    @Field(() => [api_tokens], {nullable:true})
+    api_tokens_organization?: Array<api_tokens>;
 
     @Field(() => OrganizationCount, {nullable:false})
     _count?: OrganizationCount;

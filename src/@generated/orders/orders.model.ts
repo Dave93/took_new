@@ -25,8 +25,8 @@ export class orders {
     @Field(() => String, {nullable:false})
     customer_id!: string;
 
-    @Field(() => String, {nullable:false})
-    courier_id!: string;
+    @Field(() => String, {nullable:true})
+    courier_id!: string | null;
 
     @Field(() => String, {nullable:false})
     terminal_id!: string;
@@ -73,9 +73,6 @@ export class orders {
     @Field(() => String, {nullable:false})
     delivery_address!: string;
 
-    @Field(() => Date, {nullable:false})
-    delivery_date!: Date;
-
     @Field(() => Date, {nullable:true})
     finished_date!: Date | null;
 
@@ -90,6 +87,9 @@ export class orders {
 
     @Field(() => GraphQLJSON, {nullable:true})
     order_items!: any | null;
+
+    @Field(() => String, {nullable:true})
+    delivery_pricing_id!: string | null;
 
     @Field(() => Date, {nullable:false})
     created_at!: Date;
@@ -112,8 +112,8 @@ export class orders {
     @Field(() => customers, {nullable:false})
     orders_customers?: customers;
 
-    @Field(() => users, {nullable:false})
-    orders_couriers?: users;
+    @Field(() => users, {nullable:true})
+    orders_couriers?: users | null;
 
     @Field(() => order_status, {nullable:false})
     orders_order_status?: order_status;

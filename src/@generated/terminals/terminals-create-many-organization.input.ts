@@ -34,10 +34,4 @@ export class terminalsCreateManyOrganizationInput {
 
     @Field(() => Date, {nullable:true})
     updated_at?: Date | string;
-
-    @Field(() => String, {nullable:true})
-    created_by?: string;
-
-    @Field(() => String, {nullable:true})
-    updated_by?: string;
 }

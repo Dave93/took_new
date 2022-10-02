@@ -5,6 +5,7 @@ import { drive_type } from '../prisma/drive-type.enum';
 import { Int } from '@nestjs/graphql';
 import { GraphQLJSON } from 'graphql-type-json';
 import { organization } from '../organization/organization.model';
+import { terminals } from '../terminals/terminals.model';
 import { users } from '../users/users.model';
 
 @ObjectType()
@@ -46,8 +47,14 @@ export class delivery_pricing {
     @Field(() => String, {nullable:false})
     organization_id!: string;
 
+    @Field(() => String, {nullable:true})
+    terminal_id!: string | null;
+
     @Field(() => organization, {nullable:false})
     organization?: organization;
+
+    @Field(() => terminals, {nullable:true})
+    terminal?: terminals | null;
 
     @Field(() => Date, {nullable:false})
     created_at!: Date;

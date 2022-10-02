@@ -84,12 +84,6 @@ export class UsersCount {
     work_schedules_updated_byTousers!: number;
 
     @Field(() => Int, {nullable:false})
-    terminals_created_byTousers!: number;
-
-    @Field(() => Int, {nullable:false})
-    terminals_updated_byTousers!: number;
-
-    @Field(() => Int, {nullable:false})
     users_terminals!: number;
 
     @Field(() => Int, {nullable:false})
@@ -124,4 +118,10 @@ export class UsersCount {
 
     @Field(() => Int, {nullable:false})
     order_locations_couriers!: number;
+
+    @Field(() => Int, {nullable:false})
+    api_tokens_created_byTousers!: number;
+
+    @Field(() => Int, {nullable:false})
+    api_tokens_updated_byTousers!: number;
 }

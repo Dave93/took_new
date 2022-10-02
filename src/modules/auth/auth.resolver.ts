@@ -36,7 +36,7 @@ export class AuthResolver {
 
   @Mutation(() => SendOtpToken, { nullable: true })
   async sendOtp(@Args('phone', { type: () => String }) phone: string): Promise<SendOtpToken> {
-    let result = await this.authService.sendOtp(phone);
+    const result = await this.authService.sendOtp(phone);
     return result;
   }
 
@@ -46,13 +46,13 @@ export class AuthResolver {
     @Args('otp', { type: () => String }) otp: string,
     @Args('verificationKey', { type: () => String }) verificationKey: string,
   ): Promise<LoginResponseDto> {
-    let result = await this.authService.verifyOtp(phone, otp, verificationKey);
+    const result = await this.authService.verifyOtp(phone, otp, verificationKey);
     return result;
   }
 
   @Mutation(() => TokenDto, { nullable: true })
   async refreshToken(@Args('refreshToken', { type: () => String }) refreshToken: string): Promise<TokenDto> {
-    let result = await this.authService.generateRefreshToken(refreshToken);
+    const result = await this.authService.generateRefreshToken(refreshToken);
     return result;
   }
 }

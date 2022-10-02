@@ -7,7 +7,7 @@ import { GraphQLJSON } from 'graphql-type-json';
 import { usersUpdateOneWithoutOrders_created_byTousersNestedInput } from '../users/users-update-one-without-orders-created-by-tousers-nested.input';
 import { usersUpdateOneWithoutOrders_updated_byTousersNestedInput } from '../users/users-update-one-without-orders-updated-by-tousers-nested.input';
 import { customersUpdateOneRequiredWithoutOrders_customersNestedInput } from '../customers/customers-update-one-required-without-orders-customers-nested.input';
-import { usersUpdateOneRequiredWithoutOrders_couriersNestedInput } from '../users/users-update-one-required-without-orders-couriers-nested.input';
+import { usersUpdateOneWithoutOrders_couriersNestedInput } from '../users/users-update-one-without-orders-couriers-nested.input';
 import { order_statusUpdateOneRequiredWithoutOrders_order_statusNestedInput } from '../order-status/order-status-update-one-required-without-orders-order-status-nested.input';
 import { organizationUpdateOneRequiredWithoutOrders_organizationNestedInput } from '../organization/organization-update-one-required-without-orders-organization-nested.input';
 import { terminalsUpdateOneRequiredWithoutOrders_terminalsNestedInput } from '../terminals/terminals-update-one-required-without-orders-terminals-nested.input';
@@ -60,9 +60,6 @@ export class ordersUpdateInput {
     delivery_address?: string;
 
     @Field(() => Date, {nullable:true})
-    delivery_date?: Date | string;
-
-    @Field(() => Date, {nullable:true})
     finished_date?: Date | string;
 
     @Field(() => String, {nullable:true})
@@ -76,6 +73,9 @@ export class ordersUpdateInput {
 
     @Field(() => GraphQLJSON, {nullable:true})
     order_items?: any;
+
+    @Field(() => String, {nullable:true})
+    delivery_pricing_id?: string;
 
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;
@@ -92,8 +92,8 @@ export class ordersUpdateInput {
     @Field(() => customersUpdateOneRequiredWithoutOrders_customersNestedInput, {nullable:true})
     orders_customers?: customersUpdateOneRequiredWithoutOrders_customersNestedInput;
 
-    @Field(() => usersUpdateOneRequiredWithoutOrders_couriersNestedInput, {nullable:true})
-    orders_couriers?: usersUpdateOneRequiredWithoutOrders_couriersNestedInput;
+    @Field(() => usersUpdateOneWithoutOrders_couriersNestedInput, {nullable:true})
+    orders_couriers?: usersUpdateOneWithoutOrders_couriersNestedInput;
 
     @Field(() => order_statusUpdateOneRequiredWithoutOrders_order_statusNestedInput, {nullable:true})
     orders_order_status?: order_statusUpdateOneRequiredWithoutOrders_order_statusNestedInput;

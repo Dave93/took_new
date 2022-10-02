@@ -27,6 +27,9 @@ export class order_statusCreateWithoutOrder_status_organizationInput {
     @Field(() => Boolean, {nullable:true})
     waiting?: boolean;
 
+    @Field(() => Boolean, {nullable:true})
+    need_location?: boolean;
+
     @Field(() => ordersCreateNestedManyWithoutOrders_order_statusInput, {nullable:true})
     orders_order_status?: ordersCreateNestedManyWithoutOrders_order_statusInput;
 }

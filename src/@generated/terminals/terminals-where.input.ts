@@ -6,11 +6,11 @@ import { StringNullableFilter } from '../prisma/string-nullable-filter.input';
 import { FloatFilter } from '../prisma/float-filter.input';
 import { OrganizationRelationFilter } from '../prisma/organization-relation-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
-import { UsersRelationFilter } from '../prisma/users-relation-filter.input';
 import { Users_terminalsListRelationFilter } from '../prisma/users-terminals-list-relation-filter.input';
 import { OrdersListRelationFilter } from '../prisma/orders-list-relation-filter.input';
 import { Order_actionsListRelationFilter } from '../prisma/order-actions-list-relation-filter.input';
 import { Order_locationsListRelationFilter } from '../prisma/order-locations-list-relation-filter.input';
+import { Delivery_pricingListRelationFilter } from '../prisma/delivery-pricing-list-relation-filter.input';
 
 @InputType()
 export class terminalsWhereInput {
@@ -60,18 +60,6 @@ export class terminalsWhereInput {
     @Field(() => DateTimeFilter, {nullable:true})
     updated_at?: DateTimeFilter;
 
-    @Field(() => StringNullableFilter, {nullable:true})
-    created_by?: StringNullableFilter;
-
-    @Field(() => StringNullableFilter, {nullable:true})
-    updated_by?: StringNullableFilter;
-
-    @Field(() => UsersRelationFilter, {nullable:true})
-    terminals_created_byTousers?: UsersRelationFilter;
-
-    @Field(() => UsersRelationFilter, {nullable:true})
-    terminals_updated_byTousers?: UsersRelationFilter;
-
     @Field(() => Users_terminalsListRelationFilter, {nullable:true})
     users_terminals?: Users_terminalsListRelationFilter;
 
@@ -83,4 +71,7 @@ export class terminalsWhereInput {
 
     @Field(() => Order_locationsListRelationFilter, {nullable:true})
     order_locations_terminals?: Order_locationsListRelationFilter;
+
+    @Field(() => Delivery_pricingListRelationFilter, {nullable:true})
+    delivery_pricing_terminal_idTterminal?: Delivery_pricingListRelationFilter;
 }

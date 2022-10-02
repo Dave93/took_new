@@ -28,6 +28,9 @@ export class order_statusUpdateInput {
     @Field(() => Boolean, {nullable:true})
     waiting?: boolean;
 
+    @Field(() => Boolean, {nullable:true})
+    need_location?: boolean;
+
     @Field(() => organizationUpdateOneRequiredWithoutOrder_status_organizationNestedInput, {nullable:true})
     order_status_organization?: organizationUpdateOneRequiredWithoutOrder_status_organizationNestedInput;
 

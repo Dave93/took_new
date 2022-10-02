@@ -7,7 +7,7 @@ export class TokenDto {
   @Field(() => String, { description: 'Access token' })
   accessToken: string;
   @Field(() => String, { description: 'Access token expires' })
-  accessTokenExpires: number;
+  accessTokenExpires: string;
   @Field(() => String, { description: 'Refresh token' })
   refreshToken: string;
 }

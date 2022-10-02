@@ -21,6 +21,9 @@ export class order_locationsOrderByWithRelationInput {
     courier_id?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    order_status_id?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     lat?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})

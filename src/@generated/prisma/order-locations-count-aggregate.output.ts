@@ -18,6 +18,9 @@ export class Order_locationsCountAggregate {
     courier_id!: number;
 
     @Field(() => Int, {nullable:false})
+    order_status_id!: number;
+
+    @Field(() => Int, {nullable:false})
     lat!: number;
 
     @Field(() => Int, {nullable:false})

@@ -39,11 +39,5 @@ export class TerminalsCountAggregate {
     updated_at!: number;
 
     @Field(() => Int, {nullable:false})
-    created_by!: number;
-
-    @Field(() => Int, {nullable:false})
-    updated_by!: number;
-
-    @Field(() => Int, {nullable:false})
     _all!: number;
 }

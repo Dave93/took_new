@@ -7,6 +7,7 @@ import { work_schedulesUncheckedUpdateManyWithoutOrganizationNestedInput } from 
 import { delivery_pricingUncheckedUpdateManyWithoutOrganizationNestedInput } from '../delivery-pricing/delivery-pricing-unchecked-update-many-without-organization-nested.input';
 import { terminalsUncheckedUpdateManyWithoutOrganizationNestedInput } from '../terminals/terminals-unchecked-update-many-without-organization-nested.input';
 import { order_statusUncheckedUpdateManyWithoutOrder_status_organizationNestedInput } from '../order-status/order-status-unchecked-update-many-without-order-status-organization-nested.input';
+import { api_tokensUncheckedUpdateManyWithoutApi_tokens_organizationNestedInput } from '../api-tokens/api-tokens-unchecked-update-many-without-api-tokens-organization-nested.input';
 
 @InputType()
 export class organizationUncheckedUpdateWithoutOrders_organizationInput {
@@ -85,4 +86,7 @@ export class organizationUncheckedUpdateWithoutOrders_organizationInput {
 
     @Field(() => order_statusUncheckedUpdateManyWithoutOrder_status_organizationNestedInput, {nullable:true})
     order_status_organization?: order_statusUncheckedUpdateManyWithoutOrder_status_organizationNestedInput;
+
+    @Field(() => api_tokensUncheckedUpdateManyWithoutApi_tokens_organizationNestedInput, {nullable:true})
+    api_tokens_organization?: api_tokensUncheckedUpdateManyWithoutApi_tokens_organizationNestedInput;
 }

@@ -7,6 +7,7 @@ import { delivery_pricingOrderByRelationAggregateInput } from '../delivery-prici
 import { terminalsOrderByRelationAggregateInput } from '../terminals/terminals-order-by-relation-aggregate.input';
 import { order_statusOrderByRelationAggregateInput } from '../order-status/order-status-order-by-relation-aggregate.input';
 import { ordersOrderByRelationAggregateInput } from '../orders/orders-order-by-relation-aggregate.input';
+import { api_tokensOrderByRelationAggregateInput } from '../api-tokens/api-tokens-order-by-relation-aggregate.input';
 
 @InputType()
 export class organizationOrderByWithRelationInput {
@@ -94,4 +95,7 @@ export class organizationOrderByWithRelationInput {
 
     @Field(() => ordersOrderByRelationAggregateInput, {nullable:true})
     orders_organization?: ordersOrderByRelationAggregateInput;
+
+    @Field(() => api_tokensOrderByRelationAggregateInput, {nullable:true})
+    api_tokens_organization?: api_tokensOrderByRelationAggregateInput;
 }

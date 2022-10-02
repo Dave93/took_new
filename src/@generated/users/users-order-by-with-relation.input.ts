@@ -13,7 +13,6 @@ import { delivery_pricingOrderByRelationAggregateInput } from '../delivery-prici
 import { cityOrderByRelationAggregateInput } from '../city/city-order-by-relation-aggregate.input';
 import { organizationOrderByRelationAggregateInput } from '../organization/organization-order-by-relation-aggregate.input';
 import { work_schedulesOrderByRelationAggregateInput } from '../work-schedules/work-schedules-order-by-relation-aggregate.input';
-import { terminalsOrderByRelationAggregateInput } from '../terminals/terminals-order-by-relation-aggregate.input';
 import { users_terminalsOrderByRelationAggregateInput } from '../users-terminals/users-terminals-order-by-relation-aggregate.input';
 import { users_work_schedulesOrderByRelationAggregateInput } from '../users-work-schedules/users-work-schedules-order-by-relation-aggregate.input';
 import { work_schedule_entriesOrderByRelationAggregateInput } from '../work-schedule-entries/work-schedule-entries-order-by-relation-aggregate.input';
@@ -21,6 +20,7 @@ import { customers_commentsOrderByRelationAggregateInput } from '../customers-co
 import { ordersOrderByRelationAggregateInput } from '../orders/orders-order-by-relation-aggregate.input';
 import { order_actionsOrderByRelationAggregateInput } from '../order-actions/order-actions-order-by-relation-aggregate.input';
 import { order_locationsOrderByRelationAggregateInput } from '../order-locations/order-locations-order-by-relation-aggregate.input';
+import { api_tokensOrderByRelationAggregateInput } from '../api-tokens/api-tokens-order-by-relation-aggregate.input';
 
 @InputType()
 export class usersOrderByWithRelationInput {
@@ -157,12 +157,6 @@ export class usersOrderByWithRelationInput {
     @Field(() => work_schedulesOrderByRelationAggregateInput, {nullable:true})
     work_schedules_updated_byTousers?: work_schedulesOrderByRelationAggregateInput;
 
-    @Field(() => terminalsOrderByRelationAggregateInput, {nullable:true})
-    terminals_created_byTousers?: terminalsOrderByRelationAggregateInput;
-
-    @Field(() => terminalsOrderByRelationAggregateInput, {nullable:true})
-    terminals_updated_byTousers?: terminalsOrderByRelationAggregateInput;
-
     @Field(() => users_terminalsOrderByRelationAggregateInput, {nullable:true})
     users_terminals?: users_terminalsOrderByRelationAggregateInput;
 
@@ -198,4 +192,10 @@ export class usersOrderByWithRelationInput {
 
     @Field(() => order_locationsOrderByRelationAggregateInput, {nullable:true})
     order_locations_couriers?: order_locationsOrderByRelationAggregateInput;
+
+    @Field(() => api_tokensOrderByRelationAggregateInput, {nullable:true})
+    api_tokens_created_byTousers?: api_tokensOrderByRelationAggregateInput;
+
+    @Field(() => api_tokensOrderByRelationAggregateInput, {nullable:true})
+    api_tokens_updated_byTousers?: api_tokensOrderByRelationAggregateInput;
 }

@@ -6,13 +6,14 @@ import OpenTimeEntryArgs, { CloseTimeEntryArgs } from './dto/open-time-entry.arg
 import { RealIP } from 'nestjs-real-ip';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@modules/auth/guards';
-import { CurrentUser } from '@modules/auth';
+import { CurrentUser, Permissions } from '@modules/auth';
 import { users } from '@prisma/client';
 import { WorkScheduleEntriesReportRecord, WorkScheduleEntriesReportRes } from '@helpers';
 import { PrismaAggregateCount } from '@common/dtos/prisma-aggregate-count';
 import { work_schedule_entriesWhereInput } from 'src/@generated/work-schedule-entries/work-schedule-entries-where.input';
 import { FindManyworkScheduleEntriesArgs } from 'src/@generated/prisma/find-manywork-schedule-entries.args';
 import { WorkScheduleEntriesReportArgs, work_schedule_entriesReportWhereInput } from './dto/report.args';
+import { UserIp } from '../../decorators/user_id';
 
 @Resolver(() => WorkScheduleEntry)
 export class WorkScheduleEntriesResolver {
@@ -20,17 +21,18 @@ export class WorkScheduleEntriesResolver {
 
   @Mutation(() => work_schedule_entries)
   @UseGuards(JwtAuthGuard)
-  openTimeEntry(@Args() openTimeLocation: OpenTimeEntryArgs, @RealIP() ip: string, @CurrentUser() user: users) {
+  openTimeEntry(@Args() openTimeLocation: OpenTimeEntryArgs, @UserIp() ip: string, @CurrentUser() user: users) {
     return this.workScheduleEntriesService.openTimeEntry(openTimeLocation, ip, user);
   }
 
   @Mutation(() => work_schedule_entries)
   @UseGuards(JwtAuthGuard)
-  closeTimeEntry(@Args() openTimeLocation: CloseTimeEntryArgs, @RealIP() ip: string, @CurrentUser() user: users) {
+  closeTimeEntry(@Args() openTimeLocation: CloseTimeEntryArgs, @UserIp() ip: string, @CurrentUser() user: users) {
     return this.workScheduleEntriesService.closeTimeEntry(openTimeLocation, ip, user);
   }
 
   @Query(() => PrismaAggregateCount, { name: 'workScheduleEntriesReportConnection' })
+  @Permissions('work_schedule_entries_report.list')
   workScheduleEntriesReportConnection(@Args('where') where: work_schedule_entriesReportWhereInput) {
     return {
       _count: {
@@ -40,7 +42,7 @@ export class WorkScheduleEntriesResolver {
   }
 
   @Query(() => WorkScheduleEntriesReportRes, { name: 'workScheduleEntriesReport' })
-  @UseGuards(JwtAuthGuard)
+  @Permissions('work_schedule_entries_report.list')
   workScheduleEntriesReport(@Args() params: WorkScheduleEntriesReportArgs) {
     return this.workScheduleEntriesService.workScheduleEntriesReport(params);
   }

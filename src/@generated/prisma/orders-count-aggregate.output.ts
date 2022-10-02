@@ -63,9 +63,6 @@ export class OrdersCountAggregate {
     delivery_address!: number;
 
     @Field(() => Int, {nullable:false})
-    delivery_date!: number;
-
-    @Field(() => Int, {nullable:false})
     finished_date!: number;
 
     @Field(() => Int, {nullable:false})
@@ -79,6 +76,9 @@ export class OrdersCountAggregate {
 
     @Field(() => Int, {nullable:false})
     order_items!: number;
+
+    @Field(() => Int, {nullable:false})
+    delivery_pricing_id!: number;
 
     @Field(() => Int, {nullable:false})
     created_at!: number;

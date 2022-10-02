@@ -9,6 +9,7 @@ import { usersCreateNestedOneWithoutOrganization_updated_byTousersInput } from '
 import { delivery_pricingCreateNestedManyWithoutOrganizationInput } from '../delivery-pricing/delivery-pricing-create-nested-many-without-organization.input';
 import { terminalsCreateNestedManyWithoutOrganizationInput } from '../terminals/terminals-create-nested-many-without-organization.input';
 import { order_statusCreateNestedManyWithoutOrder_status_organizationInput } from '../order-status/order-status-create-nested-many-without-order-status-organization.input';
+import { api_tokensCreateNestedManyWithoutApi_tokens_organizationInput } from '../api-tokens/api-tokens-create-nested-many-without-api-tokens-organization.input';
 
 @InputType()
 export class organizationCreateWithoutOrders_organizationInput {
@@ -87,4 +88,7 @@ export class organizationCreateWithoutOrders_organizationInput {
 
     @Field(() => order_statusCreateNestedManyWithoutOrder_status_organizationInput, {nullable:true})
     order_status_organization?: order_statusCreateNestedManyWithoutOrder_status_organizationInput;
+
+    @Field(() => api_tokensCreateNestedManyWithoutApi_tokens_organizationInput, {nullable:true})
+    api_tokens_organization?: api_tokensCreateNestedManyWithoutApi_tokens_organizationInput;
 }

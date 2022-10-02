@@ -18,8 +18,8 @@ export class ordersUncheckedCreateWithoutOrder_locations_ordersInput {
     @Field(() => String, {nullable:false})
     customer_id!: string;
 
-    @Field(() => String, {nullable:false})
-    courier_id!: string;
+    @Field(() => String, {nullable:true})
+    courier_id?: string;
 
     @Field(() => String, {nullable:false})
     terminal_id!: string;
@@ -66,9 +66,6 @@ export class ordersUncheckedCreateWithoutOrder_locations_ordersInput {
     @Field(() => String, {nullable:false})
     delivery_address!: string;
 
-    @Field(() => Date, {nullable:false})
-    delivery_date!: Date | string;
-
     @Field(() => Date, {nullable:true})
     finished_date?: Date | string;
 
@@ -83,6 +80,9 @@ export class ordersUncheckedCreateWithoutOrder_locations_ordersInput {
 
     @Field(() => GraphQLJSON, {nullable:true})
     order_items?: any;
+
+    @Field(() => String, {nullable:true})
+    delivery_pricing_id?: string;
 
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;

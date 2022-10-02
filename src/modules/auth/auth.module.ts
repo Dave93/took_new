@@ -8,6 +8,7 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard, PermissionsGuard } from './guards';
+import { CacheControlService } from '@modules/cache_control/cache_control.service';
 
 @Module({
   providers: [
@@ -16,14 +17,15 @@ import { JwtAuthGuard, PermissionsGuard } from './guards';
     PrismaService,
     TokenService,
     JwtStrategy,
+    CacheControlService,
     // {
     //   provide: APP_GUARD,
     //   useClass: JwtAuthGuard,
     // },
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: PermissionsGuard,
-    // },
+    {
+      provide: APP_GUARD,
+      useClass: PermissionsGuard,
+    },
   ],
   imports: [
     ConfigModule.forRoot(),

@@ -5,8 +5,8 @@ export class AuthAccessRolesDto {
   @Field(() => String, { description: 'Role name' })
   name: string;
 
-  @Field(() => [String], { description: 'Role permissions' })
-  permissions: string;
+  @Field(() => String, { description: 'Role code' })
+  code: string;
 
   @Field(() => Boolean, { description: 'Role active' })
   active: boolean;

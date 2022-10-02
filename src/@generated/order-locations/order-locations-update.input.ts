@@ -12,6 +12,9 @@ export class order_locationsUpdateInput {
     @Field(() => String, {nullable:true})
     id?: string;
 
+    @Field(() => String, {nullable:true})
+    order_status_id?: string;
+
     @Field(() => Float, {nullable:true})
     lat?: number;
 

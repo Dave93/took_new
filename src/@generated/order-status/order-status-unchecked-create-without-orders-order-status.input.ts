@@ -28,4 +28,7 @@ export class order_statusUncheckedCreateWithoutOrders_order_statusInput {
 
     @Field(() => Boolean, {nullable:true})
     waiting?: boolean;
+
+    @Field(() => Boolean, {nullable:true})
+    need_location?: boolean;
 }

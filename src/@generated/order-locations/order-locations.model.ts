@@ -20,6 +20,9 @@ export class order_locations {
     @Field(() => String, {nullable:false})
     courier_id!: string;
 
+    @Field(() => String, {nullable:false})
+    order_status_id!: string;
+
     @Field(() => Float, {nullable:false,defaultValue:0})
     lat!: number;
 

@@ -40,4 +40,7 @@ export class order_statusScalarWhereInput {
 
     @Field(() => BoolFilter, {nullable:true})
     waiting?: BoolFilter;
+
+    @Field(() => BoolFilter, {nullable:true})
+    need_location?: BoolFilter;
 }

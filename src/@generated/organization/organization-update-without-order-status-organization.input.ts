@@ -9,6 +9,7 @@ import { usersUpdateOneWithoutOrganization_updated_byTousersNestedInput } from '
 import { delivery_pricingUpdateManyWithoutOrganizationNestedInput } from '../delivery-pricing/delivery-pricing-update-many-without-organization-nested.input';
 import { terminalsUpdateManyWithoutOrganizationNestedInput } from '../terminals/terminals-update-many-without-organization-nested.input';
 import { ordersUpdateManyWithoutOrders_organizationNestedInput } from '../orders/orders-update-many-without-orders-organization-nested.input';
+import { api_tokensUpdateManyWithoutApi_tokens_organizationNestedInput } from '../api-tokens/api-tokens-update-many-without-api-tokens-organization-nested.input';
 
 @InputType()
 export class organizationUpdateWithoutOrder_status_organizationInput {
@@ -87,4 +88,7 @@ export class organizationUpdateWithoutOrder_status_organizationInput {
 
     @Field(() => ordersUpdateManyWithoutOrders_organizationNestedInput, {nullable:true})
     orders_organization?: ordersUpdateManyWithoutOrders_organizationNestedInput;
+
+    @Field(() => api_tokensUpdateManyWithoutApi_tokens_organizationNestedInput, {nullable:true})
+    api_tokens_organization?: api_tokensUpdateManyWithoutApi_tokens_organizationNestedInput;
 }

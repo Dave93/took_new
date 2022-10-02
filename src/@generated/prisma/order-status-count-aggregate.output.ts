@@ -30,5 +30,8 @@ export class Order_statusCountAggregate {
     waiting!: number;
 
     @Field(() => Int, {nullable:false})
+    need_location!: number;
+
+    @Field(() => Int, {nullable:false})
     _all!: number;
 }

@@ -29,8 +29,6 @@ import { organizationCreateNestedManyWithoutOrganization_created_byTousersInput 
 import { organizationCreateNestedManyWithoutOrganization_updated_byTousersInput } from '../organization/organization-create-nested-many-without-organization-updated-by-tousers.input';
 import { work_schedulesCreateNestedManyWithoutWork_schedules_created_byTousersInput } from '../work-schedules/work-schedules-create-nested-many-without-work-schedules-created-by-tousers.input';
 import { work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput } from '../work-schedules/work-schedules-create-nested-many-without-work-schedules-updated-by-tousers.input';
-import { terminalsCreateNestedManyWithoutTerminals_created_byTousersInput } from '../terminals/terminals-create-nested-many-without-terminals-created-by-tousers.input';
-import { terminalsCreateNestedManyWithoutTerminals_updated_byTousersInput } from '../terminals/terminals-create-nested-many-without-terminals-updated-by-tousers.input';
 import { users_terminalsCreateNestedManyWithoutUsersInput } from '../users-terminals/users-terminals-create-nested-many-without-users.input';
 import { users_work_schedulesCreateNestedManyWithoutUsersInput } from '../users-work-schedules/users-work-schedules-create-nested-many-without-users.input';
 import { work_schedule_entriesCreateNestedManyWithoutWork_schedule_entries_created_byTousersInput } from '../work-schedule-entries/work-schedule-entries-create-nested-many-without-work-schedule-entries-created-by-tousers.input';
@@ -42,6 +40,8 @@ import { ordersCreateNestedManyWithoutOrders_couriersInput } from '../orders/ord
 import { order_actionsCreateNestedManyWithoutOrder_actions_created_byTousersInput } from '../order-actions/order-actions-create-nested-many-without-order-actions-created-by-tousers.input';
 import { order_locationsCreateNestedManyWithoutOrder_locations_created_byTousersInput } from '../order-locations/order-locations-create-nested-many-without-order-locations-created-by-tousers.input';
 import { order_locationsCreateNestedManyWithoutOrder_locations_couriersInput } from '../order-locations/order-locations-create-nested-many-without-order-locations-couriers.input';
+import { api_tokensCreateNestedManyWithoutApi_tokens_created_byTousersInput } from '../api-tokens/api-tokens-create-nested-many-without-api-tokens-created-by-tousers.input';
+import { api_tokensCreateNestedManyWithoutApi_tokens_updated_byTousersInput } from '../api-tokens/api-tokens-create-nested-many-without-api-tokens-updated-by-tousers.input';
 
 @InputType()
 export class usersCreateWithoutWork_schedule_entries_updated_byTousersInput {
@@ -178,12 +178,6 @@ export class usersCreateWithoutWork_schedule_entries_updated_byTousersInput {
     @Field(() => work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput, {nullable:true})
     work_schedules_updated_byTousers?: work_schedulesCreateNestedManyWithoutWork_schedules_updated_byTousersInput;
 
-    @Field(() => terminalsCreateNestedManyWithoutTerminals_created_byTousersInput, {nullable:true})
-    terminals_created_byTousers?: terminalsCreateNestedManyWithoutTerminals_created_byTousersInput;
-
-    @Field(() => terminalsCreateNestedManyWithoutTerminals_updated_byTousersInput, {nullable:true})
-    terminals_updated_byTousers?: terminalsCreateNestedManyWithoutTerminals_updated_byTousersInput;
-
     @Field(() => users_terminalsCreateNestedManyWithoutUsersInput, {nullable:true})
     users_terminals?: users_terminalsCreateNestedManyWithoutUsersInput;
 
@@ -216,4 +210,10 @@ export class usersCreateWithoutWork_schedule_entries_updated_byTousersInput {
 
     @Field(() => order_locationsCreateNestedManyWithoutOrder_locations_couriersInput, {nullable:true})
     order_locations_couriers?: order_locationsCreateNestedManyWithoutOrder_locations_couriersInput;
+
+    @Field(() => api_tokensCreateNestedManyWithoutApi_tokens_created_byTousersInput, {nullable:true})
+    api_tokens_created_byTousers?: api_tokensCreateNestedManyWithoutApi_tokens_created_byTousersInput;
+
+    @Field(() => api_tokensCreateNestedManyWithoutApi_tokens_updated_byTousersInput, {nullable:true})
+    api_tokens_updated_byTousers?: api_tokensCreateNestedManyWithoutApi_tokens_updated_byTousersInput;
 }

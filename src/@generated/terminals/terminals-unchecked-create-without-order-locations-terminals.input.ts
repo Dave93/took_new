@@ -4,6 +4,7 @@ import { Float } from '@nestjs/graphql';
 import { users_terminalsUncheckedCreateNestedManyWithoutTerminalsInput } from '../users-terminals/users-terminals-unchecked-create-nested-many-without-terminals.input';
 import { ordersUncheckedCreateNestedManyWithoutOrders_terminalsInput } from '../orders/orders-unchecked-create-nested-many-without-orders-terminals.input';
 import { order_actionsUncheckedCreateNestedManyWithoutOrder_actions_terminalsInput } from '../order-actions/order-actions-unchecked-create-nested-many-without-order-actions-terminals.input';
+import { delivery_pricingUncheckedCreateNestedManyWithoutTerminalInput } from '../delivery-pricing/delivery-pricing-unchecked-create-nested-many-without-terminal.input';
 
 @InputType()
 export class terminalsUncheckedCreateWithoutOrder_locations_terminalsInput {
@@ -41,12 +42,6 @@ export class terminalsUncheckedCreateWithoutOrder_locations_terminalsInput {
     @Field(() => Date, {nullable:true})
     updated_at?: Date | string;
 
-    @Field(() => String, {nullable:true})
-    created_by?: string;
-
-    @Field(() => String, {nullable:true})
-    updated_by?: string;
-
     @Field(() => users_terminalsUncheckedCreateNestedManyWithoutTerminalsInput, {nullable:true})
     users_terminals?: users_terminalsUncheckedCreateNestedManyWithoutTerminalsInput;
 
@@ -55,4 +50,7 @@ export class terminalsUncheckedCreateWithoutOrder_locations_terminalsInput {
 
     @Field(() => order_actionsUncheckedCreateNestedManyWithoutOrder_actions_terminalsInput, {nullable:true})
     order_actions_terminals?: order_actionsUncheckedCreateNestedManyWithoutOrder_actions_terminalsInput;
+
+    @Field(() => delivery_pricingUncheckedCreateNestedManyWithoutTerminalInput, {nullable:true})
+    delivery_pricing_terminal_idTterminal?: delivery_pricingUncheckedCreateNestedManyWithoutTerminalInput;
 }

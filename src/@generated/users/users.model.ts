@@ -16,7 +16,6 @@ import { delivery_pricing } from '../delivery-pricing/delivery-pricing.model';
 import { city } from '../city/city.model';
 import { organization } from '../organization/organization.model';
 import { work_schedules } from '../work-schedules/work-schedules.model';
-import { terminals } from '../terminals/terminals.model';
 import { users_terminals } from '../users-terminals/users-terminals.model';
 import { users_work_schedules } from '../users-work-schedules/users-work-schedules.model';
 import { work_schedule_entries } from '../work-schedule-entries/work-schedule-entries.model';
@@ -24,6 +23,7 @@ import { customers_comments } from '../customers-comments/customers-comments.mod
 import { orders } from '../orders/orders.model';
 import { order_actions } from '../order-actions/order-actions.model';
 import { order_locations } from '../order-locations/order-locations.model';
+import { api_tokens } from '../api-tokens/api-tokens.model';
 import { UsersCount } from '../prisma/users-count.output';
 
 @ObjectType()
@@ -161,12 +161,6 @@ export class users {
     @Field(() => [work_schedules], {nullable:true})
     work_schedules_updated_byTousers?: Array<work_schedules>;
 
-    @Field(() => [terminals], {nullable:true})
-    terminals_created_byTousers?: Array<terminals>;
-
-    @Field(() => [terminals], {nullable:true})
-    terminals_updated_byTousers?: Array<terminals>;
-
     @Field(() => [users_terminals], {nullable:true})
     users_terminals?: Array<users_terminals>;
 
@@ -202,6 +196,12 @@ export class users {
 
     @Field(() => [order_locations], {nullable:true})
     order_locations_couriers?: Array<order_locations>;
+
+    @Field(() => [api_tokens], {nullable:true})
+    api_tokens_created_byTousers?: Array<api_tokens>;
+
+    @Field(() => [api_tokens], {nullable:true})
+    api_tokens_updated_byTousers?: Array<api_tokens>;
 
     @Field(() => UsersCount, {nullable:false})
     _count?: UsersCount;

@@ -5,10 +5,6 @@ import { PermissionResponseDto } from '../../permissions/dtos';
 @ObjectType()
 export class RoleResponseDto {
   @ApiProperty()
-  @Field(() => String, { description: 'Role id' })
-  id: number;
-
-  @ApiProperty()
   @Field(() => String, { description: 'Role name' })
   name: string;
 

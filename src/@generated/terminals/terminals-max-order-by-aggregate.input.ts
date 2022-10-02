@@ -37,10 +37,4 @@ export class terminalsMaxOrderByAggregateInput {
 
     @Field(() => SortOrder, {nullable:true})
     updated_at?: keyof typeof SortOrder;
-
-    @Field(() => SortOrder, {nullable:true})
-    created_by?: keyof typeof SortOrder;
-
-    @Field(() => SortOrder, {nullable:true})
-    updated_by?: keyof typeof SortOrder;
 }

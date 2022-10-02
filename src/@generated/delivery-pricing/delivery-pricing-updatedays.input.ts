@@ -6,7 +6,4 @@ export class delivery_pricingUpdatedaysInput {
 
     @Field(() => [String], {nullable:true})
     set?: Array<string>;
-
-    @Field(() => [String], {nullable:true})
-    push?: Array<string>;
 }

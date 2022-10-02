@@ -2,6 +2,10 @@ import { CACHE_MANAGER, Inject, Injectable, OnModuleInit } from '@nestjs/common'
 import { organization, work_schedules } from '@prisma/client';
 import { Cache } from 'cache-manager';
 import { PrismaService } from 'src/prisma.service';
+import { order_status } from '../../@generated/order-status/order-status.model';
+import { api_tokens } from '../../@generated/api-tokens/api-tokens.model';
+import { terminals } from '../../@generated/terminals/terminals.model';
+import { delivery_pricing } from '../../@generated/delivery-pricing/delivery-pricing.model';
 
 @Injectable()
 export class CacheControlService implements OnModuleInit {
@@ -16,21 +20,23 @@ export class CacheControlService implements OnModuleInit {
     await this.cacheTerminals();
     await this.cacheOrganizations();
     await this.cacheOrderStatus();
+    await this.invalidateCache('api_tokens');
+    await this.invalidateCache('roles');
   }
 
   /** Caching Start */
   async cacheWorkSchedules() {
-    let workSchedules = await this.prismaService.work_schedules.findMany();
+    const workSchedules = await this.prismaService.work_schedules.findMany();
     return this.cacheManager.set('workSchedules', workSchedules, { ttl: 0 });
   }
 
   async cacheDeliveryPricing() {
-    let deliveryPricing = await this.prismaService.delivery_pricing.findMany();
+    const deliveryPricing = await this.prismaService.delivery_pricing.findMany();
     return this.cacheManager.set('deliveryPricing', deliveryPricing, { ttl: 0 });
   }
 
   async cacheTerminals() {
-    let terminals = await this.prismaService.terminals.findMany({
+    const terminals = await this.prismaService.terminals.findMany({
       include: {
         organization: {
           select: {
@@ -40,16 +46,16 @@ export class CacheControlService implements OnModuleInit {
         },
       },
     });
-    return this.cacheManager.set('terminals', terminals, { ttl: 0 });
+    return this.cacheManager.set('all_terminals', terminals, { ttl: 0 });
   }
 
   async cacheOrganizations() {
-    let organizations = await this.prismaService.organization.findMany();
+    const organizations = await this.prismaService.organization.findMany();
     return this.cacheManager.set('organizations', organizations, { ttl: 0 });
   }
 
   async cacheOrderStatus() {
-    let orderStatus = await this.prismaService.order_status.findMany({
+    const orderStatus = await this.prismaService.order_status.findMany({
       include: {
         order_status_organization: {
           select: {
@@ -67,20 +73,37 @@ export class CacheControlService implements OnModuleInit {
   /** Getters start */
 
   async getOrganization(id: string) {
-    let organizations: organization[] = await this.cacheManager.get('organizations');
+    const organizations: organization[] = await this.cacheManager.get('organizations');
     return organizations.find((organization) => organization.id === id);
   }
   async getOrganizations() {
-    let organizations: organization[] = await this.cacheManager.get('organizations');
+    const organizations: organization[] = await this.cacheManager.get('organizations');
     return organizations;
   }
 
-  getTerminals() {
-    return this.cacheManager.get('terminals');
+  getTerminals(): Promise<terminals[]> {
+    return this.cacheManager.get('all_terminals');
   }
 
   getOrderStatus() {
     return this.cacheManager.get('orderStatus');
+  }
+
+  getOrderStatuses(): Promise<order_status[]> {
+    return this.cacheManager.get('orderStatus');
+  }
+
+  getAllApiTokens(): Promise<api_tokens[]> {
+    return this.cacheManager.get('api_tokens');
+  }
+
+  async getOrganizationDeliveryPricing(organizationId: string) {
+    const deliveryPricing: delivery_pricing[] = await this.cacheManager.get('deliveryPricing');
+    return deliveryPricing.filter((pricing) => pricing.organization_id === organizationId);
+  }
+
+  getCachedRoles() {
+    return this.cacheManager.get('roles');
   }
 
   /** Getters end */
@@ -89,4 +112,44 @@ export class CacheControlService implements OnModuleInit {
   //   let workSchedules: work_schedules[] = await this.cacheManager.get('workSchedules');
   //   return workSchedules;
   // }
+  async invalidateCache(source: string) {
+    await this.cacheManager.del(source);
+    switch (source) {
+      case 'api_tokens':
+        const apiTokens = await this.prismaService.api_tokens.findMany({
+          include: {
+            api_tokens_organization: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        });
+        return this.cacheManager.set('api_tokens', apiTokens, { ttl: 0 });
+      case 'roles':
+        const roles = await this.prismaService.roles.findMany({
+          include: {
+            roles_permissions: {
+              select: {
+                permissions: {
+                  select: {
+                    slug: true,
+                  },
+                },
+              },
+            },
+          },
+        });
+        const result = roles.map((role) => {
+          return {
+            id: role.id,
+            name: role.name,
+            code: role.code,
+            permissions: role.roles_permissions.map((rolePermission) => rolePermission.permissions.slug),
+          };
+        });
+        return this.cacheManager.set('roles', result, { ttl: 0 });
+    }
+  }
 }

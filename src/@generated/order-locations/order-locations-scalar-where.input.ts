@@ -29,6 +29,9 @@ export class order_locationsScalarWhereInput {
     @Field(() => StringFilter, {nullable:true})
     courier_id?: StringFilter;
 
+    @Field(() => StringFilter, {nullable:true})
+    order_status_id?: StringFilter;
+
     @Field(() => FloatFilter, {nullable:true})
     lat?: FloatFilter;
 
