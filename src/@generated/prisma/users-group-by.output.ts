@@ -3,6 +3,7 @@ import { ObjectType } from '@nestjs/graphql';
 import { user_status } from './user-status.enum';
 import { drive_type } from './drive-type.enum';
 import { Float } from '@nestjs/graphql';
+import { Int } from '@nestjs/graphql';
 import { UsersCountAggregate } from './users-count-aggregate.output';
 import { UsersAvgAggregate } from './users-avg-aggregate.output';
 import { UsersSumAggregate } from './users-sum-aggregate.output';
@@ -59,6 +60,15 @@ export class UsersGroupBy {
 
     @Field(() => Float, {nullable:true})
     longitude?: number;
+
+    @Field(() => String, {nullable:true})
+    fcm_token?: string;
+
+    @Field(() => Float, {nullable:false})
+    wallet_balance!: number;
+
+    @Field(() => Int, {nullable:true})
+    max_active_order_count?: number;
 
     @Field(() => Date, {nullable:false})
     created_at!: Date | string;

@@ -54,6 +54,15 @@ export class UsersCountAggregate {
     longitude!: number;
 
     @Field(() => Int, {nullable:false})
+    fcm_token!: number;
+
+    @Field(() => Int, {nullable:false})
+    wallet_balance!: number;
+
+    @Field(() => Int, {nullable:false})
+    max_active_order_count!: number;
+
+    @Field(() => Int, {nullable:false})
     created_at!: number;
 
     @Field(() => Int, {nullable:false})

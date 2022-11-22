@@ -8,6 +8,8 @@ import { organizationOrderByWithRelationInput } from '../organization/organizati
 import { terminalsOrderByWithRelationInput } from '../terminals/terminals-order-by-with-relation.input';
 import { order_actionsOrderByRelationAggregateInput } from '../order-actions/order-actions-order-by-relation-aggregate.input';
 import { order_locationsOrderByRelationAggregateInput } from '../order-locations/order-locations-order-by-relation-aggregate.input';
+import { order_votesOrderByRelationAggregateInput } from '../order-votes/order-votes-order-by-relation-aggregate.input';
+import { order_transactionsOrderByRelationAggregateInput } from '../order-transactions/order-transactions-order-by-relation-aggregate.input';
 
 @InputType()
 export class ordersOrderByWithRelationInput {
@@ -82,6 +84,9 @@ export class ordersOrderByWithRelationInput {
     cancel_reason?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    sms_sent_to_customer?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     order_items?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
@@ -125,4 +130,10 @@ export class ordersOrderByWithRelationInput {
 
     @Field(() => order_locationsOrderByRelationAggregateInput, {nullable:true})
     order_locations_orders?: order_locationsOrderByRelationAggregateInput;
+
+    @Field(() => order_votesOrderByRelationAggregateInput, {nullable:true})
+    order_votes_orders?: order_votesOrderByRelationAggregateInput;
+
+    @Field(() => order_transactionsOrderByRelationAggregateInput, {nullable:true})
+    order_transactions_orders?: order_transactionsOrderByRelationAggregateInput;
 }

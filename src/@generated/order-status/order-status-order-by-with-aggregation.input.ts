@@ -37,6 +37,12 @@ export class order_statusOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
     need_location?: keyof typeof SortOrder;
 
+    @Field(() => SortOrder, {nullable:true})
+    on_way?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    in_terminal?: keyof typeof SortOrder;
+
     @Field(() => order_statusCountOrderByAggregateInput, {nullable:true})
     _count?: order_statusCountOrderByAggregateInput;
 

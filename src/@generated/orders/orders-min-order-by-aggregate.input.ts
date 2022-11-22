@@ -75,6 +75,9 @@ export class ordersMinOrderByAggregateInput {
     cancel_reason?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    sms_sent_to_customer?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     delivery_pricing_id?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})

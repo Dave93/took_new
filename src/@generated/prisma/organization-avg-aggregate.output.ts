@@ -10,4 +10,7 @@ export class OrganizationAvgAggregate {
 
     @Field(() => Float, {nullable:true})
     max_active_order_count?: number;
+
+    @Field(() => Float, {nullable:true})
+    max_order_close_distance?: number;
 }

@@ -3,6 +3,7 @@ import { ObjectType } from '@nestjs/graphql';
 import { user_status } from './user-status.enum';
 import { drive_type } from './drive-type.enum';
 import { Float } from '@nestjs/graphql';
+import { Int } from '@nestjs/graphql';
 
 @ObjectType()
 export class UsersMaxAggregate {
@@ -54,6 +55,15 @@ export class UsersMaxAggregate {
 
     @Field(() => Float, {nullable:true})
     longitude?: number;
+
+    @Field(() => String, {nullable:true})
+    fcm_token?: string;
+
+    @Field(() => Float, {nullable:true})
+    wallet_balance?: number;
+
+    @Field(() => Int, {nullable:true})
+    max_active_order_count?: number;
 
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;

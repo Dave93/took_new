@@ -8,6 +8,7 @@ import { IntWithAggregatesFilter } from '../prisma/int-with-aggregates-filter.in
 import { FloatNullableWithAggregatesFilter } from '../prisma/float-nullable-with-aggregates-filter.input';
 import { IntNullableWithAggregatesFilter } from '../prisma/int-nullable-with-aggregates-filter.input';
 import { DateTimeNullableWithAggregatesFilter } from '../prisma/date-time-nullable-with-aggregates-filter.input';
+import { BoolWithAggregatesFilter } from '../prisma/bool-with-aggregates-filter.input';
 import { JsonNullableWithAggregatesFilter } from '../prisma/json-nullable-with-aggregates-filter.input';
 import { DateTimeWithAggregatesFilter } from '../prisma/date-time-with-aggregates-filter.input';
 
@@ -91,6 +92,9 @@ export class ordersScalarWhereWithAggregatesInput {
 
     @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
     cancel_reason?: StringNullableWithAggregatesFilter;
+
+    @Field(() => BoolWithAggregatesFilter, {nullable:true})
+    sms_sent_to_customer?: BoolWithAggregatesFilter;
 
     @Field(() => JsonNullableWithAggregatesFilter, {nullable:true})
     order_items?: JsonNullableWithAggregatesFilter;

@@ -5,6 +5,7 @@ import { CacheControlService } from '@modules/cache_control/cache_control.servic
 import { api_tokens } from '../../@generated/api-tokens/api-tokens.model';
 import { PrismaService } from '../../prisma.service';
 import dayjs from 'dayjs';
+import fs from 'fs';
 import { sort, max } from 'radash';
 
 import isBetween from 'dayjs/plugin/isBetween';
@@ -12,6 +13,9 @@ import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import { getMinutes, getMinutesNow } from '../../helpers/dates';
 import axios from 'axios';
+import { order_status } from '../../@generated/order-status/order-status.model';
+import { InjectQueue } from '@nestjs/bull';
+import { Queue } from 'bull';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -22,7 +26,12 @@ dayjs.extend(isBetween);
 
 @Injectable()
 export class ExternalService {
-  constructor(private readonly cacheControl: CacheControlService, private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly cacheControl: CacheControlService,
+    private readonly prismaService: PrismaService,
+    @InjectQueue('new_order_notifications') private readonly newOrderQueue: Queue,
+    @InjectQueue('order_index') private readonly orderIndexQueue: Queue,
+  ) {}
 
   async create(createExternalDto: CreateExternalDto, req) {
     const { authorization } = req.headers;
@@ -39,6 +48,9 @@ export class ExternalService {
     if (!tokenExists) {
       throw new BadRequestException('Invalid token');
     }
+
+    // write createExternalDto to json file for testing
+    fs.appendFileSync('createExternalDto.json', JSON.stringify(createExternalDto));
 
     const organizations = await this.cacheControl.getOrganization(tokenExists.organization_id);
 
@@ -72,6 +84,7 @@ export class ExternalService {
     // find active delivery pricing for current time and day
     const currentDay = new Date().getDay();
     const currentTime = new Date().getHours();
+    // console.log('deliveryPricing', deliveryPricing);
     const activeDeliveryPricing = deliveryPricing.filter((d) => {
       let res = false;
       const startTime = dayjs.tz(d.start_time, 'Asia/Tashkent').add(5, 'hour').format('HH:mm');
@@ -101,6 +114,12 @@ export class ExternalService {
     let minDistance = 0;
     let minDuration = 0;
     let minDeliveryPricing = null;
+
+    if (activeDeliveryPricingSorted.length == 0) {
+      throw new BadRequestException('No active delivery pricing');
+    }
+
+    // console.log(activeDeliveryPricingSorted);
     for (const d of activeDeliveryPricingSorted) {
       if (d.drive_type == 'foot') {
         const { data } = await axios.get(
@@ -202,11 +221,18 @@ export class ExternalService {
         from_lat: terminal.latitude,
         from_lon: terminal.longitude,
         pre_distance: minDistance,
-        pre_duration: minDuration,
+        pre_duration: Math.round(minDuration),
         to_lat: createExternalDto.toLat,
         to_lon: createExternalDto.toLon,
         order_items: JSON.stringify(createExternalDto.orderItems),
       },
+    });
+    // console.log('pre new order');
+    await this.newOrderQueue.add('newOrderNotify', {
+      order: newOrder,
+    });
+    await this.orderIndexQueue.add('processOrderIndex', {
+      orderId: newOrder.id,
     });
 
     return newOrder;
@@ -226,5 +252,79 @@ export class ExternalService {
 
   remove(id: number) {
     return `This action removes a #${id} external`;
+  }
+
+  async dev(createExternalDto: any, req) {
+    const { authorization } = req.headers;
+
+    if (!authorization) {
+      throw new BadRequestException('No authorization header');
+    }
+
+    const token = authorization.split(' ')[1];
+
+    const allTokens: api_tokens[] = await this.cacheControl.getAllApiTokens();
+    const tokenExists = allTokens.find((t) => t.token === token && t.active);
+
+    if (!tokenExists) {
+      throw new BadRequestException('Invalid token');
+    }
+
+    const orderStatuses: order_status[] = await this.cacheControl.getOrderStatuses();
+    // get order organization statuses
+    const orderOrganizationStatuses = orderStatuses.filter(
+      (orderStatus) => orderStatus.organization_id === createExternalDto.organization_id,
+    );
+    // get order statuses that need notification
+    const orderStatusesThatNeedNotification = orderOrganizationStatuses.filter(
+      (orderStatus) => !orderStatus.finish && !orderStatus.cancel,
+    );
+
+    // get organization from cache
+    const organization = await this.cacheControl.getOrganization(createExternalDto.organization_id);
+
+    // organization max active order count
+    const maxActiveOrderCount = organization.max_active_order_count;
+
+    // get active orders for terminal and group by courier_id and aggregate count
+    const activeOrders = await this.prismaService.orders.groupBy({
+      by: ['courier_id'],
+      where: {
+        terminal_id: createExternalDto.terminal_id,
+        order_status_id: {
+          in: orderStatusesThatNeedNotification.map((orderStatus) => orderStatus.id),
+        },
+        courier_id: {
+          not: null,
+        },
+      },
+      _count: {
+        id: true,
+      },
+      having: {
+        id: {
+          _count: {
+            lt: maxActiveOrderCount,
+          },
+        },
+      },
+    });
+
+    const courierIds = activeOrders.map((o) => o.courier_id);
+
+    // get online users
+    const onlineUsers = await this.prismaService.users.findMany({
+      where: {
+        id: {
+          in: courierIds,
+        },
+        is_online: true,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    return onlineUsers;
   }
 }

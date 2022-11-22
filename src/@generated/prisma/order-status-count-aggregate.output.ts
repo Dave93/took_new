@@ -33,5 +33,11 @@ export class Order_statusCountAggregate {
     need_location!: number;
 
     @Field(() => Int, {nullable:false})
+    on_way!: number;
+
+    @Field(() => Int, {nullable:false})
+    in_terminal!: number;
+
+    @Field(() => Int, {nullable:false})
     _all!: number;
 }

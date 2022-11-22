@@ -17,6 +17,7 @@ export enum OrganizationScalarFieldEnum {
     description = "description",
     max_distance = "max_distance",
     max_active_order_count = "max_active_order_count",
+    max_order_close_distance = "max_order_close_distance",
     payment_type = "payment_type",
     created_at = "created_at",
     updated_at = "updated_at",

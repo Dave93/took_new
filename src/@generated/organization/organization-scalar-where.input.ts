@@ -68,6 +68,9 @@ export class organizationScalarWhereInput {
     @Field(() => IntFilter, {nullable:true})
     max_active_order_count?: IntFilter;
 
+    @Field(() => IntFilter, {nullable:true})
+    max_order_close_distance?: IntFilter;
+
     @Field(() => Enumorganization_payment_typesFilter, {nullable:true})
     payment_type?: Enumorganization_payment_typesFilter;
 

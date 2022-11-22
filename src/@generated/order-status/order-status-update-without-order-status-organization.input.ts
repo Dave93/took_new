@@ -30,6 +30,12 @@ export class order_statusUpdateWithoutOrder_status_organizationInput {
     @Field(() => Boolean, {nullable:true})
     need_location?: boolean;
 
+    @Field(() => Boolean, {nullable:true})
+    on_way?: boolean;
+
+    @Field(() => Boolean, {nullable:true})
+    in_terminal?: boolean;
+
     @Field(() => ordersUpdateManyWithoutOrders_order_statusNestedInput, {nullable:true})
     orders_order_status?: ordersUpdateManyWithoutOrders_order_statusNestedInput;
 }

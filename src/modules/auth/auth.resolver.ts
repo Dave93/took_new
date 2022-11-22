@@ -4,6 +4,10 @@ import { Auth, SendOtpToken } from './entities/auth.entity';
 import { CreateAuthInput } from './dto/create-auth.input';
 import { UpdateAuthInput } from './dto/update-auth.input';
 import { LoginResponseDto, TokenDto } from './dto';
+import { CurrentUser } from '@modules/auth/decorators';
+import { users } from '../../@generated/users/users.model';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '@modules/auth/guards';
 
 @Resolver(() => Auth)
 export class AuthResolver {
@@ -45,14 +49,22 @@ export class AuthResolver {
     @Args('phone', { type: () => String }) phone: string,
     @Args('otp', { type: () => String }) otp: string,
     @Args('verificationKey', { type: () => String }) verificationKey: string,
+    @Args('deviceToken', { type: () => String, nullable: true }) deviceToken: string = '',
   ): Promise<LoginResponseDto> {
-    const result = await this.authService.verifyOtp(phone, otp, verificationKey);
+    const result = await this.authService.verifyOtp(phone, otp, verificationKey, deviceToken);
     return result;
   }
 
   @Mutation(() => TokenDto, { nullable: true })
   async refreshToken(@Args('refreshToken', { type: () => String }) refreshToken: string): Promise<TokenDto> {
     const result = await this.authService.generateRefreshToken(refreshToken);
+    return result;
+  }
+
+  @Mutation(() => Boolean, { nullable: true })
+  @UseGuards(JwtAuthGuard)
+  async logout(@CurrentUser() user: users): Promise<boolean> {
+    const result = await this.authService.logout(user);
     return result;
   }
 }

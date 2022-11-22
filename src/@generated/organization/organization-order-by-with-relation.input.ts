@@ -8,6 +8,7 @@ import { terminalsOrderByRelationAggregateInput } from '../terminals/terminals-o
 import { order_statusOrderByRelationAggregateInput } from '../order-status/order-status-order-by-relation-aggregate.input';
 import { ordersOrderByRelationAggregateInput } from '../orders/orders-order-by-relation-aggregate.input';
 import { api_tokensOrderByRelationAggregateInput } from '../api-tokens/api-tokens-order-by-relation-aggregate.input';
+import { order_transactionsOrderByRelationAggregateInput } from '../order-transactions/order-transactions-order-by-relation-aggregate.input';
 
 @InputType()
 export class organizationOrderByWithRelationInput {
@@ -61,6 +62,9 @@ export class organizationOrderByWithRelationInput {
     max_active_order_count?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    max_order_close_distance?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     payment_type?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
@@ -98,4 +102,7 @@ export class organizationOrderByWithRelationInput {
 
     @Field(() => api_tokensOrderByRelationAggregateInput, {nullable:true})
     api_tokens_organization?: api_tokensOrderByRelationAggregateInput;
+
+    @Field(() => order_transactionsOrderByRelationAggregateInput, {nullable:true})
+    order_transactions_organizations?: order_transactionsOrderByRelationAggregateInput;
 }

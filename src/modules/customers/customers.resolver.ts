@@ -8,7 +8,9 @@ import { PrismaAggregateCount } from '@common/dtos/prisma-aggregate-count';
 import { customersWhereInput } from 'src/@generated/customers/customers-where.input';
 import { customers } from 'src/@generated/customers/customers.model';
 import { FindManycustomersArgs } from 'src/@generated/customers/find-manycustomers.args';
-import { Permissions } from '@auth';
+import { JwtAuthGuard, Permissions } from '@auth';
+import { customers_comments } from '../../@generated/customers-comments/customers-comments.model';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver(() => Customer)
 export class CustomersResolver {
@@ -47,5 +49,21 @@ export class CustomersResolver {
   @Permissions('customers.delete')
   removeCustomer(@Args('id', { type: () => Int }) id: number) {
     return this.customersService.remove(id);
+  }
+
+  @Query(() => [customers_comments], { name: 'customerComments' })
+  @UseGuards(JwtAuthGuard)
+  customerComments(@Args('customerId', { type: () => String }) customerId: string) {
+    return this.customersService.customerComments(customerId);
+  }
+
+  @Mutation(() => customers_comments, { name: 'createCustomerComment' })
+  @UseGuards(JwtAuthGuard)
+  async createCustomerComment(
+    @Args('customerId', { type: () => String }) customerId: string,
+    @Args('comment', { type: () => String }) comment: string,
+  ) {
+    const res = await this.customersService.createCustomerComment(customerId, comment);
+    return res;
   }
 }

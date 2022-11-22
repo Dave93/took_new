@@ -8,6 +8,7 @@ import { IntFilter } from '../prisma/int-filter.input';
 import { FloatNullableFilter } from '../prisma/float-nullable-filter.input';
 import { IntNullableFilter } from '../prisma/int-nullable-filter.input';
 import { DateTimeNullableFilter } from '../prisma/date-time-nullable-filter.input';
+import { BoolFilter } from '../prisma/bool-filter.input';
 import { JsonNullableFilter } from '../prisma/json-nullable-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { UsersRelationFilter } from '../prisma/users-relation-filter.input';
@@ -17,6 +18,8 @@ import { OrganizationRelationFilter } from '../prisma/organization-relation-filt
 import { TerminalsRelationFilter } from '../prisma/terminals-relation-filter.input';
 import { Order_actionsListRelationFilter } from '../prisma/order-actions-list-relation-filter.input';
 import { Order_locationsListRelationFilter } from '../prisma/order-locations-list-relation-filter.input';
+import { Order_votesListRelationFilter } from '../prisma/order-votes-list-relation-filter.input';
+import { Order_transactionsListRelationFilter } from '../prisma/order-transactions-list-relation-filter.input';
 
 @InputType()
 export class ordersWhereInput {
@@ -99,6 +102,9 @@ export class ordersWhereInput {
     @Field(() => StringNullableFilter, {nullable:true})
     cancel_reason?: StringNullableFilter;
 
+    @Field(() => BoolFilter, {nullable:true})
+    sms_sent_to_customer?: BoolFilter;
+
     @Field(() => JsonNullableFilter, {nullable:true})
     order_items?: JsonNullableFilter;
 
@@ -143,4 +149,10 @@ export class ordersWhereInput {
 
     @Field(() => Order_locationsListRelationFilter, {nullable:true})
     order_locations_orders?: Order_locationsListRelationFilter;
+
+    @Field(() => Order_votesListRelationFilter, {nullable:true})
+    order_votes_orders?: Order_votesListRelationFilter;
+
+    @Field(() => Order_transactionsListRelationFilter, {nullable:true})
+    order_transactions_orders?: Order_transactionsListRelationFilter;
 }

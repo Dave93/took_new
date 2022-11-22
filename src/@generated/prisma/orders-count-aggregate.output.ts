@@ -75,6 +75,9 @@ export class OrdersCountAggregate {
     cancel_reason!: number;
 
     @Field(() => Int, {nullable:false})
+    sms_sent_to_customer!: number;
+
+    @Field(() => Int, {nullable:false})
     order_items!: number;
 
     @Field(() => Int, {nullable:false})

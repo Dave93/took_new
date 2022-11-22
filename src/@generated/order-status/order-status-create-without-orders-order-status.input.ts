@@ -30,6 +30,12 @@ export class order_statusCreateWithoutOrders_order_statusInput {
     @Field(() => Boolean, {nullable:true})
     need_location?: boolean;
 
+    @Field(() => Boolean, {nullable:true})
+    on_way?: boolean;
+
+    @Field(() => Boolean, {nullable:true})
+    in_terminal?: boolean;
+
     @Field(() => organizationCreateNestedOneWithoutOrder_status_organizationInput, {nullable:false})
     order_status_organization!: organizationCreateNestedOneWithoutOrder_status_organizationInput;
 }

@@ -68,6 +68,9 @@ export class organizationScalarWhereWithAggregatesInput {
     @Field(() => IntWithAggregatesFilter, {nullable:true})
     max_active_order_count?: IntWithAggregatesFilter;
 
+    @Field(() => IntWithAggregatesFilter, {nullable:true})
+    max_order_close_distance?: IntWithAggregatesFilter;
+
     @Field(() => Enumorganization_payment_typesWithAggregatesFilter, {nullable:true})
     payment_type?: Enumorganization_payment_typesWithAggregatesFilter;
 

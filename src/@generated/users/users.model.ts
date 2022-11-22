@@ -4,6 +4,7 @@ import { ID } from '@nestjs/graphql';
 import { user_status } from '../prisma/user-status.enum';
 import { drive_type } from '../prisma/drive-type.enum';
 import { Float } from '@nestjs/graphql';
+import { Int } from '@nestjs/graphql';
 import { otp } from '../otp/otp.model';
 import { permissions } from '../permissions/permissions.model';
 import { post } from '../post/post.model';
@@ -24,6 +25,9 @@ import { orders } from '../orders/orders.model';
 import { order_actions } from '../order-actions/order-actions.model';
 import { order_locations } from '../order-locations/order-locations.model';
 import { api_tokens } from '../api-tokens/api-tokens.model';
+import { order_votes } from '../order-votes/order-votes.model';
+import { order_transactions } from '../order-transactions/order-transactions.model';
+import { outside_requests } from '../outside-requests/outside-requests.model';
 import { UsersCount } from '../prisma/users-count.output';
 
 @ObjectType()
@@ -76,6 +80,15 @@ export class users {
 
     @Field(() => Float, {nullable:true,defaultValue:0})
     longitude!: number | null;
+
+    @Field(() => String, {nullable:true})
+    fcm_token!: string | null;
+
+    @Field(() => Float, {nullable:false,defaultValue:0})
+    wallet_balance!: number;
+
+    @Field(() => Int, {nullable:true})
+    max_active_order_count!: number | null;
 
     @Field(() => Date, {nullable:false})
     created_at!: Date;
@@ -202,6 +215,24 @@ export class users {
 
     @Field(() => [api_tokens], {nullable:true})
     api_tokens_updated_byTousers?: Array<api_tokens>;
+
+    @Field(() => [order_votes], {nullable:true})
+    order_votes_created_byTousers?: Array<order_votes>;
+
+    @Field(() => [order_votes], {nullable:true})
+    order_votes_couriers?: Array<order_votes>;
+
+    @Field(() => [order_transactions], {nullable:true})
+    order_transactions_created_byTousers?: Array<order_transactions>;
+
+    @Field(() => [order_transactions], {nullable:true})
+    order_transactions_couriers?: Array<order_transactions>;
+
+    @Field(() => [outside_requests], {nullable:true})
+    outside_requests_created_byTousers?: Array<outside_requests>;
+
+    @Field(() => [outside_requests], {nullable:true})
+    outside_requests_updated_byTousers?: Array<outside_requests>;
 
     @Field(() => UsersCount, {nullable:false})
     _count?: UsersCount;

@@ -77,6 +77,9 @@ export class ordersUncheckedUpdateManyWithoutOrders_updated_byTousersInput {
     @Field(() => String, {nullable:true})
     cancel_reason?: string;
 
+    @Field(() => Boolean, {nullable:true})
+    sms_sent_to_customer?: boolean;
+
     @Field(() => GraphQLJSON, {nullable:true})
     order_items?: any;
 

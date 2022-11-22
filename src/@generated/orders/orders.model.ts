@@ -11,6 +11,8 @@ import { organization } from '../organization/organization.model';
 import { terminals } from '../terminals/terminals.model';
 import { order_actions } from '../order-actions/order-actions.model';
 import { order_locations } from '../order-locations/order-locations.model';
+import { order_votes } from '../order-votes/order-votes.model';
+import { order_transactions } from '../order-transactions/order-transactions.model';
 import { OrdersCount } from '../prisma/orders-count.output';
 
 @ObjectType()
@@ -85,6 +87,9 @@ export class orders {
     @Field(() => String, {nullable:true})
     cancel_reason!: string | null;
 
+    @Field(() => Boolean, {nullable:false,defaultValue:false})
+    sms_sent_to_customer!: boolean;
+
     @Field(() => GraphQLJSON, {nullable:true})
     order_items!: any | null;
 
@@ -129,6 +134,12 @@ export class orders {
 
     @Field(() => [order_locations], {nullable:true})
     order_locations_orders?: Array<order_locations>;
+
+    @Field(() => [order_votes], {nullable:true})
+    order_votes_orders?: Array<order_votes>;
+
+    @Field(() => [order_transactions], {nullable:true})
+    order_transactions_orders?: Array<order_transactions>;
 
     @Field(() => OrdersCount, {nullable:false})
     _count?: OrdersCount;

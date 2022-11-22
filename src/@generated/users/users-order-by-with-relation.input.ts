@@ -21,6 +21,9 @@ import { ordersOrderByRelationAggregateInput } from '../orders/orders-order-by-r
 import { order_actionsOrderByRelationAggregateInput } from '../order-actions/order-actions-order-by-relation-aggregate.input';
 import { order_locationsOrderByRelationAggregateInput } from '../order-locations/order-locations-order-by-relation-aggregate.input';
 import { api_tokensOrderByRelationAggregateInput } from '../api-tokens/api-tokens-order-by-relation-aggregate.input';
+import { order_votesOrderByRelationAggregateInput } from '../order-votes/order-votes-order-by-relation-aggregate.input';
+import { order_transactionsOrderByRelationAggregateInput } from '../order-transactions/order-transactions-order-by-relation-aggregate.input';
+import { outside_requestsOrderByRelationAggregateInput } from '../outside-requests/outside-requests-order-by-relation-aggregate.input';
 
 @InputType()
 export class usersOrderByWithRelationInput {
@@ -72,6 +75,15 @@ export class usersOrderByWithRelationInput {
 
     @Field(() => SortOrder, {nullable:true})
     longitude?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    fcm_token?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    wallet_balance?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    max_active_order_count?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
     created_at?: keyof typeof SortOrder;
@@ -198,4 +210,22 @@ export class usersOrderByWithRelationInput {
 
     @Field(() => api_tokensOrderByRelationAggregateInput, {nullable:true})
     api_tokens_updated_byTousers?: api_tokensOrderByRelationAggregateInput;
+
+    @Field(() => order_votesOrderByRelationAggregateInput, {nullable:true})
+    order_votes_created_byTousers?: order_votesOrderByRelationAggregateInput;
+
+    @Field(() => order_votesOrderByRelationAggregateInput, {nullable:true})
+    order_votes_couriers?: order_votesOrderByRelationAggregateInput;
+
+    @Field(() => order_transactionsOrderByRelationAggregateInput, {nullable:true})
+    order_transactions_created_byTousers?: order_transactionsOrderByRelationAggregateInput;
+
+    @Field(() => order_transactionsOrderByRelationAggregateInput, {nullable:true})
+    order_transactions_couriers?: order_transactionsOrderByRelationAggregateInput;
+
+    @Field(() => outside_requestsOrderByRelationAggregateInput, {nullable:true})
+    outside_requests_created_byTousers?: outside_requestsOrderByRelationAggregateInput;
+
+    @Field(() => outside_requestsOrderByRelationAggregateInput, {nullable:true})
+    outside_requests_updated_byTousers?: outside_requestsOrderByRelationAggregateInput;
 }

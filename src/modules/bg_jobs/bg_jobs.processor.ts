@@ -22,8 +22,6 @@ export class BgJobsProcessor {
 
   @Process('registerCourierLocation')
   async handleTranscode(job: Job) {
-    this.logger.debug(job.data);
-
     const { data, user } = job.data;
 
     const orderStatuses: order_status[] = await this.cacheService.getOrderStatuses();

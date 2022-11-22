@@ -8,6 +8,7 @@ import { IntFilter } from '../prisma/int-filter.input';
 import { FloatNullableFilter } from '../prisma/float-nullable-filter.input';
 import { IntNullableFilter } from '../prisma/int-nullable-filter.input';
 import { DateTimeNullableFilter } from '../prisma/date-time-nullable-filter.input';
+import { BoolFilter } from '../prisma/bool-filter.input';
 import { JsonNullableFilter } from '../prisma/json-nullable-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 
@@ -91,6 +92,9 @@ export class ordersScalarWhereInput {
 
     @Field(() => StringNullableFilter, {nullable:true})
     cancel_reason?: StringNullableFilter;
+
+    @Field(() => BoolFilter, {nullable:true})
+    sms_sent_to_customer?: BoolFilter;
 
     @Field(() => JsonNullableFilter, {nullable:true})
     order_items?: JsonNullableFilter;

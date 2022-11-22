@@ -20,7 +20,8 @@
       "@admin/*": ["src/modules/admin/*"],
       "@auth": ["src/modules/auth/"],
       "@user": ["src/modules/user/*"],
-      "@libs/*": ["src/libs/*"]
+      "@libs/*": ["src/libs/*"],
+      "@fcm": ["src/fcm"],
     },
     "incremental": true
   }

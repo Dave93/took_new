@@ -37,6 +37,12 @@ export class Order_statusGroupBy {
     @Field(() => Boolean, {nullable:false})
     need_location!: boolean;
 
+    @Field(() => Boolean, {nullable:false})
+    on_way!: boolean;
+
+    @Field(() => Boolean, {nullable:false})
+    in_terminal!: boolean;
+
     @Field(() => Order_statusCountAggregate, {nullable:true})
     _count?: Order_statusCountAggregate;
 

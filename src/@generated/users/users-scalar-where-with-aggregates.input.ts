@@ -7,6 +7,8 @@ import { Enumuser_statusWithAggregatesFilter } from '../prisma/enumuser-status-w
 import { Enumdrive_typeNullableWithAggregatesFilter } from '../prisma/enumdrive-type-nullable-with-aggregates-filter.input';
 import { DateTimeNullableWithAggregatesFilter } from '../prisma/date-time-nullable-with-aggregates-filter.input';
 import { FloatNullableWithAggregatesFilter } from '../prisma/float-nullable-with-aggregates-filter.input';
+import { FloatWithAggregatesFilter } from '../prisma/float-with-aggregates-filter.input';
+import { IntNullableWithAggregatesFilter } from '../prisma/int-nullable-with-aggregates-filter.input';
 import { DateTimeWithAggregatesFilter } from '../prisma/date-time-with-aggregates-filter.input';
 
 @InputType()
@@ -68,6 +70,15 @@ export class usersScalarWhereWithAggregatesInput {
 
     @Field(() => FloatNullableWithAggregatesFilter, {nullable:true})
     longitude?: FloatNullableWithAggregatesFilter;
+
+    @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
+    fcm_token?: StringNullableWithAggregatesFilter;
+
+    @Field(() => FloatWithAggregatesFilter, {nullable:true})
+    wallet_balance?: FloatWithAggregatesFilter;
+
+    @Field(() => IntNullableWithAggregatesFilter, {nullable:true})
+    max_active_order_count?: IntNullableWithAggregatesFilter;
 
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     created_at?: DateTimeWithAggregatesFilter;

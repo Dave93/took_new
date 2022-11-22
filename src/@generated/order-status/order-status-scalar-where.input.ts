@@ -43,4 +43,10 @@ export class order_statusScalarWhereInput {
 
     @Field(() => BoolFilter, {nullable:true})
     need_location?: BoolFilter;
+
+    @Field(() => BoolFilter, {nullable:true})
+    on_way?: BoolFilter;
+
+    @Field(() => BoolFilter, {nullable:true})
+    in_terminal?: BoolFilter;
 }

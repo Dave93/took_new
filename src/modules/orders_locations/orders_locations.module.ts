@@ -8,6 +8,7 @@ import { BullModule } from '@nestjs/bull';
 import { TokenModule } from '@modules/auth/token.module';
 import { SearchService } from '@modules/search/search.service';
 import { ConfigService } from '@nestjs/config';
+import { CacheControlService } from '@modules/cache_control/cache_control.service';
 
 @Module({
   imports: [
@@ -16,6 +17,13 @@ import { ConfigService } from '@nestjs/config';
     }),
     TokenModule,
   ],
-  providers: [OrdersLocationsResolver, OrdersLocationsService, PrismaService, SearchService, ConfigService],
+  providers: [
+    OrdersLocationsResolver,
+    OrdersLocationsService,
+    PrismaService,
+    SearchService,
+    ConfigService,
+    CacheControlService,
+  ],
 })
 export class OrdersLocationsModule {}

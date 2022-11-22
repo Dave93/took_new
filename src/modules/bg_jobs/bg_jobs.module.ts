@@ -8,11 +8,7 @@ import { SearchModule } from '@modules/search/search.module';
 import { ConfigService } from '@nestjs/config';
 
 @Module({
-  imports: [
-    BullModule.registerQueue({
-      name: 'bg_jobs',
-    }),
-  ],
+  imports: [],
   providers: [PrismaService, BgJobsProcessor, CacheControlService, SearchService, ConfigService],
 })
 export class BgJobsModule {}

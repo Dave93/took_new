@@ -12,6 +12,8 @@ import { organizationUpdateOneRequiredWithoutOrders_organizationNestedInput } fr
 import { terminalsUpdateOneRequiredWithoutOrders_terminalsNestedInput } from '../terminals/terminals-update-one-required-without-orders-terminals-nested.input';
 import { order_actionsUpdateManyWithoutOrder_actions_ordersNestedInput } from '../order-actions/order-actions-update-many-without-order-actions-orders-nested.input';
 import { order_locationsUpdateManyWithoutOrder_locations_ordersNestedInput } from '../order-locations/order-locations-update-many-without-order-locations-orders-nested.input';
+import { order_votesUpdateManyWithoutOrder_votes_ordersNestedInput } from '../order-votes/order-votes-update-many-without-order-votes-orders-nested.input';
+import { order_transactionsUpdateManyWithoutOrder_transactions_ordersNestedInput } from '../order-transactions/order-transactions-update-many-without-order-transactions-orders-nested.input';
 
 @InputType()
 export class ordersUpdateWithoutOrders_couriersInput {
@@ -70,6 +72,9 @@ export class ordersUpdateWithoutOrders_couriersInput {
     @Field(() => String, {nullable:true})
     cancel_reason?: string;
 
+    @Field(() => Boolean, {nullable:true})
+    sms_sent_to_customer?: boolean;
+
     @Field(() => GraphQLJSON, {nullable:true})
     order_items?: any;
 
@@ -105,4 +110,10 @@ export class ordersUpdateWithoutOrders_couriersInput {
 
     @Field(() => order_locationsUpdateManyWithoutOrder_locations_ordersNestedInput, {nullable:true})
     order_locations_orders?: order_locationsUpdateManyWithoutOrder_locations_ordersNestedInput;
+
+    @Field(() => order_votesUpdateManyWithoutOrder_votes_ordersNestedInput, {nullable:true})
+    order_votes_orders?: order_votesUpdateManyWithoutOrder_votes_ordersNestedInput;
+
+    @Field(() => order_transactionsUpdateManyWithoutOrder_transactions_ordersNestedInput, {nullable:true})
+    order_transactions_orders?: order_transactionsUpdateManyWithoutOrder_transactions_ordersNestedInput;
 }

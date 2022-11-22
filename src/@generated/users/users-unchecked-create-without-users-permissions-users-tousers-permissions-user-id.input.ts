@@ -3,6 +3,7 @@ import { InputType } from '@nestjs/graphql';
 import { user_status } from '../prisma/user-status.enum';
 import { drive_type } from '../prisma/drive-type.enum';
 import { Float } from '@nestjs/graphql';
+import { Int } from '@nestjs/graphql';
 import { otpUncheckedCreateNestedManyWithoutUsersInput } from '../otp/otp-unchecked-create-nested-many-without-users.input';
 import { permissionsUncheckedCreateNestedManyWithoutUsers_permissions_created_byTousersInput } from '../permissions/permissions-unchecked-create-nested-many-without-users-permissions-created-by-tousers.input';
 import { permissionsUncheckedCreateNestedManyWithoutUsers_permissions_updated_byTousersInput } from '../permissions/permissions-unchecked-create-nested-many-without-users-permissions-updated-by-tousers.input';
@@ -42,6 +43,12 @@ import { order_locationsUncheckedCreateNestedManyWithoutOrder_locations_created_
 import { order_locationsUncheckedCreateNestedManyWithoutOrder_locations_couriersInput } from '../order-locations/order-locations-unchecked-create-nested-many-without-order-locations-couriers.input';
 import { api_tokensUncheckedCreateNestedManyWithoutApi_tokens_created_byTousersInput } from '../api-tokens/api-tokens-unchecked-create-nested-many-without-api-tokens-created-by-tousers.input';
 import { api_tokensUncheckedCreateNestedManyWithoutApi_tokens_updated_byTousersInput } from '../api-tokens/api-tokens-unchecked-create-nested-many-without-api-tokens-updated-by-tousers.input';
+import { order_votesUncheckedCreateNestedManyWithoutOrder_votes_created_byTousersInput } from '../order-votes/order-votes-unchecked-create-nested-many-without-order-votes-created-by-tousers.input';
+import { order_votesUncheckedCreateNestedManyWithoutOrder_votes_couriersInput } from '../order-votes/order-votes-unchecked-create-nested-many-without-order-votes-couriers.input';
+import { order_transactionsUncheckedCreateNestedManyWithoutOrder_transactions_created_byTousersInput } from '../order-transactions/order-transactions-unchecked-create-nested-many-without-order-transactions-created-by-tousers.input';
+import { order_transactionsUncheckedCreateNestedManyWithoutOrder_transactions_couriersInput } from '../order-transactions/order-transactions-unchecked-create-nested-many-without-order-transactions-couriers.input';
+import { outside_requestsUncheckedCreateNestedManyWithoutOutside_requests_created_byTousersInput } from '../outside-requests/outside-requests-unchecked-create-nested-many-without-outside-requests-created-by-tousers.input';
+import { outside_requestsUncheckedCreateNestedManyWithoutOutside_requests_updated_byTousersInput } from '../outside-requests/outside-requests-unchecked-create-nested-many-without-outside-requests-updated-by-tousers.input';
 
 @InputType()
 export class usersUncheckedCreateWithoutUsers_permissions_usersTousers_permissions_user_idInput {
@@ -93,6 +100,15 @@ export class usersUncheckedCreateWithoutUsers_permissions_usersTousers_permissio
 
     @Field(() => Float, {nullable:true})
     longitude?: number;
+
+    @Field(() => String, {nullable:true})
+    fcm_token?: string;
+
+    @Field(() => Float, {nullable:true})
+    wallet_balance?: number;
+
+    @Field(() => Int, {nullable:true})
+    max_active_order_count?: number;
 
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;
@@ -216,4 +232,22 @@ export class usersUncheckedCreateWithoutUsers_permissions_usersTousers_permissio
 
     @Field(() => api_tokensUncheckedCreateNestedManyWithoutApi_tokens_updated_byTousersInput, {nullable:true})
     api_tokens_updated_byTousers?: api_tokensUncheckedCreateNestedManyWithoutApi_tokens_updated_byTousersInput;
+
+    @Field(() => order_votesUncheckedCreateNestedManyWithoutOrder_votes_created_byTousersInput, {nullable:true})
+    order_votes_created_byTousers?: order_votesUncheckedCreateNestedManyWithoutOrder_votes_created_byTousersInput;
+
+    @Field(() => order_votesUncheckedCreateNestedManyWithoutOrder_votes_couriersInput, {nullable:true})
+    order_votes_couriers?: order_votesUncheckedCreateNestedManyWithoutOrder_votes_couriersInput;
+
+    @Field(() => order_transactionsUncheckedCreateNestedManyWithoutOrder_transactions_created_byTousersInput, {nullable:true})
+    order_transactions_created_byTousers?: order_transactionsUncheckedCreateNestedManyWithoutOrder_transactions_created_byTousersInput;
+
+    @Field(() => order_transactionsUncheckedCreateNestedManyWithoutOrder_transactions_couriersInput, {nullable:true})
+    order_transactions_couriers?: order_transactionsUncheckedCreateNestedManyWithoutOrder_transactions_couriersInput;
+
+    @Field(() => outside_requestsUncheckedCreateNestedManyWithoutOutside_requests_created_byTousersInput, {nullable:true})
+    outside_requests_created_byTousers?: outside_requestsUncheckedCreateNestedManyWithoutOutside_requests_created_byTousersInput;
+
+    @Field(() => outside_requestsUncheckedCreateNestedManyWithoutOutside_requests_updated_byTousersInput, {nullable:true})
+    outside_requests_updated_byTousers?: outside_requestsUncheckedCreateNestedManyWithoutOutside_requests_updated_byTousersInput;
 }

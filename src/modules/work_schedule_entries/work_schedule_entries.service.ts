@@ -201,9 +201,15 @@ export class WorkScheduleEntriesService {
         id: currentUser.id,
       },
       data: {
-        is_online: false,
-        latitude: openTimeLocation.lat_close,
-        longitude: openTimeLocation.lon_close,
+        is_online: {
+          set: false,
+        },
+        latitude: {
+          set: openTimeLocation.lat_close,
+        },
+        longitude: {
+          set: openTimeLocation.lon_close,
+        },
       },
     });
 

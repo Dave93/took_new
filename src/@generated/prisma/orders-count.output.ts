@@ -10,4 +10,10 @@ export class OrdersCount {
 
     @Field(() => Int, {nullable:false})
     order_locations_orders!: number;
+
+    @Field(() => Int, {nullable:false})
+    order_votes_orders!: number;
+
+    @Field(() => Int, {nullable:false})
+    order_transactions_orders!: number;
 }

@@ -59,6 +59,9 @@ export class organizationOrderByWithAggregationInput {
     max_active_order_count?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    max_order_close_distance?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     payment_type?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})

@@ -9,7 +9,9 @@ export enum Order_statusScalarFieldEnum {
     finish = "finish",
     cancel = "cancel",
     waiting = "waiting",
-    need_location = "need_location"
+    need_location = "need_location",
+    on_way = "on_way",
+    in_terminal = "in_terminal"
 }
 
 

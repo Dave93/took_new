@@ -7,6 +7,8 @@ import { Enumuser_statusFilter } from '../prisma/enumuser-status-filter.input';
 import { Enumdrive_typeNullableFilter } from '../prisma/enumdrive-type-nullable-filter.input';
 import { DateTimeNullableFilter } from '../prisma/date-time-nullable-filter.input';
 import { FloatNullableFilter } from '../prisma/float-nullable-filter.input';
+import { FloatFilter } from '../prisma/float-filter.input';
+import { IntNullableFilter } from '../prisma/int-nullable-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { OtpListRelationFilter } from '../prisma/otp-list-relation-filter.input';
 import { PermissionsListRelationFilter } from '../prisma/permissions-list-relation-filter.input';
@@ -28,6 +30,9 @@ import { OrdersListRelationFilter } from '../prisma/orders-list-relation-filter.
 import { Order_actionsListRelationFilter } from '../prisma/order-actions-list-relation-filter.input';
 import { Order_locationsListRelationFilter } from '../prisma/order-locations-list-relation-filter.input';
 import { Api_tokensListRelationFilter } from '../prisma/api-tokens-list-relation-filter.input';
+import { Order_votesListRelationFilter } from '../prisma/order-votes-list-relation-filter.input';
+import { Order_transactionsListRelationFilter } from '../prisma/order-transactions-list-relation-filter.input';
+import { Outside_requestsListRelationFilter } from '../prisma/outside-requests-list-relation-filter.input';
 
 @InputType()
 export class usersWhereInput {
@@ -88,6 +93,15 @@ export class usersWhereInput {
 
     @Field(() => FloatNullableFilter, {nullable:true})
     longitude?: FloatNullableFilter;
+
+    @Field(() => StringNullableFilter, {nullable:true})
+    fcm_token?: StringNullableFilter;
+
+    @Field(() => FloatFilter, {nullable:true})
+    wallet_balance?: FloatFilter;
+
+    @Field(() => IntNullableFilter, {nullable:true})
+    max_active_order_count?: IntNullableFilter;
 
     @Field(() => DateTimeFilter, {nullable:true})
     created_at?: DateTimeFilter;
@@ -214,4 +228,22 @@ export class usersWhereInput {
 
     @Field(() => Api_tokensListRelationFilter, {nullable:true})
     api_tokens_updated_byTousers?: Api_tokensListRelationFilter;
+
+    @Field(() => Order_votesListRelationFilter, {nullable:true})
+    order_votes_created_byTousers?: Order_votesListRelationFilter;
+
+    @Field(() => Order_votesListRelationFilter, {nullable:true})
+    order_votes_couriers?: Order_votesListRelationFilter;
+
+    @Field(() => Order_transactionsListRelationFilter, {nullable:true})
+    order_transactions_created_byTousers?: Order_transactionsListRelationFilter;
+
+    @Field(() => Order_transactionsListRelationFilter, {nullable:true})
+    order_transactions_couriers?: Order_transactionsListRelationFilter;
+
+    @Field(() => Outside_requestsListRelationFilter, {nullable:true})
+    outside_requests_created_byTousers?: Outside_requestsListRelationFilter;
+
+    @Field(() => Outside_requestsListRelationFilter, {nullable:true})
+    outside_requests_updated_byTousers?: Outside_requestsListRelationFilter;
 }

@@ -22,4 +22,7 @@ export class OrganizationCount {
 
     @Field(() => Int, {nullable:false})
     api_tokens_organization!: number;
+
+    @Field(() => Int, {nullable:false})
+    order_transactions_organizations!: number;
 }

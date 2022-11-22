@@ -1,6 +1,6 @@
-import { Resolver, Query, Mutation, Args, Int, Subscription } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, Subscription, Context, Float } from '@nestjs/graphql';
 import { OrdersService } from './orders.service';
-import { Order } from './entities/order.entity';
+import { Order, OrderMobilePeriodStat } from './entities/order.entity';
 import { CreateOrderInput } from './dto/create-order.input';
 import { UpdateOrderInput } from './dto/update-order.input';
 import { orders } from 'src/@generated/orders/orders.model';
@@ -8,16 +8,17 @@ import { FindManyordersArgs } from 'src/@generated/orders/find-manyorders.args';
 import { PrismaAggregateCount } from '@common/dtos/prisma-aggregate-count';
 import { work_schedulesWhereInput } from 'src/@generated/work-schedules/work-schedules-where.input';
 import { ordersWhereInput } from 'src/@generated/orders/orders-where.input';
-import { SetMetadata, UseGuards } from '@nestjs/common';
-import { Permissions } from '@auth';
+import { Inject, SetMetadata, UseGuards } from '@nestjs/common';
+import { CurrentUser, JwtAuthGuard, Permissions } from '@auth';
 import { users } from '../../@generated/users/users.model';
-import { PubSub } from 'graphql-subscriptions';
-
-const pubSub = new PubSub();
+import { PubSubEngine } from 'graphql-subscriptions';
+import { PUB_SUB } from '@modules/pubsub/pubsub.module';
+import { RedisPubSub } from 'graphql-redis-subscriptions';
+import { OrderItems } from '@modules/orders_locations/dto/order_items';
 
 @Resolver(() => orders)
 export class OrdersResolver {
-  constructor(private readonly ordersService: OrdersService) {}
+  constructor(private readonly ordersService: OrdersService, @Inject(PUB_SUB) private readonly pubSub: RedisPubSub) {}
 
   // @Mutation(() => Order)
   // createOrder(@Args('createOrderInput') createOrderInput: CreateOrderInput) {
@@ -60,19 +61,109 @@ export class OrdersResolver {
 
   @Mutation(() => orders, { name: 'changeOrderCourier' })
   @Permissions('orders.changeCourier')
-  changeOrderCourier(
+  async changeOrderCourier(
     @Args('orderId', { type: () => String }) orderId: string,
     @Args('courierId', { type: () => String }) courierId: string,
   ) {
-    const res = this.ordersService.changeOrderCourier(orderId, courierId);
-    pubSub.publish('orderUpdate', { orderUpdate: res });
-    return res;
+    const res = await this.ordersService.changeOrderCourier(orderId, courierId);
+    await this.pubSub.publish('deletedCurrentOrder', { deletedCurrentOrder: res.existingOrder });
+    await this.pubSub.publish('addedNewCurrentOrder', { addedNewCurrentOrder: res.newOrder });
+    return res.newOrder;
   }
 
   @Subscription((returns) => orders, {
     filter: (payload, variables) => payload.orderUpdate.courier_id === variables.courier_id,
   })
   orderUpdate(@Args('courier_id') courierId: string) {
-    return pubSub.asyncIterator('orderUpdate');
+    return this.pubSub.asyncIterator('orderUpdate');
+  }
+
+  @Subscription((returns) => orders)
+  deletedCurrentOrder() {
+    return this.pubSub.asyncIterator('deletedCurrentOrder');
+  }
+
+  @Subscription((returns) => orders)
+  deletedWaitingOrder() {
+    return this.pubSub.asyncIterator('deletedWaitingOrder');
+  }
+
+  @Subscription((returns) => Order, {
+    filter: (payload, variables) => payload.addedNewCurrentOrder.courier_id === variables.courier_id,
+  })
+  addedNewCurrentOrder(@Args('courier_id') courierId: string) {
+    return this.pubSub.asyncIterator('addedNewCurrentOrder');
+  }
+
+  @Subscription((returns) => orders, {
+    filter: (payload, variables) => variables.terminal_id.includes(payload.newApproveOrder.terminal_id),
+  })
+  newApproveOrder(@Args({ name: 'terminal_id', type: () => [String] }) terminalId: string[]) {
+    return this.pubSub.asyncIterator('newApproveOrder');
+  }
+
+  @Query(() => [Order], { name: 'myCurrentOrders' })
+  @UseGuards(JwtAuthGuard)
+  @Permissions('orders.list')
+  myCurrentOrders(@CurrentUser() user: users) {
+    return this.ordersService.myCurrentOrders(user);
+  }
+
+  @Query(() => [OrderItems], { name: 'orderItems' })
+  @UseGuards(JwtAuthGuard)
+  async getOrderItems(@Args('orderId', { type: () => String }) orderId: string) {
+    const res = await this.ordersService.getOrderItems(orderId);
+    return res;
+  }
+
+  @Mutation(() => Order, { name: 'setOrderStatus' })
+  @UseGuards(JwtAuthGuard)
+  setOrderStatus(
+    @Args('orderId', { type: () => String }) orderId: string,
+    @Args('orderStatusId', { type: () => String }) orderStatusId: string,
+    @CurrentUser() user: users,
+    @Args('latitude', { type: () => Float, nullable: true }) latitude?: number,
+    @Args('longitude', { type: () => Float, nullable: true }) longitude?: number,
+    @Args('cancelReason', { type: () => String, nullable: true }) cancelReason?: string,
+    @Args('sentSmsToCustomer', { type: () => Boolean, nullable: true }) sentSmsToCustomer?: boolean,
+  ) {
+    return this.ordersService.setOrderStatus(
+      orderId,
+      orderStatusId,
+      latitude,
+      longitude,
+      user,
+      cancelReason,
+      sentSmsToCustomer,
+    );
+  }
+
+  @Mutation(() => [orders], { name: 'changeMultipleOrderStatus' })
+  @Permissions('orders.change_multiple_status')
+  changeMultipleOrderStatus(
+    @Args('orderIds', { type: () => [String] }) orderIds: string[],
+    @Args('orderStatusId', { type: () => String }) orderStatusId: string,
+  ) {
+    return this.ordersService.changeMultipleOrderStatus(orderIds, orderStatusId);
+  }
+
+  @Query(() => [Order], { name: 'myNewOrders' })
+  @UseGuards(JwtAuthGuard)
+  @Permissions('orders.list')
+  myNewOrders(@CurrentUser() user: users) {
+    return this.ordersService.myNewOrders(user);
+  }
+
+  @Mutation(() => Order, { name: 'approveOrder' })
+  @UseGuards(JwtAuthGuard)
+  approveOrder(@Args('orderId', { type: () => String }) orderId: string, @CurrentUser() user: users) {
+    return this.ordersService.approveOrder(orderId, user);
+  }
+
+  @Query(() => [OrderMobilePeriodStat], { name: 'orderMobilePeriodStat' })
+  @UseGuards(JwtAuthGuard)
+  @Permissions('orders.list')
+  orderMobilePeriodStat(@CurrentUser() user: users) {
+    return this.ordersService.orderMobilePeriodStat(user);
   }
 }

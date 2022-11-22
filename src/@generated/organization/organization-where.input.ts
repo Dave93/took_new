@@ -14,6 +14,7 @@ import { TerminalsListRelationFilter } from '../prisma/terminals-list-relation-f
 import { Order_statusListRelationFilter } from '../prisma/order-status-list-relation-filter.input';
 import { OrdersListRelationFilter } from '../prisma/orders-list-relation-filter.input';
 import { Api_tokensListRelationFilter } from '../prisma/api-tokens-list-relation-filter.input';
+import { Order_transactionsListRelationFilter } from '../prisma/order-transactions-list-relation-filter.input';
 
 @InputType()
 export class organizationWhereInput {
@@ -75,6 +76,9 @@ export class organizationWhereInput {
     @Field(() => IntFilter, {nullable:true})
     max_active_order_count?: IntFilter;
 
+    @Field(() => IntFilter, {nullable:true})
+    max_order_close_distance?: IntFilter;
+
     @Field(() => Enumorganization_payment_typesFilter, {nullable:true})
     payment_type?: Enumorganization_payment_typesFilter;
 
@@ -113,4 +117,7 @@ export class organizationWhereInput {
 
     @Field(() => Api_tokensListRelationFilter, {nullable:true})
     api_tokens_organization?: Api_tokensListRelationFilter;
+
+    @Field(() => Order_transactionsListRelationFilter, {nullable:true})
+    order_transactions_organizations?: Order_transactionsListRelationFilter;
 }

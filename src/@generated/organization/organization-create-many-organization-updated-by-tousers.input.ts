@@ -55,6 +55,9 @@ export class organizationCreateManyOrganization_updated_byTousersInput {
     @Field(() => Int, {nullable:true})
     max_active_order_count?: number;
 
+    @Field(() => Int, {nullable:true})
+    max_order_close_distance?: number;
+
     @Field(() => organization_payment_types, {nullable:true})
     payment_type?: keyof typeof organization_payment_types;
 

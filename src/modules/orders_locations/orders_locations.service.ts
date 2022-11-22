@@ -36,19 +36,21 @@ export class OrdersLocationsService {
   }
 
   async storeLocation(data: CreateOrdersLocationInput, @CurrentUser() user: users) {
-    await this.prismaService.users.update({
-      where: {
-        id: user.id,
-      },
-      data: {
-        latitude: data.latitude,
-        longitude: data.longitude,
-      },
-    });
-    await this.bgJobsQueue.add('registerCourierLocation', {
-      data,
-      user,
-    });
+    if (data.latitude) {
+      await this.prismaService.users.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          latitude: data.latitude,
+          longitude: data.longitude,
+        },
+      });
+      await this.bgJobsQueue.add('registerCourierLocation', {
+        data,
+        user,
+      });
+    }
     return {
       success: true,
     };

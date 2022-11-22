@@ -60,6 +60,9 @@ export class OrganizationGroupBy {
     @Field(() => Int, {nullable:false})
     max_active_order_count!: number;
 
+    @Field(() => Int, {nullable:false})
+    max_order_close_distance!: number;
+
     @Field(() => organization_payment_types, {nullable:false})
     payment_type!: keyof typeof organization_payment_types;
 

@@ -10,4 +10,7 @@ export class OrganizationSumAggregate {
 
     @Field(() => Int, {nullable:true})
     max_active_order_count?: number;
+
+    @Field(() => Int, {nullable:true})
+    max_order_close_distance?: number;
 }

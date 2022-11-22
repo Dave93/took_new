@@ -76,6 +76,9 @@ export class OrdersMaxAggregate {
     @Field(() => String, {nullable:true})
     cancel_reason?: string;
 
+    @Field(() => Boolean, {nullable:true})
+    sms_sent_to_customer?: boolean;
+
     @Field(() => String, {nullable:true})
     delivery_pricing_id?: string;
 

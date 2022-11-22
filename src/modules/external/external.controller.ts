@@ -14,4 +14,9 @@ export class ExternalController {
   create(@Body() createExternalDto: CreateExternalDto, @Request() req) {
     return this.externalService.create(createExternalDto, req);
   }
+
+  @Post('/dev')
+  dev(@Body() createExternalDto: any, @Request() req) {
+    return this.externalService.dev(createExternalDto, req);
+  }
 }

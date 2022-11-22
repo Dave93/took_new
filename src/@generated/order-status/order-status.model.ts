@@ -36,6 +36,12 @@ export class order_status {
     @Field(() => Boolean, {nullable:false,defaultValue:false})
     need_location!: boolean;
 
+    @Field(() => Boolean, {nullable:false,defaultValue:false})
+    on_way!: boolean;
+
+    @Field(() => Boolean, {nullable:false,defaultValue:false})
+    in_terminal!: boolean;
+
     @Field(() => organization, {nullable:false})
     order_status_organization?: organization;
 

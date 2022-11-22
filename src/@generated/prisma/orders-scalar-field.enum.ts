@@ -24,6 +24,7 @@ export enum OrdersScalarFieldEnum {
     delivery_comment = "delivery_comment",
     payment_type = "payment_type",
     cancel_reason = "cancel_reason",
+    sms_sent_to_customer = "sms_sent_to_customer",
     order_items = "order_items",
     delivery_pricing_id = "delivery_pricing_id",
     created_at = "created_at",

@@ -17,6 +17,9 @@ export enum UsersScalarFieldEnum {
     is_online = "is_online",
     latitude = "latitude",
     longitude = "longitude",
+    fcm_token = "fcm_token",
+    wallet_balance = "wallet_balance",
+    max_active_order_count = "max_active_order_count",
     created_at = "created_at",
     updated_at = "updated_at"
 }

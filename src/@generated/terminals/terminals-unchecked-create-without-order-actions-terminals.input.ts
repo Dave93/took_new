@@ -5,6 +5,8 @@ import { users_terminalsUncheckedCreateNestedManyWithoutTerminalsInput } from '.
 import { ordersUncheckedCreateNestedManyWithoutOrders_terminalsInput } from '../orders/orders-unchecked-create-nested-many-without-orders-terminals.input';
 import { order_locationsUncheckedCreateNestedManyWithoutOrder_locations_terminalsInput } from '../order-locations/order-locations-unchecked-create-nested-many-without-order-locations-terminals.input';
 import { delivery_pricingUncheckedCreateNestedManyWithoutTerminalInput } from '../delivery-pricing/delivery-pricing-unchecked-create-nested-many-without-terminal.input';
+import { order_votesUncheckedCreateNestedManyWithoutOrder_votes_terminalsInput } from '../order-votes/order-votes-unchecked-create-nested-many-without-order-votes-terminals.input';
+import { order_transactionsUncheckedCreateNestedManyWithoutOrder_transactions_terminalsInput } from '../order-transactions/order-transactions-unchecked-create-nested-many-without-order-transactions-terminals.input';
 
 @InputType()
 export class terminalsUncheckedCreateWithoutOrder_actions_terminalsInput {
@@ -53,4 +55,10 @@ export class terminalsUncheckedCreateWithoutOrder_actions_terminalsInput {
 
     @Field(() => delivery_pricingUncheckedCreateNestedManyWithoutTerminalInput, {nullable:true})
     delivery_pricing_terminal_idTterminal?: delivery_pricingUncheckedCreateNestedManyWithoutTerminalInput;
+
+    @Field(() => order_votesUncheckedCreateNestedManyWithoutOrder_votes_terminalsInput, {nullable:true})
+    order_votes_terminals?: order_votesUncheckedCreateNestedManyWithoutOrder_votes_terminalsInput;
+
+    @Field(() => order_transactionsUncheckedCreateNestedManyWithoutOrder_transactions_terminalsInput, {nullable:true})
+    order_transactions_terminals?: order_transactionsUncheckedCreateNestedManyWithoutOrder_transactions_terminalsInput;
 }

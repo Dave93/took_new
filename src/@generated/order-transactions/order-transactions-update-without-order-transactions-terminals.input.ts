@@ -1,0 +1,52 @@
+import { Field } from '@nestjs/graphql';
+import { InputType } from '@nestjs/graphql';
+import { Float } from '@nestjs/graphql';
+import { order_transaction_status } from '../prisma/order-transaction-status.enum';
+import { order_transaction_payment_type } from '../prisma/order-transaction-payment-type.enum';
+import { usersUpdateOneWithoutOrder_transactions_created_byTousersNestedInput } from '../users/users-update-one-without-order-transactions-created-by-tousers-nested.input';
+import { ordersUpdateOneWithoutOrder_transactions_ordersNestedInput } from '../orders/orders-update-one-without-order-transactions-orders-nested.input';
+import { usersUpdateOneRequiredWithoutOrder_transactions_couriersNestedInput } from '../users/users-update-one-required-without-order-transactions-couriers-nested.input';
+import { organizationUpdateOneRequiredWithoutOrder_transactions_organizationsNestedInput } from '../organization/organization-update-one-required-without-order-transactions-organizations-nested.input';
+
+@InputType()
+export class order_transactionsUpdateWithoutOrder_transactions_terminalsInput {
+
+    @Field(() => String, {nullable:true})
+    id?: string;
+
+    @Field(() => String, {nullable:true})
+    card_number?: string;
+
+    @Field(() => Float, {nullable:true})
+    amount?: number;
+
+    @Field(() => order_transaction_status, {nullable:true})
+    status?: keyof typeof order_transaction_status;
+
+    @Field(() => order_transaction_payment_type, {nullable:true})
+    transaction_payment_type?: keyof typeof order_transaction_payment_type;
+
+    @Field(() => String, {nullable:true})
+    transaction_type?: string;
+
+    @Field(() => String, {nullable:true})
+    comment?: string;
+
+    @Field(() => String, {nullable:true})
+    error_text?: string;
+
+    @Field(() => Date, {nullable:true})
+    created_at?: Date | string;
+
+    @Field(() => usersUpdateOneWithoutOrder_transactions_created_byTousersNestedInput, {nullable:true})
+    order_transactions_created_byTousers?: usersUpdateOneWithoutOrder_transactions_created_byTousersNestedInput;
+
+    @Field(() => ordersUpdateOneWithoutOrder_transactions_ordersNestedInput, {nullable:true})
+    order_transactions_orders?: ordersUpdateOneWithoutOrder_transactions_ordersNestedInput;
+
+    @Field(() => usersUpdateOneRequiredWithoutOrder_transactions_couriersNestedInput, {nullable:true})
+    order_transactions_couriers?: usersUpdateOneRequiredWithoutOrder_transactions_couriersNestedInput;
+
+    @Field(() => organizationUpdateOneRequiredWithoutOrder_transactions_organizationsNestedInput, {nullable:true})
+    order_transactions_organizations?: organizationUpdateOneRequiredWithoutOrder_transactions_organizationsNestedInput;
+}

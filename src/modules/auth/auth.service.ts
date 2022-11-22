@@ -15,6 +15,8 @@ import { JwtPayload } from './dto/jwt-payload.dto';
 import { TokenService } from './services/token.service';
 import { LoginResponseDto } from './dto';
 import { UserResponseDto } from './dto/user-response.dto';
+import { users, work_schedule_entry_status } from '@prisma/client';
+import { CurrentUser } from '@modules/auth/decorators';
 
 @Injectable()
 export class AuthService {
@@ -46,7 +48,7 @@ export class AuthService {
   }
 
   async sendOtp(phone: string) {
-    let userEntity = await this.prismaService.users.findUnique({
+    let userEntity = await this.prismaService.users.findFirst({
       where: {
         phone,
       },
@@ -103,7 +105,7 @@ export class AuthService {
             recipient: phone.replace(/[^0-9]/g, ''),
             'message-id': Math.floor(Math.random() * 1000001),
             sms: {
-              originator: '3700',
+              originator: 'Chopar',
               content: {
                 text: message,
               },
@@ -111,10 +113,11 @@ export class AuthService {
           },
         ],
       },
+
       {
         auth: {
-          username: 'dietsahovat',
-          password: '3j5YpM27My',
+          username: 'lesailes2',
+          password: 'DCTr@7mzC',
         },
       },
     );
@@ -123,7 +126,7 @@ export class AuthService {
     return result;
   }
 
-  async verifyOtp(phone: string, otp: string, verificationKey: string) {
+  async verifyOtp(phone: string, otp: string, verificationKey: string, deviceToken: string) {
     const currentdate = new Date();
 
     if (!verificationKey) {
@@ -190,6 +193,7 @@ export class AuthService {
                 first_name: true,
                 last_name: true,
                 is_online: true,
+                wallet_balance: true,
               },
             });
 
@@ -200,7 +204,28 @@ export class AuthService {
               throw new DisabledUserException(ErrorType.InactiveUser);
             }
 
+            if (deviceToken) {
+              await this.prismaService.users.update({
+                where: {
+                  id: user.id,
+                },
+                data: {
+                  fcm_token: deviceToken,
+                },
+              });
+            }
+
             const dto = new UserResponseDto();
+
+            // find user terminals
+            const terminals = await this.prismaService.users_terminals.findMany({
+              where: {
+                user_id: user.id,
+              },
+              select: {
+                terminal_id: true,
+              },
+            });
 
             dto.id = user.id;
             dto.phone = user.phone;
@@ -209,6 +234,8 @@ export class AuthService {
             dto.status = user_status[user.status];
             dto.is_super_user = user.is_super_user;
             dto.is_online = user.is_online;
+            dto.wallet_balance = user.wallet_balance;
+            dto.terminal_id = terminals.map((t) => t.terminal_id);
 
             const payload: JwtPayload = { id: user.id, phone: user.phone };
             const token = await this.tokenService.generateAuthToken(payload);
@@ -236,10 +263,6 @@ export class AuthService {
                   },
                 },
               },
-            });
-            console.log(userRoles);
-            userRoles.map(({ roles: { roles_permissions } }) => {
-              console.log(roles_permissions);
             });
             const rolePermissions = [];
             userRoles.map(({ roles: { roles_permissions } }) => {
@@ -319,5 +342,41 @@ export class AuthService {
 
   AddMinutesToDate(date, minutes) {
     return new Date(date.getTime() + minutes * 60000);
+  }
+
+  async logout(@CurrentUser() user: users) {
+    await this.prismaService.users.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        fcm_token: null,
+        is_online: false,
+      },
+    });
+    const openedOpenTime = await this.prismaService.work_schedule_entries.findFirst({
+      where: {
+        user_id: user.id,
+        current_status: 'open',
+      },
+    });
+    if (openedOpenTime) {
+      const dateStart = new Date(openedOpenTime.date_start);
+      const dateEnd = new Date();
+      // get duration in seconds
+      const duration = Math.floor((dateEnd.getTime() - dateStart.getTime()) / 1000);
+      await this.prismaService.work_schedule_entries.update({
+        where: {
+          id: openedOpenTime.id,
+        },
+        data: {
+          ip_close: '127.0.0.1',
+          current_status: work_schedule_entry_status.closed,
+          duration,
+          date_finish: new Date(),
+        },
+      });
+    }
+    return true;
   }
 }

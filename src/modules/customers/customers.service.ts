@@ -44,4 +44,36 @@ export class CustomersService {
   remove(id: number) {
     return `This action removes a #${id} customer`;
   }
+
+  customerComments(customerId: string) {
+    return this.prismaService.customers_comments.findMany({
+      where: {
+        customer_id: customerId,
+      },
+      select: {
+        id: true,
+        comment: true,
+        customer_id: true,
+        created_at: true,
+      },
+      orderBy: {
+        created_by: 'desc',
+      },
+    });
+  }
+
+  createCustomerComment(customerId: string, comment: string) {
+    return this.prismaService.customers_comments.create({
+      data: {
+        comment,
+        customer_id: customerId,
+      },
+      select: {
+        id: true,
+        comment: true,
+        customer_id: true,
+        created_at: true,
+      },
+    });
+  }
 }

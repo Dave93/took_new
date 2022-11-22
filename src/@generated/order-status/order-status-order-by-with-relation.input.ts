@@ -34,6 +34,12 @@ export class order_statusOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
     need_location?: keyof typeof SortOrder;
 
+    @Field(() => SortOrder, {nullable:true})
+    on_way?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    in_terminal?: keyof typeof SortOrder;
+
     @Field(() => organizationOrderByWithRelationInput, {nullable:true})
     order_status_organization?: organizationOrderByWithRelationInput;
 

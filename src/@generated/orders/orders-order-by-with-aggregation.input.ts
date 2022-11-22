@@ -80,6 +80,9 @@ export class ordersOrderByWithAggregationInput {
     cancel_reason?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    sms_sent_to_customer?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     order_items?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})

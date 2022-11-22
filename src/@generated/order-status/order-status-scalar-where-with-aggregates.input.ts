@@ -43,4 +43,10 @@ export class order_statusScalarWhereWithAggregatesInput {
 
     @Field(() => BoolWithAggregatesFilter, {nullable:true})
     need_location?: BoolWithAggregatesFilter;
+
+    @Field(() => BoolWithAggregatesFilter, {nullable:true})
+    on_way?: BoolWithAggregatesFilter;
+
+    @Field(() => BoolWithAggregatesFilter, {nullable:true})
+    in_terminal?: BoolWithAggregatesFilter;
 }

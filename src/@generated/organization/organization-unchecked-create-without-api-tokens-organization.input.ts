@@ -8,6 +8,7 @@ import { delivery_pricingUncheckedCreateNestedManyWithoutOrganizationInput } fro
 import { terminalsUncheckedCreateNestedManyWithoutOrganizationInput } from '../terminals/terminals-unchecked-create-nested-many-without-organization.input';
 import { order_statusUncheckedCreateNestedManyWithoutOrder_status_organizationInput } from '../order-status/order-status-unchecked-create-nested-many-without-order-status-organization.input';
 import { ordersUncheckedCreateNestedManyWithoutOrders_organizationInput } from '../orders/orders-unchecked-create-nested-many-without-orders-organization.input';
+import { order_transactionsUncheckedCreateNestedManyWithoutOrder_transactions_organizationsInput } from '../order-transactions/order-transactions-unchecked-create-nested-many-without-order-transactions-organizations.input';
 
 @InputType()
 export class organizationUncheckedCreateWithoutApi_tokens_organizationInput {
@@ -60,6 +61,9 @@ export class organizationUncheckedCreateWithoutApi_tokens_organizationInput {
     @Field(() => Int, {nullable:true})
     max_active_order_count?: number;
 
+    @Field(() => Int, {nullable:true})
+    max_order_close_distance?: number;
+
     @Field(() => organization_payment_types, {nullable:true})
     payment_type?: keyof typeof organization_payment_types;
 
@@ -89,4 +93,7 @@ export class organizationUncheckedCreateWithoutApi_tokens_organizationInput {
 
     @Field(() => ordersUncheckedCreateNestedManyWithoutOrders_organizationInput, {nullable:true})
     orders_organization?: ordersUncheckedCreateNestedManyWithoutOrders_organizationInput;
+
+    @Field(() => order_transactionsUncheckedCreateNestedManyWithoutOrder_transactions_organizationsInput, {nullable:true})
+    order_transactions_organizations?: order_transactionsUncheckedCreateNestedManyWithoutOrder_transactions_organizationsInput;
 }

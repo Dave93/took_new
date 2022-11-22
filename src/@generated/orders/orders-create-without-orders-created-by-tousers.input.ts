@@ -12,6 +12,8 @@ import { organizationCreateNestedOneWithoutOrders_organizationInput } from '../o
 import { terminalsCreateNestedOneWithoutOrders_terminalsInput } from '../terminals/terminals-create-nested-one-without-orders-terminals.input';
 import { order_actionsCreateNestedManyWithoutOrder_actions_ordersInput } from '../order-actions/order-actions-create-nested-many-without-order-actions-orders.input';
 import { order_locationsCreateNestedManyWithoutOrder_locations_ordersInput } from '../order-locations/order-locations-create-nested-many-without-order-locations-orders.input';
+import { order_votesCreateNestedManyWithoutOrder_votes_ordersInput } from '../order-votes/order-votes-create-nested-many-without-order-votes-orders.input';
+import { order_transactionsCreateNestedManyWithoutOrder_transactions_ordersInput } from '../order-transactions/order-transactions-create-nested-many-without-order-transactions-orders.input';
 
 @InputType()
 export class ordersCreateWithoutOrders_created_byTousersInput {
@@ -70,6 +72,9 @@ export class ordersCreateWithoutOrders_created_byTousersInput {
     @Field(() => String, {nullable:true})
     cancel_reason?: string;
 
+    @Field(() => Boolean, {nullable:true})
+    sms_sent_to_customer?: boolean;
+
     @Field(() => GraphQLJSON, {nullable:true})
     order_items?: any;
 
@@ -105,4 +110,10 @@ export class ordersCreateWithoutOrders_created_byTousersInput {
 
     @Field(() => order_locationsCreateNestedManyWithoutOrder_locations_ordersInput, {nullable:true})
     order_locations_orders?: order_locationsCreateNestedManyWithoutOrder_locations_ordersInput;
+
+    @Field(() => order_votesCreateNestedManyWithoutOrder_votes_ordersInput, {nullable:true})
+    order_votes_orders?: order_votesCreateNestedManyWithoutOrder_votes_ordersInput;
+
+    @Field(() => order_transactionsCreateNestedManyWithoutOrder_transactions_ordersInput, {nullable:true})
+    order_transactions_orders?: order_transactionsCreateNestedManyWithoutOrder_transactions_ordersInput;
 }

@@ -124,4 +124,22 @@ export class UsersCount {
 
     @Field(() => Int, {nullable:false})
     api_tokens_updated_byTousers!: number;
+
+    @Field(() => Int, {nullable:false})
+    order_votes_created_byTousers!: number;
+
+    @Field(() => Int, {nullable:false})
+    order_votes_couriers!: number;
+
+    @Field(() => Int, {nullable:false})
+    order_transactions_created_byTousers!: number;
+
+    @Field(() => Int, {nullable:false})
+    order_transactions_couriers!: number;
+
+    @Field(() => Int, {nullable:false})
+    outside_requests_created_byTousers!: number;
+
+    @Field(() => Int, {nullable:false})
+    outside_requests_updated_byTousers!: number;
 }

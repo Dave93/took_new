@@ -4,7 +4,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { EnvironmentModule } from '@nestjs-steroids/environment';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ApolloErrorConverter, extendMapItem, mapItemBases } from 'apollo-error-converter';
-import { join } from 'path';
+import path, { join } from 'path';
 import { Logger } from '@nestjs/common/services/logger.service';
 import { MercuriusDriver, MercuriusDriverConfig } from '@nestjs/mercurius';
 import { AuthModule } from './modules/auth/auth.module';
@@ -35,10 +35,20 @@ import { SearchModule } from './modules/search/search.module';
 import { ApiTokensModule } from './modules/api_tokens/api_tokens.module';
 import { ExternalModule } from './modules/external/external.module';
 import { ConnectClientsModule } from './modules/connect_clients/connect_clients.module';
+import { PubSub } from 'graphql-subscriptions';
+import { PubsubModule } from './modules/pubsub/pubsub.module';
+import { OrderNewNotificationsModule } from './modules/queues/order_new_notifications/order_new_notifications.module';
+import { DateScalar } from './helpers/date.scalar';
+import { FcmModule } from 'nestjs-fcm';
+import { OrderCompleteModule } from './modules/queues/order_complete/order_complete.module';
+import { OrderIndexModule } from './modules/queues/order_index/order_index.module';
 
 @Global()
 @Module({
   imports: [
+    FcmModule.forRoot({
+      firebaseSpecsPath: path.join(__dirname, '../src/fcm/config.json'),
+    }),
     ConfigModule.forRoot({
       envFilePath: ['.env'],
     }),
@@ -58,8 +68,22 @@ import { ConnectClientsModule } from './modules/connect_clients/connect_clients.
         host: 'localhost',
         port: 6379,
       },
-      prefix: 'took_tasks_',
+      prefix: 'arryt_tasks_',
     }),
+    BullModule.registerQueue(
+      {
+        name: 'bg_jobs',
+      },
+      {
+        name: 'new_order_notifications',
+      },
+      {
+        name: 'order_complete_actions',
+      },
+      {
+        name: 'order_index',
+      },
+    ),
     CacheModule.register({
       isGlobal: true,
       store: redisStore,
@@ -96,8 +120,20 @@ import { ConnectClientsModule } from './modules/connect_clients/connect_clients.
     ApiTokensModule,
     ExternalModule,
     ConnectClientsModule,
+    PubsubModule,
+    OrderNewNotificationsModule,
+    OrderCompleteModule,
+    OrderIndexModule,
   ],
-  providers: [PrismaService],
+  providers: [
+    PrismaService,
+    DateScalar,
+    {
+      provide: 'PUB_SUB',
+      useValue: new PubSub(),
+    },
+  ],
+  exports: [BullModule],
 })
 export class AppModule {
   static port: number;

@@ -5,6 +5,8 @@ import { Float } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
 import { GraphQLJSON } from 'graphql-type-json';
 import { order_actionsUncheckedUpdateManyWithoutOrder_actions_ordersNestedInput } from '../order-actions/order-actions-unchecked-update-many-without-order-actions-orders-nested.input';
+import { order_votesUncheckedUpdateManyWithoutOrder_votes_ordersNestedInput } from '../order-votes/order-votes-unchecked-update-many-without-order-votes-orders-nested.input';
+import { order_transactionsUncheckedUpdateManyWithoutOrder_transactions_ordersNestedInput } from '../order-transactions/order-transactions-unchecked-update-many-without-order-transactions-orders-nested.input';
 
 @InputType()
 export class ordersUncheckedUpdateWithoutOrder_locations_ordersInput {
@@ -78,6 +80,9 @@ export class ordersUncheckedUpdateWithoutOrder_locations_ordersInput {
     @Field(() => String, {nullable:true})
     cancel_reason?: string;
 
+    @Field(() => Boolean, {nullable:true})
+    sms_sent_to_customer?: boolean;
+
     @Field(() => GraphQLJSON, {nullable:true})
     order_items?: any;
 
@@ -98,4 +103,10 @@ export class ordersUncheckedUpdateWithoutOrder_locations_ordersInput {
 
     @Field(() => order_actionsUncheckedUpdateManyWithoutOrder_actions_ordersNestedInput, {nullable:true})
     order_actions_orders?: order_actionsUncheckedUpdateManyWithoutOrder_actions_ordersNestedInput;
+
+    @Field(() => order_votesUncheckedUpdateManyWithoutOrder_votes_ordersNestedInput, {nullable:true})
+    order_votes_orders?: order_votesUncheckedUpdateManyWithoutOrder_votes_ordersNestedInput;
+
+    @Field(() => order_transactionsUncheckedUpdateManyWithoutOrder_transactions_ordersNestedInput, {nullable:true})
+    order_transactions_orders?: order_transactionsUncheckedUpdateManyWithoutOrder_transactions_ordersNestedInput;
 }

@@ -11,6 +11,7 @@ import { terminals } from '../terminals/terminals.model';
 import { order_status } from '../order-status/order-status.model';
 import { orders } from '../orders/orders.model';
 import { api_tokens } from '../api-tokens/api-tokens.model';
+import { order_transactions } from '../order-transactions/order-transactions.model';
 import { OrganizationCount } from '../prisma/organization-count.output';
 
 @ObjectType()
@@ -64,6 +65,9 @@ export class organization {
     @Field(() => Int, {nullable:false,defaultValue:0})
     max_active_order_count!: number;
 
+    @Field(() => Int, {nullable:false,defaultValue:0})
+    max_order_close_distance!: number;
+
     @Field(() => organization_payment_types, {nullable:false,defaultValue:'client'})
     payment_type!: keyof typeof organization_payment_types;
 
@@ -102,6 +106,9 @@ export class organization {
 
     @Field(() => [api_tokens], {nullable:true})
     api_tokens_organization?: Array<api_tokens>;
+
+    @Field(() => [order_transactions], {nullable:true})
+    order_transactions_organizations?: Array<order_transactions>;
 
     @Field(() => OrganizationCount, {nullable:false})
     _count?: OrganizationCount;

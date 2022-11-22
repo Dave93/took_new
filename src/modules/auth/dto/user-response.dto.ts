@@ -33,12 +33,15 @@ export class UserResponseDto {
   @Field(() => user_status, { description: 'User status' })
   status: user_status;
 
-  @Field(() => String, { description: 'iiko terminal id' })
-  iiko_terminal_id: string;
+  @Field(() => [String], { description: 'iiko terminal id' })
+  terminal_id: string[];
 
   @Field(() => String, { description: 'Project' })
   project: string;
 
   @Field(() => Boolean, { description: 'User online/offline' })
   is_online: boolean;
+
+  @Field(() => Number, { nullable: true })
+  wallet_balance: number;
 }

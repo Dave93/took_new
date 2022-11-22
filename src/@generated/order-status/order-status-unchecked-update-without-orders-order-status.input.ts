@@ -31,4 +31,10 @@ export class order_statusUncheckedUpdateWithoutOrders_order_statusInput {
 
     @Field(() => Boolean, {nullable:true})
     need_location?: boolean;
+
+    @Field(() => Boolean, {nullable:true})
+    on_way?: boolean;
+
+    @Field(() => Boolean, {nullable:true})
+    in_terminal?: boolean;
 }

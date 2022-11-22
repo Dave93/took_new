@@ -8,6 +8,8 @@ import { orders } from '../orders/orders.model';
 import { order_actions } from '../order-actions/order-actions.model';
 import { order_locations } from '../order-locations/order-locations.model';
 import { delivery_pricing } from '../delivery-pricing/delivery-pricing.model';
+import { order_votes } from '../order-votes/order-votes.model';
+import { order_transactions } from '../order-transactions/order-transactions.model';
 import { TerminalsCount } from '../prisma/terminals-count.output';
 
 @ObjectType()
@@ -63,6 +65,12 @@ export class terminals {
 
     @Field(() => [delivery_pricing], {nullable:true})
     delivery_pricing_terminal_idTterminal?: Array<delivery_pricing>;
+
+    @Field(() => [order_votes], {nullable:true})
+    order_votes_terminals?: Array<order_votes>;
+
+    @Field(() => [order_transactions], {nullable:true})
+    order_transactions_terminals?: Array<order_transactions>;
 
     @Field(() => TerminalsCount, {nullable:false})
     _count?: TerminalsCount;

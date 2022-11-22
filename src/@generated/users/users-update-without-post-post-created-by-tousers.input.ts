@@ -3,6 +3,7 @@ import { InputType } from '@nestjs/graphql';
 import { user_status } from '../prisma/user-status.enum';
 import { drive_type } from '../prisma/drive-type.enum';
 import { Float } from '@nestjs/graphql';
+import { Int } from '@nestjs/graphql';
 import { otpUpdateManyWithoutUsersNestedInput } from '../otp/otp-update-many-without-users-nested.input';
 import { permissionsUpdateManyWithoutUsers_permissions_created_byTousersNestedInput } from '../permissions/permissions-update-many-without-users-permissions-created-by-tousers-nested.input';
 import { permissionsUpdateManyWithoutUsers_permissions_updated_byTousersNestedInput } from '../permissions/permissions-update-many-without-users-permissions-updated-by-tousers-nested.input';
@@ -42,6 +43,12 @@ import { order_locationsUpdateManyWithoutOrder_locations_created_byTousersNested
 import { order_locationsUpdateManyWithoutOrder_locations_couriersNestedInput } from '../order-locations/order-locations-update-many-without-order-locations-couriers-nested.input';
 import { api_tokensUpdateManyWithoutApi_tokens_created_byTousersNestedInput } from '../api-tokens/api-tokens-update-many-without-api-tokens-created-by-tousers-nested.input';
 import { api_tokensUpdateManyWithoutApi_tokens_updated_byTousersNestedInput } from '../api-tokens/api-tokens-update-many-without-api-tokens-updated-by-tousers-nested.input';
+import { order_votesUpdateManyWithoutOrder_votes_created_byTousersNestedInput } from '../order-votes/order-votes-update-many-without-order-votes-created-by-tousers-nested.input';
+import { order_votesUpdateManyWithoutOrder_votes_couriersNestedInput } from '../order-votes/order-votes-update-many-without-order-votes-couriers-nested.input';
+import { order_transactionsUpdateManyWithoutOrder_transactions_created_byTousersNestedInput } from '../order-transactions/order-transactions-update-many-without-order-transactions-created-by-tousers-nested.input';
+import { order_transactionsUpdateManyWithoutOrder_transactions_couriersNestedInput } from '../order-transactions/order-transactions-update-many-without-order-transactions-couriers-nested.input';
+import { outside_requestsUpdateManyWithoutOutside_requests_created_byTousersNestedInput } from '../outside-requests/outside-requests-update-many-without-outside-requests-created-by-tousers-nested.input';
+import { outside_requestsUpdateManyWithoutOutside_requests_updated_byTousersNestedInput } from '../outside-requests/outside-requests-update-many-without-outside-requests-updated-by-tousers-nested.input';
 
 @InputType()
 export class usersUpdateWithoutPost_post_created_byTousersInput {
@@ -93,6 +100,15 @@ export class usersUpdateWithoutPost_post_created_byTousersInput {
 
     @Field(() => Float, {nullable:true})
     longitude?: number;
+
+    @Field(() => String, {nullable:true})
+    fcm_token?: string;
+
+    @Field(() => Float, {nullable:true})
+    wallet_balance?: number;
+
+    @Field(() => Int, {nullable:true})
+    max_active_order_count?: number;
 
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;
@@ -216,4 +232,22 @@ export class usersUpdateWithoutPost_post_created_byTousersInput {
 
     @Field(() => api_tokensUpdateManyWithoutApi_tokens_updated_byTousersNestedInput, {nullable:true})
     api_tokens_updated_byTousers?: api_tokensUpdateManyWithoutApi_tokens_updated_byTousersNestedInput;
+
+    @Field(() => order_votesUpdateManyWithoutOrder_votes_created_byTousersNestedInput, {nullable:true})
+    order_votes_created_byTousers?: order_votesUpdateManyWithoutOrder_votes_created_byTousersNestedInput;
+
+    @Field(() => order_votesUpdateManyWithoutOrder_votes_couriersNestedInput, {nullable:true})
+    order_votes_couriers?: order_votesUpdateManyWithoutOrder_votes_couriersNestedInput;
+
+    @Field(() => order_transactionsUpdateManyWithoutOrder_transactions_created_byTousersNestedInput, {nullable:true})
+    order_transactions_created_byTousers?: order_transactionsUpdateManyWithoutOrder_transactions_created_byTousersNestedInput;
+
+    @Field(() => order_transactionsUpdateManyWithoutOrder_transactions_couriersNestedInput, {nullable:true})
+    order_transactions_couriers?: order_transactionsUpdateManyWithoutOrder_transactions_couriersNestedInput;
+
+    @Field(() => outside_requestsUpdateManyWithoutOutside_requests_created_byTousersNestedInput, {nullable:true})
+    outside_requests_created_byTousers?: outside_requestsUpdateManyWithoutOutside_requests_created_byTousersNestedInput;
+
+    @Field(() => outside_requestsUpdateManyWithoutOutside_requests_updated_byTousersNestedInput, {nullable:true})
+    outside_requests_updated_byTousers?: outside_requestsUpdateManyWithoutOutside_requests_updated_byTousersNestedInput;
 }
