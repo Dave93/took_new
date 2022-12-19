@@ -11,6 +11,7 @@ import { FindManycustomersArgs } from 'src/@generated/customers/find-manycustome
 import { JwtAuthGuard, Permissions } from '@auth';
 import { customers_comments } from '../../@generated/customers-comments/customers-comments.model';
 import { UseGuards } from '@nestjs/common';
+import { FileUpload, GraphQLUpload } from 'graphql-upload-minimal';
 
 @Resolver(() => Customer)
 export class CustomersResolver {
@@ -53,8 +54,11 @@ export class CustomersResolver {
 
   @Query(() => [customers_comments], { name: 'customerComments' })
   @UseGuards(JwtAuthGuard)
-  customerComments(@Args('customerId', { type: () => String }) customerId: string) {
-    return this.customersService.customerComments(customerId);
+  customerComments(
+    @Args('customerId', { type: () => String }) customerId: string,
+    @Args('orderId', { type: () => String, nullable: true }) orderId: string,
+  ) {
+    return this.customersService.customerComments(customerId, orderId);
   }
 
   @Mutation(() => customers_comments, { name: 'createCustomerComment' })
@@ -65,5 +69,23 @@ export class CustomersResolver {
   ) {
     const res = await this.customersService.createCustomerComment(customerId, comment);
     return res;
+  }
+
+  @Mutation(() => customers_comments, { name: 'uploadCustomerVoiceComment' })
+  @UseGuards(JwtAuthGuard)
+  async uploadCustomerVoiceComment(
+    @Args('customerId', { type: () => String }) customerId: string,
+    @Args('file', { type: () => GraphQLUpload }) file: FileUpload,
+  ) {
+    return this.customersService.uploadCustomerVoiceComment(customerId, file);
+  }
+
+  @Mutation(() => customers_comments, { name: 'uploadCustomerImageComment' })
+  @UseGuards(JwtAuthGuard)
+  async uploadCustomerImageComment(
+    @Args('customerId', { type: () => String }) customerId: string,
+    @Args('file', { type: () => GraphQLUpload }) file: FileUpload,
+  ) {
+    return this.customersService.uploadCustomerImageComment(customerId, file);
   }
 }

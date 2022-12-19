@@ -25,4 +25,10 @@ export class OrganizationCount {
 
     @Field(() => Int, {nullable:false})
     order_transactions_organizations!: number;
+
+    @Field(() => Int, {nullable:false})
+    courier_terminal_balance_organizations!: number;
+
+    @Field(() => Int, {nullable:false})
+    manager_withdraw_organizations!: number;
 }

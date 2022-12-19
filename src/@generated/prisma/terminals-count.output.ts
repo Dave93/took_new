@@ -25,4 +25,10 @@ export class TerminalsCount {
 
     @Field(() => Int, {nullable:false})
     order_transactions_terminals!: number;
+
+    @Field(() => Int, {nullable:false})
+    courier_terminal_balance_terminals!: number;
+
+    @Field(() => Int, {nullable:false})
+    manager_withdraw_terminals!: number;
 }

@@ -3,6 +3,7 @@ import { InputType } from '@nestjs/graphql';
 import { drive_type } from '../prisma/drive-type.enum';
 import { Int } from '@nestjs/graphql';
 import { GraphQLJSON } from 'graphql-type-json';
+import { organization_payment_types } from '../organization/organization-payment-types.enum';
 
 @InputType()
 export class delivery_pricingUncheckedUpdateManyWithoutDelivery_pricing_terminal_idTterminalInput {
@@ -42,6 +43,9 @@ export class delivery_pricingUncheckedUpdateManyWithoutDelivery_pricing_terminal
 
     @Field(() => String, {nullable:true})
     organization_id?: string;
+
+    @Field(() => organization_payment_types, {nullable:true})
+    payment_type?: keyof typeof organization_payment_types;
 
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;

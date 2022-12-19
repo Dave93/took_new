@@ -22,6 +22,7 @@ export class CacheControlService implements OnModuleInit {
     await this.cacheOrderStatus();
     await this.invalidateCache('api_tokens');
     await this.invalidateCache('roles');
+    await this.invalidateCache('system_configs');
   }
 
   /** Caching Start */
@@ -102,8 +103,17 @@ export class CacheControlService implements OnModuleInit {
     return deliveryPricing.filter((pricing) => pricing.organization_id === organizationId);
   }
 
+  async getSetting(name: string) {
+    const systemConfigs = await this.cacheManager.get('system_configs');
+    return systemConfigs[name];
+  }
+
   getCachedRoles() {
     return this.cacheManager.get('roles');
+  }
+
+  getWorkSchedules() {
+    return this.cacheManager.get('workSchedules');
   }
 
   /** Getters end */
@@ -150,6 +160,13 @@ export class CacheControlService implements OnModuleInit {
           };
         });
         return this.cacheManager.set('roles', result, { ttl: 0 });
+      case 'system_configs':
+        const systemConfigs = await this.prismaService.system_configs.findMany();
+        const res = {};
+        systemConfigs.forEach((config) => {
+          res[config.name] = config.value;
+        });
+        return this.cacheManager.set('system_configs', res, { ttl: 0 });
     }
   }
 }

@@ -79,8 +79,14 @@ export class OrdersMinAggregate {
     @Field(() => Boolean, {nullable:true})
     sms_sent_to_customer?: boolean;
 
+    @Field(() => Int, {nullable:true})
+    score?: number;
+
     @Field(() => String, {nullable:true})
     delivery_pricing_id?: string;
+
+    @Field(() => String, {nullable:true})
+    cancel_voice_id?: string;
 
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;

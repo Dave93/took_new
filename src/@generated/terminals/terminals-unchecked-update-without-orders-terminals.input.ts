@@ -7,6 +7,8 @@ import { order_locationsUncheckedUpdateManyWithoutOrder_locations_terminalsNeste
 import { delivery_pricingUncheckedUpdateManyWithoutTerminalNestedInput } from '../delivery-pricing/delivery-pricing-unchecked-update-many-without-terminal-nested.input';
 import { order_votesUncheckedUpdateManyWithoutOrder_votes_terminalsNestedInput } from '../order-votes/order-votes-unchecked-update-many-without-order-votes-terminals-nested.input';
 import { order_transactionsUncheckedUpdateManyWithoutOrder_transactions_terminalsNestedInput } from '../order-transactions/order-transactions-unchecked-update-many-without-order-transactions-terminals-nested.input';
+import { courier_terminal_balanceUncheckedUpdateManyWithoutCourier_terminal_balance_terminalsNestedInput } from '../courier-terminal-balance/courier-terminal-balance-unchecked-update-many-without-courier-terminal-balance-terminals-nested.input';
+import { manager_withdrawUncheckedUpdateManyWithoutManager_withdraw_terminalsNestedInput } from '../manager-withdraw/manager-withdraw-unchecked-update-many-without-manager-withdraw-terminals-nested.input';
 
 @InputType()
 export class terminalsUncheckedUpdateWithoutOrders_terminalsInput {
@@ -61,4 +63,10 @@ export class terminalsUncheckedUpdateWithoutOrders_terminalsInput {
 
     @Field(() => order_transactionsUncheckedUpdateManyWithoutOrder_transactions_terminalsNestedInput, {nullable:true})
     order_transactions_terminals?: order_transactionsUncheckedUpdateManyWithoutOrder_transactions_terminalsNestedInput;
+
+    @Field(() => courier_terminal_balanceUncheckedUpdateManyWithoutCourier_terminal_balance_terminalsNestedInput, {nullable:true})
+    courier_terminal_balance_terminals?: courier_terminal_balanceUncheckedUpdateManyWithoutCourier_terminal_balance_terminalsNestedInput;
+
+    @Field(() => manager_withdrawUncheckedUpdateManyWithoutManager_withdraw_terminalsNestedInput, {nullable:true})
+    manager_withdraw_terminals?: manager_withdrawUncheckedUpdateManyWithoutManager_withdraw_terminalsNestedInput;
 }

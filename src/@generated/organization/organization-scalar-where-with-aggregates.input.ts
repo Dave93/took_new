@@ -74,6 +74,12 @@ export class organizationScalarWhereWithAggregatesInput {
     @Field(() => Enumorganization_payment_typesWithAggregatesFilter, {nullable:true})
     payment_type?: Enumorganization_payment_typesWithAggregatesFilter;
 
+    @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
+    support_chat_url?: StringNullableWithAggregatesFilter;
+
+    @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
+    icon_url?: StringNullableWithAggregatesFilter;
+
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     created_at?: DateTimeWithAggregatesFilter;
 

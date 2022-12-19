@@ -70,6 +70,9 @@ export class UsersGroupBy {
     @Field(() => Int, {nullable:true})
     max_active_order_count?: number;
 
+    @Field(() => [String], {nullable:true})
+    doc_files?: Array<string>;
+
     @Field(() => Date, {nullable:false})
     created_at!: Date | string;
 

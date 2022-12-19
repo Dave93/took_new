@@ -78,7 +78,13 @@ export class ordersMaxOrderByAggregateInput {
     sms_sent_to_customer?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    score?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     delivery_pricing_id?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    cancel_voice_id?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
     created_at?: keyof typeof SortOrder;

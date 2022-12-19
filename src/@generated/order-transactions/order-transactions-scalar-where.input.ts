@@ -40,6 +40,9 @@ export class order_transactionsScalarWhereInput {
     @Field(() => FloatFilter, {nullable:true})
     amount?: FloatFilter;
 
+    @Field(() => FloatFilter, {nullable:true})
+    not_paid_amount?: FloatFilter;
+
     @Field(() => Enumorder_transaction_statusFilter, {nullable:true})
     status?: Enumorder_transaction_statusFilter;
 

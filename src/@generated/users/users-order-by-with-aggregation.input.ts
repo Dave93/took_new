@@ -68,6 +68,9 @@ export class usersOrderByWithAggregationInput {
     max_active_order_count?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    doc_files?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     created_at?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})

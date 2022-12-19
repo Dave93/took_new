@@ -60,6 +60,12 @@ export class OrganizationCountAggregate {
     payment_type!: number;
 
     @Field(() => Int, {nullable:false})
+    support_chat_url!: number;
+
+    @Field(() => Int, {nullable:false})
+    icon_url!: number;
+
+    @Field(() => Int, {nullable:false})
     created_at!: number;
 
     @Field(() => Int, {nullable:false})

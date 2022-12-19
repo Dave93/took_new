@@ -7,6 +7,8 @@ import { order_actionsUncheckedCreateNestedManyWithoutOrder_actions_terminalsInp
 import { order_locationsUncheckedCreateNestedManyWithoutOrder_locations_terminalsInput } from '../order-locations/order-locations-unchecked-create-nested-many-without-order-locations-terminals.input';
 import { order_votesUncheckedCreateNestedManyWithoutOrder_votes_terminalsInput } from '../order-votes/order-votes-unchecked-create-nested-many-without-order-votes-terminals.input';
 import { order_transactionsUncheckedCreateNestedManyWithoutOrder_transactions_terminalsInput } from '../order-transactions/order-transactions-unchecked-create-nested-many-without-order-transactions-terminals.input';
+import { courier_terminal_balanceUncheckedCreateNestedManyWithoutCourier_terminal_balance_terminalsInput } from '../courier-terminal-balance/courier-terminal-balance-unchecked-create-nested-many-without-courier-terminal-balance-terminals.input';
+import { manager_withdrawUncheckedCreateNestedManyWithoutManager_withdraw_terminalsInput } from '../manager-withdraw/manager-withdraw-unchecked-create-nested-many-without-manager-withdraw-terminals.input';
 
 @InputType()
 export class terminalsUncheckedCreateWithoutDelivery_pricing_terminal_idTterminalInput {
@@ -61,4 +63,10 @@ export class terminalsUncheckedCreateWithoutDelivery_pricing_terminal_idTtermina
 
     @Field(() => order_transactionsUncheckedCreateNestedManyWithoutOrder_transactions_terminalsInput, {nullable:true})
     order_transactions_terminals?: order_transactionsUncheckedCreateNestedManyWithoutOrder_transactions_terminalsInput;
+
+    @Field(() => courier_terminal_balanceUncheckedCreateNestedManyWithoutCourier_terminal_balance_terminalsInput, {nullable:true})
+    courier_terminal_balance_terminals?: courier_terminal_balanceUncheckedCreateNestedManyWithoutCourier_terminal_balance_terminalsInput;
+
+    @Field(() => manager_withdrawUncheckedCreateNestedManyWithoutManager_withdraw_terminalsInput, {nullable:true})
+    manager_withdraw_terminals?: manager_withdrawUncheckedCreateNestedManyWithoutManager_withdraw_terminalsInput;
 }

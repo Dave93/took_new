@@ -61,6 +61,12 @@ export class organizationUncheckedUpdateManyWithoutOrganization_created_byTouser
     @Field(() => organization_payment_types, {nullable:true})
     payment_type?: keyof typeof organization_payment_types;
 
+    @Field(() => String, {nullable:true})
+    support_chat_url?: string;
+
+    @Field(() => String, {nullable:true})
+    icon_url?: string;
+
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;
 

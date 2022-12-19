@@ -88,73 +88,80 @@ model typeorm_metadata {
 }
 
 model users {
-  id                                                    String                  @id(map: "PK_a3ffb1c0c8416b9fc6f907b7433") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  phone                                                 String                  @unique(map: "UQ_a000cca60bcf04454e727699490") @db.String(20)
-  first_name                                            String?                 @db.String(100)
-  last_name                                             String?                 @db.String(100)
-  password                                              String?                 @db.String
-  is_super_user                                         Boolean                 @default(false)
+  id                                                    String                     @id(map: "PK_a3ffb1c0c8416b9fc6f907b7433") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  phone                                                 String                     @unique(map: "UQ_a000cca60bcf04454e727699490") @db.String(20)
+  first_name                                            String?                    @db.String(100)
+  last_name                                             String?                    @db.String(100)
+  password                                              String?                    @db.String
+  is_super_user                                         Boolean                    @default(false)
   status                                                user_status
   drive_type                                            drive_type?
-  card_name                                             String?                 @db.String(100)
-  card_number                                           String?                 @db.String(100)
-  birth_date                                            DateTime?               @db.Timestamptz(5)
-  car_model                                             String?                 @db.String(100)
-  car_number                                            String?                 @db.String(100)
-  is_online                                             Boolean                 @default(false)
-  latitude                                              Float?                  @default(0)
-  longitude                                             Float?                  @default(0)
-  fcm_token                                             String?                 @db.String(250)
-  wallet_balance                                        Float                   @default(0)
+  card_name                                             String?                    @db.String(100)
+  card_number                                           String?                    @db.String(100)
+  birth_date                                            DateTime?                  @db.Timestamptz(5)
+  car_model                                             String?                    @db.String(100)
+  car_number                                            String?                    @db.String(100)
+  is_online                                             Boolean                    @default(false)
+  latitude                                              Float?                     @default(0)
+  longitude                                             Float?                     @default(0)
+  fcm_token                                             String?                    @db.String(250)
+  wallet_balance                                        Float                      @default(0)
   max_active_order_count                                Int?
-  created_at                                            DateTime                @default(now()) @db.Timestamptz(5)
-  updated_at                                            DateTime                @default(now()) @db.Timestamptz(5)
+  doc_files                                             String[]
+  created_at                                            DateTime                   @default(now()) @db.Timestamptz(5)
+  updated_at                                            DateTime                   @default(now()) @db.Timestamptz(5)
   otp                                                   otp[]
-  permissions_permissions_created_byTousers             permissions[]           @relation("permissions_created_byTousers")
-  permissions_permissions_updated_byTousers             permissions[]           @relation("permissions_updated_byTousers")
-  post_post_created_byTousers                           post[]                  @relation("post_created_byTousers")
-  post_updated_byTousers                                post[]                  @relation("post_updated_byTousers")
-  post_post_user_idTousers                              post[]                  @relation("post_user_idTousers")
-  roles_roles_created_byTousers                         roles[]                 @relation("roles_created_byTousers")
-  roles_roles_updated_byTousers                         roles[]                 @relation("roles_updated_byTousers")
-  roles_permissions_roles_permissions_created_byTousers roles_permissions[]     @relation("roles_permissions_created_byTousers")
-  roles_permissions_roles_permissions_updated_byTousers roles_permissions[]     @relation("roles_permissions_updated_byTousers")
-  users_permissions_usersTousers_permissions_created_by users_permissions[]     @relation("usersTousers_permissions_created_by")
-  users_permissions_usersTousers_permissions_updated_by users_permissions[]     @relation("usersTousers_permissions_updated_by")
-  users_permissions_usersTousers_permissions_user_id    users_permissions[]     @relation("usersTousers_permissions_user_id")
-  users_roles_usersTousers_roles_created_by             users_roles[]           @relation("usersTousers_roles_created_by")
-  users_roles_usersTousers_roles_updated_by             users_roles[]           @relation("usersTousers_roles_updated_by")
-  users_roles_usersTousers_roles_user_id                users_roles[]           @relation("usersTousers_roles_user_id")
-  post_prop_types_created_byTousers                     post_prop_types[]       @relation("post_prop_types_created_byTousers")
-  post_prop_types_updated_byTousers                     post_prop_types[]       @relation("post_prop_types_updated_byTousers")
-  delivery_pricing_created_byTousers                    delivery_pricing[]      @relation("delivery_pricing_created_byTousers")
-  delivery_pricing_updated_byTousers                    delivery_pricing[]      @relation("delivery_pricing_updated_byTousers")
-  city_created_byTousers                                city[]                  @relation("city_created_byTousers")
-  city_updated_byTousers                                city[]                  @relation("city_updated_byTousers")
-  organization_created_byTousers                        organization[]          @relation("organization_created_byTousers")
-  organization_updated_byTousers                        organization[]          @relation("organization_updated_byTousers")
-  work_schedules_created_byTousers                      work_schedules[]        @relation("work_schedules_created_byTousers")
-  work_schedules_updated_byTousers                      work_schedules[]        @relation("work_schedules_updated_byTousers")
+  permissions_permissions_created_byTousers             permissions[]              @relation("permissions_created_byTousers")
+  permissions_permissions_updated_byTousers             permissions[]              @relation("permissions_updated_byTousers")
+  post_post_created_byTousers                           post[]                     @relation("post_created_byTousers")
+  post_updated_byTousers                                post[]                     @relation("post_updated_byTousers")
+  post_post_user_idTousers                              post[]                     @relation("post_user_idTousers")
+  roles_roles_created_byTousers                         roles[]                    @relation("roles_created_byTousers")
+  roles_roles_updated_byTousers                         roles[]                    @relation("roles_updated_byTousers")
+  roles_permissions_roles_permissions_created_byTousers roles_permissions[]        @relation("roles_permissions_created_byTousers")
+  roles_permissions_roles_permissions_updated_byTousers roles_permissions[]        @relation("roles_permissions_updated_byTousers")
+  users_permissions_usersTousers_permissions_created_by users_permissions[]        @relation("usersTousers_permissions_created_by")
+  users_permissions_usersTousers_permissions_updated_by users_permissions[]        @relation("usersTousers_permissions_updated_by")
+  users_permissions_usersTousers_permissions_user_id    users_permissions[]        @relation("usersTousers_permissions_user_id")
+  users_roles_usersTousers_roles_created_by             users_roles[]              @relation("usersTousers_roles_created_by")
+  users_roles_usersTousers_roles_updated_by             users_roles[]              @relation("usersTousers_roles_updated_by")
+  users_roles_usersTousers_roles_user_id                users_roles[]              @relation("usersTousers_roles_user_id")
+  post_prop_types_created_byTousers                     post_prop_types[]          @relation("post_prop_types_created_byTousers")
+  post_prop_types_updated_byTousers                     post_prop_types[]          @relation("post_prop_types_updated_byTousers")
+  delivery_pricing_created_byTousers                    delivery_pricing[]         @relation("delivery_pricing_created_byTousers")
+  delivery_pricing_updated_byTousers                    delivery_pricing[]         @relation("delivery_pricing_updated_byTousers")
+  city_created_byTousers                                city[]                     @relation("city_created_byTousers")
+  city_updated_byTousers                                city[]                     @relation("city_updated_byTousers")
+  organization_created_byTousers                        organization[]             @relation("organization_created_byTousers")
+  organization_updated_byTousers                        organization[]             @relation("organization_updated_byTousers")
+  work_schedules_created_byTousers                      work_schedules[]           @relation("work_schedules_created_byTousers")
+  work_schedules_updated_byTousers                      work_schedules[]           @relation("work_schedules_updated_byTousers")
   users_terminals                                       users_terminals[]
   users_work_schedules                                  users_work_schedules[]
-  work_schedule_entries_created_byTousers               work_schedule_entries[] @relation("work_schedule_entries_created_byTousers")
-  work_schedule_entries_updated_byTousers               work_schedule_entries[] @relation("work_schedule_entries_updated_byTousers")
-  work_schedule_entries_users                           work_schedule_entries[] @relation("work_schedule_entries_users")
-  customers_comments_created_byTousers                  customers_comments[]    @relation("customers_comments_created_byTousers")
-  orders_created_byTousers                              orders[]                @relation("orders_created_byTousers")
-  orders_updated_byTousers                              orders[]                @relation("orders_updated_byTousers")
-  orders_couriers                                       orders[]                @relation("orders_couriers")
-  order_actions_created_byTousers                       order_actions[]         @relation("order_actions_created_byTousers")
-  order_locations_created_byTousers                     order_locations[]       @relation("order_locations_created_byTousers")
-  order_locations_couriers                              order_locations[]       @relation("order_locations_couriers")
-  api_tokens_created_byTousers                          api_tokens[]            @relation("api_tokens_created_byTousers")
-  api_tokens_updated_byTousers                          api_tokens[]            @relation("api_tokens_updated_byTousers")
-  order_votes_created_byTousers                         order_votes[]           @relation("order_votes_created_byTousers")
-  order_votes_couriers                                  order_votes[]           @relation("order_votes_couriers")
-  order_transactions_created_byTousers                  order_transactions[]    @relation("order_transactions_created_byTousers")
-  order_transactions_couriers                           order_transactions[]    @relation("order_transactions_couriers")
-  outside_requests_created_byTousers                    outside_requests[]      @relation("outside_requests_created_byTousers")
-  outside_requests_updated_byTousers                    outside_requests[]      @relation("outside_requests_updated_byTousers")
+  work_schedule_entries_created_byTousers               work_schedule_entries[]    @relation("work_schedule_entries_created_byTousers")
+  work_schedule_entries_updated_byTousers               work_schedule_entries[]    @relation("work_schedule_entries_updated_byTousers")
+  work_schedule_entries_users                           work_schedule_entries[]    @relation("work_schedule_entries_users")
+  customers_comments_created_byTousers                  customers_comments[]       @relation("customers_comments_created_byTousers")
+  orders_created_byTousers                              orders[]                   @relation("orders_created_byTousers")
+  orders_updated_byTousers                              orders[]                   @relation("orders_updated_byTousers")
+  orders_couriers                                       orders[]                   @relation("orders_couriers")
+  order_actions_created_byTousers                       order_actions[]            @relation("order_actions_created_byTousers")
+  order_locations_created_byTousers                     order_locations[]          @relation("order_locations_created_byTousers")
+  order_locations_couriers                              order_locations[]          @relation("order_locations_couriers")
+  api_tokens_created_byTousers                          api_tokens[]               @relation("api_tokens_created_byTousers")
+  api_tokens_updated_byTousers                          api_tokens[]               @relation("api_tokens_updated_byTousers")
+  order_votes_created_byTousers                         order_votes[]              @relation("order_votes_created_byTousers")
+  order_votes_couriers                                  order_votes[]              @relation("order_votes_couriers")
+  order_transactions_created_byTousers                  order_transactions[]       @relation("order_transactions_created_byTousers")
+  order_transactions_couriers                           order_transactions[]       @relation("order_transactions_couriers")
+  outside_requests_created_byTousers                    outside_requests[]         @relation("outside_requests_created_byTousers")
+  outside_requests_updated_byTousers                    outside_requests[]         @relation("outside_requests_updated_byTousers")
+  courier_terminal_balance_couriers                     courier_terminal_balance[] @relation("courier_terminal_balance_couriers")
+  courier_terminal_balance_created_byTousers            courier_terminal_balance[] @relation("courier_terminal_balance_created_byTousers")
+  manager_withdraw_created_byTousers                    manager_withdraw[]         @relation("manager_withdraw_created_byTousers")
+  manager_withdraw_managers                             manager_withdraw[]         @relation("manager_withdraw_managers")
+  manager_withdraw_couriers                             manager_withdraw[]         @relation("manager_withdraw_couriers")
+  timesheet_users                                       timesheet[]
 }
 
 model users_permissions {
@@ -243,19 +250,20 @@ model post_prop_types {
 }
 
 model delivery_pricing {
-  id              String     @id(map: "PK_delivery_pricing_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  active          Boolean    @default(true)
-  default         Boolean    @default(false)
+  id              String                      @id(map: "PK_delivery_pricing_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  active          Boolean                     @default(true)
+  default         Boolean                     @default(false)
   name            String
-  drive_type      drive_type @default(car)
+  drive_type      drive_type                  @default(car)
   days            String[]
-  start_time      DateTime   @db.Time()
-  end_time        DateTime   @db.Time()
+  start_time      DateTime                    @db.Time()
+  end_time        DateTime                    @db.Time()
   min_price       Int?
   rules           Json
-  price_per_km    Int        @default(0)
-  organization_id String     @db.Uuid
-  terminal_id     String?    @db.Uuid
+  price_per_km    Int                         @default(0)
+  organization_id String                      @db.Uuid
+  terminal_id     String?                     @db.Uuid
+  payment_type    organization_payment_types? @default(client)
 
   organization organization @relation("delivery_pricing_organization_idTorganization", fields: [organization_id], references: [id], onDelete: NoAction, map: "FK_delivery_pricing_organization_id")
   terminal     terminals?   @relation("delivery_pricing_terminal_idTterminal", fields: [terminal_id], references: [id], onDelete: NoAction, map: "FK_delivery_pricing_terminal_id")
@@ -311,44 +319,50 @@ model terminals {
   orders_terminals                      orders[]
   order_actions_terminals               order_actions[]
   order_locations_terminals             order_locations[]
-  delivery_pricing_terminal_idTterminal delivery_pricing[]   @relation("delivery_pricing_terminal_idTterminal")
+  delivery_pricing_terminal_idTterminal delivery_pricing[]         @relation("delivery_pricing_terminal_idTterminal")
   order_votes_terminals                 order_votes[]
   order_transactions_terminals          order_transactions[]
+  courier_terminal_balance_terminals    courier_terminal_balance[]
+  manager_withdraw_terminals            manager_withdraw[]
 }
 
 model organization {
-  id                     String                     @id(map: "PK_organization_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name                   String
-  external_id            String?
-  active                 Boolean                    @default(true)
-  system_type            organization_system_type   @default(iiko)
-  phone                  String
-  iiko_login             String?
-  webhook                String?
-  group_id               String?
-  apelsin_login          String?
-  apelsin_password       String?
-  sender_name            String?
-  sender_number          String?
-  description            String?
-  max_distance           Int                        @default(0)
-  max_active_order_count Int                        @default(0)
-  max_order_close_distance Int                       @default(0)
-  payment_type           organization_payment_types @default(client)
-  created_at             DateTime                   @default(now()) @db.Timestamptz(5)
-  updated_at             DateTime                   @default(now()) @db.Timestamptz(5)
-  created_by             String?                    @db.Uuid
-  updated_by             String?                    @db.Uuid
+  id                       String                     @id(map: "PK_organization_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                     String
+  external_id              String?
+  active                   Boolean                    @default(true)
+  system_type              organization_system_type   @default(iiko)
+  phone                    String
+  iiko_login               String?
+  webhook                  String?
+  group_id                 String?
+  apelsin_login            String?
+  apelsin_password         String?
+  sender_name              String?
+  sender_number            String?
+  description              String?
+  max_distance             Int                        @default(0)
+  max_active_order_count   Int                        @default(0)
+  max_order_close_distance Int                        @default(0)
+  payment_type             organization_payment_types @default(client)
+  support_chat_url         String?
+  icon_url                 String?
+  created_at               DateTime                   @default(now()) @db.Timestamptz(5)
+  updated_at               DateTime                   @default(now()) @db.Timestamptz(5)
+  created_by               String?                    @db.Uuid
+  updated_by               String?                    @db.Uuid
 
-  work_schedules_organization_idTorganization   work_schedules[]     @relation("work_schedules_organization_idTorganization")
-  organization_created_byTousers                users?               @relation("organization_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_organization_created_by")
-  organization_updated_byTousers                users?               @relation("organization_updated_byTousers", fields: [updated_by], references: [id], onDelete: NoAction, map: "FK_organization_updated_by")
-  delivery_pricing_organization_idTorganization delivery_pricing[]   @relation("delivery_pricing_organization_idTorganization")
-  terminals_organization_idTorganization        terminals[]          @relation("terminals_organization_idTorganization")
+  work_schedules_organization_idTorganization   work_schedules[]           @relation("work_schedules_organization_idTorganization")
+  organization_created_byTousers                users?                     @relation("organization_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_organization_created_by")
+  organization_updated_byTousers                users?                     @relation("organization_updated_byTousers", fields: [updated_by], references: [id], onDelete: NoAction, map: "FK_organization_updated_by")
+  delivery_pricing_organization_idTorganization delivery_pricing[]         @relation("delivery_pricing_organization_idTorganization")
+  terminals_organization_idTorganization        terminals[]                @relation("terminals_organization_idTorganization")
   order_status_organization                     order_status[]
   orders_organization                           orders[]
   api_tokens_organization                       api_tokens[]
   order_transactions_organizations              order_transactions[]
+  courier_terminal_balance_organizations        courier_terminal_balance[]
+  manager_withdraw_organizations                manager_withdraw[]
 }
 
 model users_terminals {
@@ -412,12 +426,16 @@ model customers {
 model customers_comments {
   id          String   @id(map: "PK_customers_comments_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   customer_id String   @db.Uuid
-  comment     String
+  comment     String?
+  voice_id    String?  @db.Uuid
+  image_id    String?  @db.Uuid
   created_at  DateTime @default(now()) @db.Timestamptz(5)
   created_by  String?  @db.Uuid
 
   customers_comments_created_byTousers users?    @relation("customers_comments_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_customers_comments_created_by")
   customers_comments_customers         customers @relation("customers_comments_customers", fields: [customer_id], references: [id], onDelete: NoAction, map: "FK_customers_comments_customer_id")
+  customers_comments_voice_idToassets  assets?   @relation("customers_comments_voice_idToassets", fields: [voice_id], references: [id], onDelete: NoAction, map: "FK_customers_comments_voice_id")
+  customers_comments_image_idToassets  assets?   @relation("customers_comments_image_idToassets", fields: [image_id], references: [id], onDelete: NoAction, map: "FK_customers_comments_image_id")
 }
 
 model order_status {
@@ -438,32 +456,34 @@ model order_status {
 }
 
 model orders {
-  id                  String     @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  organization_id     String     @db.Uuid
-  customer_id         String     @db.Uuid
-  courier_id          String?    @db.Uuid
-  terminal_id         String     @db.Uuid
-  order_status_id     String     @db.Uuid
-  delivery_type       drive_type @default(car)
-  from_lat            Float      @default(0)
-  from_lon            Float      @default(0)
-  to_lat              Float      @default(0)
-  to_lon              Float      @default(0)
-  pre_distance        Float      @default(0)
-  pre_duration        Int        @default(0)
-  order_number        String
-  distance            Float?     @default(0)
-  duration            Int?       @default(0)
-  order_price         Float      @default(0)
-  delivery_price      Float      @default(0)
-  delivery_address    String
-  finished_date       DateTime?  @db.Timestamptz(5)
-  delivery_comment    String?
-  payment_type        String
-  cancel_reason       String?
-  sms_sent_to_customer Boolean  @default(false)
-  order_items         Json?
-  delivery_pricing_id String?    @db.Uuid
+  id                   String     @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  organization_id      String     @db.Uuid
+  customer_id          String     @db.Uuid
+  courier_id           String?    @db.Uuid
+  terminal_id          String     @db.Uuid
+  order_status_id      String     @db.Uuid
+  delivery_type        drive_type @default(car)
+  from_lat             Float      @default(0)
+  from_lon             Float      @default(0)
+  to_lat               Float      @default(0)
+  to_lon               Float      @default(0)
+  pre_distance         Float      @default(0)
+  pre_duration         Int        @default(0)
+  order_number         String
+  distance             Float?     @default(0)
+  duration             Int?       @default(0)
+  order_price          Float      @default(0)
+  delivery_price       Float      @default(0)
+  delivery_address     String
+  finished_date        DateTime?  @db.Timestamptz(5)
+  delivery_comment     String?
+  payment_type         String
+  cancel_reason        String?
+  sms_sent_to_customer Boolean    @default(false)
+  score                Int?
+  order_items          Json?
+  delivery_pricing_id  String?    @db.Uuid
+  cancel_voice_id      String?    @db.Uuid
 
   created_at               DateTime @default(now()) @db.Timestamptz(5)
   updated_at               DateTime @default(now()) @db.Timestamptz(5)
@@ -481,6 +501,8 @@ model orders {
   orders_organization organization @relation(fields: [organization_id], references: [id], onDelete: NoAction, map: "FK_orders_organization_id")
 
   orders_terminals terminals @relation(fields: [terminal_id], references: [id], onDelete: NoAction)
+
+  orders_voice_idToassets assets? @relation("orders_voice_idToassets", fields: [cancel_voice_id], references: [id], onDelete: NoAction, map: "FK_orders_voice_id")
 
   order_actions_orders order_actions[]
 
@@ -562,25 +584,27 @@ model order_votes {
 }
 
 model order_transactions {
-  id                                   String                         @id(map: "PK_order_transactions_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  order_id                             String?                        @db.Uuid
-  terminal_id                          String                         @db.Uuid
-  courier_id                           String                         @db.Uuid
-  organization_id                      String                         @db.Uuid
-  card_number                          String?
-  amount                               Float                          @default(0)
-  status                               order_transaction_status       @default(pending)
-  transaction_payment_type             order_transaction_payment_type @default(cash)
-  transaction_type                     String
-  comment                              String?
-  error_text                           String?
-  created_at                           DateTime                       @default(now()) @db.Timestamptz(5)
-  created_by                           String?                        @db.Uuid
-  order_transactions_created_byTousers users?                         @relation("order_transactions_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_order_transactions_created_by")
-  order_transactions_orders            orders?                        @relation(fields: [order_id], references: [id], onDelete: NoAction, map: "FK_order_transactions_order_id")
-  order_transactions_terminals         terminals                      @relation(fields: [terminal_id], references: [id], onDelete: NoAction, map: "FK_order_transactions_terminal_id")
-  order_transactions_couriers          users                          @relation("order_transactions_couriers", fields: [courier_id], references: [id], onDelete: NoAction, map: "FK_order_transactions_courier_id")
-  order_transactions_organizations     organization                   @relation(fields: [organization_id], references: [id], onDelete: NoAction, map: "FK_order_transactions_organization_id")
+  id                                        String                          @id(map: "PK_order_transactions_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  order_id                                  String?                         @db.Uuid
+  terminal_id                               String                          @db.Uuid
+  courier_id                                String                          @db.Uuid
+  organization_id                           String                          @db.Uuid
+  card_number                               String?
+  amount                                    Float                           @default(0)
+  not_paid_amount                           Float                           @default(0)
+  status                                    order_transaction_status        @default(pending)
+  transaction_payment_type                  order_transaction_payment_type  @default(cash)
+  transaction_type                          String
+  comment                                   String?
+  error_text                                String?
+  created_at                                DateTime                        @default(now()) @db.Timestamptz(5)
+  created_by                                String?                         @db.Uuid
+  order_transactions_created_byTousers      users?                          @relation("order_transactions_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_order_transactions_created_by")
+  order_transactions_orders                 orders?                         @relation(fields: [order_id], references: [id], onDelete: NoAction, map: "FK_order_transactions_order_id")
+  order_transactions_terminals              terminals                       @relation(fields: [terminal_id], references: [id], onDelete: NoAction, map: "FK_order_transactions_terminal_id")
+  order_transactions_couriers               users                           @relation("order_transactions_couriers", fields: [courier_id], references: [id], onDelete: NoAction, map: "FK_order_transactions_courier_id")
+  order_transactions_organizations          organization                    @relation(fields: [organization_id], references: [id], onDelete: NoAction, map: "FK_order_transactions_organization_id")
+  manager_withdraw_transactions_transaction manager_withdraw_transactions[]
 
   @@index([terminal_id])
   @@index([order_id])
@@ -604,6 +628,101 @@ model outside_requests {
 
   outside_requests_created_byTousers users? @relation("outside_requests_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_outside_requests_created_by")
   outside_requests_updated_byTousers users? @relation("outside_requests_updated_byTousers", fields: [updated_by], references: [id], onDelete: NoAction, map: "FK_outside_requests_updated_by")
+}
+
+model assets {
+  id         String  @id(map: "PK_assets_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  model      String
+  file_name  String
+  model_id   String?
+  sub_folder String
+
+  customers_comments_voice_idToassets customers_comments[] @relation("customers_comments_voice_idToassets")
+  customers_comments_image_idToassets customers_comments[] @relation("customers_comments_image_idToassets")
+  orders_voice_idToassets             orders[]             @relation("orders_voice_idToassets")
+}
+
+model courier_terminal_balance {
+  id                                         String       @id(map: "PK_courier_terminal_balance_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  courier_id                                 String       @db.Uuid
+  terminal_id                                String       @db.Uuid
+  organization_id                            String       @db.Uuid
+  balance                                    Float        @default(0)
+  created_at                                 DateTime     @default(now()) @db.Timestamptz(5)
+  created_by                                 String?      @db.Uuid
+  courier_terminal_balance_created_byTousers users?       @relation("courier_terminal_balance_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_courier_terminal_balance_created_by")
+  courier_terminal_balance_couriers          users        @relation("courier_terminal_balance_couriers", fields: [courier_id], references: [id], onDelete: NoAction, map: "FK_courier_terminal_balance_courier_id")
+  courier_terminal_balance_terminals         terminals    @relation(fields: [terminal_id], references: [id], onDelete: NoAction, map: "FK_courier_terminal_balance_terminal_id")
+  courier_terminal_balance_organizations     organization @relation(fields: [organization_id], references: [id], onDelete: NoAction, map: "FK_courier_terminal_balance_organization_id")
+
+  @@index([courier_id])
+  @@index([terminal_id])
+  @@index([organization_id])
+}
+
+model manager_withdraw {
+  id                                 String       @id(map: "PK_manager_withdraw_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  manager_id                         String       @db.Uuid
+  courier_id                         String       @db.Uuid
+  terminal_id                        String       @db.Uuid
+  organization_id                    String       @db.Uuid
+  amount                             Float        @default(0)
+  amount_before                      Float        @default(0)
+  amount_after                       Float        @default(0)
+  created_at                         DateTime     @default(now()) @db.Timestamptz(5)
+  payed_date                         DateTime?    @default(now()) @db.Timestamptz(5)
+  created_by                         String?      @db.Uuid
+  manager_withdraw_created_byTousers users?       @relation("manager_withdraw_created_byTousers", fields: [created_by], references: [id], onDelete: NoAction, map: "FK_manager_withdraw_created_by")
+  manager_withdraw_managers          users        @relation("manager_withdraw_managers", fields: [manager_id], references: [id], onDelete: NoAction, map: "FK_manager_withdraw_manager_id")
+  manager_withdraw_organizations     organization @relation(fields: [organization_id], references: [id], onDelete: NoAction, map: "FK_manager_withdraw_organization_id")
+  manager_withdraw_couriers          users        @relation("manager_withdraw_couriers", fields: [courier_id], references: [id], onDelete: NoAction, map: "FK_manager_withdraw_courier_id")
+  manager_withdraw_terminals         terminals    @relation(fields: [terminal_id], references: [id], onDelete: NoAction, map: "FK_manager_withdraw_terminal_id")
+
+  manager_withdraw_transactions_withdraw manager_withdraw_transactions[] @relation("manager_withdraw_transactions_withdraw")
+
+  @@index([manager_id])
+  @@index([terminal_id])
+  @@index([organization_id])
+}
+
+model manager_withdraw_transactions {
+  id             String    @id(map: "PK_manager_withdraw_transactions_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  withdraw_id    String    @db.Uuid
+  transaction_id String    @db.Uuid
+  amount         Float     @default(0)
+  created_at     DateTime  @default(now()) @db.Timestamptz(5)
+  payed_date     DateTime? @default(now()) @db.Timestamptz(5)
+
+  manager_withdraw_transactions_withdraw    manager_withdraw   @relation("manager_withdraw_transactions_withdraw", fields: [withdraw_id], references: [id], onDelete: NoAction, map: "FK_manager_withdraw_transactions_withdraw_id")
+  manager_withdraw_transactions_transaction order_transactions @relation(fields: [transaction_id], references: [id], onDelete: NoAction, map: "FK_manager_withdraw_transactions_transaction_id")
+}
+
+model system_configs {
+  id         String   @id(map: "PK_system_configs_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name       String   @unique
+  value      String
+  created_at DateTime @default(now()) @db.Timestamptz(5)
+  updated_at DateTime @default(now()) @db.Timestamptz(5)
+}
+
+model brands {
+  id         String   @id(map: "PK_brands_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name       String
+  api_url    String
+  logo_path  String?
+  created_at DateTime @default(now()) @db.Timestamptz(5)
+  updated_at DateTime @default(now()) @db.Timestamptz(5)
+}
+
+model timesheet {
+  id         String   @id(map: "PK_timesheet_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id    String   @db.Uuid
+  is_late    Boolean  @default(false)
+  date       DateTime @db.Timestamptz(5)
+  created_at DateTime @default(now()) @db.Timestamptz(5)
+  updated_at DateTime @default(now()) @db.Timestamptz(5)
+
+  timesheet_users users @relation(fields: [user_id], references: [id], onDelete: NoAction, map: "FK_timesheet_user_id")
 }
 
 enum order_transaction_payment_type {

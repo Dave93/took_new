@@ -9,6 +9,7 @@ import { IntNullableFilter } from '../prisma/int-nullable-filter.input';
 import { JsonFilter } from '../prisma/json-filter.input';
 import { IntFilter } from '../prisma/int-filter.input';
 import { StringNullableFilter } from '../prisma/string-nullable-filter.input';
+import { Enumorganization_payment_typesNullableFilter } from '../prisma/enumorganization-payment-types-nullable-filter.input';
 
 @InputType()
 export class delivery_pricingScalarWhereInput {
@@ -60,6 +61,9 @@ export class delivery_pricingScalarWhereInput {
 
     @Field(() => StringNullableFilter, {nullable:true})
     terminal_id?: StringNullableFilter;
+
+    @Field(() => Enumorganization_payment_typesNullableFilter, {nullable:true})
+    payment_type?: Enumorganization_payment_typesNullableFilter;
 
     @Field(() => DateTimeFilter, {nullable:true})
     created_at?: DateTimeFilter;

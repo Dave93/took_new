@@ -46,4 +46,9 @@ export class WorkScheduleEntriesResolver {
   workScheduleEntriesReport(@Args() params: WorkScheduleEntriesReportArgs) {
     return this.workScheduleEntriesService.workScheduleEntriesReport(params);
   }
+
+  @Mutation(() => Boolean)
+  closeFreeTimeEntry() {
+    return this.workScheduleEntriesService.closeFreeTimeEntry();
+  }
 }

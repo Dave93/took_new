@@ -35,4 +35,7 @@ export class OrdersSumAggregate {
 
     @Field(() => Float, {nullable:true})
     delivery_price?: number;
+
+    @Field(() => Int, {nullable:true})
+    score?: number;
 }

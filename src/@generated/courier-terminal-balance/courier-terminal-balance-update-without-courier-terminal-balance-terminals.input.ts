@@ -1,0 +1,28 @@
+import { Field } from '@nestjs/graphql';
+import { InputType } from '@nestjs/graphql';
+import { Float } from '@nestjs/graphql';
+import { usersUpdateOneWithoutCourier_terminal_balance_created_byTousersNestedInput } from '../users/users-update-one-without-courier-terminal-balance-created-by-tousers-nested.input';
+import { usersUpdateOneRequiredWithoutCourier_terminal_balance_couriersNestedInput } from '../users/users-update-one-required-without-courier-terminal-balance-couriers-nested.input';
+import { organizationUpdateOneRequiredWithoutCourier_terminal_balance_organizationsNestedInput } from '../organization/organization-update-one-required-without-courier-terminal-balance-organizations-nested.input';
+
+@InputType()
+export class courier_terminal_balanceUpdateWithoutCourier_terminal_balance_terminalsInput {
+
+    @Field(() => String, {nullable:true})
+    id?: string;
+
+    @Field(() => Float, {nullable:true})
+    balance?: number;
+
+    @Field(() => Date, {nullable:true})
+    created_at?: Date | string;
+
+    @Field(() => usersUpdateOneWithoutCourier_terminal_balance_created_byTousersNestedInput, {nullable:true})
+    courier_terminal_balance_created_byTousers?: usersUpdateOneWithoutCourier_terminal_balance_created_byTousersNestedInput;
+
+    @Field(() => usersUpdateOneRequiredWithoutCourier_terminal_balance_couriersNestedInput, {nullable:true})
+    courier_terminal_balance_couriers?: usersUpdateOneRequiredWithoutCourier_terminal_balance_couriersNestedInput;
+
+    @Field(() => organizationUpdateOneRequiredWithoutCourier_terminal_balance_organizationsNestedInput, {nullable:true})
+    courier_terminal_balance_organizations?: organizationUpdateOneRequiredWithoutCourier_terminal_balance_organizationsNestedInput;
+}

@@ -78,10 +78,16 @@ export class OrdersCountAggregate {
     sms_sent_to_customer!: number;
 
     @Field(() => Int, {nullable:false})
+    score!: number;
+
+    @Field(() => Int, {nullable:false})
     order_items!: number;
 
     @Field(() => Int, {nullable:false})
     delivery_pricing_id!: number;
+
+    @Field(() => Int, {nullable:false})
+    cancel_voice_id!: number;
 
     @Field(() => Int, {nullable:false})
     created_at!: number;

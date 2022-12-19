@@ -5,6 +5,7 @@ import { usersOrderByWithRelationInput } from '../users/users-order-by-with-rela
 import { ordersOrderByWithRelationInput } from '../orders/orders-order-by-with-relation.input';
 import { terminalsOrderByWithRelationInput } from '../terminals/terminals-order-by-with-relation.input';
 import { organizationOrderByWithRelationInput } from '../organization/organization-order-by-with-relation.input';
+import { manager_withdraw_transactionsOrderByRelationAggregateInput } from '../manager-withdraw-transactions/manager-withdraw-transactions-order-by-relation-aggregate.input';
 
 @InputType()
 export class order_transactionsOrderByWithRelationInput {
@@ -29,6 +30,9 @@ export class order_transactionsOrderByWithRelationInput {
 
     @Field(() => SortOrder, {nullable:true})
     amount?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    not_paid_amount?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
     status?: keyof typeof SortOrder;
@@ -65,4 +69,7 @@ export class order_transactionsOrderByWithRelationInput {
 
     @Field(() => organizationOrderByWithRelationInput, {nullable:true})
     order_transactions_organizations?: organizationOrderByWithRelationInput;
+
+    @Field(() => manager_withdraw_transactionsOrderByRelationAggregateInput, {nullable:true})
+    manager_withdraw_transactions_transaction?: manager_withdraw_transactionsOrderByRelationAggregateInput;
 }

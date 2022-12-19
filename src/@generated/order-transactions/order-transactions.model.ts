@@ -8,6 +8,8 @@ import { users } from '../users/users.model';
 import { orders } from '../orders/orders.model';
 import { terminals } from '../terminals/terminals.model';
 import { organization } from '../organization/organization.model';
+import { manager_withdraw_transactions } from '../manager-withdraw-transactions/manager-withdraw-transactions.model';
+import { Order_transactionsCount } from '../prisma/order-transactions-count.output';
 
 @ObjectType()
 export class order_transactions {
@@ -32,6 +34,9 @@ export class order_transactions {
 
     @Field(() => Float, {nullable:false,defaultValue:0})
     amount!: number;
+
+    @Field(() => Float, {nullable:false,defaultValue:0})
+    not_paid_amount!: number;
 
     @Field(() => order_transaction_status, {nullable:false,defaultValue:'pending'})
     status!: keyof typeof order_transaction_status;
@@ -68,4 +73,10 @@ export class order_transactions {
 
     @Field(() => organization, {nullable:false})
     order_transactions_organizations?: organization;
+
+    @Field(() => [manager_withdraw_transactions], {nullable:true})
+    manager_withdraw_transactions_transaction?: Array<manager_withdraw_transactions>;
+
+    @Field(() => Order_transactionsCount, {nullable:false})
+    _count?: Order_transactionsCount;
 }

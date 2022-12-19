@@ -34,4 +34,7 @@ export class OrdersAvgAggregate {
 
     @Field(() => Float, {nullable:true})
     delivery_price?: number;
+
+    @Field(() => Float, {nullable:true})
+    score?: number;
 }

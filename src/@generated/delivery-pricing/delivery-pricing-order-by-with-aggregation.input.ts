@@ -50,6 +50,9 @@ export class delivery_pricingOrderByWithAggregationInput {
     terminal_id?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    payment_type?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     created_at?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})

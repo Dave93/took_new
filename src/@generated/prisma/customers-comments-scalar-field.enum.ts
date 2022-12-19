@@ -4,6 +4,8 @@ export enum Customers_commentsScalarFieldEnum {
     id = "id",
     customer_id = "customer_id",
     comment = "comment",
+    voice_id = "voice_id",
+    image_id = "image_id",
     created_at = "created_at",
     created_by = "created_by"
 }

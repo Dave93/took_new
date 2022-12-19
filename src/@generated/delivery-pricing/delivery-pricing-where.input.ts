@@ -9,6 +9,7 @@ import { IntNullableFilter } from '../prisma/int-nullable-filter.input';
 import { JsonFilter } from '../prisma/json-filter.input';
 import { IntFilter } from '../prisma/int-filter.input';
 import { StringNullableFilter } from '../prisma/string-nullable-filter.input';
+import { Enumorganization_payment_typesNullableFilter } from '../prisma/enumorganization-payment-types-nullable-filter.input';
 import { OrganizationRelationFilter } from '../prisma/organization-relation-filter.input';
 import { TerminalsRelationFilter } from '../prisma/terminals-relation-filter.input';
 import { UsersRelationFilter } from '../prisma/users-relation-filter.input';
@@ -63,6 +64,9 @@ export class delivery_pricingWhereInput {
 
     @Field(() => StringNullableFilter, {nullable:true})
     terminal_id?: StringNullableFilter;
+
+    @Field(() => Enumorganization_payment_typesNullableFilter, {nullable:true})
+    payment_type?: Enumorganization_payment_typesNullableFilter;
 
     @Field(() => OrganizationRelationFilter, {nullable:true})
     organization?: OrganizationRelationFilter;

@@ -49,6 +49,12 @@ import { order_transactionsUncheckedCreateNestedManyWithoutOrder_transactions_cr
 import { order_transactionsUncheckedCreateNestedManyWithoutOrder_transactions_couriersInput } from '../order-transactions/order-transactions-unchecked-create-nested-many-without-order-transactions-couriers.input';
 import { outside_requestsUncheckedCreateNestedManyWithoutOutside_requests_created_byTousersInput } from '../outside-requests/outside-requests-unchecked-create-nested-many-without-outside-requests-created-by-tousers.input';
 import { outside_requestsUncheckedCreateNestedManyWithoutOutside_requests_updated_byTousersInput } from '../outside-requests/outside-requests-unchecked-create-nested-many-without-outside-requests-updated-by-tousers.input';
+import { courier_terminal_balanceUncheckedCreateNestedManyWithoutCourier_terminal_balance_couriersInput } from '../courier-terminal-balance/courier-terminal-balance-unchecked-create-nested-many-without-courier-terminal-balance-couriers.input';
+import { courier_terminal_balanceUncheckedCreateNestedManyWithoutCourier_terminal_balance_created_byTousersInput } from '../courier-terminal-balance/courier-terminal-balance-unchecked-create-nested-many-without-courier-terminal-balance-created-by-tousers.input';
+import { manager_withdrawUncheckedCreateNestedManyWithoutManager_withdraw_created_byTousersInput } from '../manager-withdraw/manager-withdraw-unchecked-create-nested-many-without-manager-withdraw-created-by-tousers.input';
+import { manager_withdrawUncheckedCreateNestedManyWithoutManager_withdraw_managersInput } from '../manager-withdraw/manager-withdraw-unchecked-create-nested-many-without-manager-withdraw-managers.input';
+import { manager_withdrawUncheckedCreateNestedManyWithoutManager_withdraw_couriersInput } from '../manager-withdraw/manager-withdraw-unchecked-create-nested-many-without-manager-withdraw-couriers.input';
+import { timesheetUncheckedCreateNestedManyWithoutTimesheet_usersInput } from '../timesheet/timesheet-unchecked-create-nested-many-without-timesheet-users.input';
 
 @InputType()
 export class usersUncheckedCreateWithoutUsers_work_schedulesInput {
@@ -109,6 +115,9 @@ export class usersUncheckedCreateWithoutUsers_work_schedulesInput {
 
     @Field(() => Int, {nullable:true})
     max_active_order_count?: number;
+
+    @Field(() => [String], {nullable:true})
+    doc_files?: Array<string>;
 
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;
@@ -250,4 +259,22 @@ export class usersUncheckedCreateWithoutUsers_work_schedulesInput {
 
     @Field(() => outside_requestsUncheckedCreateNestedManyWithoutOutside_requests_updated_byTousersInput, {nullable:true})
     outside_requests_updated_byTousers?: outside_requestsUncheckedCreateNestedManyWithoutOutside_requests_updated_byTousersInput;
+
+    @Field(() => courier_terminal_balanceUncheckedCreateNestedManyWithoutCourier_terminal_balance_couriersInput, {nullable:true})
+    courier_terminal_balance_couriers?: courier_terminal_balanceUncheckedCreateNestedManyWithoutCourier_terminal_balance_couriersInput;
+
+    @Field(() => courier_terminal_balanceUncheckedCreateNestedManyWithoutCourier_terminal_balance_created_byTousersInput, {nullable:true})
+    courier_terminal_balance_created_byTousers?: courier_terminal_balanceUncheckedCreateNestedManyWithoutCourier_terminal_balance_created_byTousersInput;
+
+    @Field(() => manager_withdrawUncheckedCreateNestedManyWithoutManager_withdraw_created_byTousersInput, {nullable:true})
+    manager_withdraw_created_byTousers?: manager_withdrawUncheckedCreateNestedManyWithoutManager_withdraw_created_byTousersInput;
+
+    @Field(() => manager_withdrawUncheckedCreateNestedManyWithoutManager_withdraw_managersInput, {nullable:true})
+    manager_withdraw_managers?: manager_withdrawUncheckedCreateNestedManyWithoutManager_withdraw_managersInput;
+
+    @Field(() => manager_withdrawUncheckedCreateNestedManyWithoutManager_withdraw_couriersInput, {nullable:true})
+    manager_withdraw_couriers?: manager_withdrawUncheckedCreateNestedManyWithoutManager_withdraw_couriersInput;
+
+    @Field(() => timesheetUncheckedCreateNestedManyWithoutTimesheet_usersInput, {nullable:true})
+    timesheet_users?: timesheetUncheckedCreateNestedManyWithoutTimesheet_usersInput;
 }

@@ -96,11 +96,17 @@ export class ordersScalarWhereInput {
     @Field(() => BoolFilter, {nullable:true})
     sms_sent_to_customer?: BoolFilter;
 
+    @Field(() => IntNullableFilter, {nullable:true})
+    score?: IntNullableFilter;
+
     @Field(() => JsonNullableFilter, {nullable:true})
     order_items?: JsonNullableFilter;
 
     @Field(() => StringNullableFilter, {nullable:true})
     delivery_pricing_id?: StringNullableFilter;
+
+    @Field(() => StringNullableFilter, {nullable:true})
+    cancel_voice_id?: StringNullableFilter;
 
     @Field(() => DateTimeFilter, {nullable:true})
     created_at?: DateTimeFilter;

@@ -10,6 +10,7 @@ import { customersCreateNestedOneWithoutOrders_customersInput } from '../custome
 import { usersCreateNestedOneWithoutOrders_couriersInput } from '../users/users-create-nested-one-without-orders-couriers.input';
 import { organizationCreateNestedOneWithoutOrders_organizationInput } from '../organization/organization-create-nested-one-without-orders-organization.input';
 import { terminalsCreateNestedOneWithoutOrders_terminalsInput } from '../terminals/terminals-create-nested-one-without-orders-terminals.input';
+import { assetsCreateNestedOneWithoutOrders_voice_idToassetsInput } from '../assets/assets-create-nested-one-without-orders-voice-id-toassets.input';
 import { order_actionsCreateNestedManyWithoutOrder_actions_ordersInput } from '../order-actions/order-actions-create-nested-many-without-order-actions-orders.input';
 import { order_locationsCreateNestedManyWithoutOrder_locations_ordersInput } from '../order-locations/order-locations-create-nested-many-without-order-locations-orders.input';
 import { order_votesCreateNestedManyWithoutOrder_votes_ordersInput } from '../order-votes/order-votes-create-nested-many-without-order-votes-orders.input';
@@ -75,6 +76,9 @@ export class ordersCreateWithoutOrders_order_statusInput {
     @Field(() => Boolean, {nullable:true})
     sms_sent_to_customer?: boolean;
 
+    @Field(() => Int, {nullable:true})
+    score?: number;
+
     @Field(() => GraphQLJSON, {nullable:true})
     order_items?: any;
 
@@ -104,6 +108,9 @@ export class ordersCreateWithoutOrders_order_statusInput {
 
     @Field(() => terminalsCreateNestedOneWithoutOrders_terminalsInput, {nullable:false})
     orders_terminals!: terminalsCreateNestedOneWithoutOrders_terminalsInput;
+
+    @Field(() => assetsCreateNestedOneWithoutOrders_voice_idToassetsInput, {nullable:true})
+    orders_voice_idToassets?: assetsCreateNestedOneWithoutOrders_voice_idToassetsInput;
 
     @Field(() => order_actionsCreateNestedManyWithoutOrder_actions_ordersInput, {nullable:true})
     order_actions_orders?: order_actionsCreateNestedManyWithoutOrder_actions_ordersInput;

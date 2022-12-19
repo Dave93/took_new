@@ -9,6 +9,7 @@ import { IntNullableWithAggregatesFilter } from '../prisma/int-nullable-with-agg
 import { JsonWithAggregatesFilter } from '../prisma/json-with-aggregates-filter.input';
 import { IntWithAggregatesFilter } from '../prisma/int-with-aggregates-filter.input';
 import { StringNullableWithAggregatesFilter } from '../prisma/string-nullable-with-aggregates-filter.input';
+import { Enumorganization_payment_typesNullableWithAggregatesFilter } from '../prisma/enumorganization-payment-types-nullable-with-aggregates-filter.input';
 
 @InputType()
 export class delivery_pricingScalarWhereWithAggregatesInput {
@@ -60,6 +61,9 @@ export class delivery_pricingScalarWhereWithAggregatesInput {
 
     @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
     terminal_id?: StringNullableWithAggregatesFilter;
+
+    @Field(() => Enumorganization_payment_typesNullableWithAggregatesFilter, {nullable:true})
+    payment_type?: Enumorganization_payment_typesNullableWithAggregatesFilter;
 
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     created_at?: DateTimeWithAggregatesFilter;

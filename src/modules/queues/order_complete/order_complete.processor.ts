@@ -43,45 +43,92 @@ export class OrderCompleteProcessor {
       return;
     }
 
-    if (organization.payment_type == organization_payment_types.cash) {
-      // create order transaction
-      await this.prismaService.order_transactions.create({
-        data: {
-          order_transactions_orders: {
-            connect: {
-              id: order.id,
-            },
-          },
-          order_transactions_terminals: {
-            connect: {
-              id: order.terminal_id,
-            },
-          },
-          order_transactions_couriers: {
-            connect: {
-              id: order.courier_id,
-            },
-          },
-          order_transactions_organizations: {
-            connect: {
-              id: order.organization_id,
-            },
-          },
-          amount: order.delivery_price,
-          transaction_type: 'order',
-          transaction_payment_type: order_transaction_payment_type.cash,
-        },
-      });
-      await this.prismaService.users.update({
+    let isCash = false;
+    if (order.payment_type == order_transaction_payment_type.cash) {
+      isCash = true;
+    } else {
+      // get delivery pricing
+      const deliveryPricing = await this.prismaService.delivery_pricing.findUnique({
         where: {
-          id: order.courier_id,
+          id: order.delivery_pricing_id,
         },
-        data: {
-          wallet_balance: {
-            increment: order.delivery_price,
-          },
+        select: {
+          payment_type: true,
         },
       });
+      isCash = deliveryPricing.payment_type == order_transaction_payment_type.cash;
+    }
+
+    if (isCash) {
+      try {
+        // create order transaction
+        await this.prismaService.order_transactions.create({
+          data: {
+            order_transactions_orders: {
+              connect: {
+                id: order.id,
+              },
+            },
+            order_transactions_terminals: {
+              connect: {
+                id: order.orders_terminals.id,
+              },
+            },
+            order_transactions_couriers: {
+              connect: {
+                id: order.courier_id,
+              },
+            },
+            order_transactions_organizations: {
+              connect: {
+                id: order.organization_id,
+              },
+            },
+            amount: order.delivery_price,
+            not_paid_amount: order.delivery_price,
+            transaction_type: 'order',
+            transaction_payment_type: order_transaction_payment_type.cash,
+          },
+        });
+
+        const courierTerminalBalance = await this.prismaService.courier_terminal_balance.findFirst({
+          where: {
+            courier_id: order.courier_id,
+            terminal_id: order.orders_terminals.id,
+          },
+        });
+        if (courierTerminalBalance) {
+          await this.prismaService.courier_terminal_balance.update({
+            where: {
+              id: courierTerminalBalance.id,
+            },
+            data: {
+              balance: courierTerminalBalance.balance + order.delivery_price,
+            },
+          });
+        } else {
+          await this.prismaService.courier_terminal_balance.create({
+            data: {
+              courier_id: order.courier_id,
+              terminal_id: order.orders_terminals.id,
+              balance: order.delivery_price,
+              organization_id: order.organization_id,
+            },
+          });
+        }
+        // await this.prismaService.users.update({
+        //   where: {
+        //     id: order.courier_id,
+        //   },
+        //   data: {
+        //     wallet_balance: {
+        //       increment: order.delivery_price,
+        //     },
+        //   },
+        // });
+      } catch (e) {
+        console.log('error while incrementing', e);
+      }
     } else if (organization.payment_type == organization_payment_types.card) {
       const courierData = await this.prismaService.users.findFirst({
         where: {

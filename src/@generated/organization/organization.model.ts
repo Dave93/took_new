@@ -12,6 +12,8 @@ import { order_status } from '../order-status/order-status.model';
 import { orders } from '../orders/orders.model';
 import { api_tokens } from '../api-tokens/api-tokens.model';
 import { order_transactions } from '../order-transactions/order-transactions.model';
+import { courier_terminal_balance } from '../courier-terminal-balance/courier-terminal-balance.model';
+import { manager_withdraw } from '../manager-withdraw/manager-withdraw.model';
 import { OrganizationCount } from '../prisma/organization-count.output';
 
 @ObjectType()
@@ -71,6 +73,12 @@ export class organization {
     @Field(() => organization_payment_types, {nullable:false,defaultValue:'client'})
     payment_type!: keyof typeof organization_payment_types;
 
+    @Field(() => String, {nullable:true})
+    support_chat_url!: string | null;
+
+    @Field(() => String, {nullable:true})
+    icon_url!: string | null;
+
     @Field(() => Date, {nullable:false})
     created_at!: Date;
 
@@ -109,6 +117,12 @@ export class organization {
 
     @Field(() => [order_transactions], {nullable:true})
     order_transactions_organizations?: Array<order_transactions>;
+
+    @Field(() => [courier_terminal_balance], {nullable:true})
+    courier_terminal_balance_organizations?: Array<courier_terminal_balance>;
+
+    @Field(() => [manager_withdraw], {nullable:true})
+    manager_withdraw_organizations?: Array<manager_withdraw>;
 
     @Field(() => OrganizationCount, {nullable:false})
     _count?: OrganizationCount;

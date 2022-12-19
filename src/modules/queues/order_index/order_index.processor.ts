@@ -47,6 +47,7 @@ export class OrderIndexProcessor {
         pre_duration: true,
         to_lat: true,
         to_lon: true,
+        score: true,
         orders_couriers: {
           select: {
             id: true,
@@ -91,8 +92,10 @@ export class OrderIndexProcessor {
           select: {
             id: true,
             name: true,
+            icon_url: true,
             active: true,
             external_id: true,
+            support_chat_url: true,
           },
         },
       },

@@ -24,6 +24,8 @@ import { api_tokensCreateInput } from '../@generated/api-tokens/api-tokens-creat
 import { delivery_pricingUpdateInput } from '../@generated/delivery-pricing/delivery-pricing-update.input';
 import { delivery_pricingUncheckedUpdateInput } from '../@generated/delivery-pricing/delivery-pricing-unchecked-update.input';
 import { delivery_pricingWhereUniqueInput } from '../@generated/delivery-pricing/delivery-pricing-where-unique.input';
+import { brandsUncheckedCreateInput } from '../@generated/brands/brands-unchecked-create.input';
+import { brandsCreateInput } from '../@generated/brands/brands-create.input';
 
 type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
 type XOR<T, U> = T extends object ? (U extends object ? (Without<T, U> & U) | (Without<U, T> & T) : U) : T;
@@ -110,4 +112,11 @@ export class delivery_pricingUpdateArgs {
   @Field(() => delivery_pricingWhereUniqueInput, { nullable: false })
   @Type(() => delivery_pricingWhereUniqueInput)
   where: delivery_pricingWhereUniqueInput;
+}
+
+@ArgsType()
+export class brandsCreateArgs {
+  @Field(() => brandsUncheckedCreateInput, { nullable: false })
+  @Type(() => brandsUncheckedCreateInput)
+  data!: XOR<brandsCreateInput, brandsUncheckedCreateInput>;
 }

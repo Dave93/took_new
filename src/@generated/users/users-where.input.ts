@@ -9,6 +9,7 @@ import { DateTimeNullableFilter } from '../prisma/date-time-nullable-filter.inpu
 import { FloatNullableFilter } from '../prisma/float-nullable-filter.input';
 import { FloatFilter } from '../prisma/float-filter.input';
 import { IntNullableFilter } from '../prisma/int-nullable-filter.input';
+import { StringNullableListFilter } from '../prisma/string-nullable-list-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { OtpListRelationFilter } from '../prisma/otp-list-relation-filter.input';
 import { PermissionsListRelationFilter } from '../prisma/permissions-list-relation-filter.input';
@@ -33,6 +34,9 @@ import { Api_tokensListRelationFilter } from '../prisma/api-tokens-list-relation
 import { Order_votesListRelationFilter } from '../prisma/order-votes-list-relation-filter.input';
 import { Order_transactionsListRelationFilter } from '../prisma/order-transactions-list-relation-filter.input';
 import { Outside_requestsListRelationFilter } from '../prisma/outside-requests-list-relation-filter.input';
+import { Courier_terminal_balanceListRelationFilter } from '../prisma/courier-terminal-balance-list-relation-filter.input';
+import { Manager_withdrawListRelationFilter } from '../prisma/manager-withdraw-list-relation-filter.input';
+import { TimesheetListRelationFilter } from '../prisma/timesheet-list-relation-filter.input';
 
 @InputType()
 export class usersWhereInput {
@@ -102,6 +106,9 @@ export class usersWhereInput {
 
     @Field(() => IntNullableFilter, {nullable:true})
     max_active_order_count?: IntNullableFilter;
+
+    @Field(() => StringNullableListFilter, {nullable:true})
+    doc_files?: StringNullableListFilter;
 
     @Field(() => DateTimeFilter, {nullable:true})
     created_at?: DateTimeFilter;
@@ -246,4 +253,22 @@ export class usersWhereInput {
 
     @Field(() => Outside_requestsListRelationFilter, {nullable:true})
     outside_requests_updated_byTousers?: Outside_requestsListRelationFilter;
+
+    @Field(() => Courier_terminal_balanceListRelationFilter, {nullable:true})
+    courier_terminal_balance_couriers?: Courier_terminal_balanceListRelationFilter;
+
+    @Field(() => Courier_terminal_balanceListRelationFilter, {nullable:true})
+    courier_terminal_balance_created_byTousers?: Courier_terminal_balanceListRelationFilter;
+
+    @Field(() => Manager_withdrawListRelationFilter, {nullable:true})
+    manager_withdraw_created_byTousers?: Manager_withdrawListRelationFilter;
+
+    @Field(() => Manager_withdrawListRelationFilter, {nullable:true})
+    manager_withdraw_managers?: Manager_withdrawListRelationFilter;
+
+    @Field(() => Manager_withdrawListRelationFilter, {nullable:true})
+    manager_withdraw_couriers?: Manager_withdrawListRelationFilter;
+
+    @Field(() => TimesheetListRelationFilter, {nullable:true})
+    timesheet_users?: TimesheetListRelationFilter;
 }

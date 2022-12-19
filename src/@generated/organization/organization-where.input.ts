@@ -15,6 +15,8 @@ import { Order_statusListRelationFilter } from '../prisma/order-status-list-rela
 import { OrdersListRelationFilter } from '../prisma/orders-list-relation-filter.input';
 import { Api_tokensListRelationFilter } from '../prisma/api-tokens-list-relation-filter.input';
 import { Order_transactionsListRelationFilter } from '../prisma/order-transactions-list-relation-filter.input';
+import { Courier_terminal_balanceListRelationFilter } from '../prisma/courier-terminal-balance-list-relation-filter.input';
+import { Manager_withdrawListRelationFilter } from '../prisma/manager-withdraw-list-relation-filter.input';
 
 @InputType()
 export class organizationWhereInput {
@@ -82,6 +84,12 @@ export class organizationWhereInput {
     @Field(() => Enumorganization_payment_typesFilter, {nullable:true})
     payment_type?: Enumorganization_payment_typesFilter;
 
+    @Field(() => StringNullableFilter, {nullable:true})
+    support_chat_url?: StringNullableFilter;
+
+    @Field(() => StringNullableFilter, {nullable:true})
+    icon_url?: StringNullableFilter;
+
     @Field(() => DateTimeFilter, {nullable:true})
     created_at?: DateTimeFilter;
 
@@ -120,4 +128,10 @@ export class organizationWhereInput {
 
     @Field(() => Order_transactionsListRelationFilter, {nullable:true})
     order_transactions_organizations?: Order_transactionsListRelationFilter;
+
+    @Field(() => Courier_terminal_balanceListRelationFilter, {nullable:true})
+    courier_terminal_balance_organizations?: Courier_terminal_balanceListRelationFilter;
+
+    @Field(() => Manager_withdrawListRelationFilter, {nullable:true})
+    manager_withdraw_organizations?: Manager_withdrawListRelationFilter;
 }

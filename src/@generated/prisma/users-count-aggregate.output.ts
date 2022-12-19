@@ -63,6 +63,9 @@ export class UsersCountAggregate {
     max_active_order_count!: number;
 
     @Field(() => Int, {nullable:false})
+    doc_files!: number;
+
+    @Field(() => Int, {nullable:false})
     created_at!: number;
 
     @Field(() => Int, {nullable:false})

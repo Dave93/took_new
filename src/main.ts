@@ -3,6 +3,8 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { HttpResponseInterceptor, HttpExceptionFilter } from '@common/http';
 import compression from 'compression';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+
+import { graphqlUploadExpress } from 'graphql-upload-minimal';
 import { AppModule } from './app.module';
 import { SwaggerConfig } from '@config';
 import helmet from 'helmet';
@@ -17,9 +19,9 @@ const bootstrap = async () => {
 
   app.use(helmet());
   app.use(compression());
-  // app.enableCors();
+  app.enableCors();
   app.enableVersioning();
-
+  app.use(graphqlUploadExpress({ maxFileSize: 1000000, maxFiles: 10 }));
   // app.useGlobalFilters(new HttpExceptionFilter());
   // app.useGlobalInterceptors(new HttpResponseInterceptor());
   app.useGlobalPipes(new ValidationPipe());

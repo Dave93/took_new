@@ -13,6 +13,12 @@ export class Customers_commentsMinAggregate {
     @Field(() => String, {nullable:true})
     comment?: string;
 
+    @Field(() => String, {nullable:true})
+    voice_id?: string;
+
+    @Field(() => String, {nullable:true})
+    image_id?: string;
+
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;
 

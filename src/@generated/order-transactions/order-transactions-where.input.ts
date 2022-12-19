@@ -10,6 +10,7 @@ import { UsersRelationFilter } from '../prisma/users-relation-filter.input';
 import { OrdersRelationFilter } from '../prisma/orders-relation-filter.input';
 import { TerminalsRelationFilter } from '../prisma/terminals-relation-filter.input';
 import { OrganizationRelationFilter } from '../prisma/organization-relation-filter.input';
+import { Manager_withdraw_transactionsListRelationFilter } from '../prisma/manager-withdraw-transactions-list-relation-filter.input';
 
 @InputType()
 export class order_transactionsWhereInput {
@@ -43,6 +44,9 @@ export class order_transactionsWhereInput {
 
     @Field(() => FloatFilter, {nullable:true})
     amount?: FloatFilter;
+
+    @Field(() => FloatFilter, {nullable:true})
+    not_paid_amount?: FloatFilter;
 
     @Field(() => Enumorder_transaction_statusFilter, {nullable:true})
     status?: Enumorder_transaction_statusFilter;
@@ -79,4 +83,7 @@ export class order_transactionsWhereInput {
 
     @Field(() => OrganizationRelationFilter, {nullable:true})
     order_transactions_organizations?: OrganizationRelationFilter;
+
+    @Field(() => Manager_withdraw_transactionsListRelationFilter, {nullable:true})
+    manager_withdraw_transactions_transaction?: Manager_withdraw_transactionsListRelationFilter;
 }

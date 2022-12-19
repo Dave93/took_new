@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "allowJs": true,
+//    "maxNodeModuleJsDepth": 10,
+//    "module": "Node16",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -24,5 +27,6 @@
       "@fcm": ["src/fcm"],
     },
     "incremental": true
-  }
+  },
+  "exclude": ["uploads"]
 }

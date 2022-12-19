@@ -14,6 +14,7 @@ export enum Delivery_pricingScalarFieldEnum {
     price_per_km = "price_per_km",
     organization_id = "organization_id",
     terminal_id = "terminal_id",
+    payment_type = "payment_type",
     created_at = "created_at",
     updated_at = "updated_at",
     created_by = "created_by",

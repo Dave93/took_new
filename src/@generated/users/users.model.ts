@@ -28,6 +28,9 @@ import { api_tokens } from '../api-tokens/api-tokens.model';
 import { order_votes } from '../order-votes/order-votes.model';
 import { order_transactions } from '../order-transactions/order-transactions.model';
 import { outside_requests } from '../outside-requests/outside-requests.model';
+import { courier_terminal_balance } from '../courier-terminal-balance/courier-terminal-balance.model';
+import { manager_withdraw } from '../manager-withdraw/manager-withdraw.model';
+import { timesheet } from '../timesheet/timesheet.model';
 import { UsersCount } from '../prisma/users-count.output';
 
 @ObjectType()
@@ -89,6 +92,9 @@ export class users {
 
     @Field(() => Int, {nullable:true})
     max_active_order_count!: number | null;
+
+    @Field(() => [String], {nullable:true})
+    doc_files!: Array<string>;
 
     @Field(() => Date, {nullable:false})
     created_at!: Date;
@@ -233,6 +239,24 @@ export class users {
 
     @Field(() => [outside_requests], {nullable:true})
     outside_requests_updated_byTousers?: Array<outside_requests>;
+
+    @Field(() => [courier_terminal_balance], {nullable:true})
+    courier_terminal_balance_couriers?: Array<courier_terminal_balance>;
+
+    @Field(() => [courier_terminal_balance], {nullable:true})
+    courier_terminal_balance_created_byTousers?: Array<courier_terminal_balance>;
+
+    @Field(() => [manager_withdraw], {nullable:true})
+    manager_withdraw_created_byTousers?: Array<manager_withdraw>;
+
+    @Field(() => [manager_withdraw], {nullable:true})
+    manager_withdraw_managers?: Array<manager_withdraw>;
+
+    @Field(() => [manager_withdraw], {nullable:true})
+    manager_withdraw_couriers?: Array<manager_withdraw>;
+
+    @Field(() => [timesheet], {nullable:true})
+    timesheet_users?: Array<timesheet>;
 
     @Field(() => UsersCount, {nullable:false})
     _count?: UsersCount;

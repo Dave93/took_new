@@ -65,6 +65,9 @@ export class ordersUpdateManyMutationInput {
     @Field(() => Boolean, {nullable:true})
     sms_sent_to_customer?: boolean;
 
+    @Field(() => Int, {nullable:true})
+    score?: number;
+
     @Field(() => GraphQLJSON, {nullable:true})
     order_items?: any;
 

@@ -11,8 +11,8 @@ CREATE TYPE "order_transaction_payment_type" AS ENUM ('cash', 'card');
 ALTER TABLE "order_transactions" ADD COLUMN     "comment" STRING;
 ALTER TABLE "order_transactions" ADD COLUMN     "transaction_payment_type" "order_transaction_payment_type" NOT NULL DEFAULT 'cash';
 ALTER TABLE "order_transactions" ALTER COLUMN "order_id" DROP NOT NULL;
-ALTER TABLE "order_transactions" DROP COLUMN "transaction_type";
-ALTER TABLE "order_transactions" ADD COLUMN     "transaction_type" STRING NOT NULL;
+-- ALTER TABLE "order_transactions" DROP COLUMN "transaction_type";
+-- ALTER TABLE "order_transactions" ADD COLUMN     "transaction_type" STRING NOT NULL;
 
 -- DropEnum
-DROP TYPE "order_transaction_type";
+-- DROP TYPE "order_transaction_type";

@@ -15,6 +15,12 @@ export class Customers_commentsCountAggregate {
     comment!: number;
 
     @Field(() => Int, {nullable:false})
+    voice_id!: number;
+
+    @Field(() => Int, {nullable:false})
+    image_id!: number;
+
+    @Field(() => Int, {nullable:false})
     created_at!: number;
 
     @Field(() => Int, {nullable:false})

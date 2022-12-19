@@ -9,6 +9,7 @@ import { DateTimeNullableWithAggregatesFilter } from '../prisma/date-time-nullab
 import { FloatNullableWithAggregatesFilter } from '../prisma/float-nullable-with-aggregates-filter.input';
 import { FloatWithAggregatesFilter } from '../prisma/float-with-aggregates-filter.input';
 import { IntNullableWithAggregatesFilter } from '../prisma/int-nullable-with-aggregates-filter.input';
+import { StringNullableListFilter } from '../prisma/string-nullable-list-filter.input';
 import { DateTimeWithAggregatesFilter } from '../prisma/date-time-with-aggregates-filter.input';
 
 @InputType()
@@ -79,6 +80,9 @@ export class usersScalarWhereWithAggregatesInput {
 
     @Field(() => IntNullableWithAggregatesFilter, {nullable:true})
     max_active_order_count?: IntNullableWithAggregatesFilter;
+
+    @Field(() => StringNullableListFilter, {nullable:true})
+    doc_files?: StringNullableListFilter;
 
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     created_at?: DateTimeWithAggregatesFilter;

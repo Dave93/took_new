@@ -20,6 +20,7 @@ export enum UsersScalarFieldEnum {
     fcm_token = "fcm_token",
     wallet_balance = "wallet_balance",
     max_active_order_count = "max_active_order_count",
+    doc_files = "doc_files",
     created_at = "created_at",
     updated_at = "updated_at"
 }

@@ -28,6 +28,9 @@ export class order_transactionsUncheckedUpdateManyWithoutOrder_transactions_crea
     @Field(() => Float, {nullable:true})
     amount?: number;
 
+    @Field(() => Float, {nullable:true})
+    not_paid_amount?: number;
+
     @Field(() => order_transaction_status, {nullable:true})
     status?: keyof typeof order_transaction_status;
 

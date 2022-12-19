@@ -9,6 +9,8 @@ import { order_statusOrderByRelationAggregateInput } from '../order-status/order
 import { ordersOrderByRelationAggregateInput } from '../orders/orders-order-by-relation-aggregate.input';
 import { api_tokensOrderByRelationAggregateInput } from '../api-tokens/api-tokens-order-by-relation-aggregate.input';
 import { order_transactionsOrderByRelationAggregateInput } from '../order-transactions/order-transactions-order-by-relation-aggregate.input';
+import { courier_terminal_balanceOrderByRelationAggregateInput } from '../courier-terminal-balance/courier-terminal-balance-order-by-relation-aggregate.input';
+import { manager_withdrawOrderByRelationAggregateInput } from '../manager-withdraw/manager-withdraw-order-by-relation-aggregate.input';
 
 @InputType()
 export class organizationOrderByWithRelationInput {
@@ -68,6 +70,12 @@ export class organizationOrderByWithRelationInput {
     payment_type?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    support_chat_url?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    icon_url?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     created_at?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
@@ -105,4 +113,10 @@ export class organizationOrderByWithRelationInput {
 
     @Field(() => order_transactionsOrderByRelationAggregateInput, {nullable:true})
     order_transactions_organizations?: order_transactionsOrderByRelationAggregateInput;
+
+    @Field(() => courier_terminal_balanceOrderByRelationAggregateInput, {nullable:true})
+    courier_terminal_balance_organizations?: courier_terminal_balanceOrderByRelationAggregateInput;
+
+    @Field(() => manager_withdrawOrderByRelationAggregateInput, {nullable:true})
+    manager_withdraw_organizations?: manager_withdrawOrderByRelationAggregateInput;
 }

@@ -3,6 +3,7 @@ import { ObjectType } from '@nestjs/graphql';
 import { ID } from '@nestjs/graphql';
 import { users } from '../users/users.model';
 import { customers } from '../customers/customers.model';
+import { assets } from '../assets/assets.model';
 
 @ObjectType()
 export class customers_comments {
@@ -13,8 +14,14 @@ export class customers_comments {
     @Field(() => String, {nullable:false})
     customer_id!: string;
 
-    @Field(() => String, {nullable:false})
-    comment!: string;
+    @Field(() => String, {nullable:true})
+    comment!: string | null;
+
+    @Field(() => String, {nullable:true})
+    voice_id!: string | null;
+
+    @Field(() => String, {nullable:true})
+    image_id!: string | null;
 
     @Field(() => Date, {nullable:false})
     created_at!: Date;
@@ -27,4 +34,10 @@ export class customers_comments {
 
     @Field(() => customers, {nullable:false})
     customers_comments_customers?: customers;
+
+    @Field(() => assets, {nullable:true})
+    customers_comments_voice_idToassets?: assets | null;
+
+    @Field(() => assets, {nullable:true})
+    customers_comments_image_idToassets?: assets | null;
 }

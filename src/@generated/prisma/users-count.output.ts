@@ -142,4 +142,22 @@ export class UsersCount {
 
     @Field(() => Int, {nullable:false})
     outside_requests_updated_byTousers!: number;
+
+    @Field(() => Int, {nullable:false})
+    courier_terminal_balance_couriers!: number;
+
+    @Field(() => Int, {nullable:false})
+    courier_terminal_balance_created_byTousers!: number;
+
+    @Field(() => Int, {nullable:false})
+    manager_withdraw_created_byTousers!: number;
+
+    @Field(() => Int, {nullable:false})
+    manager_withdraw_managers!: number;
+
+    @Field(() => Int, {nullable:false})
+    manager_withdraw_couriers!: number;
+
+    @Field(() => Int, {nullable:false})
+    timesheet_users!: number;
 }

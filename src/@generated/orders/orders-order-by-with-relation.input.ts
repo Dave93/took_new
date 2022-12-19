@@ -6,6 +6,7 @@ import { customersOrderByWithRelationInput } from '../customers/customers-order-
 import { order_statusOrderByWithRelationInput } from '../order-status/order-status-order-by-with-relation.input';
 import { organizationOrderByWithRelationInput } from '../organization/organization-order-by-with-relation.input';
 import { terminalsOrderByWithRelationInput } from '../terminals/terminals-order-by-with-relation.input';
+import { assetsOrderByWithRelationInput } from '../assets/assets-order-by-with-relation.input';
 import { order_actionsOrderByRelationAggregateInput } from '../order-actions/order-actions-order-by-relation-aggregate.input';
 import { order_locationsOrderByRelationAggregateInput } from '../order-locations/order-locations-order-by-relation-aggregate.input';
 import { order_votesOrderByRelationAggregateInput } from '../order-votes/order-votes-order-by-relation-aggregate.input';
@@ -87,10 +88,16 @@ export class ordersOrderByWithRelationInput {
     sms_sent_to_customer?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    score?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     order_items?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
     delivery_pricing_id?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    cancel_voice_id?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
     created_at?: keyof typeof SortOrder;
@@ -124,6 +131,9 @@ export class ordersOrderByWithRelationInput {
 
     @Field(() => terminalsOrderByWithRelationInput, {nullable:true})
     orders_terminals?: terminalsOrderByWithRelationInput;
+
+    @Field(() => assetsOrderByWithRelationInput, {nullable:true})
+    orders_voice_idToassets?: assetsOrderByWithRelationInput;
 
     @Field(() => order_actionsOrderByRelationAggregateInput, {nullable:true})
     order_actions_orders?: order_actionsOrderByRelationAggregateInput;

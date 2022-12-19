@@ -22,3 +22,12 @@ export class OrderMobilePeriodStat {
   @Field(() => String)
   labelCode: string;
 }
+
+@ObjectType()
+export class OrdersHistory {
+  @Field(() => [orders])
+  orders: orders[];
+
+  @Field(() => Int)
+  totalCount: number;
+}

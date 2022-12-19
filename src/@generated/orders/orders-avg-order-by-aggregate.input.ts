@@ -34,4 +34,7 @@ export class ordersAvgOrderByAggregateInput {
 
     @Field(() => SortOrder, {nullable:true})
     delivery_price?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    score?: keyof typeof SortOrder;
 }

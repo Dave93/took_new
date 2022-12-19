@@ -11,6 +11,8 @@ import { terminalsCreateNestedManyWithoutOrganizationInput } from '../terminals/
 import { order_statusCreateNestedManyWithoutOrder_status_organizationInput } from '../order-status/order-status-create-nested-many-without-order-status-organization.input';
 import { api_tokensCreateNestedManyWithoutApi_tokens_organizationInput } from '../api-tokens/api-tokens-create-nested-many-without-api-tokens-organization.input';
 import { order_transactionsCreateNestedManyWithoutOrder_transactions_organizationsInput } from '../order-transactions/order-transactions-create-nested-many-without-order-transactions-organizations.input';
+import { courier_terminal_balanceCreateNestedManyWithoutCourier_terminal_balance_organizationsInput } from '../courier-terminal-balance/courier-terminal-balance-create-nested-many-without-courier-terminal-balance-organizations.input';
+import { manager_withdrawCreateNestedManyWithoutManager_withdraw_organizationsInput } from '../manager-withdraw/manager-withdraw-create-nested-many-without-manager-withdraw-organizations.input';
 
 @InputType()
 export class organizationCreateWithoutOrders_organizationInput {
@@ -69,6 +71,12 @@ export class organizationCreateWithoutOrders_organizationInput {
     @Field(() => organization_payment_types, {nullable:true})
     payment_type?: keyof typeof organization_payment_types;
 
+    @Field(() => String, {nullable:true})
+    support_chat_url?: string;
+
+    @Field(() => String, {nullable:true})
+    icon_url?: string;
+
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;
 
@@ -98,4 +106,10 @@ export class organizationCreateWithoutOrders_organizationInput {
 
     @Field(() => order_transactionsCreateNestedManyWithoutOrder_transactions_organizationsInput, {nullable:true})
     order_transactions_organizations?: order_transactionsCreateNestedManyWithoutOrder_transactions_organizationsInput;
+
+    @Field(() => courier_terminal_balanceCreateNestedManyWithoutCourier_terminal_balance_organizationsInput, {nullable:true})
+    courier_terminal_balance_organizations?: courier_terminal_balanceCreateNestedManyWithoutCourier_terminal_balance_organizationsInput;
+
+    @Field(() => manager_withdrawCreateNestedManyWithoutManager_withdraw_organizationsInput, {nullable:true})
+    manager_withdraw_organizations?: manager_withdrawCreateNestedManyWithoutManager_withdraw_organizationsInput;
 }

@@ -93,20 +93,21 @@ export class BgJobsProcessor {
     );
 
     await this.searchService.checkOrderLocationsIndex();
-
-    await this.searchService.bulkIndex(
-      orders.map((order) => ({
-        order_id: order.id,
-        terminal_id: order.terminal_id,
-        order_status_id: order.order_status_id,
-        courier_id: user.id,
-        location: {
-          lat: data.latitude,
-          lon: data.longitude,
-        },
-        created_at: new Date(),
-      })),
-    );
+    if (orders.length > 0) {
+      await this.searchService.bulkIndex(
+        orders.map((order) => ({
+          order_id: order.id,
+          terminal_id: order.terminal_id,
+          order_status_id: order.order_status_id,
+          courier_id: user.id,
+          location: {
+            lat: data.latitude,
+            lon: data.longitude,
+          },
+          created_at: new Date(),
+        })),
+      );
+    }
 
     // find all orderStatuses that need location and finished
     const orderStatusesThatNeedLocationAndFinished = organizationOrderStatuses.filter(

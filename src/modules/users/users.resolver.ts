@@ -6,7 +6,9 @@ import { PrismaAggregateCount } from '@common/dtos/prisma-aggregate-count';
 import { usersWhereInput } from 'src/@generated/users/users-where.input';
 import { FindManyusersArgs } from 'src/@generated/users/find-manyusers.args';
 import { UpdateOneusersArgs } from 'src/@generated/users/update-oneusers.args';
-import { Permissions } from '@auth';
+import { CurrentUser, JwtAuthGuard, Permissions } from '@auth';
+import { UserProfileNumbers } from '@modules/users/entities/user.entity';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver(() => users)
 export class UsersResolver {
@@ -46,5 +48,17 @@ export class UsersResolver {
   @Permissions('users.delete')
   removeUser(@Args('id', { type: () => Int }) id: number) {
     return this.usersService.remove(id);
+  }
+
+  @Query(() => UserProfileNumbers, { name: 'getMyProfileNumbers' })
+  @UseGuards(JwtAuthGuard)
+  getMyProfileNumbers(@CurrentUser() user: users) {
+    return this.usersService.getMyProfileNumbers(user);
+  }
+
+  @Query(() => [users], { name: 'myCouriers' })
+  @UseGuards(JwtAuthGuard)
+  myCouriers(@CurrentUser() user: users) {
+    return this.usersService.myCouriers(user);
   }
 }

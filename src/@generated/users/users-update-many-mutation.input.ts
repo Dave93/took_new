@@ -65,6 +65,9 @@ export class usersUpdateManyMutationInput {
     @Field(() => Int, {nullable:true})
     max_active_order_count?: number;
 
+    @Field(() => [String], {nullable:true})
+    doc_files?: Array<string>;
+
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;
 

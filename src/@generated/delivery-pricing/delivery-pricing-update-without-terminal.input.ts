@@ -3,6 +3,7 @@ import { InputType } from '@nestjs/graphql';
 import { drive_type } from '../prisma/drive-type.enum';
 import { Int } from '@nestjs/graphql';
 import { GraphQLJSON } from 'graphql-type-json';
+import { organization_payment_types } from '../organization/organization-payment-types.enum';
 import { organizationUpdateOneRequiredWithoutDelivery_pricing_organization_idTorganizationNestedInput } from '../organization/organization-update-one-required-without-delivery-pricing-organization-id-torganization-nested.input';
 import { usersUpdateOneWithoutDelivery_pricing_created_byTousersNestedInput } from '../users/users-update-one-without-delivery-pricing-created-by-tousers-nested.input';
 import { usersUpdateOneWithoutDelivery_pricing_updated_byTousersNestedInput } from '../users/users-update-one-without-delivery-pricing-updated-by-tousers-nested.input';
@@ -42,6 +43,9 @@ export class delivery_pricingUpdateWithoutTerminalInput {
 
     @Field(() => Int, {nullable:true})
     price_per_km?: number;
+
+    @Field(() => organization_payment_types, {nullable:true})
+    payment_type?: keyof typeof organization_payment_types;
 
     @Field(() => organizationUpdateOneRequiredWithoutDelivery_pricing_organization_idTorganizationNestedInput, {nullable:true})
     organization?: organizationUpdateOneRequiredWithoutDelivery_pricing_organization_idTorganizationNestedInput;

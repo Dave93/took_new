@@ -10,6 +10,7 @@ import { customersUpdateOneRequiredWithoutOrders_customersNestedInput } from '..
 import { usersUpdateOneWithoutOrders_couriersNestedInput } from '../users/users-update-one-without-orders-couriers-nested.input';
 import { order_statusUpdateOneRequiredWithoutOrders_order_statusNestedInput } from '../order-status/order-status-update-one-required-without-orders-order-status-nested.input';
 import { organizationUpdateOneRequiredWithoutOrders_organizationNestedInput } from '../organization/organization-update-one-required-without-orders-organization-nested.input';
+import { assetsUpdateOneWithoutOrders_voice_idToassetsNestedInput } from '../assets/assets-update-one-without-orders-voice-id-toassets-nested.input';
 import { order_actionsUpdateManyWithoutOrder_actions_ordersNestedInput } from '../order-actions/order-actions-update-many-without-order-actions-orders-nested.input';
 import { order_locationsUpdateManyWithoutOrder_locations_ordersNestedInput } from '../order-locations/order-locations-update-many-without-order-locations-orders-nested.input';
 import { order_votesUpdateManyWithoutOrder_votes_ordersNestedInput } from '../order-votes/order-votes-update-many-without-order-votes-orders-nested.input';
@@ -75,6 +76,9 @@ export class ordersUpdateWithoutOrders_terminalsInput {
     @Field(() => Boolean, {nullable:true})
     sms_sent_to_customer?: boolean;
 
+    @Field(() => Int, {nullable:true})
+    score?: number;
+
     @Field(() => GraphQLJSON, {nullable:true})
     order_items?: any;
 
@@ -104,6 +108,9 @@ export class ordersUpdateWithoutOrders_terminalsInput {
 
     @Field(() => organizationUpdateOneRequiredWithoutOrders_organizationNestedInput, {nullable:true})
     orders_organization?: organizationUpdateOneRequiredWithoutOrders_organizationNestedInput;
+
+    @Field(() => assetsUpdateOneWithoutOrders_voice_idToassetsNestedInput, {nullable:true})
+    orders_voice_idToassets?: assetsUpdateOneWithoutOrders_voice_idToassetsNestedInput;
 
     @Field(() => order_actionsUpdateManyWithoutOrder_actions_ordersNestedInput, {nullable:true})
     order_actions_orders?: order_actionsUpdateManyWithoutOrder_actions_ordersNestedInput;

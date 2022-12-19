@@ -15,6 +15,12 @@ export class customers_commentsMaxOrderByAggregateInput {
     comment?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    voice_id?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    image_id?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     created_at?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})

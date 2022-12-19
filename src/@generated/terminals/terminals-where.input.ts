@@ -13,6 +13,8 @@ import { Order_locationsListRelationFilter } from '../prisma/order-locations-lis
 import { Delivery_pricingListRelationFilter } from '../prisma/delivery-pricing-list-relation-filter.input';
 import { Order_votesListRelationFilter } from '../prisma/order-votes-list-relation-filter.input';
 import { Order_transactionsListRelationFilter } from '../prisma/order-transactions-list-relation-filter.input';
+import { Courier_terminal_balanceListRelationFilter } from '../prisma/courier-terminal-balance-list-relation-filter.input';
+import { Manager_withdrawListRelationFilter } from '../prisma/manager-withdraw-list-relation-filter.input';
 
 @InputType()
 export class terminalsWhereInput {
@@ -82,4 +84,10 @@ export class terminalsWhereInput {
 
     @Field(() => Order_transactionsListRelationFilter, {nullable:true})
     order_transactions_terminals?: Order_transactionsListRelationFilter;
+
+    @Field(() => Courier_terminal_balanceListRelationFilter, {nullable:true})
+    courier_terminal_balance_terminals?: Courier_terminal_balanceListRelationFilter;
+
+    @Field(() => Manager_withdrawListRelationFilter, {nullable:true})
+    manager_withdraw_terminals?: Manager_withdrawListRelationFilter;
 }

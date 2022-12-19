@@ -2,6 +2,7 @@ import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
 import { drive_type } from './drive-type.enum';
 import { Int } from '@nestjs/graphql';
+import { organization_payment_types } from '../organization/organization-payment-types.enum';
 
 @ObjectType()
 export class Delivery_pricingMaxAggregate {
@@ -38,6 +39,9 @@ export class Delivery_pricingMaxAggregate {
 
     @Field(() => String, {nullable:true})
     terminal_id?: string;
+
+    @Field(() => organization_payment_types, {nullable:true})
+    payment_type?: keyof typeof organization_payment_types;
 
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;

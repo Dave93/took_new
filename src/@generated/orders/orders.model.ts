@@ -9,6 +9,7 @@ import { customers } from '../customers/customers.model';
 import { order_status } from '../order-status/order-status.model';
 import { organization } from '../organization/organization.model';
 import { terminals } from '../terminals/terminals.model';
+import { assets } from '../assets/assets.model';
 import { order_actions } from '../order-actions/order-actions.model';
 import { order_locations } from '../order-locations/order-locations.model';
 import { order_votes } from '../order-votes/order-votes.model';
@@ -90,11 +91,17 @@ export class orders {
     @Field(() => Boolean, {nullable:false,defaultValue:false})
     sms_sent_to_customer!: boolean;
 
+    @Field(() => Int, {nullable:true})
+    score!: number | null;
+
     @Field(() => GraphQLJSON, {nullable:true})
     order_items!: any | null;
 
     @Field(() => String, {nullable:true})
     delivery_pricing_id!: string | null;
+
+    @Field(() => String, {nullable:true})
+    cancel_voice_id!: string | null;
 
     @Field(() => Date, {nullable:false})
     created_at!: Date;
@@ -128,6 +135,9 @@ export class orders {
 
     @Field(() => terminals, {nullable:false})
     orders_terminals?: terminals;
+
+    @Field(() => assets, {nullable:true})
+    orders_voice_idToassets?: assets | null;
 
     @Field(() => [order_actions], {nullable:true})
     order_actions_orders?: Array<order_actions>;

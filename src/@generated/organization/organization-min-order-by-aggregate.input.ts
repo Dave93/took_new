@@ -60,6 +60,12 @@ export class organizationMinOrderByAggregateInput {
     payment_type?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    support_chat_url?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    icon_url?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     created_at?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})

@@ -47,6 +47,9 @@ export class delivery_pricingOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
     terminal_id?: keyof typeof SortOrder;
 
+    @Field(() => SortOrder, {nullable:true})
+    payment_type?: keyof typeof SortOrder;
+
     @Field(() => organizationOrderByWithRelationInput, {nullable:true})
     organization?: organizationOrderByWithRelationInput;
 

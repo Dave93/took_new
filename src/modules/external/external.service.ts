@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { CreateExternalDto } from './dto/create-external.dto';
+import { CreateExternalDto, PostOrderScoreDto } from './dto/create-external.dto';
 import { UpdateExternalDto } from './dto/update-external.dto';
 import { CacheControlService } from '@modules/cache_control/cache_control.service';
 import { api_tokens } from '../../@generated/api-tokens/api-tokens.model';
@@ -50,7 +50,7 @@ export class ExternalService {
     }
 
     // write createExternalDto to json file for testing
-    fs.appendFileSync('createExternalDto.json', JSON.stringify(createExternalDto));
+    // fs.appendFileSync('createExternalDto.json', JSON.stringify(createExternalDto));
 
     const organizations = await this.cacheControl.getOrganization(tokenExists.organization_id);
 
@@ -326,5 +326,58 @@ export class ExternalService {
     });
 
     return onlineUsers;
+  }
+
+  async setScore(orderScore: PostOrderScoreDto, req) {
+    const { authorization } = req.headers;
+
+    if (!authorization) {
+      throw new BadRequestException('No authorization header');
+    }
+
+    const token = authorization.split(' ')[1];
+
+    const allTokens: api_tokens[] = await this.cacheControl.getAllApiTokens();
+    const tokenExists = allTokens.find((t) => t.token === token && t.active);
+
+    if (!tokenExists) {
+      throw new BadRequestException('Invalid token');
+    }
+
+    // write createExternalDto to json file for testing
+    // fs.appendFileSync('createExternalDto.json', JSON.stringify(createExternalDto));
+
+    const organizations = await this.cacheControl.getOrganization(tokenExists.organization_id);
+
+    // find order with order_id and organization_id
+    const order = await this.prismaService.orders.findFirst({
+      where: {
+        order_number: orderScore.order_id.toString(),
+        organization_id: organizations.id,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (!order) {
+      return;
+    }
+
+    await this.prismaService.orders.update({
+      where: {
+        id: order.id,
+      },
+      data: {
+        score: orderScore.courier,
+      },
+    });
+
+    await this.orderIndexQueue.add('processOrderIndex', {
+      orderId: order.id,
+    });
+    return {
+      success: true,
+    };
   }
 }

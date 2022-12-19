@@ -96,11 +96,17 @@ export class ordersScalarWhereWithAggregatesInput {
     @Field(() => BoolWithAggregatesFilter, {nullable:true})
     sms_sent_to_customer?: BoolWithAggregatesFilter;
 
+    @Field(() => IntNullableWithAggregatesFilter, {nullable:true})
+    score?: IntNullableWithAggregatesFilter;
+
     @Field(() => JsonNullableWithAggregatesFilter, {nullable:true})
     order_items?: JsonNullableWithAggregatesFilter;
 
     @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
     delivery_pricing_id?: StringNullableWithAggregatesFilter;
+
+    @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
+    cancel_voice_id?: StringNullableWithAggregatesFilter;
 
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     created_at?: DateTimeWithAggregatesFilter;

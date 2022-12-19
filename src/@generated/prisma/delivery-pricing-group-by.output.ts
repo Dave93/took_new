@@ -3,6 +3,7 @@ import { ObjectType } from '@nestjs/graphql';
 import { drive_type } from './drive-type.enum';
 import { Int } from '@nestjs/graphql';
 import { GraphQLJSON } from 'graphql-type-json';
+import { organization_payment_types } from '../organization/organization-payment-types.enum';
 import { Delivery_pricingCountAggregate } from './delivery-pricing-count-aggregate.output';
 import { Delivery_pricingAvgAggregate } from './delivery-pricing-avg-aggregate.output';
 import { Delivery_pricingSumAggregate } from './delivery-pricing-sum-aggregate.output';
@@ -50,6 +51,9 @@ export class Delivery_pricingGroupBy {
 
     @Field(() => String, {nullable:true})
     terminal_id?: string;
+
+    @Field(() => organization_payment_types, {nullable:true})
+    payment_type?: keyof typeof organization_payment_types;
 
     @Field(() => Date, {nullable:false})
     created_at!: Date | string;

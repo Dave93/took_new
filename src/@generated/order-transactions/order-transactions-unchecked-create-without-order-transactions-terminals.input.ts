@@ -3,6 +3,7 @@ import { InputType } from '@nestjs/graphql';
 import { Float } from '@nestjs/graphql';
 import { order_transaction_status } from '../prisma/order-transaction-status.enum';
 import { order_transaction_payment_type } from '../prisma/order-transaction-payment-type.enum';
+import { manager_withdraw_transactionsUncheckedCreateNestedManyWithoutManager_withdraw_transactions_transactionInput } from '../manager-withdraw-transactions/manager-withdraw-transactions-unchecked-create-nested-many-without-manager-withdraw-transactions-transaction.input';
 
 @InputType()
 export class order_transactionsUncheckedCreateWithoutOrder_transactions_terminalsInput {
@@ -25,6 +26,9 @@ export class order_transactionsUncheckedCreateWithoutOrder_transactions_terminal
     @Field(() => Float, {nullable:true})
     amount?: number;
 
+    @Field(() => Float, {nullable:true})
+    not_paid_amount?: number;
+
     @Field(() => order_transaction_status, {nullable:true})
     status?: keyof typeof order_transaction_status;
 
@@ -45,4 +49,7 @@ export class order_transactionsUncheckedCreateWithoutOrder_transactions_terminal
 
     @Field(() => String, {nullable:true})
     created_by?: string;
+
+    @Field(() => manager_withdraw_transactionsUncheckedCreateNestedManyWithoutManager_withdraw_transactions_transactionInput, {nullable:true})
+    manager_withdraw_transactions_transaction?: manager_withdraw_transactionsUncheckedCreateNestedManyWithoutManager_withdraw_transactions_transactionInput;
 }

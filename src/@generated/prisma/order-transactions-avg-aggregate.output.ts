@@ -7,4 +7,7 @@ export class Order_transactionsAvgAggregate {
 
     @Field(() => Float, {nullable:true})
     amount?: number;
+
+    @Field(() => Float, {nullable:true})
+    not_paid_amount?: number;
 }

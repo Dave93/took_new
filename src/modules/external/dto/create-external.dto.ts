@@ -61,3 +61,13 @@ export class CreateExternalDto {
   @IsNotEmpty()
   orderItems: OrderItems[];
 }
+
+export class PostOrderScoreDto {
+  @IsNumber()
+  @IsNotEmpty()
+  order_id: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  courier: number;
+}

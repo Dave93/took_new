@@ -74,6 +74,12 @@ export class organizationScalarWhereInput {
     @Field(() => Enumorganization_payment_typesFilter, {nullable:true})
     payment_type?: Enumorganization_payment_typesFilter;
 
+    @Field(() => StringNullableFilter, {nullable:true})
+    support_chat_url?: StringNullableFilter;
+
+    @Field(() => StringNullableFilter, {nullable:true})
+    icon_url?: StringNullableFilter;
+
     @Field(() => DateTimeFilter, {nullable:true})
     created_at?: DateTimeFilter;
 

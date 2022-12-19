@@ -102,6 +102,9 @@ export class SearchService {
                 cancel_reason: {
                   type: 'text',
                 },
+                score: {
+                  type: 'integer',
+                },
                 order_items: {
                   properties: {
                     productId: {
@@ -995,5 +998,62 @@ export class SearchService {
     // }
 
     return res;
+  }
+
+  async getCourierScore(id: string) {
+    const res = await this.elasticClient.search({
+      index: 'arryt_orders',
+      body: {
+        aggs: {
+          '0': {
+            avg: {
+              field: 'score',
+            },
+          },
+        },
+        size: 0,
+        fields: [
+          {
+            field: 'created_at',
+            format: 'date_time',
+          },
+          {
+            field: 'finished_date',
+            format: 'date_time',
+          },
+        ],
+        script_fields: {},
+        stored_fields: ['*'],
+        runtime_mappings: {},
+        _source: {
+          excludes: [],
+        },
+        query: {
+          bool: {
+            must: [],
+            filter: [
+              {
+                match_phrase: {
+                  courier_id: id,
+                },
+              },
+              {
+                range: {
+                  created_at: {
+                    gte: 'now/M',
+                    lte: 'now/M',
+                  },
+                },
+              },
+            ],
+            should: [],
+            must_not: [],
+          },
+        },
+      },
+    });
+
+    // @ts-ignore
+    return res.aggregations?.['0']?.value ?? 0;
   }
 }

@@ -9,6 +9,8 @@ import { order_locationsOrderByRelationAggregateInput } from '../order-locations
 import { delivery_pricingOrderByRelationAggregateInput } from '../delivery-pricing/delivery-pricing-order-by-relation-aggregate.input';
 import { order_votesOrderByRelationAggregateInput } from '../order-votes/order-votes-order-by-relation-aggregate.input';
 import { order_transactionsOrderByRelationAggregateInput } from '../order-transactions/order-transactions-order-by-relation-aggregate.input';
+import { courier_terminal_balanceOrderByRelationAggregateInput } from '../courier-terminal-balance/courier-terminal-balance-order-by-relation-aggregate.input';
+import { manager_withdrawOrderByRelationAggregateInput } from '../manager-withdraw/manager-withdraw-order-by-relation-aggregate.input';
 
 @InputType()
 export class terminalsOrderByWithRelationInput {
@@ -69,4 +71,10 @@ export class terminalsOrderByWithRelationInput {
 
     @Field(() => order_transactionsOrderByRelationAggregateInput, {nullable:true})
     order_transactions_terminals?: order_transactionsOrderByRelationAggregateInput;
+
+    @Field(() => courier_terminal_balanceOrderByRelationAggregateInput, {nullable:true})
+    courier_terminal_balance_terminals?: courier_terminal_balanceOrderByRelationAggregateInput;
+
+    @Field(() => manager_withdrawOrderByRelationAggregateInput, {nullable:true})
+    manager_withdraw_terminals?: manager_withdrawOrderByRelationAggregateInput;
 }

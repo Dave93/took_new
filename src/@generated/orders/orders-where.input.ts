@@ -16,6 +16,7 @@ import { CustomersRelationFilter } from '../prisma/customers-relation-filter.inp
 import { Order_statusRelationFilter } from '../prisma/order-status-relation-filter.input';
 import { OrganizationRelationFilter } from '../prisma/organization-relation-filter.input';
 import { TerminalsRelationFilter } from '../prisma/terminals-relation-filter.input';
+import { AssetsRelationFilter } from '../prisma/assets-relation-filter.input';
 import { Order_actionsListRelationFilter } from '../prisma/order-actions-list-relation-filter.input';
 import { Order_locationsListRelationFilter } from '../prisma/order-locations-list-relation-filter.input';
 import { Order_votesListRelationFilter } from '../prisma/order-votes-list-relation-filter.input';
@@ -105,11 +106,17 @@ export class ordersWhereInput {
     @Field(() => BoolFilter, {nullable:true})
     sms_sent_to_customer?: BoolFilter;
 
+    @Field(() => IntNullableFilter, {nullable:true})
+    score?: IntNullableFilter;
+
     @Field(() => JsonNullableFilter, {nullable:true})
     order_items?: JsonNullableFilter;
 
     @Field(() => StringNullableFilter, {nullable:true})
     delivery_pricing_id?: StringNullableFilter;
+
+    @Field(() => StringNullableFilter, {nullable:true})
+    cancel_voice_id?: StringNullableFilter;
 
     @Field(() => DateTimeFilter, {nullable:true})
     created_at?: DateTimeFilter;
@@ -143,6 +150,9 @@ export class ordersWhereInput {
 
     @Field(() => TerminalsRelationFilter, {nullable:true})
     orders_terminals?: TerminalsRelationFilter;
+
+    @Field(() => AssetsRelationFilter, {nullable:true})
+    orders_voice_idToassets?: AssetsRelationFilter;
 
     @Field(() => Order_actionsListRelationFilter, {nullable:true})
     order_actions_orders?: Order_actionsListRelationFilter;

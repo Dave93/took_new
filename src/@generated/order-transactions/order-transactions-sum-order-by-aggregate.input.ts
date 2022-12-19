@@ -7,4 +7,7 @@ export class order_transactionsSumOrderByAggregateInput {
 
     @Field(() => SortOrder, {nullable:true})
     amount?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    not_paid_amount?: keyof typeof SortOrder;
 }

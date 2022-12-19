@@ -4,6 +4,7 @@ import { ID } from '@nestjs/graphql';
 import { drive_type } from '../prisma/drive-type.enum';
 import { Int } from '@nestjs/graphql';
 import { GraphQLJSON } from 'graphql-type-json';
+import { organization_payment_types } from '../organization/organization-payment-types.enum';
 import { organization } from '../organization/organization.model';
 import { terminals } from '../terminals/terminals.model';
 import { users } from '../users/users.model';
@@ -49,6 +50,9 @@ export class delivery_pricing {
 
     @Field(() => String, {nullable:true})
     terminal_id!: string | null;
+
+    @Field(() => organization_payment_types, {nullable:true,defaultValue:'client'})
+    payment_type!: keyof typeof organization_payment_types | null;
 
     @Field(() => organization, {nullable:false})
     organization?: organization;

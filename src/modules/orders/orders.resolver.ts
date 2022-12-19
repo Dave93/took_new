@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Args, Int, Subscription, Context, Float } from '@nestjs/graphql';
 import { OrdersService } from './orders.service';
-import { Order, OrderMobilePeriodStat } from './entities/order.entity';
+import { Order, OrderMobilePeriodStat, OrdersHistory } from './entities/order.entity';
 import { CreateOrderInput } from './dto/create-order.input';
 import { UpdateOrderInput } from './dto/update-order.input';
 import { orders } from 'src/@generated/orders/orders.model';
@@ -15,6 +15,8 @@ import { PubSubEngine } from 'graphql-subscriptions';
 import { PUB_SUB } from '@modules/pubsub/pubsub.module';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 import { OrderItems } from '@modules/orders_locations/dto/order_items';
+import { FileUpload, GraphQLUpload } from 'graphql-upload-minimal';
+import { DateScalar } from '../../helpers/date.scalar';
 
 @Resolver(() => orders)
 export class OrdersResolver {
@@ -165,5 +167,70 @@ export class OrdersResolver {
   @Permissions('orders.list')
   orderMobilePeriodStat(@CurrentUser() user: users) {
     return this.ordersService.orderMobilePeriodStat(user);
+  }
+
+  @Query(() => String, { name: 'buildRouteForOrders' })
+  buildRouteForOrders(
+    @Args('terminalId', { type: () => String }) terminalId: string,
+    @Args('orderIds', { type: () => [String] }) orderIds: string[],
+  ) {
+    return this.ordersService.buildRouteForOrders(terminalId, orderIds);
+  }
+
+  @Mutation(() => Order, { name: 'cancelOrderByVoice' })
+  @UseGuards(JwtAuthGuard)
+  cancelOrderByVoice(
+    @Args('orderId', { type: () => String }) orderId: string,
+    @Args('orderStatusId', { type: () => String }) orderStatusId: string,
+    @CurrentUser() user: users,
+    @Args('file', { type: () => GraphQLUpload }) file: FileUpload,
+  ) {
+    return this.ordersService.cancelOrderByVoice(orderId, orderStatusId, user, file);
+  }
+
+  @Mutation(() => Order, { name: 'cancelOrderByText' })
+  @UseGuards(JwtAuthGuard)
+  cancelOrderByText(
+    @Args('orderId', { type: () => String }) orderId: string,
+    @Args('orderStatusId', { type: () => String }) orderStatusId: string,
+    @CurrentUser() user: users,
+    @Args('cancelText', { type: () => String }) cancelText: string,
+  ) {
+    return this.ordersService.cancelOrderByText(orderId, orderStatusId, user, cancelText);
+  }
+
+  @Query(() => OrdersHistory, { name: 'myOrdersHistory' })
+  @UseGuards(JwtAuthGuard)
+  myOrdersHistory(
+    @Args('startDate', { type: () => Date }) startDate: Date,
+    @Args('endDate', { type: () => Date }) endDate: Date,
+    @Args('page', { type: () => Int }) page: number,
+    @Args('limit', { type: () => Int }) limit: number,
+    @CurrentUser() user: users,
+  ) {
+    return this.ordersService.myOrdersHistory(startDate, endDate, page, limit, user);
+  }
+
+  @Query(() => OrdersHistory, { name: 'managerPendingOrders' })
+  @UseGuards(JwtAuthGuard)
+  managerPendingOrders(
+    @Args('page', { type: () => Int }) page: number,
+    @Args('limit', { type: () => Int }) limit: number,
+    @CurrentUser() user: users,
+  ) {
+    return this.ordersService.managerPendingOrders(page, limit, user);
+  }
+
+  @Mutation(() => orders, { name: 'assignOrderCourier' })
+  @UseGuards(JwtAuthGuard)
+  async assignOrderCourier(
+    @Args('orderId', { type: () => String }) orderId: string,
+    @Args('courierId', { type: () => String }) courierId: string,
+    @CurrentUser() user: users,
+  ) {
+    const res = await this.ordersService.assignOrderCourier(orderId, courierId, user);
+    await this.pubSub.publish('deletedCurrentOrder', { deletedCurrentOrder: res.existingOrder });
+    await this.pubSub.publish('addedNewCurrentOrder', { addedNewCurrentOrder: res.newOrder });
+    return res.newOrder;
   }
 }

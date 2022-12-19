@@ -42,10 +42,20 @@ import { DateScalar } from './helpers/date.scalar';
 import { FcmModule } from 'nestjs-fcm';
 import { OrderCompleteModule } from './modules/queues/order_complete/order_complete.module';
 import { OrderIndexModule } from './modules/queues/order_index/order_index.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { Upload } from './helpers/upload-scalar';
+import { AsssetsModule } from './modules/asssets/asssets.module';
+import { MediaModule } from './modules/media/media.module';
+import { CourierTerminalBalanceModule } from './modules/courier_terminal_balance/courier_terminal_balance.module';
+import { SystemConfigsModule } from '@modules/system_configs/system_configs.module';
+import { BrandsModule } from './modules/brands/brands.module';
 
 @Global()
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '../../uploads'),
+    }),
     FcmModule.forRoot({
       firebaseSpecsPath: path.join(__dirname, '../src/fcm/config.json'),
     }),
@@ -95,9 +105,11 @@ import { OrderIndexModule } from './modules/queues/order_index/order_index.modul
     RolesPermissionsModule,
     PermissionsModule,
     AuthModule,
+    Upload,
     GraphQLModule.forRoot({
       driver: ApolloDriver,
       autoSchemaFile: '~schema.gql',
+      uploads: false,
       subscriptions: {
         'graphql-ws': true,
         path: '/ws',
@@ -124,6 +136,11 @@ import { OrderIndexModule } from './modules/queues/order_index/order_index.modul
     OrderNewNotificationsModule,
     OrderCompleteModule,
     OrderIndexModule,
+    AsssetsModule,
+    MediaModule,
+    CourierTerminalBalanceModule,
+    SystemConfigsModule,
+    BrandsModule,
   ],
   providers: [
     PrismaService,

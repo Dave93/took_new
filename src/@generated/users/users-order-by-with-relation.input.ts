@@ -24,6 +24,9 @@ import { api_tokensOrderByRelationAggregateInput } from '../api-tokens/api-token
 import { order_votesOrderByRelationAggregateInput } from '../order-votes/order-votes-order-by-relation-aggregate.input';
 import { order_transactionsOrderByRelationAggregateInput } from '../order-transactions/order-transactions-order-by-relation-aggregate.input';
 import { outside_requestsOrderByRelationAggregateInput } from '../outside-requests/outside-requests-order-by-relation-aggregate.input';
+import { courier_terminal_balanceOrderByRelationAggregateInput } from '../courier-terminal-balance/courier-terminal-balance-order-by-relation-aggregate.input';
+import { manager_withdrawOrderByRelationAggregateInput } from '../manager-withdraw/manager-withdraw-order-by-relation-aggregate.input';
+import { timesheetOrderByRelationAggregateInput } from '../timesheet/timesheet-order-by-relation-aggregate.input';
 
 @InputType()
 export class usersOrderByWithRelationInput {
@@ -84,6 +87,9 @@ export class usersOrderByWithRelationInput {
 
     @Field(() => SortOrder, {nullable:true})
     max_active_order_count?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    doc_files?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
     created_at?: keyof typeof SortOrder;
@@ -228,4 +234,22 @@ export class usersOrderByWithRelationInput {
 
     @Field(() => outside_requestsOrderByRelationAggregateInput, {nullable:true})
     outside_requests_updated_byTousers?: outside_requestsOrderByRelationAggregateInput;
+
+    @Field(() => courier_terminal_balanceOrderByRelationAggregateInput, {nullable:true})
+    courier_terminal_balance_couriers?: courier_terminal_balanceOrderByRelationAggregateInput;
+
+    @Field(() => courier_terminal_balanceOrderByRelationAggregateInput, {nullable:true})
+    courier_terminal_balance_created_byTousers?: courier_terminal_balanceOrderByRelationAggregateInput;
+
+    @Field(() => manager_withdrawOrderByRelationAggregateInput, {nullable:true})
+    manager_withdraw_created_byTousers?: manager_withdrawOrderByRelationAggregateInput;
+
+    @Field(() => manager_withdrawOrderByRelationAggregateInput, {nullable:true})
+    manager_withdraw_managers?: manager_withdrawOrderByRelationAggregateInput;
+
+    @Field(() => manager_withdrawOrderByRelationAggregateInput, {nullable:true})
+    manager_withdraw_couriers?: manager_withdrawOrderByRelationAggregateInput;
+
+    @Field(() => timesheetOrderByRelationAggregateInput, {nullable:true})
+    timesheet_users?: timesheetOrderByRelationAggregateInput;
 }

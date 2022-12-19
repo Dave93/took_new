@@ -9,6 +9,8 @@ import { terminalsUncheckedUpdateManyWithoutOrganizationNestedInput } from '../t
 import { order_statusUncheckedUpdateManyWithoutOrder_status_organizationNestedInput } from '../order-status/order-status-unchecked-update-many-without-order-status-organization-nested.input';
 import { ordersUncheckedUpdateManyWithoutOrders_organizationNestedInput } from '../orders/orders-unchecked-update-many-without-orders-organization-nested.input';
 import { api_tokensUncheckedUpdateManyWithoutApi_tokens_organizationNestedInput } from '../api-tokens/api-tokens-unchecked-update-many-without-api-tokens-organization-nested.input';
+import { courier_terminal_balanceUncheckedUpdateManyWithoutCourier_terminal_balance_organizationsNestedInput } from '../courier-terminal-balance/courier-terminal-balance-unchecked-update-many-without-courier-terminal-balance-organizations-nested.input';
+import { manager_withdrawUncheckedUpdateManyWithoutManager_withdraw_organizationsNestedInput } from '../manager-withdraw/manager-withdraw-unchecked-update-many-without-manager-withdraw-organizations-nested.input';
 
 @InputType()
 export class organizationUncheckedUpdateWithoutOrder_transactions_organizationsInput {
@@ -67,6 +69,12 @@ export class organizationUncheckedUpdateWithoutOrder_transactions_organizationsI
     @Field(() => organization_payment_types, {nullable:true})
     payment_type?: keyof typeof organization_payment_types;
 
+    @Field(() => String, {nullable:true})
+    support_chat_url?: string;
+
+    @Field(() => String, {nullable:true})
+    icon_url?: string;
+
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;
 
@@ -96,4 +104,10 @@ export class organizationUncheckedUpdateWithoutOrder_transactions_organizationsI
 
     @Field(() => api_tokensUncheckedUpdateManyWithoutApi_tokens_organizationNestedInput, {nullable:true})
     api_tokens_organization?: api_tokensUncheckedUpdateManyWithoutApi_tokens_organizationNestedInput;
+
+    @Field(() => courier_terminal_balanceUncheckedUpdateManyWithoutCourier_terminal_balance_organizationsNestedInput, {nullable:true})
+    courier_terminal_balance_organizations?: courier_terminal_balanceUncheckedUpdateManyWithoutCourier_terminal_balance_organizationsNestedInput;
+
+    @Field(() => manager_withdrawUncheckedUpdateManyWithoutManager_withdraw_organizationsNestedInput, {nullable:true})
+    manager_withdraw_organizations?: manager_withdrawUncheckedUpdateManyWithoutManager_withdraw_organizationsNestedInput;
 }

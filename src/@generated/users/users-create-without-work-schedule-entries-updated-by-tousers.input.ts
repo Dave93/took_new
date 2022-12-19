@@ -49,6 +49,12 @@ import { order_transactionsCreateNestedManyWithoutOrder_transactions_created_byT
 import { order_transactionsCreateNestedManyWithoutOrder_transactions_couriersInput } from '../order-transactions/order-transactions-create-nested-many-without-order-transactions-couriers.input';
 import { outside_requestsCreateNestedManyWithoutOutside_requests_created_byTousersInput } from '../outside-requests/outside-requests-create-nested-many-without-outside-requests-created-by-tousers.input';
 import { outside_requestsCreateNestedManyWithoutOutside_requests_updated_byTousersInput } from '../outside-requests/outside-requests-create-nested-many-without-outside-requests-updated-by-tousers.input';
+import { courier_terminal_balanceCreateNestedManyWithoutCourier_terminal_balance_couriersInput } from '../courier-terminal-balance/courier-terminal-balance-create-nested-many-without-courier-terminal-balance-couriers.input';
+import { courier_terminal_balanceCreateNestedManyWithoutCourier_terminal_balance_created_byTousersInput } from '../courier-terminal-balance/courier-terminal-balance-create-nested-many-without-courier-terminal-balance-created-by-tousers.input';
+import { manager_withdrawCreateNestedManyWithoutManager_withdraw_created_byTousersInput } from '../manager-withdraw/manager-withdraw-create-nested-many-without-manager-withdraw-created-by-tousers.input';
+import { manager_withdrawCreateNestedManyWithoutManager_withdraw_managersInput } from '../manager-withdraw/manager-withdraw-create-nested-many-without-manager-withdraw-managers.input';
+import { manager_withdrawCreateNestedManyWithoutManager_withdraw_couriersInput } from '../manager-withdraw/manager-withdraw-create-nested-many-without-manager-withdraw-couriers.input';
+import { timesheetCreateNestedManyWithoutTimesheet_usersInput } from '../timesheet/timesheet-create-nested-many-without-timesheet-users.input';
 
 @InputType()
 export class usersCreateWithoutWork_schedule_entries_updated_byTousersInput {
@@ -109,6 +115,9 @@ export class usersCreateWithoutWork_schedule_entries_updated_byTousersInput {
 
     @Field(() => Int, {nullable:true})
     max_active_order_count?: number;
+
+    @Field(() => [String], {nullable:true})
+    doc_files?: Array<string>;
 
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;
@@ -250,4 +259,22 @@ export class usersCreateWithoutWork_schedule_entries_updated_byTousersInput {
 
     @Field(() => outside_requestsCreateNestedManyWithoutOutside_requests_updated_byTousersInput, {nullable:true})
     outside_requests_updated_byTousers?: outside_requestsCreateNestedManyWithoutOutside_requests_updated_byTousersInput;
+
+    @Field(() => courier_terminal_balanceCreateNestedManyWithoutCourier_terminal_balance_couriersInput, {nullable:true})
+    courier_terminal_balance_couriers?: courier_terminal_balanceCreateNestedManyWithoutCourier_terminal_balance_couriersInput;
+
+    @Field(() => courier_terminal_balanceCreateNestedManyWithoutCourier_terminal_balance_created_byTousersInput, {nullable:true})
+    courier_terminal_balance_created_byTousers?: courier_terminal_balanceCreateNestedManyWithoutCourier_terminal_balance_created_byTousersInput;
+
+    @Field(() => manager_withdrawCreateNestedManyWithoutManager_withdraw_created_byTousersInput, {nullable:true})
+    manager_withdraw_created_byTousers?: manager_withdrawCreateNestedManyWithoutManager_withdraw_created_byTousersInput;
+
+    @Field(() => manager_withdrawCreateNestedManyWithoutManager_withdraw_managersInput, {nullable:true})
+    manager_withdraw_managers?: manager_withdrawCreateNestedManyWithoutManager_withdraw_managersInput;
+
+    @Field(() => manager_withdrawCreateNestedManyWithoutManager_withdraw_couriersInput, {nullable:true})
+    manager_withdraw_couriers?: manager_withdrawCreateNestedManyWithoutManager_withdraw_couriersInput;
+
+    @Field(() => timesheetCreateNestedManyWithoutTimesheet_usersInput, {nullable:true})
+    timesheet_users?: timesheetCreateNestedManyWithoutTimesheet_usersInput;
 }

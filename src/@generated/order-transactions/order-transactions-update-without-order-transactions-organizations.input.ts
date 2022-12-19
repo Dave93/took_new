@@ -7,6 +7,7 @@ import { usersUpdateOneWithoutOrder_transactions_created_byTousersNestedInput } 
 import { ordersUpdateOneWithoutOrder_transactions_ordersNestedInput } from '../orders/orders-update-one-without-order-transactions-orders-nested.input';
 import { terminalsUpdateOneRequiredWithoutOrder_transactions_terminalsNestedInput } from '../terminals/terminals-update-one-required-without-order-transactions-terminals-nested.input';
 import { usersUpdateOneRequiredWithoutOrder_transactions_couriersNestedInput } from '../users/users-update-one-required-without-order-transactions-couriers-nested.input';
+import { manager_withdraw_transactionsUpdateManyWithoutManager_withdraw_transactions_transactionNestedInput } from '../manager-withdraw-transactions/manager-withdraw-transactions-update-many-without-manager-withdraw-transactions-transaction-nested.input';
 
 @InputType()
 export class order_transactionsUpdateWithoutOrder_transactions_organizationsInput {
@@ -19,6 +20,9 @@ export class order_transactionsUpdateWithoutOrder_transactions_organizationsInpu
 
     @Field(() => Float, {nullable:true})
     amount?: number;
+
+    @Field(() => Float, {nullable:true})
+    not_paid_amount?: number;
 
     @Field(() => order_transaction_status, {nullable:true})
     status?: keyof typeof order_transaction_status;
@@ -49,4 +53,7 @@ export class order_transactionsUpdateWithoutOrder_transactions_organizationsInpu
 
     @Field(() => usersUpdateOneRequiredWithoutOrder_transactions_couriersNestedInput, {nullable:true})
     order_transactions_couriers?: usersUpdateOneRequiredWithoutOrder_transactions_couriersNestedInput;
+
+    @Field(() => manager_withdraw_transactionsUpdateManyWithoutManager_withdraw_transactions_transactionNestedInput, {nullable:true})
+    manager_withdraw_transactions_transaction?: manager_withdraw_transactionsUpdateManyWithoutManager_withdraw_transactions_transactionNestedInput;
 }
