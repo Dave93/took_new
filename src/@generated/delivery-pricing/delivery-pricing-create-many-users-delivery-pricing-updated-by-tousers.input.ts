@@ -41,6 +41,15 @@ export class delivery_pricingCreateManyUsers_delivery_pricing_updated_byTousersI
     @Field(() => Int, {nullable:true})
     price_per_km?: number;
 
+    @Field(() => GraphQLJSON, {nullable:true})
+    customer_rules?: any;
+
+    @Field(() => Int, {nullable:true})
+    customer_price_per_km?: number;
+
+    @Field(() => Int, {nullable:true})
+    min_distance_km?: number;
+
     @Field(() => String, {nullable:false})
     organization_id!: string;
 

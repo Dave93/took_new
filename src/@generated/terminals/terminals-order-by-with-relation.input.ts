@@ -11,6 +11,7 @@ import { order_votesOrderByRelationAggregateInput } from '../order-votes/order-v
 import { order_transactionsOrderByRelationAggregateInput } from '../order-transactions/order-transactions-order-by-relation-aggregate.input';
 import { courier_terminal_balanceOrderByRelationAggregateInput } from '../courier-terminal-balance/courier-terminal-balance-order-by-relation-aggregate.input';
 import { manager_withdrawOrderByRelationAggregateInput } from '../manager-withdraw/manager-withdraw-order-by-relation-aggregate.input';
+import { order_bonus_pricingOrderByRelationAggregateInput } from '../order-bonus-pricing/order-bonus-pricing-order-by-relation-aggregate.input';
 
 @InputType()
 export class terminalsOrderByWithRelationInput {
@@ -41,6 +42,9 @@ export class terminalsOrderByWithRelationInput {
 
     @Field(() => SortOrder, {nullable:true})
     organization_id?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    manager_name?: keyof typeof SortOrder;
 
     @Field(() => organizationOrderByWithRelationInput, {nullable:true})
     organization?: organizationOrderByWithRelationInput;
@@ -77,4 +81,7 @@ export class terminalsOrderByWithRelationInput {
 
     @Field(() => manager_withdrawOrderByRelationAggregateInput, {nullable:true})
     manager_withdraw_terminals?: manager_withdrawOrderByRelationAggregateInput;
+
+    @Field(() => order_bonus_pricingOrderByRelationAggregateInput, {nullable:true})
+    order_bonus_pricing?: order_bonus_pricingOrderByRelationAggregateInput;
 }

@@ -39,6 +39,12 @@ export class OrdersCountAggregate {
     to_lon!: number;
 
     @Field(() => Int, {nullable:false})
+    wrong_lat!: number;
+
+    @Field(() => Int, {nullable:false})
+    wrong_lon!: number;
+
+    @Field(() => Int, {nullable:false})
     pre_distance!: number;
 
     @Field(() => Int, {nullable:false})
@@ -58,6 +64,9 @@ export class OrdersCountAggregate {
 
     @Field(() => Int, {nullable:false})
     delivery_price!: number;
+
+    @Field(() => Int, {nullable:false})
+    customer_delivery_price!: number;
 
     @Field(() => Int, {nullable:false})
     delivery_address!: number;
@@ -88,6 +97,15 @@ export class OrdersCountAggregate {
 
     @Field(() => Int, {nullable:false})
     cancel_voice_id!: number;
+
+    @Field(() => Int, {nullable:false})
+    operator_notes!: number;
+
+    @Field(() => Int, {nullable:false})
+    delivery_schedule!: number;
+
+    @Field(() => Int, {nullable:false})
+    later_time!: number;
 
     @Field(() => Int, {nullable:false})
     created_at!: number;

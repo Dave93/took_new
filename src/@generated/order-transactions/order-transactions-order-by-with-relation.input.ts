@@ -32,6 +32,12 @@ export class order_transactionsOrderByWithRelationInput {
     amount?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    balance_before?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    balance_after?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     not_paid_amount?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})

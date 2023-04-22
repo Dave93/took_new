@@ -8,6 +8,7 @@ import { SearchService } from '@modules/search/search.service';
 import { ConfigService } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
 import { AsssetsService } from '@modules/asssets/asssets.service';
+import { SystemConfigsService } from '@modules/system_configs/system_configs.service';
 
 @Module({
   imports: [TokenModule, HttpModule],
@@ -18,6 +19,7 @@ import { AsssetsService } from '@modules/asssets/asssets.service';
     CacheControlService,
     ConfigService,
     SearchService,
+    SystemConfigsService,
     AsssetsService,
   ],
 })

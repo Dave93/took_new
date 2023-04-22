@@ -84,9 +84,21 @@ export class usersScalarWhereWithAggregatesInput {
     @Field(() => StringNullableListFilter, {nullable:true})
     doc_files?: StringNullableListFilter;
 
+    @Field(() => DateTimeNullableWithAggregatesFilter, {nullable:true})
+    order_start_date?: DateTimeNullableWithAggregatesFilter;
+
+    @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
+    app_version?: StringNullableWithAggregatesFilter;
+
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     created_at?: DateTimeWithAggregatesFilter;
 
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     updated_at?: DateTimeWithAggregatesFilter;
+
+    @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
+    api_token?: StringNullableWithAggregatesFilter;
+
+    @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
+    tg_id?: StringNullableWithAggregatesFilter;
 }

@@ -1,6 +1,7 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { organizationCreateNestedOneWithoutWork_schedules_organization_idTorganizationInput } from '../organization/organization-create-nested-one-without-work-schedules-organization-id-torganization.input';
+import { Int } from '@nestjs/graphql';
 import { usersCreateNestedOneWithoutWork_schedules_created_byTousersInput } from '../users/users-create-nested-one-without-work-schedules-created-by-tousers.input';
 import { usersCreateNestedOneWithoutWork_schedules_updated_byTousersInput } from '../users/users-create-nested-one-without-work-schedules-updated-by-tousers.input';
 import { users_work_schedulesCreateNestedManyWithoutWork_schedulesInput } from '../users-work-schedules/users-work-schedules-create-nested-many-without-work-schedules.input';
@@ -32,6 +33,9 @@ export class work_schedulesCreateInput {
 
     @Field(() => Date, {nullable:false})
     max_start_time!: Date | string;
+
+    @Field(() => Int, {nullable:true})
+    bonus_price?: number;
 
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;

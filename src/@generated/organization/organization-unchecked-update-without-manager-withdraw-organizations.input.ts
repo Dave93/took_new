@@ -11,6 +11,7 @@ import { ordersUncheckedUpdateManyWithoutOrders_organizationNestedInput } from '
 import { api_tokensUncheckedUpdateManyWithoutApi_tokens_organizationNestedInput } from '../api-tokens/api-tokens-unchecked-update-many-without-api-tokens-organization-nested.input';
 import { order_transactionsUncheckedUpdateManyWithoutOrder_transactions_organizationsNestedInput } from '../order-transactions/order-transactions-unchecked-update-many-without-order-transactions-organizations-nested.input';
 import { courier_terminal_balanceUncheckedUpdateManyWithoutCourier_terminal_balance_organizationsNestedInput } from '../courier-terminal-balance/courier-terminal-balance-unchecked-update-many-without-courier-terminal-balance-organizations-nested.input';
+import { order_bonus_pricingUncheckedUpdateManyWithoutOrganizationNestedInput } from '../order-bonus-pricing/order-bonus-pricing-unchecked-update-many-without-organization-nested.input';
 
 @InputType()
 export class organizationUncheckedUpdateWithoutManager_withdraw_organizationsInput {
@@ -75,6 +76,9 @@ export class organizationUncheckedUpdateWithoutManager_withdraw_organizationsInp
     @Field(() => String, {nullable:true})
     icon_url?: string;
 
+    @Field(() => Boolean, {nullable:true})
+    allow_yandex_delivery?: boolean;
+
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;
 
@@ -110,4 +114,7 @@ export class organizationUncheckedUpdateWithoutManager_withdraw_organizationsInp
 
     @Field(() => courier_terminal_balanceUncheckedUpdateManyWithoutCourier_terminal_balance_organizationsNestedInput, {nullable:true})
     courier_terminal_balance_organizations?: courier_terminal_balanceUncheckedUpdateManyWithoutCourier_terminal_balance_organizationsNestedInput;
+
+    @Field(() => order_bonus_pricingUncheckedUpdateManyWithoutOrganizationNestedInput, {nullable:true})
+    order_bonus_pricing?: order_bonus_pricingUncheckedUpdateManyWithoutOrganizationNestedInput;
 }

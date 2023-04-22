@@ -34,6 +34,9 @@ export class OrderActionsService {
       orderBy: {
         created_at: 'desc',
       },
+      include: {
+        order_actions_created_byTousers: true,
+      },
     });
     return res;
   }

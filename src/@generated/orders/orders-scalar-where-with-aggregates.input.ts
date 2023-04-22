@@ -58,6 +58,12 @@ export class ordersScalarWhereWithAggregatesInput {
     to_lon?: FloatWithAggregatesFilter;
 
     @Field(() => FloatWithAggregatesFilter, {nullable:true})
+    wrong_lat?: FloatWithAggregatesFilter;
+
+    @Field(() => FloatWithAggregatesFilter, {nullable:true})
+    wrong_lon?: FloatWithAggregatesFilter;
+
+    @Field(() => FloatWithAggregatesFilter, {nullable:true})
     pre_distance?: FloatWithAggregatesFilter;
 
     @Field(() => IntWithAggregatesFilter, {nullable:true})
@@ -77,6 +83,9 @@ export class ordersScalarWhereWithAggregatesInput {
 
     @Field(() => FloatWithAggregatesFilter, {nullable:true})
     delivery_price?: FloatWithAggregatesFilter;
+
+    @Field(() => FloatWithAggregatesFilter, {nullable:true})
+    customer_delivery_price?: FloatWithAggregatesFilter;
 
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     delivery_address?: StringWithAggregatesFilter;
@@ -107,6 +116,15 @@ export class ordersScalarWhereWithAggregatesInput {
 
     @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
     cancel_voice_id?: StringNullableWithAggregatesFilter;
+
+    @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
+    operator_notes?: StringNullableWithAggregatesFilter;
+
+    @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
+    delivery_schedule?: StringNullableWithAggregatesFilter;
+
+    @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
+    later_time?: StringNullableWithAggregatesFilter;
 
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     created_at?: DateTimeWithAggregatesFilter;

@@ -5,6 +5,7 @@ import { BoolFilter } from '../prisma/bool-filter.input';
 import { OrganizationRelationFilter } from '../prisma/organization-relation-filter.input';
 import { StringNullableListFilter } from '../prisma/string-nullable-list-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
+import { IntFilter } from '../prisma/int-filter.input';
 import { StringNullableFilter } from '../prisma/string-nullable-filter.input';
 import { UsersRelationFilter } from '../prisma/users-relation-filter.input';
 import { Users_work_schedulesListRelationFilter } from '../prisma/users-work-schedules-list-relation-filter.input';
@@ -48,6 +49,9 @@ export class work_schedulesWhereInput {
 
     @Field(() => DateTimeFilter, {nullable:true})
     max_start_time?: DateTimeFilter;
+
+    @Field(() => IntFilter, {nullable:true})
+    bonus_price?: IntFilter;
 
     @Field(() => DateTimeFilter, {nullable:true})
     created_at?: DateTimeFilter;

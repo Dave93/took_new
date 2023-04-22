@@ -53,6 +53,12 @@ export class orders {
     to_lon!: number;
 
     @Field(() => Float, {nullable:false,defaultValue:0})
+    wrong_lat!: number;
+
+    @Field(() => Float, {nullable:false,defaultValue:0})
+    wrong_lon!: number;
+
+    @Field(() => Float, {nullable:false,defaultValue:0})
     pre_distance!: number;
 
     @Field(() => Int, {nullable:false,defaultValue:0})
@@ -72,6 +78,9 @@ export class orders {
 
     @Field(() => Float, {nullable:false,defaultValue:0})
     delivery_price!: number;
+
+    @Field(() => Float, {nullable:false,defaultValue:0})
+    customer_delivery_price!: number;
 
     @Field(() => String, {nullable:false})
     delivery_address!: string;
@@ -102,6 +111,15 @@ export class orders {
 
     @Field(() => String, {nullable:true})
     cancel_voice_id!: string | null;
+
+    @Field(() => String, {nullable:true})
+    operator_notes!: string | null;
+
+    @Field(() => String, {nullable:true})
+    delivery_schedule!: string | null;
+
+    @Field(() => String, {nullable:true})
+    later_time!: string | null;
 
     @Field(() => Date, {nullable:false})
     created_at!: Date;

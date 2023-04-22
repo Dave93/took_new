@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Args, Int, Subscription, Context, Float } from '@nestjs/graphql';
 import { OrdersService } from './orders.service';
-import { Order, OrderMobilePeriodStat, OrdersHistory } from './entities/order.entity';
+import { MissedOrderEntity, Order, OrderMobilePeriodStat, OrdersHistory } from './entities/order.entity';
 import { CreateOrderInput } from './dto/create-order.input';
 import { UpdateOrderInput } from './dto/update-order.input';
 import { orders } from 'src/@generated/orders/orders.model';
@@ -17,6 +17,19 @@ import { RedisPubSub } from 'graphql-redis-subscriptions';
 import { OrderItems } from '@modules/orders_locations/dto/order_items';
 import { FileUpload, GraphQLUpload } from 'graphql-upload-minimal';
 import { DateScalar } from '../../helpers/date.scalar';
+import {
+  CourierEfficiencyReportItem,
+  CourierEfficiencyReportPerDayItem,
+  GarantReportItem,
+} from '@modules/orders/dto/garant_report_item';
+import { manager_withdraw } from '../../@generated/manager-withdraw/manager-withdraw.model';
+import {
+  FindManynotificationsArgs,
+  notificationsWhereInput,
+} from '@modules/notifications/dto/find-many-notifications-args';
+import { Notification } from '@modules/notifications/entities/notification.entity';
+import { FindManymissedOrdersArgs, missedOrdersWhereInput } from '@modules/orders/dto/find-many-missed0orders-args';
+import { scheduled_reports_subscription } from '../../@generated/scheduled-reports-subscription/scheduled-reports-subscription.model';
 
 @Resolver(() => orders)
 export class OrdersResolver {
@@ -29,14 +42,16 @@ export class OrdersResolver {
 
   @Query(() => PrismaAggregateCount, { name: 'ordersConnection' })
   @Permissions('orders.list')
-  ordersConnection(@Args('where') where: ordersWhereInput) {
-    return this.ordersService.ordersConnection(where);
+  @UseGuards(JwtAuthGuard)
+  ordersConnection(@Args('where') where: ordersWhereInput, @CurrentUser() user: users) {
+    return this.ordersService.ordersConnection(where, user);
   }
 
   @Query(() => [orders], { name: 'orders' })
   @Permissions('orders.list')
-  findAll(@Args() params: FindManyordersArgs) {
-    return this.ordersService.findAll(params);
+  @UseGuards(JwtAuthGuard)
+  findAll(@Args() params: FindManyordersArgs, @CurrentUser() user: users) {
+    return this.ordersService.findAll(params, user);
   }
 
   @Query(() => orders, { name: 'order' })
@@ -63,13 +78,23 @@ export class OrdersResolver {
 
   @Mutation(() => orders, { name: 'changeOrderCourier' })
   @Permissions('orders.changeCourier')
+  @UseGuards(JwtAuthGuard)
   async changeOrderCourier(
     @Args('orderId', { type: () => String }) orderId: string,
     @Args('courierId', { type: () => String }) courierId: string,
+    @CurrentUser() user: users,
   ) {
-    const res = await this.ordersService.changeOrderCourier(orderId, courierId);
+    const res = await this.ordersService.changeOrderCourier(orderId, courierId, user);
     await this.pubSub.publish('deletedCurrentOrder', { deletedCurrentOrder: res.existingOrder });
     await this.pubSub.publish('addedNewCurrentOrder', { addedNewCurrentOrder: res.newOrder });
+    return res.newOrder;
+  }
+  @Mutation(() => orders, { name: 'clearCourier' })
+  @Permissions('orders.clear_courier')
+  @UseGuards(JwtAuthGuard)
+  async clearCourier(@Args('orderId', { type: () => String }) orderId: string, @CurrentUser() user: users) {
+    const res = await this.ordersService.clearCourier(orderId, user);
+    await this.pubSub.publish('deletedCurrentOrder', { deletedCurrentOrder: res.existingOrder });
     return res.newOrder;
   }
 
@@ -149,11 +174,29 @@ export class OrdersResolver {
     return this.ordersService.changeMultipleOrderStatus(orderIds, orderStatusId);
   }
 
+  @Mutation(() => Boolean)
+  @Permissions('orders.change_multiple_status')
+  changeMultipleOrderStatusByPeriod(
+    @Args('startDate', { type: () => Date }) startDate: Date,
+    @Args('endDate', { type: () => Date }) endDate: Date,
+    @Args('organizationId', { type: () => String }) organizationId: string,
+    @Args('orderStatusId', { type: () => String }) orderStatusId: string,
+  ) {
+    return this.ordersService.changeMultipleOrderStatusByPeriod(startDate, endDate, organizationId, orderStatusId);
+  }
+
   @Query(() => [Order], { name: 'myNewOrders' })
   @UseGuards(JwtAuthGuard)
   @Permissions('orders.list')
   myNewOrders(@CurrentUser() user: users) {
     return this.ordersService.myNewOrders(user);
+  }
+
+  @Query(() => [Order], { name: 'myNewOrdersRouted' })
+  @UseGuards(JwtAuthGuard)
+  @Permissions('orders.list')
+  myNewOrdersRouted(@CurrentUser() user: users) {
+    return this.ordersService.myNewOrdersRouted(user);
   }
 
   @Mutation(() => Order, { name: 'approveOrder' })
@@ -232,5 +275,236 @@ export class OrdersResolver {
     await this.pubSub.publish('deletedCurrentOrder', { deletedCurrentOrder: res.existingOrder });
     await this.pubSub.publish('addedNewCurrentOrder', { addedNewCurrentOrder: res.newOrder });
     return res.newOrder;
+  }
+
+  @Mutation(() => orders, { name: 'updateOrderStatus' })
+  @Permissions('orders.edit')
+  @UseGuards(JwtAuthGuard)
+  async updateOrderStatus(
+    @Args('orderId', { type: () => String }) orderId: string,
+    @Args('orderStatusId', { type: () => String }) orderStatusId: string,
+    @CurrentUser() user: users,
+  ) {
+    const res = await this.ordersService.updateOrderStatus(orderId, orderStatusId, user);
+    await this.pubSub.publish('deletedCurrentOrder', { deletedCurrentOrder: res });
+    await this.pubSub.publish('addedNewCurrentOrder', { addedNewCurrentOrder: res });
+    return res;
+  }
+
+  @Mutation(() => Boolean, { name: 'fixBalancesByDate' })
+  @Permissions('orders.edit')
+  @UseGuards(JwtAuthGuard)
+  async fixBalancesByDate(
+    @Args('startDate', { type: () => Date }) startDate: Date,
+    @Args('endDate', { type: () => Date }) endDate: Date,
+    @CurrentUser() user: users,
+  ) {
+    return await this.ordersService.fixBalancesByDate(startDate, endDate, user);
+  }
+  @Mutation(() => Boolean, { name: 'fixOrderIndex' })
+  @Permissions('orders.edit')
+  @UseGuards(JwtAuthGuard)
+  async fixOrderIndex(
+    @Args('startDate', { type: () => Date }) startDate: Date,
+    @Args('endDate', { type: () => Date }) endDate: Date,
+    @CurrentUser() user: users,
+  ) {
+    return await this.ordersService.fixOrderIndex(startDate, endDate, user);
+  }
+
+  @Query(() => String, { name: 'getDeliveryMapType' })
+  @Permissions('orders.list')
+  async getDeliveryMapType(@Args('order_id', { type: () => String }) orderId: string) {
+    const res = await this.ordersService.getDeliveryMapType(orderId);
+    return res;
+  }
+
+  @Query(() => [GarantReportItem], { name: 'calculateGarant' })
+  @Permissions('orders_garant_report.list')
+  async calculateGarant(
+    @Args('startDate', { type: () => Date }) startDate: Date,
+    @Args('endDate', { type: () => Date }) endDate: Date,
+    @CurrentUser() user: users,
+    @Args('courier_id', { type: () => [String], nullable: true }) courierId?: string[],
+    @Args('terminal_id', { type: () => [String], nullable: true }) terminalId?: string[],
+    @Args('walletEndDate', { type: () => Date, nullable: true }) walletEndDate?: Date,
+  ) {
+    return await this.ordersService.calculateGarant(startDate, endDate, user, courierId, terminalId, walletEndDate);
+  }
+
+  @Query(() => GarantReportItem, { name: 'calculateGarantByCourier' })
+  @UseGuards(JwtAuthGuard)
+  async calculateGarantByCourier(
+    @Args('startDate', { type: () => Date }) startDate: Date,
+    @Args('endDate', { type: () => Date }) endDate: Date,
+    @CurrentUser() user: users,
+  ) {
+    return await this.ordersService.calculateGarantByCourier(startDate, endDate, user);
+  }
+
+  @Query(() => [Order], { name: 'mySuccessOrders' })
+  @UseGuards(JwtAuthGuard)
+  async mySuccessOrders(
+    @Args('startDate', { type: () => Date }) startDate: Date,
+    @Args('endDate', { type: () => Date }) endDate: Date,
+    @CurrentUser() user: users,
+  ) {
+    return await this.ordersService.mySuccessOrders(startDate, endDate, user);
+  }
+
+  @Query(() => [manager_withdraw], { name: 'courierWithdraws' })
+  @UseGuards(JwtAuthGuard)
+  async courierWithdraws(
+    @Args('startDate', { type: () => Date }) startDate: Date,
+    @Args('endDate', { type: () => Date }) endDate: Date,
+    @CurrentUser() user: users,
+  ) {
+    return await this.ordersService.courierWithdraws(startDate, endDate, user);
+  }
+
+  @Mutation(() => Boolean, { name: 'addOrderNotes' })
+  @Permissions('orders.edit')
+  @UseGuards(JwtAuthGuard)
+  async addOrderNotes(
+    @Args('orderId', { type: () => String }) orderId: string,
+    @Args('notes', { type: () => String }) notes: string,
+    @CurrentUser() user: users,
+  ) {
+    return await this.ordersService.addOrderNotes(orderId, notes, user);
+  }
+
+  @Query(() => [CourierEfficiencyReportItem], { name: 'getCouriersEfficiency' })
+  @Permissions('courier_efficiency.list')
+  async getCouriersEfficiency(
+    @Args('startDate', { type: () => Date }) startDate: Date,
+    @Args('endDate', { type: () => Date }) endDate: Date,
+    @CurrentUser() user: users,
+    @Args('status', { type: () => [String], nullable: true }) status: string[],
+    @Args('courier_id', { type: () => [String], nullable: true }) courierId?: string[],
+    @Args('terminal_id', { type: () => [String], nullable: true }) terminalId?: string[],
+  ) {
+    return await this.ordersService.getCouriersEfficiency(startDate, endDate, user, status, courierId, terminalId);
+  }
+
+  @Query(() => [CourierEfficiencyReportPerDayItem], { name: 'getCouriersEfficiencyByPeriod' })
+  @Permissions('courier_efficiency.list')
+  async getCouriersEfficiencyByPeriod(
+    @Args('startDate', { type: () => Date }) startDate: Date,
+    @Args('endDate', { type: () => Date }) endDate: Date,
+    @Args('courierId', { type: () => String }) courierId: string,
+    @CurrentUser() user: users,
+  ) {
+    return await this.ordersService.getCouriersEfficiencyByPeriod(startDate, endDate, courierId, user);
+  }
+  @Query(() => [CourierEfficiencyReportPerDayItem], { name: 'getCouriersEfficiencyByHour' })
+  @Permissions('courier_efficiency.list')
+  async getCouriersEfficiencyByHour(
+    @Args('startDate', { type: () => Date }) startDate: Date,
+    @Args('endDate', { type: () => Date }) endDate: Date,
+    @Args('courierId', { type: () => String }) courierId: string,
+    @CurrentUser() user: users,
+  ) {
+    return await this.ordersService.getCouriersEfficiencyByHour(startDate, endDate, courierId, user);
+  }
+
+  // @Mutation(() => Boolean, { name: 'sendOperatorNotification' })
+  // @UseGuards(JwtAuthGuard)
+  // sendOperatorNotification(@Args('message', { type: () => String }) message: string, @CurrentUser() user: users) {
+  //   return this.ordersService.sendOperatorNotification(message, user);
+  // }
+
+  @Query(() => PrismaAggregateCount, { name: 'missedOrdersConnection' })
+  @Permissions('orders.list')
+  @UseGuards(JwtAuthGuard)
+  missedOrdersConnection(@Args('where') where: missedOrdersWhereInput, @CurrentUser() user: users) {
+    return this.ordersService.missedOrdersConnection(where, user);
+  }
+
+  @Query(() => [MissedOrderEntity], { name: 'missedOrders' })
+  @Permissions('orders.list')
+  findAllMissedOrders(@Args() params: FindManymissedOrdersArgs) {
+    return this.ordersService.findAllMissedOrders(params);
+  }
+
+  @Mutation(() => Boolean, { name: 'updateMissedOrder' })
+  @Permissions('orders.edit')
+  @UseGuards(JwtAuthGuard)
+  async updateMissedOrder(
+    @Args('id', { type: () => String }) id: string,
+    @Args('status', { type: () => String }) status: string,
+    @CurrentUser() user: users,
+  ) {
+    return await this.ordersService.updateMissedOrder(id, status, user);
+  }
+
+  @Mutation(() => Boolean, { name: 'sendOrderToYandex' })
+  @Permissions('orders.edit')
+  @UseGuards(JwtAuthGuard)
+  async sendOrderToYandex(@Args('id', { type: () => String }) id: string, @CurrentUser() user: users) {
+    return await this.ordersService.sendOrderToYandex(id, user);
+  }
+
+  @Mutation(() => Boolean, { name: 'checkPriceOrderToYandex' })
+  @Permissions('orders.edit')
+  @UseGuards(JwtAuthGuard)
+  async checkPriceOrderToYandex(@Args('id', { type: () => String }) id: string, @CurrentUser() user: users) {
+    return await this.ordersService.checkPriceOrderToYandex(id, user);
+  }
+
+  @Mutation(() => scheduled_reports_subscription, { name: 'subscribeToReports' })
+  async subscribeToReports(
+    @Args('apiToken', { type: () => String }) apiToken: string,
+    @Args('reportType', { type: () => String }) reportType: string,
+    @Args('action', { type: () => String }) action: string,
+  ) {
+    return await this.ordersService.subscribeToReports(apiToken, reportType, action);
+  }
+
+  @Mutation(() => Boolean, { name: 'cancelOrderToYandex' })
+  @Permissions('orders.edit')
+  @UseGuards(JwtAuthGuard)
+  async cancelOrderToYandex(@Args('id', { type: () => String }) id: string, @CurrentUser() user: users) {
+    return await this.ordersService.cancelOrderToYandex(id);
+  }
+
+  // @Mutation(() => Boolean, { name: 'checkYandexDeliveryOrderStatus' })
+  // @Permissions('orders.edit')
+  // @UseGuards(JwtAuthGuard)
+  // async checkYandexDeliveryOrderStatus() {
+  //   return await this.ordersService.checkYandexDeliveryOrderStatus();
+  // }
+
+  // @Mutation(() => Boolean, { name: 'sendReports' })
+  // @Permissions('orders.edit')
+  // @UseGuards(JwtAuthGuard)
+  // async sendReports() {
+  //   return await this.ordersService.sendReports();
+  // }
+
+  @Mutation(() => Boolean, { name: 'sendOperatorNotificationOfNewOrder' })
+  @Permissions('orders.edit')
+  async sendOperatorNotificationOfNewOrder() {
+    return await this.ordersService.sendOperatorNotificationOfNewOrder();
+  }
+
+  @Mutation(() => Boolean, { name: 'incrementOrderLocations' })
+  @Permissions('orders.edit')
+  @UseGuards(JwtAuthGuard)
+  async incrementOrderLocations() {
+    return await this.ordersService.incrementOrderLocations();
+  }
+
+  @Mutation(() => Boolean, { name: 'deleteOrderLocationWithoutOrder' })
+  @Permissions('orders.edit')
+  @UseGuards(JwtAuthGuard)
+  async deleteOrderLocationWithoutOrder() {
+    return await this.ordersService.deleteOrderLocationWithoutOrder();
+  }
+
+  @Mutation(() => Boolean, { name: 'sendDavrNotification' })
+  @Permissions('orders.edit')
+  @UseGuards(JwtAuthGuard)
+  async sendDavrNotification() {
+    return await this.ordersService.sendDavrNotification();
   }
 }

@@ -9,6 +9,7 @@ export enum Work_schedulesScalarFieldEnum {
     start_time = "start_time",
     end_time = "end_time",
     max_start_time = "max_start_time",
+    bonus_price = "bonus_price",
     created_at = "created_at",
     updated_at = "updated_at",
     created_by = "created_by",

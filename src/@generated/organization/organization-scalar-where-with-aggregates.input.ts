@@ -80,6 +80,9 @@ export class organizationScalarWhereWithAggregatesInput {
     @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
     icon_url?: StringNullableWithAggregatesFilter;
 
+    @Field(() => BoolWithAggregatesFilter, {nullable:true})
+    allow_yandex_delivery?: BoolWithAggregatesFilter;
+
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     created_at?: DateTimeWithAggregatesFilter;
 

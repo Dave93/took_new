@@ -41,6 +41,12 @@ export class order_transactionsScalarWhereWithAggregatesInput {
     amount?: FloatWithAggregatesFilter;
 
     @Field(() => FloatWithAggregatesFilter, {nullable:true})
+    balance_before?: FloatWithAggregatesFilter;
+
+    @Field(() => FloatWithAggregatesFilter, {nullable:true})
+    balance_after?: FloatWithAggregatesFilter;
+
+    @Field(() => FloatWithAggregatesFilter, {nullable:true})
     not_paid_amount?: FloatWithAggregatesFilter;
 
     @Field(() => Enumorder_transaction_statusWithAggregatesFilter, {nullable:true})

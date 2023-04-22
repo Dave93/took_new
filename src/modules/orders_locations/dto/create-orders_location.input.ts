@@ -7,4 +7,7 @@ export class CreateOrdersLocationInput {
 
   @Field(() => Float, { description: 'Longitude' })
   longitude: number;
+
+  @Field(() => String, { description: 'appVersion', nullable: true })
+  appVersion?: string;
 }

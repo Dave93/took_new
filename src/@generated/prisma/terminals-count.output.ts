@@ -31,4 +31,7 @@ export class TerminalsCount {
 
     @Field(() => Int, {nullable:false})
     manager_withdraw_terminals!: number;
+
+    @Field(() => Int, {nullable:false})
+    order_bonus_pricing!: number;
 }

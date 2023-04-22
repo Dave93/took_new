@@ -2,6 +2,7 @@ import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
 import { ID } from '@nestjs/graphql';
 import { organization } from '../organization/organization.model';
+import { Int } from '@nestjs/graphql';
 import { users } from '../users/users.model';
 import { users_work_schedules } from '../users-work-schedules/users-work-schedules.model';
 import { work_schedule_entries } from '../work-schedule-entries/work-schedule-entries.model';
@@ -36,6 +37,9 @@ export class work_schedules {
 
     @Field(() => Date, {nullable:false})
     max_start_time!: Date;
+
+    @Field(() => Int, {nullable:false,defaultValue:0})
+    bonus_price!: number;
 
     @Field(() => Date, {nullable:false})
     created_at!: Date;

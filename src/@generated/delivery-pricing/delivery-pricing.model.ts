@@ -45,6 +45,15 @@ export class delivery_pricing {
     @Field(() => Int, {nullable:false,defaultValue:0})
     price_per_km!: number;
 
+    @Field(() => GraphQLJSON, {nullable:true})
+    customer_rules!: any | null;
+
+    @Field(() => Int, {nullable:false,defaultValue:0})
+    customer_price_per_km!: number;
+
+    @Field(() => Int, {nullable:false,defaultValue:0})
+    min_distance_km!: number;
+
     @Field(() => String, {nullable:false})
     organization_id!: string;
 

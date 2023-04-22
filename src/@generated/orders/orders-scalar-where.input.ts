@@ -58,6 +58,12 @@ export class ordersScalarWhereInput {
     to_lon?: FloatFilter;
 
     @Field(() => FloatFilter, {nullable:true})
+    wrong_lat?: FloatFilter;
+
+    @Field(() => FloatFilter, {nullable:true})
+    wrong_lon?: FloatFilter;
+
+    @Field(() => FloatFilter, {nullable:true})
     pre_distance?: FloatFilter;
 
     @Field(() => IntFilter, {nullable:true})
@@ -77,6 +83,9 @@ export class ordersScalarWhereInput {
 
     @Field(() => FloatFilter, {nullable:true})
     delivery_price?: FloatFilter;
+
+    @Field(() => FloatFilter, {nullable:true})
+    customer_delivery_price?: FloatFilter;
 
     @Field(() => StringFilter, {nullable:true})
     delivery_address?: StringFilter;
@@ -107,6 +116,15 @@ export class ordersScalarWhereInput {
 
     @Field(() => StringNullableFilter, {nullable:true})
     cancel_voice_id?: StringNullableFilter;
+
+    @Field(() => StringNullableFilter, {nullable:true})
+    operator_notes?: StringNullableFilter;
+
+    @Field(() => StringNullableFilter, {nullable:true})
+    delivery_schedule?: StringNullableFilter;
+
+    @Field(() => StringNullableFilter, {nullable:true})
+    later_time?: StringNullableFilter;
 
     @Field(() => DateTimeFilter, {nullable:true})
     created_at?: DateTimeFilter;

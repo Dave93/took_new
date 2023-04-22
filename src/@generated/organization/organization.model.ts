@@ -14,6 +14,7 @@ import { api_tokens } from '../api-tokens/api-tokens.model';
 import { order_transactions } from '../order-transactions/order-transactions.model';
 import { courier_terminal_balance } from '../courier-terminal-balance/courier-terminal-balance.model';
 import { manager_withdraw } from '../manager-withdraw/manager-withdraw.model';
+import { order_bonus_pricing } from '../order-bonus-pricing/order-bonus-pricing.model';
 import { OrganizationCount } from '../prisma/organization-count.output';
 
 @ObjectType()
@@ -79,6 +80,9 @@ export class organization {
     @Field(() => String, {nullable:true})
     icon_url!: string | null;
 
+    @Field(() => Boolean, {nullable:false,defaultValue:false})
+    allow_yandex_delivery!: boolean;
+
     @Field(() => Date, {nullable:false})
     created_at!: Date;
 
@@ -123,6 +127,9 @@ export class organization {
 
     @Field(() => [manager_withdraw], {nullable:true})
     manager_withdraw_organizations?: Array<manager_withdraw>;
+
+    @Field(() => [order_bonus_pricing], {nullable:true})
+    order_bonus_pricing?: Array<order_bonus_pricing>;
 
     @Field(() => OrganizationCount, {nullable:false})
     _count?: OrganizationCount;

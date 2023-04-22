@@ -14,6 +14,9 @@ export class OrdersLocationEntity {
   @Field(() => String, { description: 'Order Id' })
   order_id: string;
 
+  @Field(() => String, { description: 'Order Status Id' })
+  order_status_id: string;
+
   @Field(() => String, { description: 'Terminal Id' })
   terminal_id: string;
 
@@ -25,4 +28,10 @@ export class OrdersLocationEntity {
 
   @Field(() => Location, { description: 'Location' })
   location: Location;
+
+  @Field(() => String, { description: 'Status Color', nullable: true })
+  status_color: string;
+
+  @Field(() => String, { description: 'Status Name', nullable: true })
+  status_name: string;
 }

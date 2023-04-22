@@ -48,7 +48,7 @@ export class OrderStatusResolver {
 
   @Mutation(() => order_status)
   @Permissions('order_status.edit')
-  updateOrderStatus(@Args() updateOrderStatusInput: UpdateOneorderStatusArgs) {
+  updateOneOrderStatus(@Args() updateOrderStatusInput: UpdateOneorderStatusArgs) {
     return this.orderStatusService.update(updateOrderStatusInput);
   }
 

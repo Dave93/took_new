@@ -1,6 +1,9 @@
 import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
+import { Int } from '@nestjs/graphql';
 import { Work_schedulesCountAggregate } from './work-schedules-count-aggregate.output';
+import { Work_schedulesAvgAggregate } from './work-schedules-avg-aggregate.output';
+import { Work_schedulesSumAggregate } from './work-schedules-sum-aggregate.output';
 import { Work_schedulesMinAggregate } from './work-schedules-min-aggregate.output';
 import { Work_schedulesMaxAggregate } from './work-schedules-max-aggregate.output';
 
@@ -31,6 +34,9 @@ export class Work_schedulesGroupBy {
     @Field(() => Date, {nullable:false})
     max_start_time!: Date | string;
 
+    @Field(() => Int, {nullable:false})
+    bonus_price!: number;
+
     @Field(() => Date, {nullable:false})
     created_at!: Date | string;
 
@@ -45,6 +51,12 @@ export class Work_schedulesGroupBy {
 
     @Field(() => Work_schedulesCountAggregate, {nullable:true})
     _count?: Work_schedulesCountAggregate;
+
+    @Field(() => Work_schedulesAvgAggregate, {nullable:true})
+    _avg?: Work_schedulesAvgAggregate;
+
+    @Field(() => Work_schedulesSumAggregate, {nullable:true})
+    _sum?: Work_schedulesSumAggregate;
 
     @Field(() => Work_schedulesMinAggregate, {nullable:true})
     _min?: Work_schedulesMinAggregate;

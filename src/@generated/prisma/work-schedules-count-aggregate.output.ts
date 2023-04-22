@@ -30,6 +30,9 @@ export class Work_schedulesCountAggregate {
     max_start_time!: number;
 
     @Field(() => Int, {nullable:false})
+    bonus_price!: number;
+
+    @Field(() => Int, {nullable:false})
     created_at!: number;
 
     @Field(() => Int, {nullable:false})

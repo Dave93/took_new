@@ -42,7 +42,18 @@ export class WorkSchedulesService {
   }
 
   async update(updateWorkScheduleInput: UpdateOneworkSchedulesArgs) {
-    let res = await this.prismaService.work_schedules.update(updateWorkScheduleInput);
+    if (updateWorkScheduleInput.data) {
+      if (updateWorkScheduleInput.data.start_time) {
+        updateWorkScheduleInput.data.start_time = new Date(updateWorkScheduleInput.data.start_time);
+      }
+      if (updateWorkScheduleInput.data.end_time) {
+        updateWorkScheduleInput.data.end_time = new Date(updateWorkScheduleInput.data.end_time);
+      }
+      if (updateWorkScheduleInput.data.max_start_time) {
+        updateWorkScheduleInput.data.max_start_time = new Date(updateWorkScheduleInput.data.max_start_time);
+      }
+    }
+    const res = await this.prismaService.work_schedules.update(updateWorkScheduleInput);
     await this.cacheControl.cacheWorkSchedules();
     return res;
   }

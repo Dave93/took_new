@@ -10,6 +10,7 @@ import { delivery_pricingUpdateManyWithoutTerminalNestedInput } from '../deliver
 import { order_votesUpdateManyWithoutOrder_votes_terminalsNestedInput } from '../order-votes/order-votes-update-many-without-order-votes-terminals-nested.input';
 import { order_transactionsUpdateManyWithoutOrder_transactions_terminalsNestedInput } from '../order-transactions/order-transactions-update-many-without-order-transactions-terminals-nested.input';
 import { manager_withdrawUpdateManyWithoutManager_withdraw_terminalsNestedInput } from '../manager-withdraw/manager-withdraw-update-many-without-manager-withdraw-terminals-nested.input';
+import { order_bonus_pricingUpdateManyWithoutTerminalsNestedInput } from '../order-bonus-pricing/order-bonus-pricing-update-many-without-terminals-nested.input';
 
 @InputType()
 export class terminalsUpdateWithoutCourier_terminal_balance_terminalsInput {
@@ -37,6 +38,9 @@ export class terminalsUpdateWithoutCourier_terminal_balance_terminalsInput {
 
     @Field(() => String, {nullable:true})
     external_id?: string;
+
+    @Field(() => String, {nullable:true})
+    manager_name?: string;
 
     @Field(() => organizationUpdateOneRequiredWithoutTerminals_organization_idTorganizationNestedInput, {nullable:true})
     organization?: organizationUpdateOneRequiredWithoutTerminals_organization_idTorganizationNestedInput;
@@ -70,4 +74,7 @@ export class terminalsUpdateWithoutCourier_terminal_balance_terminalsInput {
 
     @Field(() => manager_withdrawUpdateManyWithoutManager_withdraw_terminalsNestedInput, {nullable:true})
     manager_withdraw_terminals?: manager_withdrawUpdateManyWithoutManager_withdraw_terminalsNestedInput;
+
+    @Field(() => order_bonus_pricingUpdateManyWithoutTerminalsNestedInput, {nullable:true})
+    order_bonus_pricing?: order_bonus_pricingUpdateManyWithoutTerminalsNestedInput;
 }

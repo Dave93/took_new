@@ -37,6 +37,8 @@ import { Outside_requestsListRelationFilter } from '../prisma/outside-requests-l
 import { Courier_terminal_balanceListRelationFilter } from '../prisma/courier-terminal-balance-list-relation-filter.input';
 import { Manager_withdrawListRelationFilter } from '../prisma/manager-withdraw-list-relation-filter.input';
 import { TimesheetListRelationFilter } from '../prisma/timesheet-list-relation-filter.input';
+import { Scheduled_reports_subscriptionListRelationFilter } from '../prisma/scheduled-reports-subscription-list-relation-filter.input';
+import { Order_bonus_pricingListRelationFilter } from '../prisma/order-bonus-pricing-list-relation-filter.input';
 
 @InputType()
 export class usersWhereInput {
@@ -110,6 +112,12 @@ export class usersWhereInput {
     @Field(() => StringNullableListFilter, {nullable:true})
     doc_files?: StringNullableListFilter;
 
+    @Field(() => DateTimeNullableFilter, {nullable:true})
+    order_start_date?: DateTimeNullableFilter;
+
+    @Field(() => StringNullableFilter, {nullable:true})
+    app_version?: StringNullableFilter;
+
     @Field(() => DateTimeFilter, {nullable:true})
     created_at?: DateTimeFilter;
 
@@ -118,6 +126,12 @@ export class usersWhereInput {
 
     @Field(() => OtpListRelationFilter, {nullable:true})
     otp?: OtpListRelationFilter;
+
+    @Field(() => StringNullableFilter, {nullable:true})
+    api_token?: StringNullableFilter;
+
+    @Field(() => StringNullableFilter, {nullable:true})
+    tg_id?: StringNullableFilter;
 
     @Field(() => PermissionsListRelationFilter, {nullable:true})
     permissions_permissions_created_byTousers?: PermissionsListRelationFilter;
@@ -271,4 +285,16 @@ export class usersWhereInput {
 
     @Field(() => TimesheetListRelationFilter, {nullable:true})
     timesheet_users?: TimesheetListRelationFilter;
+
+    @Field(() => Scheduled_reports_subscriptionListRelationFilter, {nullable:true})
+    scheduled_reports_subscription_users?: Scheduled_reports_subscriptionListRelationFilter;
+
+    @Field(() => Order_bonus_pricingListRelationFilter, {nullable:true})
+    order_bonus_pricing_created_byTousers?: Order_bonus_pricingListRelationFilter;
+
+    @Field(() => Order_bonus_pricingListRelationFilter, {nullable:true})
+    order_bonus_pricing_updated_byTousers?: Order_bonus_pricingListRelationFilter;
+
+    @Field(() => Order_bonus_pricingListRelationFilter, {nullable:true})
+    order_bonus_pricing_courier_idTusers?: Order_bonus_pricingListRelationFilter;
 }

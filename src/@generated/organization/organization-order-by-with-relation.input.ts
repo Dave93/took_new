@@ -11,6 +11,7 @@ import { api_tokensOrderByRelationAggregateInput } from '../api-tokens/api-token
 import { order_transactionsOrderByRelationAggregateInput } from '../order-transactions/order-transactions-order-by-relation-aggregate.input';
 import { courier_terminal_balanceOrderByRelationAggregateInput } from '../courier-terminal-balance/courier-terminal-balance-order-by-relation-aggregate.input';
 import { manager_withdrawOrderByRelationAggregateInput } from '../manager-withdraw/manager-withdraw-order-by-relation-aggregate.input';
+import { order_bonus_pricingOrderByRelationAggregateInput } from '../order-bonus-pricing/order-bonus-pricing-order-by-relation-aggregate.input';
 
 @InputType()
 export class organizationOrderByWithRelationInput {
@@ -76,6 +77,9 @@ export class organizationOrderByWithRelationInput {
     icon_url?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    allow_yandex_delivery?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     created_at?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
@@ -119,4 +123,7 @@ export class organizationOrderByWithRelationInput {
 
     @Field(() => manager_withdrawOrderByRelationAggregateInput, {nullable:true})
     manager_withdraw_organizations?: manager_withdrawOrderByRelationAggregateInput;
+
+    @Field(() => order_bonus_pricingOrderByRelationAggregateInput, {nullable:true})
+    order_bonus_pricing?: order_bonus_pricingOrderByRelationAggregateInput;
 }

@@ -21,7 +21,7 @@ const bootstrap = async () => {
   app.use(compression());
   app.enableCors();
   app.enableVersioning();
-  app.use(graphqlUploadExpress({ maxFileSize: 1000000, maxFiles: 10 }));
+  app.use(graphqlUploadExpress({ maxFileSize: 20000000, maxFiles: 10 }));
   // app.useGlobalFilters(new HttpExceptionFilter());
   // app.useGlobalInterceptors(new HttpResponseInterceptor());
   app.useGlobalPipes(new ValidationPipe());

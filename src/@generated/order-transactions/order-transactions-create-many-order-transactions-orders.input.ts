@@ -26,6 +26,12 @@ export class order_transactionsCreateManyOrder_transactions_ordersInput {
     amount?: number;
 
     @Field(() => Float, {nullable:true})
+    balance_before?: number;
+
+    @Field(() => Float, {nullable:true})
+    balance_after?: number;
+
+    @Field(() => Float, {nullable:true})
     not_paid_amount?: number;
 
     @Field(() => order_transaction_status, {nullable:true})

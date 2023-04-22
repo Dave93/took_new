@@ -1,4 +1,5 @@
 import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
+import { users } from 'src/@generated/users/users.model';
 
 @ObjectType()
 export class User {
@@ -13,4 +14,10 @@ export class UserProfileNumbers {
 
   @Field(() => Float)
   score: number;
+}
+
+@ObjectType()
+export class CouriersLocation extends users {
+  @Field(() => String)
+  short_name: string;
 }

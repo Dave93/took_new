@@ -13,6 +13,7 @@ import { ordersUpdateManyWithoutOrders_organizationNestedInput } from '../orders
 import { api_tokensUpdateManyWithoutApi_tokens_organizationNestedInput } from '../api-tokens/api-tokens-update-many-without-api-tokens-organization-nested.input';
 import { order_transactionsUpdateManyWithoutOrder_transactions_organizationsNestedInput } from '../order-transactions/order-transactions-update-many-without-order-transactions-organizations-nested.input';
 import { courier_terminal_balanceUpdateManyWithoutCourier_terminal_balance_organizationsNestedInput } from '../courier-terminal-balance/courier-terminal-balance-update-many-without-courier-terminal-balance-organizations-nested.input';
+import { order_bonus_pricingUpdateManyWithoutOrganizationNestedInput } from '../order-bonus-pricing/order-bonus-pricing-update-many-without-organization-nested.input';
 
 @InputType()
 export class organizationUpdateWithoutManager_withdraw_organizationsInput {
@@ -77,6 +78,9 @@ export class organizationUpdateWithoutManager_withdraw_organizationsInput {
     @Field(() => String, {nullable:true})
     icon_url?: string;
 
+    @Field(() => Boolean, {nullable:true})
+    allow_yandex_delivery?: boolean;
+
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;
 
@@ -112,4 +116,7 @@ export class organizationUpdateWithoutManager_withdraw_organizationsInput {
 
     @Field(() => courier_terminal_balanceUpdateManyWithoutCourier_terminal_balance_organizationsNestedInput, {nullable:true})
     courier_terminal_balance_organizations?: courier_terminal_balanceUpdateManyWithoutCourier_terminal_balance_organizationsNestedInput;
+
+    @Field(() => order_bonus_pricingUpdateManyWithoutOrganizationNestedInput, {nullable:true})
+    order_bonus_pricing?: order_bonus_pricingUpdateManyWithoutOrganizationNestedInput;
 }

@@ -71,10 +71,22 @@ export class usersOrderByWithAggregationInput {
     doc_files?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    order_start_date?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    app_version?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     created_at?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
     updated_at?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    api_token?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    tg_id?: keyof typeof SortOrder;
 
     @Field(() => usersCountOrderByAggregateInput, {nullable:true})
     _count?: usersCountOrderByAggregateInput;

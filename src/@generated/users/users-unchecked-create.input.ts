@@ -56,6 +56,10 @@ import { manager_withdrawUncheckedCreateNestedManyWithoutManager_withdraw_create
 import { manager_withdrawUncheckedCreateNestedManyWithoutManager_withdraw_managersInput } from '../manager-withdraw/manager-withdraw-unchecked-create-nested-many-without-manager-withdraw-managers.input';
 import { manager_withdrawUncheckedCreateNestedManyWithoutManager_withdraw_couriersInput } from '../manager-withdraw/manager-withdraw-unchecked-create-nested-many-without-manager-withdraw-couriers.input';
 import { timesheetUncheckedCreateNestedManyWithoutTimesheet_usersInput } from '../timesheet/timesheet-unchecked-create-nested-many-without-timesheet-users.input';
+import { scheduled_reports_subscriptionUncheckedCreateNestedManyWithoutScheduled_reports_subscription_usersInput } from '../scheduled-reports-subscription/scheduled-reports-subscription-unchecked-create-nested-many-without-scheduled-reports-subscription-users.input';
+import { order_bonus_pricingUncheckedCreateNestedManyWithoutUsers_order_bonus_pricing_created_byTousersInput } from '../order-bonus-pricing/order-bonus-pricing-unchecked-create-nested-many-without-users-order-bonus-pricing-created-by-tousers.input';
+import { order_bonus_pricingUncheckedCreateNestedManyWithoutUsers_order_bonus_pricing_updated_byTousersInput } from '../order-bonus-pricing/order-bonus-pricing-unchecked-create-nested-many-without-users-order-bonus-pricing-updated-by-tousers.input';
+import { order_bonus_pricingUncheckedCreateNestedManyWithoutCourierInput } from '../order-bonus-pricing/order-bonus-pricing-unchecked-create-nested-many-without-courier.input';
 
 @InputType()
 export class usersUncheckedCreateInput {
@@ -121,6 +125,12 @@ export class usersUncheckedCreateInput {
     doc_files?: Array<string>;
 
     @Field(() => Date, {nullable:true})
+    order_start_date?: Date | string;
+
+    @Field(() => String, {nullable:true})
+    app_version?: string;
+
+    @Field(() => Date, {nullable:true})
     created_at?: Date | string;
 
     @Field(() => Date, {nullable:true})
@@ -128,6 +138,12 @@ export class usersUncheckedCreateInput {
 
     @Field(() => otpUncheckedCreateNestedManyWithoutUsersInput, {nullable:true})
     otp?: otpUncheckedCreateNestedManyWithoutUsersInput;
+
+    @Field(() => String, {nullable:true})
+    api_token?: string;
+
+    @Field(() => String, {nullable:true})
+    tg_id?: string;
 
     @Field(() => permissionsUncheckedCreateNestedManyWithoutUsers_permissions_created_byTousersInput, {nullable:true})
     permissions_permissions_created_byTousers?: permissionsUncheckedCreateNestedManyWithoutUsers_permissions_created_byTousersInput;
@@ -281,4 +297,16 @@ export class usersUncheckedCreateInput {
 
     @Field(() => timesheetUncheckedCreateNestedManyWithoutTimesheet_usersInput, {nullable:true})
     timesheet_users?: timesheetUncheckedCreateNestedManyWithoutTimesheet_usersInput;
+
+    @Field(() => scheduled_reports_subscriptionUncheckedCreateNestedManyWithoutScheduled_reports_subscription_usersInput, {nullable:true})
+    scheduled_reports_subscription_users?: scheduled_reports_subscriptionUncheckedCreateNestedManyWithoutScheduled_reports_subscription_usersInput;
+
+    @Field(() => order_bonus_pricingUncheckedCreateNestedManyWithoutUsers_order_bonus_pricing_created_byTousersInput, {nullable:true})
+    order_bonus_pricing_created_byTousers?: order_bonus_pricingUncheckedCreateNestedManyWithoutUsers_order_bonus_pricing_created_byTousersInput;
+
+    @Field(() => order_bonus_pricingUncheckedCreateNestedManyWithoutUsers_order_bonus_pricing_updated_byTousersInput, {nullable:true})
+    order_bonus_pricing_updated_byTousers?: order_bonus_pricingUncheckedCreateNestedManyWithoutUsers_order_bonus_pricing_updated_byTousersInput;
+
+    @Field(() => order_bonus_pricingUncheckedCreateNestedManyWithoutCourierInput, {nullable:true})
+    order_bonus_pricing_courier_idTusers?: order_bonus_pricingUncheckedCreateNestedManyWithoutCourierInput;
 }

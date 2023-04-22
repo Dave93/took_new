@@ -11,6 +11,7 @@ import { api_tokensUncheckedCreateNestedManyWithoutApi_tokens_organizationInput 
 import { order_transactionsUncheckedCreateNestedManyWithoutOrder_transactions_organizationsInput } from '../order-transactions/order-transactions-unchecked-create-nested-many-without-order-transactions-organizations.input';
 import { courier_terminal_balanceUncheckedCreateNestedManyWithoutCourier_terminal_balance_organizationsInput } from '../courier-terminal-balance/courier-terminal-balance-unchecked-create-nested-many-without-courier-terminal-balance-organizations.input';
 import { manager_withdrawUncheckedCreateNestedManyWithoutManager_withdraw_organizationsInput } from '../manager-withdraw/manager-withdraw-unchecked-create-nested-many-without-manager-withdraw-organizations.input';
+import { order_bonus_pricingUncheckedCreateNestedManyWithoutOrganizationInput } from '../order-bonus-pricing/order-bonus-pricing-unchecked-create-nested-many-without-organization.input';
 
 @InputType()
 export class organizationUncheckedCreateWithoutDelivery_pricing_organization_idTorganizationInput {
@@ -75,6 +76,9 @@ export class organizationUncheckedCreateWithoutDelivery_pricing_organization_idT
     @Field(() => String, {nullable:true})
     icon_url?: string;
 
+    @Field(() => Boolean, {nullable:true})
+    allow_yandex_delivery?: boolean;
+
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;
 
@@ -110,4 +114,7 @@ export class organizationUncheckedCreateWithoutDelivery_pricing_organization_idT
 
     @Field(() => manager_withdrawUncheckedCreateNestedManyWithoutManager_withdraw_organizationsInput, {nullable:true})
     manager_withdraw_organizations?: manager_withdrawUncheckedCreateNestedManyWithoutManager_withdraw_organizationsInput;
+
+    @Field(() => order_bonus_pricingUncheckedCreateNestedManyWithoutOrganizationInput, {nullable:true})
+    order_bonus_pricing?: order_bonus_pricingUncheckedCreateNestedManyWithoutOrganizationInput;
 }

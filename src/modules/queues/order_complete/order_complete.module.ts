@@ -5,12 +5,14 @@ import { SearchService } from '@modules/search/search.service';
 import { ConfigService } from '@nestjs/config';
 import { OrderCompleteService } from './order_complete.service';
 import { OrderCompleteProcessor } from '@modules/queues/order_complete/order_complete.processor';
+import { SystemConfigsService } from '@modules/system_configs/system_configs.service';
 
 @Module({
   providers: [
     OrderCompleteProcessor,
     PrismaService,
     CacheControlService,
+    SystemConfigsService,
     SearchService,
     ConfigService,
     OrderCompleteService,

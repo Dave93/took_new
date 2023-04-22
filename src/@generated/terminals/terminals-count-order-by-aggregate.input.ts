@@ -33,6 +33,9 @@ export class terminalsCountOrderByAggregateInput {
     organization_id?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    manager_name?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     created_at?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})

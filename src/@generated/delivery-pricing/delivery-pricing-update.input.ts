@@ -45,6 +45,15 @@ export class delivery_pricingUpdateInput {
     @Field(() => Int, {nullable:true})
     price_per_km?: number;
 
+    @Field(() => GraphQLJSON, {nullable:true})
+    customer_rules?: any;
+
+    @Field(() => Int, {nullable:true})
+    customer_price_per_km?: number;
+
+    @Field(() => Int, {nullable:true})
+    min_distance_km?: number;
+
     @Field(() => organization_payment_types, {nullable:true})
     payment_type?: keyof typeof organization_payment_types;
 

@@ -49,6 +49,9 @@ import { MediaModule } from './modules/media/media.module';
 import { CourierTerminalBalanceModule } from './modules/courier_terminal_balance/courier_terminal_balance.module';
 import { SystemConfigsModule } from '@modules/system_configs/system_configs.module';
 import { BrandsModule } from './modules/brands/brands.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
+import { OrderTransactionsModule } from './modules/order_transactions/order_transactions.module';
+import { OrderEcommerceWebhookModule } from '@modules/queues/order_ecommerce_webhook/order_ecommerce_webhook.module';
 
 @Global()
 @Module({
@@ -93,6 +96,9 @@ import { BrandsModule } from './modules/brands/brands.module';
       {
         name: 'order_index',
       },
+      {
+        name: 'order_ecommerce_webhook_actions',
+      },
     ),
     CacheModule.register({
       isGlobal: true,
@@ -136,11 +142,14 @@ import { BrandsModule } from './modules/brands/brands.module';
     OrderNewNotificationsModule,
     OrderCompleteModule,
     OrderIndexModule,
+    OrderEcommerceWebhookModule,
     AsssetsModule,
     MediaModule,
     CourierTerminalBalanceModule,
     SystemConfigsModule,
     BrandsModule,
+    NotificationsModule,
+    OrderTransactionsModule,
   ],
   providers: [
     PrismaService,

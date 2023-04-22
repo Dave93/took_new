@@ -73,11 +73,23 @@ export class UsersGroupBy {
     @Field(() => [String], {nullable:true})
     doc_files?: Array<string>;
 
+    @Field(() => Date, {nullable:true})
+    order_start_date?: Date | string;
+
+    @Field(() => String, {nullable:true})
+    app_version?: string;
+
     @Field(() => Date, {nullable:false})
     created_at!: Date | string;
 
     @Field(() => Date, {nullable:false})
     updated_at!: Date | string;
+
+    @Field(() => String, {nullable:true})
+    api_token?: string;
+
+    @Field(() => String, {nullable:true})
+    tg_id?: string;
 
     @Field(() => UsersCountAggregate, {nullable:true})
     _count?: UsersCountAggregate;

@@ -12,6 +12,7 @@ import { order_votes } from '../order-votes/order-votes.model';
 import { order_transactions } from '../order-transactions/order-transactions.model';
 import { courier_terminal_balance } from '../courier-terminal-balance/courier-terminal-balance.model';
 import { manager_withdraw } from '../manager-withdraw/manager-withdraw.model';
+import { order_bonus_pricing } from '../order-bonus-pricing/order-bonus-pricing.model';
 import { TerminalsCount } from '../prisma/terminals-count.output';
 
 @ObjectType()
@@ -43,6 +44,9 @@ export class terminals {
 
     @Field(() => String, {nullable:false})
     organization_id!: string;
+
+    @Field(() => String, {nullable:true})
+    manager_name!: string | null;
 
     @Field(() => organization, {nullable:false})
     organization?: organization;
@@ -79,6 +83,9 @@ export class terminals {
 
     @Field(() => [manager_withdraw], {nullable:true})
     manager_withdraw_terminals?: Array<manager_withdraw>;
+
+    @Field(() => [order_bonus_pricing], {nullable:true})
+    order_bonus_pricing?: Array<order_bonus_pricing>;
 
     @Field(() => TerminalsCount, {nullable:false})
     _count?: TerminalsCount;

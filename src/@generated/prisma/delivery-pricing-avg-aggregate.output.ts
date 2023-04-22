@@ -10,4 +10,10 @@ export class Delivery_pricingAvgAggregate {
 
     @Field(() => Float, {nullable:true})
     price_per_km?: number;
+
+    @Field(() => Float, {nullable:true})
+    customer_price_per_km?: number;
+
+    @Field(() => Float, {nullable:true})
+    min_distance_km?: number;
 }

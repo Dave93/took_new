@@ -44,4 +44,7 @@ export class UserResponseDto {
 
   @Field(() => Number, { nullable: true })
   wallet_balance: number;
+
+  @Field(() => String, { nullable: true })
+  api_token: string;
 }

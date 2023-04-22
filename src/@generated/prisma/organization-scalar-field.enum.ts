@@ -21,6 +21,7 @@ export enum OrganizationScalarFieldEnum {
     payment_type = "payment_type",
     support_chat_url = "support_chat_url",
     icon_url = "icon_url",
+    allow_yandex_delivery = "allow_yandex_delivery",
     created_at = "created_at",
     updated_at = "updated_at",
     created_by = "created_by",

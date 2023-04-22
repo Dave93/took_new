@@ -19,6 +19,12 @@ export class OrdersSumAggregate {
     to_lon?: number;
 
     @Field(() => Float, {nullable:true})
+    wrong_lat?: number;
+
+    @Field(() => Float, {nullable:true})
+    wrong_lon?: number;
+
+    @Field(() => Float, {nullable:true})
     pre_distance?: number;
 
     @Field(() => Int, {nullable:true})
@@ -35,6 +41,9 @@ export class OrdersSumAggregate {
 
     @Field(() => Float, {nullable:true})
     delivery_price?: number;
+
+    @Field(() => Float, {nullable:true})
+    customer_delivery_price?: number;
 
     @Field(() => Int, {nullable:true})
     score?: number;

@@ -66,10 +66,22 @@ export class UsersCountAggregate {
     doc_files!: number;
 
     @Field(() => Int, {nullable:false})
+    order_start_date!: number;
+
+    @Field(() => Int, {nullable:false})
+    app_version!: number;
+
+    @Field(() => Int, {nullable:false})
     created_at!: number;
 
     @Field(() => Int, {nullable:false})
     updated_at!: number;
+
+    @Field(() => Int, {nullable:false})
+    api_token!: number;
+
+    @Field(() => Int, {nullable:false})
+    tg_id!: number;
 
     @Field(() => Int, {nullable:false})
     _all!: number;

@@ -32,6 +32,12 @@ export class order_statusScalarWhereWithAggregatesInput {
     @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
     color?: StringNullableWithAggregatesFilter;
 
+    @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
+    code?: StringNullableWithAggregatesFilter;
+
+    @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
+    status_change_text?: StringNullableWithAggregatesFilter;
+
     @Field(() => BoolWithAggregatesFilter, {nullable:true})
     finish?: BoolWithAggregatesFilter;
 
@@ -49,4 +55,10 @@ export class order_statusScalarWhereWithAggregatesInput {
 
     @Field(() => BoolWithAggregatesFilter, {nullable:true})
     in_terminal?: BoolWithAggregatesFilter;
+
+    @Field(() => BoolWithAggregatesFilter, {nullable:true})
+    should_pay?: BoolWithAggregatesFilter;
+
+    @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
+    yandex_delivery_statuses?: StringNullableWithAggregatesFilter;
 }

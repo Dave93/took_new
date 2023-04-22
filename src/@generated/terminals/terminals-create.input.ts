@@ -11,6 +11,7 @@ import { order_votesCreateNestedManyWithoutOrder_votes_terminalsInput } from '..
 import { order_transactionsCreateNestedManyWithoutOrder_transactions_terminalsInput } from '../order-transactions/order-transactions-create-nested-many-without-order-transactions-terminals.input';
 import { courier_terminal_balanceCreateNestedManyWithoutCourier_terminal_balance_terminalsInput } from '../courier-terminal-balance/courier-terminal-balance-create-nested-many-without-courier-terminal-balance-terminals.input';
 import { manager_withdrawCreateNestedManyWithoutManager_withdraw_terminalsInput } from '../manager-withdraw/manager-withdraw-create-nested-many-without-manager-withdraw-terminals.input';
+import { order_bonus_pricingCreateNestedManyWithoutTerminalsInput } from '../order-bonus-pricing/order-bonus-pricing-create-nested-many-without-terminals.input';
 
 @InputType()
 export class terminalsCreateInput {
@@ -38,6 +39,9 @@ export class terminalsCreateInput {
 
     @Field(() => String, {nullable:false})
     external_id!: string;
+
+    @Field(() => String, {nullable:true})
+    manager_name?: string;
 
     @Field(() => organizationCreateNestedOneWithoutTerminals_organization_idTorganizationInput, {nullable:false})
     organization!: organizationCreateNestedOneWithoutTerminals_organization_idTorganizationInput;
@@ -74,4 +78,7 @@ export class terminalsCreateInput {
 
     @Field(() => manager_withdrawCreateNestedManyWithoutManager_withdraw_terminalsInput, {nullable:true})
     manager_withdraw_terminals?: manager_withdrawCreateNestedManyWithoutManager_withdraw_terminalsInput;
+
+    @Field(() => order_bonus_pricingCreateNestedManyWithoutTerminalsInput, {nullable:true})
+    order_bonus_pricing?: order_bonus_pricingCreateNestedManyWithoutTerminalsInput;
 }

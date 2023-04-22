@@ -36,4 +36,9 @@ export class SystemConfigsResolver {
   removeSystemConfig(@Args('id', { type: () => Int }) id: number) {
     return this.systemConfigsService.remove(id);
   }
+
+  @Query(() => system_configs, { name: 'systemConfigByKey' })
+  systemConfigByKey(@Args('key') key: string) {
+    return this.systemConfigsService.systemConfigByKey(key);
+  }
 }

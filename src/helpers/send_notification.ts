@@ -8,8 +8,13 @@ export const sendNotification = async (serverKey = '', deviceIds: string[], payl
     notification: {
       title: payload.notification.title,
       body: payload.notification.body,
+      data: payload.data,
     },
-    data: payload.data,
+    // data: {
+    //   title: payload.notification.title,
+    //   body: payload.notification.body,
+    //   ...payload.data,
+    // },
     priority: silent ? 'normal' : 'high',
     android: {
       priority: silent ? 'normal' : 'high',
@@ -22,24 +27,30 @@ export const sendNotification = async (serverKey = '', deviceIds: string[], payl
         },
       },
     },
-    to: deviceIds.join(','),
+    to: '',
   };
 
-  try {
-    const { data: response } = await axios.post('https://fcm.googleapis.com/fcm/send', message, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `key=${serverKey}`,
-      },
-    });
+  if (deviceIds.length > 0) {
+    for (const deviceId of deviceIds) {
+      message.to = deviceId;
+      // console.log('fcm message', JSON.stringify(message));
+      try {
+        const { data: response } = await axios.post('https://fcm.googleapis.com/fcm/send', message, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `key=${serverKey}`,
+          },
+        });
 
-    console.log('response', response);
+        // console.log('firebase response', response);
 
-    return {
-      failureCount: response.failureCount,
-      successCount: response.successCount,
-    };
-  } catch (e) {
-    console.log(e);
+        return {
+          failureCount: response.failure,
+          successCount: response.success,
+        };
+      } catch (e) {
+        console.log(e);
+      }
+    }
   }
 };

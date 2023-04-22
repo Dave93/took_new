@@ -66,6 +66,9 @@ export class OrganizationCountAggregate {
     icon_url!: number;
 
     @Field(() => Int, {nullable:false})
+    allow_yandex_delivery!: number;
+
+    @Field(() => Int, {nullable:false})
     created_at!: number;
 
     @Field(() => Int, {nullable:false})

@@ -10,4 +10,10 @@ export class Delivery_pricingSumAggregate {
 
     @Field(() => Int, {nullable:true})
     price_per_km?: number;
+
+    @Field(() => Int, {nullable:true})
+    customer_price_per_km?: number;
+
+    @Field(() => Int, {nullable:true})
+    min_distance_km?: number;
 }

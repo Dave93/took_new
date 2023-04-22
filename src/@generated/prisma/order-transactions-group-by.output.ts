@@ -34,6 +34,12 @@ export class Order_transactionsGroupBy {
     amount!: number;
 
     @Field(() => Float, {nullable:false})
+    balance_before!: number;
+
+    @Field(() => Float, {nullable:false})
+    balance_after!: number;
+
+    @Field(() => Float, {nullable:false})
     not_paid_amount!: number;
 
     @Field(() => order_transaction_status, {nullable:false})

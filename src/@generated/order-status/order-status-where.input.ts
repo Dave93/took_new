@@ -34,6 +34,12 @@ export class order_statusWhereInput {
     @Field(() => StringNullableFilter, {nullable:true})
     color?: StringNullableFilter;
 
+    @Field(() => StringNullableFilter, {nullable:true})
+    code?: StringNullableFilter;
+
+    @Field(() => StringNullableFilter, {nullable:true})
+    status_change_text?: StringNullableFilter;
+
     @Field(() => BoolFilter, {nullable:true})
     finish?: BoolFilter;
 
@@ -51,6 +57,12 @@ export class order_statusWhereInput {
 
     @Field(() => BoolFilter, {nullable:true})
     in_terminal?: BoolFilter;
+
+    @Field(() => BoolFilter, {nullable:true})
+    should_pay?: BoolFilter;
+
+    @Field(() => StringNullableFilter, {nullable:true})
+    yandex_delivery_statuses?: StringNullableFilter;
 
     @Field(() => OrganizationRelationFilter, {nullable:true})
     order_status_organization?: OrganizationRelationFilter;

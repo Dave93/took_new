@@ -46,6 +46,15 @@ export class Delivery_pricingGroupBy {
     @Field(() => Int, {nullable:false})
     price_per_km!: number;
 
+    @Field(() => GraphQLJSON, {nullable:true})
+    customer_rules?: any;
+
+    @Field(() => Int, {nullable:false})
+    customer_price_per_km!: number;
+
+    @Field(() => Int, {nullable:false})
+    min_distance_km!: number;
+
     @Field(() => String, {nullable:false})
     organization_id!: string;
 

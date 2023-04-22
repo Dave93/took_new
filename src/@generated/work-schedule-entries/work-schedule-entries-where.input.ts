@@ -6,6 +6,7 @@ import { DateTimeNullableFilter } from '../prisma/date-time-nullable-filter.inpu
 import { IntFilter } from '../prisma/int-filter.input';
 import { StringNullableFilter } from '../prisma/string-nullable-filter.input';
 import { FloatFilter } from '../prisma/float-filter.input';
+import { FloatNullableFilter } from '../prisma/float-nullable-filter.input';
 import { Enumwork_schedule_entry_statusFilter } from '../prisma/enumwork-schedule-entry-status-filter.input';
 import { BoolFilter } from '../prisma/bool-filter.input';
 import { UsersRelationFilter } from '../prisma/users-relation-filter.input';
@@ -50,14 +51,14 @@ export class work_schedule_entriesWhereInput {
     @Field(() => FloatFilter, {nullable:true})
     lat_open?: FloatFilter;
 
-    @Field(() => FloatFilter, {nullable:true})
-    lat_close?: FloatFilter;
+    @Field(() => FloatNullableFilter, {nullable:true})
+    lat_close?: FloatNullableFilter;
 
     @Field(() => FloatFilter, {nullable:true})
     lon_open?: FloatFilter;
 
-    @Field(() => FloatFilter, {nullable:true})
-    lon_close?: FloatFilter;
+    @Field(() => FloatNullableFilter, {nullable:true})
+    lon_close?: FloatNullableFilter;
 
     @Field(() => Enumwork_schedule_entry_statusFilter, {nullable:true})
     current_status?: Enumwork_schedule_entry_statusFilter;

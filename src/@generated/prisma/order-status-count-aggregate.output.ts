@@ -21,6 +21,12 @@ export class Order_statusCountAggregate {
     color!: number;
 
     @Field(() => Int, {nullable:false})
+    code!: number;
+
+    @Field(() => Int, {nullable:false})
+    status_change_text!: number;
+
+    @Field(() => Int, {nullable:false})
     finish!: number;
 
     @Field(() => Int, {nullable:false})
@@ -37,6 +43,12 @@ export class Order_statusCountAggregate {
 
     @Field(() => Int, {nullable:false})
     in_terminal!: number;
+
+    @Field(() => Int, {nullable:false})
+    should_pay!: number;
+
+    @Field(() => Int, {nullable:false})
+    yandex_delivery_statuses!: number;
 
     @Field(() => Int, {nullable:false})
     _all!: number;

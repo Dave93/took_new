@@ -72,6 +72,9 @@ export class OrganizationGroupBy {
     @Field(() => String, {nullable:true})
     icon_url?: string;
 
+    @Field(() => Boolean, {nullable:false})
+    allow_yandex_delivery!: boolean;
+
     @Field(() => Date, {nullable:false})
     created_at!: Date | string;
 

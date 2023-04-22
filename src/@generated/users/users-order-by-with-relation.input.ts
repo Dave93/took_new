@@ -27,6 +27,8 @@ import { outside_requestsOrderByRelationAggregateInput } from '../outside-reques
 import { courier_terminal_balanceOrderByRelationAggregateInput } from '../courier-terminal-balance/courier-terminal-balance-order-by-relation-aggregate.input';
 import { manager_withdrawOrderByRelationAggregateInput } from '../manager-withdraw/manager-withdraw-order-by-relation-aggregate.input';
 import { timesheetOrderByRelationAggregateInput } from '../timesheet/timesheet-order-by-relation-aggregate.input';
+import { scheduled_reports_subscriptionOrderByRelationAggregateInput } from '../scheduled-reports-subscription/scheduled-reports-subscription-order-by-relation-aggregate.input';
+import { order_bonus_pricingOrderByRelationAggregateInput } from '../order-bonus-pricing/order-bonus-pricing-order-by-relation-aggregate.input';
 
 @InputType()
 export class usersOrderByWithRelationInput {
@@ -92,6 +94,12 @@ export class usersOrderByWithRelationInput {
     doc_files?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    order_start_date?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    app_version?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     created_at?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
@@ -99,6 +107,12 @@ export class usersOrderByWithRelationInput {
 
     @Field(() => otpOrderByRelationAggregateInput, {nullable:true})
     otp?: otpOrderByRelationAggregateInput;
+
+    @Field(() => SortOrder, {nullable:true})
+    api_token?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    tg_id?: keyof typeof SortOrder;
 
     @Field(() => permissionsOrderByRelationAggregateInput, {nullable:true})
     permissions_permissions_created_byTousers?: permissionsOrderByRelationAggregateInput;
@@ -252,4 +266,16 @@ export class usersOrderByWithRelationInput {
 
     @Field(() => timesheetOrderByRelationAggregateInput, {nullable:true})
     timesheet_users?: timesheetOrderByRelationAggregateInput;
+
+    @Field(() => scheduled_reports_subscriptionOrderByRelationAggregateInput, {nullable:true})
+    scheduled_reports_subscription_users?: scheduled_reports_subscriptionOrderByRelationAggregateInput;
+
+    @Field(() => order_bonus_pricingOrderByRelationAggregateInput, {nullable:true})
+    order_bonus_pricing_created_byTousers?: order_bonus_pricingOrderByRelationAggregateInput;
+
+    @Field(() => order_bonus_pricingOrderByRelationAggregateInput, {nullable:true})
+    order_bonus_pricing_updated_byTousers?: order_bonus_pricingOrderByRelationAggregateInput;
+
+    @Field(() => order_bonus_pricingOrderByRelationAggregateInput, {nullable:true})
+    order_bonus_pricing_courier_idTusers?: order_bonus_pricingOrderByRelationAggregateInput;
 }

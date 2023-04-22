@@ -34,8 +34,8 @@ export class TerminalsResolver {
 
   @Query(() => [terminals], { name: 'cachedTerminals' })
   @Permissions('terminals.list')
-  getAllCached() {
-    return this.terminalsService.getAllCached();
+  getAllCached(@Args('active', { type: () => Boolean, nullable: true }) active = true) {
+    return this.terminalsService.getAllCached(active);
   }
 
   @Query(() => terminals, { name: 'terminal' })

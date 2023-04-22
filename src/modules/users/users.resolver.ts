@@ -7,8 +7,11 @@ import { usersWhereInput } from 'src/@generated/users/users-where.input';
 import { FindManyusersArgs } from 'src/@generated/users/find-manyusers.args';
 import { UpdateOneusersArgs } from 'src/@generated/users/update-oneusers.args';
 import { CurrentUser, JwtAuthGuard, Permissions } from '@auth';
-import { UserProfileNumbers } from '@modules/users/entities/user.entity';
+import { CouriersLocation, UserProfileNumbers } from '@modules/users/entities/user.entity';
 import { UseGuards } from '@nestjs/common';
+import { LoginResponseDto } from '@modules/auth/dto';
+import { manager_withdraw } from '../../@generated/manager-withdraw/manager-withdraw.model';
+import { manager_withdraw_transactions } from '../../@generated/manager-withdraw-transactions/manager-withdraw-transactions.model';
 
 @Resolver(() => users)
 export class UsersResolver {
@@ -60,5 +63,33 @@ export class UsersResolver {
   @UseGuards(JwtAuthGuard)
   myCouriers(@CurrentUser() user: users) {
     return this.usersService.myCouriers(user);
+  }
+  @Query(() => [CouriersLocation], { name: 'couriersLocation' })
+  @UseGuards(JwtAuthGuard)
+  couriersLocation(@CurrentUser() user: users) {
+    return this.usersService.couriersLocation(user);
+  }
+
+  @Mutation(() => LoginResponseDto, { nullable: true })
+  @UseGuards(JwtAuthGuard)
+  async reloadUserData(@CurrentUser() user: users): Promise<LoginResponseDto> {
+    const result = await this.usersService.reloadUserData(user);
+    return result;
+  }
+
+  @Query(() => [manager_withdraw], { name: 'getCourierWithdraws' })
+  @Permissions('users.show')
+  async getCourierWithdraws(
+    @Args('startDate', { type: () => Date }) startDate: Date,
+    @Args('endDate', { type: () => Date }) endDate: Date,
+    @Args('courierId') courierId: string,
+  ) {
+    return this.usersService.getCourierWithdraws(startDate, endDate, courierId);
+  }
+
+  @Query(() => [manager_withdraw_transactions], { name: 'getCourierWithdrawTransactions' })
+  @Permissions('users.show')
+  async getCourierWithdrawTransactions(@Args('withdrawId', { type: () => String }) withdrawId: string) {
+    return this.usersService.getCourierWithdrawTransactions(withdrawId);
   }
 }

@@ -80,6 +80,9 @@ export class organizationScalarWhereInput {
     @Field(() => StringNullableFilter, {nullable:true})
     icon_url?: StringNullableFilter;
 
+    @Field(() => BoolFilter, {nullable:true})
+    allow_yandex_delivery?: BoolFilter;
+
     @Field(() => DateTimeFilter, {nullable:true})
     created_at?: DateTimeFilter;
 

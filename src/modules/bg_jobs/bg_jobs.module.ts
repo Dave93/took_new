@@ -6,9 +6,10 @@ import { CacheControlService } from '@modules/cache_control/cache_control.servic
 import { SearchService } from '@modules/search/search.service';
 import { SearchModule } from '@modules/search/search.module';
 import { ConfigService } from '@nestjs/config';
+import { SystemConfigsService } from '@modules/system_configs/system_configs.service';
 
 @Module({
   imports: [],
-  providers: [PrismaService, BgJobsProcessor, CacheControlService, SearchService, ConfigService],
+  providers: [PrismaService, BgJobsProcessor, CacheControlService, SystemConfigsService, SearchService, ConfigService],
 })
 export class BgJobsModule {}

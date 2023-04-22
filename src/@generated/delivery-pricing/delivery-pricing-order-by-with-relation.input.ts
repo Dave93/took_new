@@ -42,6 +42,15 @@ export class delivery_pricingOrderByWithRelationInput {
     price_per_km?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    customer_rules?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    customer_price_per_km?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    min_distance_km?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     organization_id?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})

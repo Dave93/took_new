@@ -37,14 +37,14 @@ export class work_schedule_entries {
     @Field(() => Float, {nullable:false,defaultValue:0})
     lat_open!: number;
 
-    @Field(() => Float, {nullable:false,defaultValue:0})
-    lat_close!: number;
+    @Field(() => Float, {nullable:true,defaultValue:0})
+    lat_close!: number | null;
 
     @Field(() => Float, {nullable:false,defaultValue:0})
     lon_open!: number;
 
-    @Field(() => Float, {nullable:false,defaultValue:0})
-    lon_close!: number;
+    @Field(() => Float, {nullable:true,defaultValue:0})
+    lon_close!: number | null;
 
     @Field(() => work_schedule_entry_status, {nullable:false,defaultValue:'open'})
     current_status!: keyof typeof work_schedule_entry_status;

@@ -9,6 +9,7 @@ import { order_votesUncheckedCreateNestedManyWithoutOrder_votes_terminalsInput }
 import { order_transactionsUncheckedCreateNestedManyWithoutOrder_transactions_terminalsInput } from '../order-transactions/order-transactions-unchecked-create-nested-many-without-order-transactions-terminals.input';
 import { courier_terminal_balanceUncheckedCreateNestedManyWithoutCourier_terminal_balance_terminalsInput } from '../courier-terminal-balance/courier-terminal-balance-unchecked-create-nested-many-without-courier-terminal-balance-terminals.input';
 import { manager_withdrawUncheckedCreateNestedManyWithoutManager_withdraw_terminalsInput } from '../manager-withdraw/manager-withdraw-unchecked-create-nested-many-without-manager-withdraw-terminals.input';
+import { order_bonus_pricingUncheckedCreateNestedManyWithoutTerminalsInput } from '../order-bonus-pricing/order-bonus-pricing-unchecked-create-nested-many-without-terminals.input';
 
 @InputType()
 export class terminalsUncheckedCreateWithoutOrder_actions_terminalsInput {
@@ -40,6 +41,9 @@ export class terminalsUncheckedCreateWithoutOrder_actions_terminalsInput {
     @Field(() => String, {nullable:false})
     organization_id!: string;
 
+    @Field(() => String, {nullable:true})
+    manager_name?: string;
+
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;
 
@@ -69,4 +73,7 @@ export class terminalsUncheckedCreateWithoutOrder_actions_terminalsInput {
 
     @Field(() => manager_withdrawUncheckedCreateNestedManyWithoutManager_withdraw_terminalsInput, {nullable:true})
     manager_withdraw_terminals?: manager_withdrawUncheckedCreateNestedManyWithoutManager_withdraw_terminalsInput;
+
+    @Field(() => order_bonus_pricingUncheckedCreateNestedManyWithoutTerminalsInput, {nullable:true})
+    order_bonus_pricing?: order_bonus_pricingUncheckedCreateNestedManyWithoutTerminalsInput;
 }

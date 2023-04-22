@@ -20,6 +20,12 @@ export class order_statusUncheckedUpdateManyInput {
     @Field(() => String, {nullable:true})
     color?: string;
 
+    @Field(() => String, {nullable:true})
+    code?: string;
+
+    @Field(() => String, {nullable:true})
+    status_change_text?: string;
+
     @Field(() => Boolean, {nullable:true})
     finish?: boolean;
 
@@ -37,4 +43,10 @@ export class order_statusUncheckedUpdateManyInput {
 
     @Field(() => Boolean, {nullable:true})
     in_terminal?: boolean;
+
+    @Field(() => Boolean, {nullable:true})
+    should_pay?: boolean;
+
+    @Field(() => String, {nullable:true})
+    yandex_delivery_statuses?: string;
 }

@@ -27,6 +27,9 @@ export class work_schedulesMinOrderByAggregateInput {
     max_start_time?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    bonus_price?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     created_at?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})

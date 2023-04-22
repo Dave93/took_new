@@ -44,6 +44,12 @@ export class ordersOrderByWithAggregationInput {
     to_lon?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    wrong_lat?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    wrong_lon?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     pre_distance?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
@@ -63,6 +69,9 @@ export class ordersOrderByWithAggregationInput {
 
     @Field(() => SortOrder, {nullable:true})
     delivery_price?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    customer_delivery_price?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
     delivery_address?: keyof typeof SortOrder;
@@ -93,6 +102,15 @@ export class ordersOrderByWithAggregationInput {
 
     @Field(() => SortOrder, {nullable:true})
     cancel_voice_id?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    operator_notes?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    delivery_schedule?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    later_time?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
     created_at?: keyof typeof SortOrder;

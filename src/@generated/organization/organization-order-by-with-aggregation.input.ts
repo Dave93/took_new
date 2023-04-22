@@ -71,6 +71,9 @@ export class organizationOrderByWithAggregationInput {
     icon_url?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    allow_yandex_delivery?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     created_at?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})

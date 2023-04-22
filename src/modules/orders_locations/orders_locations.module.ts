@@ -9,6 +9,7 @@ import { TokenModule } from '@modules/auth/token.module';
 import { SearchService } from '@modules/search/search.service';
 import { ConfigService } from '@nestjs/config';
 import { CacheControlService } from '@modules/cache_control/cache_control.service';
+import { SystemConfigsService } from '@modules/system_configs/system_configs.service';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { CacheControlService } from '@modules/cache_control/cache_control.servic
     OrdersLocationsService,
     PrismaService,
     SearchService,
+    SystemConfigsService,
     ConfigService,
     CacheControlService,
   ],

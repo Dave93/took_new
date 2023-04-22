@@ -36,6 +36,12 @@ export class order_transactions {
     amount!: number;
 
     @Field(() => Float, {nullable:false,defaultValue:0})
+    balance_before!: number;
+
+    @Field(() => Float, {nullable:false,defaultValue:0})
+    balance_after!: number;
+
+    @Field(() => Float, {nullable:false,defaultValue:0})
     not_paid_amount!: number;
 
     @Field(() => order_transaction_status, {nullable:false,defaultValue:'pending'})

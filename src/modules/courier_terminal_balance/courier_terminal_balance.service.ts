@@ -105,90 +105,52 @@ export class CourierTerminalBalanceService {
     }
 
     const terminalIds = currentUser.users_terminals.map((terminal) => terminal.terminal_id);
-    console.log(terminalIds);
 
-    const couriers = await this.prismaService.users.findMany({
+    const res: ManagerCouriersBalance[] = [];
+    const couriers_balance = await this.prismaService.courier_terminal_balance.findMany({
       where: {
-        users_terminals: {
-          some: {
-            terminal_id: {
-              in: terminalIds,
-            },
-          },
+        terminal_id: {
+          in: terminalIds,
         },
-        status: user_status.active,
+        balance: {
+          gt: 0,
+        },
       },
       select: {
         id: true,
-        first_name: true,
-        last_name: true,
-        phone: true,
-        users_terminals: {
+        courier_id: true,
+        terminal_id: true,
+        balance: true,
+        courier_terminal_balance_couriers: {
           select: {
-            terminal_id: true,
-            terminals: {
-              select: {
-                name: true,
-                organization_id: true,
-              },
-            },
+            first_name: true,
+            last_name: true,
+            phone: true,
+          },
+        },
+        courier_terminal_balance_terminals: {
+          select: {
+            name: true,
           },
         },
       },
+      orderBy: {
+        balance: 'desc',
+      },
     });
-    console.log(couriers);
 
-    const res: ManagerCouriersBalance[] = [];
-
-    for (const terminal of terminalIds) {
-      for (const courier of couriers) {
-        const courierTerminal = courier.users_terminals.find((userTerminal) => userTerminal.terminal_id == terminal);
-        if (courierTerminal) {
-          const courierTerminalBalance = await this.prismaService.courier_terminal_balance.findFirst({
-            where: {
-              courier_id: courier.id,
-              terminal_id: terminal,
-            },
-            select: {
-              id: true,
-              balance: true,
-            },
-          });
-          if (courierTerminalBalance) {
-            res.push({
-              id: courierTerminalBalance.id,
-              first_name: courier.first_name,
-              last_name: courier.last_name,
-              phone: courier.phone,
-              balance: courierTerminalBalance.balance,
-              terminal_id: courierTerminal.terminal_id,
-              courier_id: courier.id,
-              terminal_name: courierTerminal.terminals.name,
-            });
-          } else {
-            const courierTerminalBalance = await this.prismaService.courier_terminal_balance.create({
-              data: {
-                balance: 0,
-                courier_id: courier.id,
-                terminal_id: terminal,
-                organization_id: courierTerminal.terminals.organization_id,
-              },
-            });
-            res.push({
-              id: courierTerminalBalance.id,
-              first_name: courier.first_name,
-              last_name: courier.last_name,
-              phone: courier.phone,
-              balance: courierTerminalBalance.balance,
-              terminal_id: courierTerminal.terminal_id,
-              courier_id: courier.id,
-              terminal_name: courierTerminal.terminals.name,
-            });
-          }
-        }
-      }
+    for (const courier_balance of couriers_balance) {
+      res.push({
+        id: courier_balance.id,
+        first_name: courier_balance.courier_terminal_balance_couriers.first_name,
+        last_name: courier_balance.courier_terminal_balance_couriers.last_name,
+        phone: courier_balance.courier_terminal_balance_couriers.phone,
+        balance: courier_balance.balance,
+        terminal_id: courier_balance.terminal_id,
+        courier_id: courier_balance.courier_id,
+        terminal_name: courier_balance.courier_terminal_balance_terminals.name,
+      });
     }
-
     return res;
   }
 
@@ -309,5 +271,57 @@ export class CourierTerminalBalanceService {
     }
 
     return res;
+  }
+
+  couriersTerminalBalance(terminal_id: string[], courier_id: string[], status: string[]) {
+    const where = {
+      balance: {
+        gt: 0,
+      },
+    };
+    if (terminal_id && terminal_id.length > 0) {
+      where['terminal_id'] = {
+        in: terminal_id,
+      };
+    }
+    if (courier_id && courier_id.length > 0) {
+      where['courier_id'] = {
+        in: courier_id,
+      };
+    }
+
+    if (status) {
+      where['courier_terminal_balance_couriers'] = {
+        status: {
+          in: status,
+        },
+      };
+    }
+
+    return this.prismaService.courier_terminal_balance.findMany({
+      where,
+      select: {
+        id: true,
+        courier_id: true,
+        terminal_id: true,
+        balance: true,
+        courier_terminal_balance_couriers: {
+          select: {
+            first_name: true,
+            last_name: true,
+            phone: true,
+            drive_type: true,
+          },
+        },
+        courier_terminal_balance_terminals: {
+          select: {
+            name: true,
+          },
+        },
+      },
+      orderBy: {
+        balance: 'desc',
+      },
+    });
   }
 }

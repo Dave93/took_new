@@ -17,6 +17,7 @@ import { Api_tokensListRelationFilter } from '../prisma/api-tokens-list-relation
 import { Order_transactionsListRelationFilter } from '../prisma/order-transactions-list-relation-filter.input';
 import { Courier_terminal_balanceListRelationFilter } from '../prisma/courier-terminal-balance-list-relation-filter.input';
 import { Manager_withdrawListRelationFilter } from '../prisma/manager-withdraw-list-relation-filter.input';
+import { Order_bonus_pricingListRelationFilter } from '../prisma/order-bonus-pricing-list-relation-filter.input';
 
 @InputType()
 export class organizationWhereInput {
@@ -90,6 +91,9 @@ export class organizationWhereInput {
     @Field(() => StringNullableFilter, {nullable:true})
     icon_url?: StringNullableFilter;
 
+    @Field(() => BoolFilter, {nullable:true})
+    allow_yandex_delivery?: BoolFilter;
+
     @Field(() => DateTimeFilter, {nullable:true})
     created_at?: DateTimeFilter;
 
@@ -134,4 +138,7 @@ export class organizationWhereInput {
 
     @Field(() => Manager_withdrawListRelationFilter, {nullable:true})
     manager_withdraw_organizations?: Manager_withdrawListRelationFilter;
+
+    @Field(() => Order_bonus_pricingListRelationFilter, {nullable:true})
+    order_bonus_pricing?: Order_bonus_pricingListRelationFilter;
 }

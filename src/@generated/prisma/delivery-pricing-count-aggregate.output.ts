@@ -39,6 +39,15 @@ export class Delivery_pricingCountAggregate {
     price_per_km!: number;
 
     @Field(() => Int, {nullable:false})
+    customer_rules!: number;
+
+    @Field(() => Int, {nullable:false})
+    customer_price_per_km!: number;
+
+    @Field(() => Int, {nullable:false})
+    min_distance_km!: number;
+
+    @Field(() => Int, {nullable:false})
     organization_id!: number;
 
     @Field(() => Int, {nullable:false})

@@ -10,4 +10,10 @@ export class delivery_pricingAvgOrderByAggregateInput {
 
     @Field(() => SortOrder, {nullable:true})
     price_per_km?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    customer_price_per_km?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    min_distance_km?: keyof typeof SortOrder;
 }

@@ -66,8 +66,20 @@ export class UsersMinAggregate {
     max_active_order_count?: number;
 
     @Field(() => Date, {nullable:true})
+    order_start_date?: Date | string;
+
+    @Field(() => String, {nullable:true})
+    app_version?: string;
+
+    @Field(() => Date, {nullable:true})
     created_at?: Date | string;
 
     @Field(() => Date, {nullable:true})
     updated_at?: Date | string;
+
+    @Field(() => String, {nullable:true})
+    api_token?: string;
+
+    @Field(() => String, {nullable:true})
+    tg_id?: string;
 }

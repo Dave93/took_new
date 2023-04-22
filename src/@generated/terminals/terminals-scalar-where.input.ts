@@ -45,6 +45,9 @@ export class terminalsScalarWhereInput {
     @Field(() => StringFilter, {nullable:true})
     organization_id?: StringFilter;
 
+    @Field(() => StringNullableFilter, {nullable:true})
+    manager_name?: StringNullableFilter;
+
     @Field(() => DateTimeFilter, {nullable:true})
     created_at?: DateTimeFilter;
 

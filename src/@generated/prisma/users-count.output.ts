@@ -160,4 +160,16 @@ export class UsersCount {
 
     @Field(() => Int, {nullable:false})
     timesheet_users!: number;
+
+    @Field(() => Int, {nullable:false})
+    scheduled_reports_subscription_users!: number;
+
+    @Field(() => Int, {nullable:false})
+    order_bonus_pricing_created_byTousers!: number;
+
+    @Field(() => Int, {nullable:false})
+    order_bonus_pricing_updated_byTousers!: number;
+
+    @Field(() => Int, {nullable:false})
+    order_bonus_pricing_courier_idTusers!: number;
 }

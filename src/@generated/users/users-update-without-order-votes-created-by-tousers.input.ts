@@ -55,6 +55,10 @@ import { manager_withdrawUpdateManyWithoutManager_withdraw_created_byTousersNest
 import { manager_withdrawUpdateManyWithoutManager_withdraw_managersNestedInput } from '../manager-withdraw/manager-withdraw-update-many-without-manager-withdraw-managers-nested.input';
 import { manager_withdrawUpdateManyWithoutManager_withdraw_couriersNestedInput } from '../manager-withdraw/manager-withdraw-update-many-without-manager-withdraw-couriers-nested.input';
 import { timesheetUpdateManyWithoutTimesheet_usersNestedInput } from '../timesheet/timesheet-update-many-without-timesheet-users-nested.input';
+import { scheduled_reports_subscriptionUpdateManyWithoutScheduled_reports_subscription_usersNestedInput } from '../scheduled-reports-subscription/scheduled-reports-subscription-update-many-without-scheduled-reports-subscription-users-nested.input';
+import { order_bonus_pricingUpdateManyWithoutUsers_order_bonus_pricing_created_byTousersNestedInput } from '../order-bonus-pricing/order-bonus-pricing-update-many-without-users-order-bonus-pricing-created-by-tousers-nested.input';
+import { order_bonus_pricingUpdateManyWithoutUsers_order_bonus_pricing_updated_byTousersNestedInput } from '../order-bonus-pricing/order-bonus-pricing-update-many-without-users-order-bonus-pricing-updated-by-tousers-nested.input';
+import { order_bonus_pricingUpdateManyWithoutCourierNestedInput } from '../order-bonus-pricing/order-bonus-pricing-update-many-without-courier-nested.input';
 
 @InputType()
 export class usersUpdateWithoutOrder_votes_created_byTousersInput {
@@ -120,6 +124,12 @@ export class usersUpdateWithoutOrder_votes_created_byTousersInput {
     doc_files?: Array<string>;
 
     @Field(() => Date, {nullable:true})
+    order_start_date?: Date | string;
+
+    @Field(() => String, {nullable:true})
+    app_version?: string;
+
+    @Field(() => Date, {nullable:true})
     created_at?: Date | string;
 
     @Field(() => Date, {nullable:true})
@@ -127,6 +137,12 @@ export class usersUpdateWithoutOrder_votes_created_byTousersInput {
 
     @Field(() => otpUpdateManyWithoutUsersNestedInput, {nullable:true})
     otp?: otpUpdateManyWithoutUsersNestedInput;
+
+    @Field(() => String, {nullable:true})
+    api_token?: string;
+
+    @Field(() => String, {nullable:true})
+    tg_id?: string;
 
     @Field(() => permissionsUpdateManyWithoutUsers_permissions_created_byTousersNestedInput, {nullable:true})
     permissions_permissions_created_byTousers?: permissionsUpdateManyWithoutUsers_permissions_created_byTousersNestedInput;
@@ -277,4 +293,16 @@ export class usersUpdateWithoutOrder_votes_created_byTousersInput {
 
     @Field(() => timesheetUpdateManyWithoutTimesheet_usersNestedInput, {nullable:true})
     timesheet_users?: timesheetUpdateManyWithoutTimesheet_usersNestedInput;
+
+    @Field(() => scheduled_reports_subscriptionUpdateManyWithoutScheduled_reports_subscription_usersNestedInput, {nullable:true})
+    scheduled_reports_subscription_users?: scheduled_reports_subscriptionUpdateManyWithoutScheduled_reports_subscription_usersNestedInput;
+
+    @Field(() => order_bonus_pricingUpdateManyWithoutUsers_order_bonus_pricing_created_byTousersNestedInput, {nullable:true})
+    order_bonus_pricing_created_byTousers?: order_bonus_pricingUpdateManyWithoutUsers_order_bonus_pricing_created_byTousersNestedInput;
+
+    @Field(() => order_bonus_pricingUpdateManyWithoutUsers_order_bonus_pricing_updated_byTousersNestedInput, {nullable:true})
+    order_bonus_pricing_updated_byTousers?: order_bonus_pricingUpdateManyWithoutUsers_order_bonus_pricing_updated_byTousersNestedInput;
+
+    @Field(() => order_bonus_pricingUpdateManyWithoutCourierNestedInput, {nullable:true})
+    order_bonus_pricing_courier_idTusers?: order_bonus_pricingUpdateManyWithoutCourierNestedInput;
 }

@@ -8,6 +8,8 @@ export enum Order_transactionsScalarFieldEnum {
     organization_id = "organization_id",
     card_number = "card_number",
     amount = "amount",
+    balance_before = "balance_before",
+    balance_after = "balance_after",
     not_paid_amount = "not_paid_amount",
     status = "status",
     transaction_payment_type = "transaction_payment_type",

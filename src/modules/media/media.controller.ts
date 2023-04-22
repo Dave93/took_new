@@ -12,7 +12,6 @@ export class MediaController {
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(@UploadedFile() file: Express.Multer.File) {
-    console.log(file);
     // save file
     return this.mediaService.saveFile(file);
   }

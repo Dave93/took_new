@@ -23,7 +23,6 @@ export class OrderNewNotificationsProcessor {
   @Process('newOrderNotify')
   async process(job: Job) {
     const { order } = job.data;
-    console.log(job.data);
     const orderStatuses: order_status[] = await this.cacheService.getOrderStatuses();
     // get order organization statuses
     const orderOrganizationStatuses = orderStatuses.filter(

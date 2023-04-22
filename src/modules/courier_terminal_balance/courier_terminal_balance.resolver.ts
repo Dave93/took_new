@@ -4,7 +4,7 @@ import { CourierTerminalBalance } from './entities/courier_terminal_balance.enti
 import { CreateCourierTerminalBalanceInput } from './dto/create-courier_terminal_balance.input';
 import { UpdateCourierTerminalBalanceInput } from './dto/update-courier_terminal_balance.input';
 import { UseGuards } from '@nestjs/common';
-import { CurrentUser, JwtAuthGuard } from '@auth';
+import { CurrentUser, JwtAuthGuard, Permissions } from '@auth';
 import { users } from '../../@generated/users/users.model';
 import { courier_terminal_balance } from '../../@generated/courier-terminal-balance/courier-terminal-balance.model';
 import { ManagerCouriersBalance } from '@modules/courier_terminal_balance/dto/manager_couriers_balance';
@@ -40,5 +40,15 @@ export class CourierTerminalBalanceResolver {
     @Args('terminal_id', { type: () => String }) terminal_id: string,
   ) {
     return this.courierTerminalBalanceService.withdrawCourierBalance(user, amount, courier_id, terminal_id);
+  }
+
+  @Query(() => [courier_terminal_balance], { name: 'couriersTerminalBalance' })
+  @Permissions('courier_balance.list')
+  async couriersTerminalBalance(
+    @Args('terminal_id', { type: () => [String], nullable: true }) terminal_id: string[],
+    @Args('courier_id', { type: () => [String], nullable: true }) courier_id: string[],
+    @Args('status', { type: () => [String], nullable: true }) status: string[],
+  ) {
+    return this.courierTerminalBalanceService.couriersTerminalBalance(terminal_id, courier_id, status);
   }
 }

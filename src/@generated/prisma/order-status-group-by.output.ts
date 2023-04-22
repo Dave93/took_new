@@ -25,6 +25,12 @@ export class Order_statusGroupBy {
     @Field(() => String, {nullable:true})
     color?: string;
 
+    @Field(() => String, {nullable:true})
+    code?: string;
+
+    @Field(() => String, {nullable:true})
+    status_change_text?: string;
+
     @Field(() => Boolean, {nullable:false})
     finish!: boolean;
 
@@ -42,6 +48,12 @@ export class Order_statusGroupBy {
 
     @Field(() => Boolean, {nullable:false})
     in_terminal!: boolean;
+
+    @Field(() => Boolean, {nullable:false})
+    should_pay!: boolean;
+
+    @Field(() => String, {nullable:true})
+    yandex_delivery_statuses?: string;
 
     @Field(() => Order_statusCountAggregate, {nullable:true})
     _count?: Order_statusCountAggregate;

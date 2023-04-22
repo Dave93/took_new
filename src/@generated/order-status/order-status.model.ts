@@ -24,6 +24,12 @@ export class order_status {
     @Field(() => String, {nullable:true})
     color!: string | null;
 
+    @Field(() => String, {nullable:true})
+    code!: string | null;
+
+    @Field(() => String, {nullable:true})
+    status_change_text!: string | null;
+
     @Field(() => Boolean, {nullable:false,defaultValue:false})
     finish!: boolean;
 
@@ -41,6 +47,12 @@ export class order_status {
 
     @Field(() => Boolean, {nullable:false,defaultValue:false})
     in_terminal!: boolean;
+
+    @Field(() => Boolean, {nullable:false,defaultValue:false})
+    should_pay!: boolean;
+
+    @Field(() => String, {nullable:true})
+    yandex_delivery_statuses!: string | null;
 
     @Field(() => organization, {nullable:false})
     order_status_organization?: organization;

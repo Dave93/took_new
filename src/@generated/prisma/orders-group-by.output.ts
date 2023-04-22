@@ -47,6 +47,12 @@ export class OrdersGroupBy {
     to_lon!: number;
 
     @Field(() => Float, {nullable:false})
+    wrong_lat!: number;
+
+    @Field(() => Float, {nullable:false})
+    wrong_lon!: number;
+
+    @Field(() => Float, {nullable:false})
     pre_distance!: number;
 
     @Field(() => Int, {nullable:false})
@@ -66,6 +72,9 @@ export class OrdersGroupBy {
 
     @Field(() => Float, {nullable:false})
     delivery_price!: number;
+
+    @Field(() => Float, {nullable:false})
+    customer_delivery_price!: number;
 
     @Field(() => String, {nullable:false})
     delivery_address!: string;
@@ -96,6 +105,15 @@ export class OrdersGroupBy {
 
     @Field(() => String, {nullable:true})
     cancel_voice_id?: string;
+
+    @Field(() => String, {nullable:true})
+    operator_notes?: string;
+
+    @Field(() => String, {nullable:true})
+    delivery_schedule?: string;
+
+    @Field(() => String, {nullable:true})
+    later_time?: string;
 
     @Field(() => Date, {nullable:false})
     created_at!: Date | string;

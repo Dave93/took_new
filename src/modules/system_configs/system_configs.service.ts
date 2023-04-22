@@ -42,4 +42,13 @@ export class SystemConfigsService {
   remove(id: number) {
     return `This action removes a #${id} systemConfig`;
   }
+
+  async systemConfigByKey(key: string) {
+    const systemConfig = await this.prismaService.system_configs.findUnique({
+      where: {
+        name: key,
+      },
+    });
+    return systemConfig;
+  }
 }

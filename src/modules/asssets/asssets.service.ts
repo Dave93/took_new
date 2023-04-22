@@ -25,7 +25,6 @@ export class AsssetsService {
 
   async saveModelAssets(file: FileUpload, model: string, model_id: string = null): Promise<assets> {
     const { createReadStream, filename } = await file;
-    console.log(file);
     const stream = createReadStream();
     let courierCommentVoicePath = '';
     const random = this.genRandomString(5);
@@ -35,17 +34,16 @@ export class AsssetsService {
       courierCommentVoicePath = join(process.cwd(), `../uploads/${model}/${random}/`);
     }
     mkdirSync(courierCommentVoicePath, { recursive: true });
-    console.log(courierCommentVoicePath);
     return new Promise((resolve, reject) => {
       stream
         .on('end', () => {
-          console.log('ReadStream Ended');
+          // console.log('ReadStream Ended');
         })
         .on('close', () => {
-          console.log('ReadStream Closed');
+          // console.log('ReadStream Closed');
         })
         .on('error', (err) => {
-          console.error('ReadStream Error', err);
+          // console.error('ReadStream Error', err);
         })
         .pipe(createWriteStream(join(courierCommentVoicePath, `./${filename}`)))
         .on('close', async () => {
@@ -67,7 +65,7 @@ export class AsssetsService {
           resolve(asset);
         })
         .on('error', (err) => {
-          console.log(err);
+          // console.log(err);
           reject('error');
         });
     });
@@ -75,7 +73,6 @@ export class AsssetsService {
 
   async uploadFile(file: FileUpload, modelId: string) {
     const { createReadStream, filename } = await file;
-    console.log(file);
     const stream = createReadStream();
     let path = '';
     const random = this.genRandomString(5);
@@ -85,20 +82,20 @@ export class AsssetsService {
     return new Promise((resolve, reject) => {
       stream
         .on('end', () => {
-          console.log('ReadStream Ended');
+          // console.log('ReadStream Ended');
         })
         .on('close', () => {
-          console.log('ReadStream Closed');
+          // console.log('ReadStream Closed');
         })
         .on('error', (err) => {
-          console.error('ReadStream Error', err);
+          // console.error('ReadStream Error', err);
         })
         .pipe(createWriteStream(join(path, `./${filename}`)))
         .on('close', async () => {
           resolve(`https://${apiDomain}/model_uploads/${modelId}/${filename}`);
         })
         .on('error', (err) => {
-          console.log(err);
+          // console.log(err);
           reject('error');
         });
     });

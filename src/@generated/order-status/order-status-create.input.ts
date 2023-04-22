@@ -19,6 +19,12 @@ export class order_statusCreateInput {
     @Field(() => String, {nullable:true})
     color?: string;
 
+    @Field(() => String, {nullable:true})
+    code?: string;
+
+    @Field(() => String, {nullable:true})
+    status_change_text?: string;
+
     @Field(() => Boolean, {nullable:true})
     finish?: boolean;
 
@@ -36,6 +42,12 @@ export class order_statusCreateInput {
 
     @Field(() => Boolean, {nullable:true})
     in_terminal?: boolean;
+
+    @Field(() => Boolean, {nullable:true})
+    should_pay?: boolean;
+
+    @Field(() => String, {nullable:true})
+    yandex_delivery_statuses?: string;
 
     @Field(() => organizationCreateNestedOneWithoutOrder_status_organizationInput, {nullable:false})
     order_status_organization!: organizationCreateNestedOneWithoutOrder_status_organizationInput;

@@ -29,6 +29,9 @@ export class terminalsUncheckedUpdateManyWithoutTerminals_organization_idTorgani
     @Field(() => String, {nullable:true})
     external_id?: string;
 
+    @Field(() => String, {nullable:true})
+    manager_name?: string;
+
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;
 

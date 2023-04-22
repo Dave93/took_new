@@ -1,5 +1,5 @@
 import { CACHE_MANAGER, Inject, Injectable, OnModuleInit } from '@nestjs/common';
-import { organization, work_schedules } from '@prisma/client';
+import { order_bonus_pricing, organization, work_schedules } from '@prisma/client';
 import { Cache } from 'cache-manager';
 import { PrismaService } from 'src/prisma.service';
 import { order_status } from '../../@generated/order-status/order-status.model';
@@ -20,6 +20,7 @@ export class CacheControlService implements OnModuleInit {
     await this.cacheTerminals();
     await this.cacheOrganizations();
     await this.cacheOrderStatus();
+    await this.cacheOrderBonusPricing();
     await this.invalidateCache('api_tokens');
     await this.invalidateCache('roles');
     await this.invalidateCache('system_configs');
@@ -34,6 +35,11 @@ export class CacheControlService implements OnModuleInit {
   async cacheDeliveryPricing() {
     const deliveryPricing = await this.prismaService.delivery_pricing.findMany();
     return this.cacheManager.set('deliveryPricing', deliveryPricing, { ttl: 0 });
+  }
+
+  async cacheOrderBonusPricing() {
+    const orderBonusPricing = await this.prismaService.order_bonus_pricing.findMany();
+    return this.cacheManager.set('orderBonusPricing', orderBonusPricing, { ttl: 0 });
   }
 
   async cacheTerminals() {
@@ -101,6 +107,16 @@ export class CacheControlService implements OnModuleInit {
   async getOrganizationDeliveryPricing(organizationId: string) {
     const deliveryPricing: delivery_pricing[] = await this.cacheManager.get('deliveryPricing');
     return deliveryPricing.filter((pricing) => pricing.organization_id === organizationId);
+  }
+
+  async getBonusPricing(organizationId: string) {
+    const orderBonusPricing: order_bonus_pricing[] = await this.cacheManager.get('orderBonusPricing');
+    return orderBonusPricing.filter((pricing) => pricing.organization_id === organizationId);
+  }
+
+  async getDeliveryPricingById(id: string) {
+    const deliveryPricing: delivery_pricing[] = await this.cacheManager.get('deliveryPricing');
+    return deliveryPricing.find((pricing) => pricing.id === id);
   }
 
   async getSetting(name: string) {

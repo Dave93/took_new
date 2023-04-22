@@ -50,8 +50,9 @@ export class AuthResolver {
     @Args('otp', { type: () => String }) otp: string,
     @Args('verificationKey', { type: () => String }) verificationKey: string,
     @Args('deviceToken', { type: () => String, nullable: true }) deviceToken: string = '',
+    @Args('tgId', { type: () => Int, nullable: true }) tgId: number = null,
   ): Promise<LoginResponseDto> {
-    const result = await this.authService.verifyOtp(phone, otp, verificationKey, deviceToken);
+    const result = await this.authService.verifyOtp(phone, otp, verificationKey, deviceToken, tgId);
     return result;
   }
 

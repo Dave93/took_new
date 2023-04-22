@@ -39,6 +39,12 @@ export class ordersCreateManyOrders_terminalsInput {
     to_lon?: number;
 
     @Field(() => Float, {nullable:true})
+    wrong_lat?: number;
+
+    @Field(() => Float, {nullable:true})
+    wrong_lon?: number;
+
+    @Field(() => Float, {nullable:true})
     pre_distance?: number;
 
     @Field(() => Int, {nullable:true})
@@ -58,6 +64,9 @@ export class ordersCreateManyOrders_terminalsInput {
 
     @Field(() => Float, {nullable:true})
     delivery_price?: number;
+
+    @Field(() => Float, {nullable:true})
+    customer_delivery_price?: number;
 
     @Field(() => String, {nullable:false})
     delivery_address!: string;
@@ -88,6 +97,15 @@ export class ordersCreateManyOrders_terminalsInput {
 
     @Field(() => String, {nullable:true})
     cancel_voice_id?: string;
+
+    @Field(() => String, {nullable:true})
+    operator_notes?: string;
+
+    @Field(() => String, {nullable:true})
+    delivery_schedule?: string;
+
+    @Field(() => String, {nullable:true})
+    later_time?: string;
 
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;

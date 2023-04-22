@@ -31,6 +31,8 @@ import { outside_requests } from '../outside-requests/outside-requests.model';
 import { courier_terminal_balance } from '../courier-terminal-balance/courier-terminal-balance.model';
 import { manager_withdraw } from '../manager-withdraw/manager-withdraw.model';
 import { timesheet } from '../timesheet/timesheet.model';
+import { scheduled_reports_subscription } from '../scheduled-reports-subscription/scheduled-reports-subscription.model';
+import { order_bonus_pricing } from '../order-bonus-pricing/order-bonus-pricing.model';
 import { UsersCount } from '../prisma/users-count.output';
 
 @ObjectType()
@@ -96,6 +98,12 @@ export class users {
     @Field(() => [String], {nullable:true})
     doc_files!: Array<string>;
 
+    @Field(() => Date, {nullable:true})
+    order_start_date!: Date | null;
+
+    @Field(() => String, {nullable:true})
+    app_version!: string | null;
+
     @Field(() => Date, {nullable:false})
     created_at!: Date;
 
@@ -104,6 +112,12 @@ export class users {
 
     @Field(() => [otp], {nullable:true})
     otp?: Array<otp>;
+
+    @Field(() => String, {nullable:true})
+    api_token!: string | null;
+
+    @Field(() => String, {nullable:true})
+    tg_id!: string | null;
 
     @Field(() => [permissions], {nullable:true})
     permissions_permissions_created_byTousers?: Array<permissions>;
@@ -257,6 +271,18 @@ export class users {
 
     @Field(() => [timesheet], {nullable:true})
     timesheet_users?: Array<timesheet>;
+
+    @Field(() => [scheduled_reports_subscription], {nullable:true})
+    scheduled_reports_subscription_users?: Array<scheduled_reports_subscription>;
+
+    @Field(() => [order_bonus_pricing], {nullable:true})
+    order_bonus_pricing_created_byTousers?: Array<order_bonus_pricing>;
+
+    @Field(() => [order_bonus_pricing], {nullable:true})
+    order_bonus_pricing_updated_byTousers?: Array<order_bonus_pricing>;
+
+    @Field(() => [order_bonus_pricing], {nullable:true})
+    order_bonus_pricing_courier_idTusers?: Array<order_bonus_pricing>;
 
     @Field(() => UsersCount, {nullable:false})
     _count?: UsersCount;

@@ -21,6 +21,12 @@ export class order_statusMinOrderByAggregateInput {
     color?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    code?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    status_change_text?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     finish?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
@@ -37,4 +43,10 @@ export class order_statusMinOrderByAggregateInput {
 
     @Field(() => SortOrder, {nullable:true})
     in_terminal?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    should_pay?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    yandex_delivery_statuses?: keyof typeof SortOrder;
 }

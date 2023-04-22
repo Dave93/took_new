@@ -8,6 +8,7 @@ import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { IntNullableFilter } from '../prisma/int-nullable-filter.input';
 import { JsonFilter } from '../prisma/json-filter.input';
 import { IntFilter } from '../prisma/int-filter.input';
+import { JsonNullableFilter } from '../prisma/json-nullable-filter.input';
 import { StringNullableFilter } from '../prisma/string-nullable-filter.input';
 import { Enumorganization_payment_typesNullableFilter } from '../prisma/enumorganization-payment-types-nullable-filter.input';
 import { OrganizationRelationFilter } from '../prisma/organization-relation-filter.input';
@@ -58,6 +59,15 @@ export class delivery_pricingWhereInput {
 
     @Field(() => IntFilter, {nullable:true})
     price_per_km?: IntFilter;
+
+    @Field(() => JsonNullableFilter, {nullable:true})
+    customer_rules?: JsonNullableFilter;
+
+    @Field(() => IntFilter, {nullable:true})
+    customer_price_per_km?: IntFilter;
+
+    @Field(() => IntFilter, {nullable:true})
+    min_distance_km?: IntFilter;
 
     @Field(() => StringFilter, {nullable:true})
     organization_id?: StringFilter;

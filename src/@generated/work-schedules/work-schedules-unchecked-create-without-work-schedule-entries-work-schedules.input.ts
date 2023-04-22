@@ -1,5 +1,6 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
+import { Int } from '@nestjs/graphql';
 import { users_work_schedulesUncheckedCreateNestedManyWithoutWork_schedulesInput } from '../users-work-schedules/users-work-schedules-unchecked-create-nested-many-without-work-schedules.input';
 
 @InputType()
@@ -28,6 +29,9 @@ export class work_schedulesUncheckedCreateWithoutWork_schedule_entries_work_sche
 
     @Field(() => Date, {nullable:false})
     max_start_time!: Date | string;
+
+    @Field(() => Int, {nullable:true})
+    bonus_price?: number;
 
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;

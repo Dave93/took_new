@@ -15,7 +15,7 @@ export class DeliveryPricingResolver {
 
   @Mutation(() => delivery_pricing)
   @Permissions('delivery_pricing.create')
-  deliveryPricingCreate(@Args() createDeliveryPricingInput: CreateOnedeliveryPricingArgs) {
+  createDeliveryPricing(@Args() createDeliveryPricingInput: CreateOnedeliveryPricingArgs) {
     return this.deliveryPricingService.create(createDeliveryPricingInput);
   }
 

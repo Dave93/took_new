@@ -37,6 +37,9 @@ export class TerminalsGroupBy {
     @Field(() => String, {nullable:false})
     organization_id!: string;
 
+    @Field(() => String, {nullable:true})
+    manager_name?: string;
+
     @Field(() => Date, {nullable:false})
     created_at!: Date | string;
 

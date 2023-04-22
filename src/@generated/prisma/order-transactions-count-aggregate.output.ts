@@ -27,6 +27,12 @@ export class Order_transactionsCountAggregate {
     amount!: number;
 
     @Field(() => Int, {nullable:false})
+    balance_before!: number;
+
+    @Field(() => Int, {nullable:false})
+    balance_after!: number;
+
+    @Field(() => Int, {nullable:false})
     not_paid_amount!: number;
 
     @Field(() => Int, {nullable:false})

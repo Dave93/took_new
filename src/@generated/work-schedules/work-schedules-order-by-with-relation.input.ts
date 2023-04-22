@@ -37,6 +37,9 @@ export class work_schedulesOrderByWithRelationInput {
     max_start_time?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    bonus_price?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     created_at?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})

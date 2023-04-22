@@ -34,6 +34,12 @@ export class Delivery_pricingMinAggregate {
     @Field(() => Int, {nullable:true})
     price_per_km?: number;
 
+    @Field(() => Int, {nullable:true})
+    customer_price_per_km?: number;
+
+    @Field(() => Int, {nullable:true})
+    min_distance_km?: number;
+
     @Field(() => String, {nullable:true})
     organization_id?: string;
 

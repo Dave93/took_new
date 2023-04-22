@@ -108,7 +108,6 @@ export class OrderIndexProcessor {
     // console.log('indexing order', JSON.stringify(order));
 
     try {
-      console.log('indexing order', JSON.stringify(order));
       await this.searchService.indexOrder(order);
     } catch (e) {
       console.log(e);

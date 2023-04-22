@@ -10,6 +10,7 @@ export enum TerminalsScalarFieldEnum {
     longitude = "longitude",
     external_id = "external_id",
     organization_id = "organization_id",
+    manager_name = "manager_name",
     created_at = "created_at",
     updated_at = "updated_at"
 }

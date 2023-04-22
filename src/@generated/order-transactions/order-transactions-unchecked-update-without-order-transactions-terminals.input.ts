@@ -27,6 +27,12 @@ export class order_transactionsUncheckedUpdateWithoutOrder_transactions_terminal
     amount?: number;
 
     @Field(() => Float, {nullable:true})
+    balance_before?: number;
+
+    @Field(() => Float, {nullable:true})
+    balance_after?: number;
+
+    @Field(() => Float, {nullable:true})
     not_paid_amount?: number;
 
     @Field(() => order_transaction_status, {nullable:true})

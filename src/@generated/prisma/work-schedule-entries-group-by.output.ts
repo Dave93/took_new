@@ -39,14 +39,14 @@ export class Work_schedule_entriesGroupBy {
     @Field(() => Float, {nullable:false})
     lat_open!: number;
 
-    @Field(() => Float, {nullable:false})
-    lat_close!: number;
+    @Field(() => Float, {nullable:true})
+    lat_close?: number;
 
     @Field(() => Float, {nullable:false})
     lon_open!: number;
 
-    @Field(() => Float, {nullable:false})
-    lon_close!: number;
+    @Field(() => Float, {nullable:true})
+    lon_close?: number;
 
     @Field(() => work_schedule_entry_status, {nullable:false})
     current_status!: keyof typeof work_schedule_entry_status;

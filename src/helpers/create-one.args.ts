@@ -26,6 +26,13 @@ import { delivery_pricingUncheckedUpdateInput } from '../@generated/delivery-pri
 import { delivery_pricingWhereUniqueInput } from '../@generated/delivery-pricing/delivery-pricing-where-unique.input';
 import { brandsUncheckedCreateInput } from '../@generated/brands/brands-unchecked-create.input';
 import { brandsCreateInput } from '../@generated/brands/brands-create.input';
+import { order_transactionsUncheckedCreateInput } from '../@generated/order-transactions/order-transactions-unchecked-create.input';
+import { order_transactionsCreateInput } from '../@generated/order-transactions/order-transactions-create.input';
+import { order_bonus_pricingUncheckedCreateInput } from '../@generated/order-bonus-pricing/order-bonus-pricing-unchecked-create.input';
+import { order_bonus_pricingCreateInput } from '../@generated/order-bonus-pricing/order-bonus-pricing-create.input';
+import { order_bonus_pricingUncheckedUpdateInput } from '../@generated/order-bonus-pricing/order-bonus-pricing-unchecked-update.input';
+import { order_bonus_pricingUpdateInput } from '../@generated/order-bonus-pricing/order-bonus-pricing-update.input';
+import { order_bonus_pricingWhereUniqueInput } from '../@generated/order-bonus-pricing/order-bonus-pricing-where-unique.input';
 
 type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
 type XOR<T, U> = T extends object ? (U extends object ? (Without<T, U> & U) | (Without<U, T> & T) : U) : T;
@@ -115,8 +122,36 @@ export class delivery_pricingUpdateArgs {
 }
 
 @ArgsType()
+export class order_bonus_pricingUpdateArgs {
+  @Field(() => order_bonus_pricingUncheckedUpdateInput, { nullable: false })
+  @Type(() => order_bonus_pricingUncheckedUpdateInput)
+  data: XOR<order_bonus_pricingUpdateInput, order_bonus_pricingUncheckedUpdateInput>;
+  /**
+   * Choose, which delivery_pricing to update.
+   *
+   **/
+  @Field(() => order_bonus_pricingWhereUniqueInput, { nullable: false })
+  @Type(() => order_bonus_pricingWhereUniqueInput)
+  where: order_bonus_pricingWhereUniqueInput;
+}
+
+@ArgsType()
 export class brandsCreateArgs {
   @Field(() => brandsUncheckedCreateInput, { nullable: false })
   @Type(() => brandsUncheckedCreateInput)
   data!: XOR<brandsCreateInput, brandsUncheckedCreateInput>;
+}
+
+@ArgsType()
+export class CreateOneorderTransactionsArgs {
+  @Field(() => order_transactionsUncheckedCreateInput, { nullable: false })
+  @Type(() => order_transactionsUncheckedCreateInput)
+  data!: XOR<order_transactionsCreateInput, order_transactionsUncheckedCreateInput>;
+}
+
+@ArgsType()
+export class CreateOneorderBonusPricingArgs {
+  @Field(() => order_bonus_pricingUncheckedCreateInput, { nullable: false })
+  @Type(() => order_bonus_pricingUncheckedCreateInput)
+  data!: XOR<order_bonus_pricingCreateInput, order_bonus_pricingUncheckedCreateInput>;
 }

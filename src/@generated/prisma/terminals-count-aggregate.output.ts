@@ -33,6 +33,9 @@ export class TerminalsCountAggregate {
     organization_id!: number;
 
     @Field(() => Int, {nullable:false})
+    manager_name!: number;
+
+    @Field(() => Int, {nullable:false})
     created_at!: number;
 
     @Field(() => Int, {nullable:false})

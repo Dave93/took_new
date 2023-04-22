@@ -120,7 +120,7 @@ export class AuthService {
       {
         auth: {
           username: 'lesailes2',
-          password: 'DCTr@7mzC',
+          password: 'W84Uu8h@j',
         },
       },
     );
@@ -129,7 +129,7 @@ export class AuthService {
     return result;
   }
 
-  async verifyOtp(phone: string, otp: string, verificationKey: string, deviceToken: string) {
+  async verifyOtp(phone: string, otp: string, verificationKey: string, deviceToken: string, tgId: number) {
     const currentdate = new Date();
 
     if (!verificationKey) {
@@ -197,6 +197,7 @@ export class AuthService {
                 last_name: true,
                 is_online: true,
                 wallet_balance: true,
+                api_token: true,
               },
             });
 
@@ -214,6 +215,17 @@ export class AuthService {
                 },
                 data: {
                   fcm_token: deviceToken,
+                },
+              });
+            }
+
+            if (tgId) {
+              await this.prismaService.users.update({
+                where: {
+                  id: user.id,
+                },
+                data: {
+                  tg_id: tgId.toString(),
                 },
               });
             }
@@ -238,6 +250,7 @@ export class AuthService {
             dto.is_super_user = user.is_super_user;
             dto.is_online = user.is_online;
             dto.wallet_balance = user.wallet_balance;
+            dto.api_token = await user.api_token;
             dto.terminal_id = terminals.map((t) => t.terminal_id);
 
             const payload: JwtPayload = { id: user.id, phone: user.phone };

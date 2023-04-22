@@ -46,6 +46,12 @@ export class order_transactionsWhereInput {
     amount?: FloatFilter;
 
     @Field(() => FloatFilter, {nullable:true})
+    balance_before?: FloatFilter;
+
+    @Field(() => FloatFilter, {nullable:true})
+    balance_after?: FloatFilter;
+
+    @Field(() => FloatFilter, {nullable:true})
     not_paid_amount?: FloatFilter;
 
     @Field(() => Enumorder_transaction_statusFilter, {nullable:true})

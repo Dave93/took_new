@@ -54,7 +54,7 @@ export class TerminalsService {
     return `This action removes a #${id} terminal`;
   }
 
-  @Cron('* * */10 * * *')
+  // @Cron('* * */10 * * *')
   async getAllTerminalsFromIiko() {
     let organizations = await this.prismaService.organization.findMany({
       select: {
@@ -116,7 +116,11 @@ export class TerminalsService {
     return res;
   }
 
-  getAllCached() {
-    return this.cacheControl.getTerminals();
+  async getAllCached(active = true) {
+    const terminals = await this.cacheControl.getTerminals();
+    if (active) {
+      return terminals.filter((terminal) => terminal.active);
+    }
+    return terminals;
   }
 }

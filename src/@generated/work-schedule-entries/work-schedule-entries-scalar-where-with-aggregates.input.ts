@@ -6,6 +6,7 @@ import { DateTimeNullableWithAggregatesFilter } from '../prisma/date-time-nullab
 import { IntWithAggregatesFilter } from '../prisma/int-with-aggregates-filter.input';
 import { StringNullableWithAggregatesFilter } from '../prisma/string-nullable-with-aggregates-filter.input';
 import { FloatWithAggregatesFilter } from '../prisma/float-with-aggregates-filter.input';
+import { FloatNullableWithAggregatesFilter } from '../prisma/float-nullable-with-aggregates-filter.input';
 import { Enumwork_schedule_entry_statusWithAggregatesFilter } from '../prisma/enumwork-schedule-entry-status-with-aggregates-filter.input';
 import { BoolWithAggregatesFilter } from '../prisma/bool-with-aggregates-filter.input';
 
@@ -48,14 +49,14 @@ export class work_schedule_entriesScalarWhereWithAggregatesInput {
     @Field(() => FloatWithAggregatesFilter, {nullable:true})
     lat_open?: FloatWithAggregatesFilter;
 
-    @Field(() => FloatWithAggregatesFilter, {nullable:true})
-    lat_close?: FloatWithAggregatesFilter;
+    @Field(() => FloatNullableWithAggregatesFilter, {nullable:true})
+    lat_close?: FloatNullableWithAggregatesFilter;
 
     @Field(() => FloatWithAggregatesFilter, {nullable:true})
     lon_open?: FloatWithAggregatesFilter;
 
-    @Field(() => FloatWithAggregatesFilter, {nullable:true})
-    lon_close?: FloatWithAggregatesFilter;
+    @Field(() => FloatNullableWithAggregatesFilter, {nullable:true})
+    lon_close?: FloatNullableWithAggregatesFilter;
 
     @Field(() => Enumwork_schedule_entry_statusWithAggregatesFilter, {nullable:true})
     current_status?: Enumwork_schedule_entry_statusWithAggregatesFilter;
