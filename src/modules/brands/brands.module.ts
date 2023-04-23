@@ -5,6 +5,6 @@ import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../../prisma.service';
 
 @Module({
-  providers: [BrandsResolver, BrandsService, ConfigService, PrismaService],
+  providers: [BrandsResolver, BrandsService, PrismaService],
 })
 export class BrandsModule {}

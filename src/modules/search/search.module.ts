@@ -9,6 +9,6 @@ import { SystemConfigsService } from '@modules/system_configs/system_configs.ser
 @Global()
 @Module({
   imports: [ConfigModule, CacheControlModule],
-  providers: [ConfigService, SearchService, PrismaService, SystemConfigsService, CacheControlService],
+  providers: [SearchService, PrismaService, SystemConfigsService, CacheControlService],
 })
 export class SearchModule {}

@@ -3921,7 +3921,8 @@ ORDER BY courier_orders.terminal_id, courier_orders.order_day, courier_orders.or
     return await this.searchService.ensureIndexExists(indexName, mapping);
   }
 
-  @Cron('0 */2 * * * *')
+  // @Cron('0 */2 * * * *')
+
   async sendOperatorNotificationOfNewOrder() {
     console.log('sendOperatorNotificationOfNewOrder', new Date().toISOString());
     // /orders?pageSize=200&current=1&sorter[0][field]=created_at&sorter[0][order]=desc&filters[0][field]=created_at&filters[0][operator]=gte&filters[0][value]=2023-03-09T19:00:00.000Z&filters[1][field]=created_at&filters[1][operator]=lte&filters[1][value]=2023-03-10T18:59:59.999Z&filters[2][field]=order_status_id&filters[2][operator]=in&filters[2][value][0]=1c3512db-a877-444c-977e-7b9effbe31a8&filters[2][value][1]=b55f0917-d915-4d8e-9cda-64793f72d036
@@ -4555,7 +4556,8 @@ ORDER BY courier_orders.terminal_id, courier_orders.order_day, courier_orders.or
     return true;
   }
 
-  @Cron('0 */3 * * * *')
+  // @Cron('0 */3 * * * *')
+
   async checkYandexDeliveryOrderStatus() {
     /**
      * 1. Get orders from elasticsearch index arryt_yandex_delivery_orders for yesterday and today
@@ -4706,7 +4708,8 @@ ORDER BY courier_orders.terminal_id, courier_orders.order_day, courier_orders.or
 
     return true;
   }
-  @Cron('0 */5 * * * *')
+  // @Cron('0 */5 * * * *')
+
   async sendReports() {
     const reportSubscribers = await this.prismaService.scheduled_reports_subscription.findMany({
       select: {

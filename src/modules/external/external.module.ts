@@ -12,6 +12,6 @@ import { SystemConfigsService } from '@modules/system_configs/system_configs.ser
 @Module({
   imports: [TokenModule],
   controllers: [ExternalController],
-  providers: [ExternalService, PrismaService, CacheControlService, SearchService, SystemConfigsService, ConfigService],
+  providers: [ExternalService, PrismaService, CacheControlService, SearchService, SystemConfigsService],
 })
 export class ExternalModule {}

@@ -12,7 +12,7 @@ export class ApiTokensService {
   constructor(private readonly prismaService: PrismaService, private readonly cacheControl: CacheControlService) {}
   async create(createApiTokenInput: api_tokensCreateArgs) {
     const res = this.prismaService.api_tokens.create(createApiTokenInput);
-    await this.cacheControl.invalidateCache('api_tokens');
+    await this.cacheControl.cacheApiTokens();
     return res;
   }
 
@@ -40,7 +40,7 @@ export class ApiTokensService {
 
   async update(updateApiTokenInput: UpdateOneapiTokensArgs) {
     const res = await this.prismaService.api_tokens.update(updateApiTokenInput);
-    await this.cacheControl.invalidateCache('api_tokens');
+    await this.cacheControl.cacheApiTokens();
     return res;
   }
 
@@ -50,7 +50,7 @@ export class ApiTokensService {
         id,
       },
     });
-    await this.cacheControl.invalidateCache('api_tokens');
+    await this.cacheControl.cacheApiTokens();
     return res;
   }
 

@@ -12,8 +12,7 @@ import { SystemConfigsService } from '@modules/system_configs/system_configs.ser
     PrismaService,
     CacheControlService,
     SystemConfigsService,
-    SearchService,
-    ConfigService,
+    SearchService
   ],
 })
 export class OrderNewNotificationsModule {}

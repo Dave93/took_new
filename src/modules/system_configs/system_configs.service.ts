@@ -23,7 +23,7 @@ export class SystemConfigsService {
         },
       });
     });
-    await this.cacheControl.invalidateCache('system_configs');
+    await this.cacheControl.cacheSystemConfigs();
     return this.prismaService.system_configs.findMany();
   }
 

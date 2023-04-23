@@ -12,7 +12,7 @@ export class RolesService {
   constructor(private readonly prismaService: PrismaService, private readonly cacheControl: CacheControlService) {}
   async create(createRolesInput: CreateOnerolesArgs) {
     const res = this.prismaService.roles.create(createRolesInput);
-    await this.cacheControl.invalidateCache('roles');
+    await this.cacheControl.cacheRoles();
     return res;
   }
 
@@ -39,7 +39,7 @@ export class RolesService {
 
   async update(updateRoleInput: UpdateOnerolesArgs) {
     const res = this.prismaService.roles.update(updateRoleInput);
-    await this.cacheControl.invalidateCache('roles');
+    await this.cacheControl.cacheRoles();
     return res;
   }
 
@@ -63,7 +63,7 @@ export class RolesService {
         permission_id,
       })),
     });
-    await this.cacheControl.invalidateCache('roles');
+    await this.cacheControl.cacheRoles();
     return res;
   }
 }

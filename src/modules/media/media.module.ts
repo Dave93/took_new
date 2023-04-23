@@ -5,6 +5,6 @@ import { ConfigService } from '@nestjs/config';
 
 @Module({
   controllers: [MediaController],
-  providers: [MediaService, ConfigService],
+  providers: [MediaService],
 })
 export class MediaModule {}

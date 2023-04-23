@@ -5,10 +5,8 @@ import { PrismaService } from 'src/prisma.service';
 import { TokenService } from '@auth';
 import { TokenModule } from '@modules/auth/token.module';
 import { AsssetsService } from '@modules/asssets/asssets.service';
-import { ConfigService } from '@nestjs/config';
-
 @Module({
   imports: [TokenModule],
-  providers: [CustomersResolver, CustomersService, PrismaService, AsssetsService, ConfigService],
+  providers: [CustomersResolver, CustomersService, PrismaService, AsssetsService],
 })
 export class CustomersModule {}

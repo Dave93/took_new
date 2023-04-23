@@ -55,6 +55,7 @@ export class TerminalsService {
   }
 
   // @Cron('* * */10 * * *')
+
   async getAllTerminalsFromIiko() {
     let organizations = await this.prismaService.organization.findMany({
       select: {

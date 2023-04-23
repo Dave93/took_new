@@ -24,7 +24,6 @@ import { SystemConfigsService } from '@modules/system_configs/system_configs.ser
     PrismaService,
     SearchService,
     SystemConfigsService,
-    ConfigService,
     CacheControlService,
   ],
 })

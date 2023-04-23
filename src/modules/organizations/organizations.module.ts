@@ -3,6 +3,7 @@ import { OrganizationsService } from './organizations.service';
 import { OrganizationsResolver } from './organizations.resolver';
 import { PrismaService } from 'src/prisma.service';
 import { CacheControlService } from '@modules/cache_control/cache_control.service';
+import {ConfigService} from "@nestjs/config";
 
 @Module({
   providers: [OrganizationsResolver, OrganizationsService, PrismaService, CacheControlService],

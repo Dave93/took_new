@@ -17,7 +17,6 @@ import { SystemConfigsService } from '@modules/system_configs/system_configs.ser
     OrdersService,
     PrismaService,
     CacheControlService,
-    ConfigService,
     SearchService,
     SystemConfigsService,
     AsssetsService,

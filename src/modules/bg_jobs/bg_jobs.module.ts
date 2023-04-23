@@ -10,6 +10,6 @@ import { SystemConfigsService } from '@modules/system_configs/system_configs.ser
 
 @Module({
   imports: [],
-  providers: [PrismaService, BgJobsProcessor, CacheControlService, SystemConfigsService, SearchService, ConfigService],
+  providers: [PrismaService, BgJobsProcessor, CacheControlService, SystemConfigsService, SearchService],
 })
 export class BgJobsModule {}

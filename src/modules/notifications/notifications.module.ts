@@ -12,7 +12,6 @@ import { SystemConfigsService } from '@modules/system_configs/system_configs.ser
 @Module({
   imports: [TokenModule, CacheControlModule, ConfigModule],
   providers: [
-    ConfigService,
     SearchService,
     PrismaService,
     CacheControlService,

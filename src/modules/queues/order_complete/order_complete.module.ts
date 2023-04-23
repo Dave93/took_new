@@ -14,7 +14,6 @@ import { SystemConfigsService } from '@modules/system_configs/system_configs.ser
     CacheControlService,
     SystemConfigsService,
     SearchService,
-    ConfigService,
     OrderCompleteService,
   ],
 })

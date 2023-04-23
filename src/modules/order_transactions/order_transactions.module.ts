@@ -9,6 +9,6 @@ import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [TokenModule],
-  providers: [OrderTransactionsResolver, OrderTransactionsService, PrismaService, CacheControlService, ConfigService],
+  providers: [OrderTransactionsResolver, OrderTransactionsService, PrismaService, CacheControlService],
 })
 export class OrderTransactionsModule {}

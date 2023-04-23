@@ -16,8 +16,7 @@ import { HttpModule } from '@nestjs/axios';
     PrismaService,
     CacheControlService,
     SystemConfigsService,
-    SearchService,
-    ConfigService,
+    SearchService
   ],
 })
 export class OrderEcommerceWebhookModule {}
