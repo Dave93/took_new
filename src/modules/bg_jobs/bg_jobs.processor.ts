@@ -10,6 +10,7 @@ import { SearchService } from '@modules/search/search.service';
 import { PubSub } from 'graphql-subscriptions';
 import { order_locations } from '../../@generated/order-locations/order-locations.model';
 import dayjs from 'dayjs';
+import {ConfigService} from "@nestjs/config";
 
 const pubSub = new PubSub();
 interface OrderLocationSearchResultHit {
@@ -21,6 +22,7 @@ export class BgJobsProcessor {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly cacheService: CacheControlService,
+    private readonly configService: ConfigService,
     private readonly searchService: SearchService,
   ) {}
   private readonly logger = new Logger(BgJobsProcessor.name);
@@ -30,6 +32,8 @@ export class BgJobsProcessor {
     const { data, user } = job.data;
 
     const orderStatuses: order_status[] = await this.cacheService.getOrderStatuses();
+
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
 
     if (user.id == '9f450b5a-79c2-4fa2-be88-be45cc9404c9') {
       console.log('locationData', { ...data, date: dayjs().format('YYYY-MM-DD HH:mm:ss') });
@@ -62,7 +66,7 @@ export class BgJobsProcessor {
       (orderStatus) => orderStatus.need_location && !orderStatus.finish,
     );
     // find all orders that are in the orderStatusesThatNeedLocation and courier_id is the user.id from elasticsearch index
-    const orders = await this.searchService.getDocumentsByQuery('arryt_orders', {
+    const orders = await this.searchService.getDocumentsByQuery(`${projectPrefix}_orders`, {
       query: {
         bool: {
           must: [
@@ -122,7 +126,7 @@ export class BgJobsProcessor {
 
     await this.searchService.checkOrderLocationsIndex();
 
-    const indexName = 'arryt_order_locations';
+    const indexName = `${projectPrefix}_order_locations`;
     let lastIncrement = await this.searchService.getOrderLocationLastIncrement(indexName);
     let increment = lastIncrement;
     if (orders.length > 0) {
@@ -152,7 +156,7 @@ export class BgJobsProcessor {
 
     // find all orders that are in the orderStatusesThatNeedLocationAndFinished and terminal_id is in userTerminals and created_at is in last 24 hours from elasticsearch index
 
-    const finishedOrders = await this.searchService.getDocumentsByQuery('arryt_orders', {
+    const finishedOrders = await this.searchService.getDocumentsByQuery(`${projectPrefix}_orders`, {
       query: {
         bool: {
           must: [
@@ -186,7 +190,7 @@ export class BgJobsProcessor {
     if (finishedOrders.length > 0) {
       // find all order_locations and order_statuses that are in the finishedOrders from search index
       const finishedOrderLocations = (await this.searchService.search({
-        index: 'arryt_order_locations',
+        index: `${projectPrefix}_order_locations`,
         body: {
           query: {
             bool: {

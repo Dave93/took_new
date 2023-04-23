@@ -13,12 +13,14 @@ import {
 } from '@modules/notifications/dto/find-many-notifications-args';
 import { users } from '@prisma/client';
 import { deleteNotificationArgs } from '@modules/notifications/entities/notification.entity';
+import {ConfigService} from "@nestjs/config";
 
 @Injectable()
 export class NotificationsService {
-  constructor(private readonly searchService: SearchService, private readonly prismaService: PrismaService) {}
+  constructor(private readonly searchService: SearchService, private readonly prismaService: PrismaService, private readonly configService: ConfigService) {}
   async ensureIndexExists(): Promise<void> {
-    const indexName = 'arryt_notifications';
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
+    const indexName = `${projectPrefix}_notifications`;
     await this.searchService.ensureIndexExists(indexName, {
       properties: {
         title: {

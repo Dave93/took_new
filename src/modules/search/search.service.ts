@@ -43,13 +43,14 @@ export class SearchService {
   // create indices
   async checkOrderLocationsIndex() {
     try {
+      const projectPrefix = await this.configService.get('PROJECT_PREFIX');
       const exists = await this.elasticClient.indices.exists({
-        index: 'arryt_order_locations',
+        index: `${projectPrefix}_order_locations`,
       });
 
       if (!exists) {
         await this.elasticClient.indices.create({
-          index: 'arryt_order_locations',
+          index: `${projectPrefix}_order_locations`,
           body: {
             mappings: {
               properties: {
@@ -86,13 +87,14 @@ export class SearchService {
 
   async checkOrderIndex() {
     try {
+      const projectPrefix = await this.configService.get('PROJECT_PREFIX');
       const exists = await this.elasticClient.indices.exists({
-        index: 'arryt_orders',
+        index: `${projectPrefix}_orders`,
       });
 
       if (!exists) {
         await this.elasticClient.indices.create({
-          index: 'arryt_orders',
+          index: `${projectPrefix}_orders`,
           body: {
             mappings: {
               properties: {
@@ -289,7 +291,8 @@ export class SearchService {
   // index data
   async bulkIndex(map: any[]) {
     try {
-      const body = map.flatMap((doc) => [{ index: { _index: 'arryt_order_locations' } }, doc]);
+      const projectPrefix = await this.configService.get('PROJECT_PREFIX');
+      const body = map.flatMap((doc) => [{ index: { _index: `${projectPrefix}_order_locations` } }, doc]);
       const result = await this.elasticClient.bulk({ refresh: true, body });
       if (result.errors) {
         console.log(result.errors);
@@ -310,6 +313,7 @@ export class SearchService {
 
   async indexOrder(order: any) {
     try {
+      const projectPrefix = await this.configService.get('PROJECT_PREFIX');
       await this.checkOrderIndex();
       if (order.from_lat) {
         order['from_location'] = {
@@ -338,7 +342,7 @@ export class SearchService {
         }
       }
       const result = await this.elasticClient.index({
-        index: 'arryt_orders',
+        index: `${projectPrefix}_orders`,
         id: order.id,
         body: order,
       });
@@ -349,8 +353,9 @@ export class SearchService {
 
   // finds
   async findOrderLocations(orderId: string) {
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     const res = await this.elasticClient.search({
-      index: 'arryt_order_locations',
+      index: `${projectPrefix}_order_locations`,
       body: {
         query: {
           match: {
@@ -386,11 +391,12 @@ export class SearchService {
     canceledStatuses.forEach((status) => {
       canceledMatch.push({ match_phrase: { order_status_id: status } });
     });
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
 
     const result = await this.elasticClient.msearch({
       searches: [
         // orders for today
-        { index: 'arryt_orders' },
+        { index: `${projectPrefix}_orders` },
         {
           aggs: {},
           size: 0,
@@ -436,7 +442,7 @@ export class SearchService {
           },
         },
 
-        { index: 'arryt_orders' },
+        { index: `${projectPrefix}_orders` },
         {
           aggs: {},
           size: 0,
@@ -482,7 +488,7 @@ export class SearchService {
           },
         },
 
-        { index: 'arryt_orders' },
+        { index: `${projectPrefix}_orders` },
         {
           aggs: {
             delivery_price: {
@@ -535,7 +541,7 @@ export class SearchService {
         },
 
         // orders for this yesterday
-        { index: 'arryt_orders' },
+        { index: `${projectPrefix}_orders` },
         {
           aggs: {},
           size: 0,
@@ -581,7 +587,7 @@ export class SearchService {
           },
         },
 
-        { index: 'arryt_orders' },
+        { index: `${projectPrefix}_orders` },
         {
           aggs: {},
           size: 0,
@@ -627,7 +633,7 @@ export class SearchService {
           },
         },
 
-        { index: 'arryt_orders' },
+        { index: `${projectPrefix}_orders` },
         {
           aggs: {
             delivery_price: {
@@ -680,7 +686,7 @@ export class SearchService {
         },
 
         // orders for this week
-        { index: 'arryt_orders' },
+        { index: `${projectPrefix}_orders` },
         {
           aggs: {},
           size: 0,
@@ -726,7 +732,7 @@ export class SearchService {
           },
         },
 
-        { index: 'arryt_orders' },
+        { index: `${projectPrefix}_orders` },
         {
           aggs: {},
           size: 0,
@@ -772,7 +778,7 @@ export class SearchService {
           },
         },
 
-        { index: 'arryt_orders' },
+        { index: `${projectPrefix}_orders` },
         {
           aggs: {
             delivery_price: {
@@ -825,7 +831,7 @@ export class SearchService {
         },
 
         // orders for this month
-        { index: 'arryt_orders' },
+        { index: `${projectPrefix}_orders` },
         {
           aggs: {},
           size: 0,
@@ -871,7 +877,7 @@ export class SearchService {
           },
         },
 
-        { index: 'arryt_orders' },
+        { index: `${projectPrefix}_orders` },
         {
           aggs: {},
           size: 0,
@@ -917,7 +923,7 @@ export class SearchService {
           },
         },
 
-        { index: 'arryt_orders' },
+        { index: `${projectPrefix}_orders` },
         {
           aggs: {
             delivery_price: {
@@ -1029,8 +1035,9 @@ export class SearchService {
   }
 
   async getCourierScore(id: string) {
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     const res = await this.elasticClient.search({
-      index: 'arryt_orders',
+      index: `${projectPrefix}_orders`,
       body: {
         aggs: {
           '0': {
@@ -1127,8 +1134,9 @@ export class SearchService {
   }
 
   async getCouriersEfficiency(startDate: Date, endDate: Date, user: users, courierId: string[], terminalId: string[]) {
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     const query = {
-      index: 'arryt_orders',
+      index: `${projectPrefix}_orders`,
       body: {
         size: 0,
         query: {
@@ -1236,7 +1244,8 @@ export class SearchService {
   }
 
   async createNotification(notification: any) {
-    await this.ensureIndexExists('arryt_notifications', {
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
+    await this.ensureIndexExists(`${projectPrefix}_notifications`, {
       properties: {
         created_at: { type: 'date' },
         body: {
@@ -1269,13 +1278,13 @@ export class SearchService {
       },
     });
     const res = await this.elasticClient.index({
-      index: 'arryt_notifications',
+      index: `${projectPrefix}_notifications`,
       body: notification,
     });
     // console.log(JSON.stringify(res));
 
     const document = await this.elasticClient.get({
-      index: 'arryt_notifications',
+      index: `${projectPrefix}_notifications`,
       id: res._id,
     });
 
@@ -1289,8 +1298,9 @@ export class SearchService {
   }
 
   async getOrdersByIds(ids: string[]) {
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     const res = await this.elasticClient.search({
-      index: 'arryt_orders',
+      index: `${projectPrefix}_orders`,
       body: {
         size: 200,
         query: {
@@ -1305,6 +1315,7 @@ export class SearchService {
   }
 
   async getAllNotifications(params: FindManynotificationsArgs) {
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     const query = {
       bool: {
         must: [],
@@ -1362,7 +1373,7 @@ export class SearchService {
     }
 
     const res = await this.elasticClient.search({
-      index: 'arryt_notifications',
+      index: `${projectPrefix}_notifications`,
       body: {
         size: params.take,
         from: params.skip,
@@ -1374,6 +1385,7 @@ export class SearchService {
   }
 
   async getAllMissedOrders(params: FindManymissedOrdersArgs) {
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     const query = {
       bool: {
         must: [],
@@ -1425,7 +1437,7 @@ export class SearchService {
     }
 
     const res = await this.elasticClient.search({
-      index: 'arryt_missed_orders',
+      index: `${projectPrefix}_missed_orders`,
       body: {
         size: params.take,
         from: params.skip,
@@ -1459,6 +1471,7 @@ export class SearchService {
     return res.hits.hits.map((hit) => ({ id: hit._id, ...hit._source }));
   }
   async notificationsConnection(where: notificationsWhereInput, user: users) {
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     const query = {
       bool: {
         must: [],
@@ -1519,7 +1532,7 @@ export class SearchService {
     // get all notifications count
 
     const countQuery = {
-      index: 'arryt_notifications',
+      index: `${projectPrefix}_notifications`,
       body: {
         query,
       },
@@ -1532,6 +1545,7 @@ export class SearchService {
     };
   }
   async missedOrdersConnection(where: missedOrdersWhereInput, user: users) {
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     const query = {
       bool: {
         must: [],
@@ -1576,7 +1590,7 @@ export class SearchService {
     // get all notifications count
 
     const countQuery = {
-      index: 'arryt_missed_orders',
+      index: `${projectPrefix}_missed_orders`,
       body: {
         query,
       },
@@ -1590,8 +1604,9 @@ export class SearchService {
   }
 
   async searchOrgOrders(orgId: string, terminalIds: string[], orderStatusIds: string[]) {
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     const searchParams = {
-      index: 'arryt_orders',
+      index: `${projectPrefix}_orders`,
       body: {
         query: {
           bool: {
@@ -1633,11 +1648,12 @@ export class SearchService {
 
   async searchNewOrdersForLastHour() {
     const minutes = await this.systemConfigsService.systemConfigByKey('late_order_time');
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     const terminals = await this.cacheControl.getTerminals();
     const activeTerminals = terminals.filter((t) => t.active);
     const terminalIds = activeTerminals.map((t) => t.id);
     const searchParams = {
-      index: 'arryt_orders',
+      index: `${projectPrefix}_orders`,
       body: {
         query: {
           bool: {
@@ -1681,10 +1697,11 @@ export class SearchService {
   }
 
   async logMissedOrders(orders: orders[], system_minutes_config: number) {
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     const promiseOrders = orders.map(async (order) => {
       // Check if document exists
       const exists = await this.elasticClient.exists({
-        index: 'arryt_missed_orders',
+        index: `${projectPrefix}_missed_orders`,
         id: order.id,
       });
 
@@ -1692,7 +1709,7 @@ export class SearchService {
       } else {
         // Create document
         const res = await this.elasticClient.create({
-          index: 'arryt_missed_orders',
+          index: `${projectPrefix}_missed_orders`,
           id: order.id,
           body: {
             organization_id: order.organization_id,
@@ -1738,6 +1755,7 @@ export class SearchService {
   }
 
   async updateMissedOrder(id: string, status: string, user: users) {
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     const body = {
       doc: {
         status,
@@ -1750,7 +1768,7 @@ export class SearchService {
       },
     };
     const result = await this.elasticClient.update({
-      index: 'arryt_missed_orders',
+      index: `${projectPrefix}_missed_orders`,
       id,
       body,
     });
@@ -1797,8 +1815,9 @@ export class SearchService {
      * receiver_user_ids is array of user ids
      * I want to get all notifications where user id is in receiver_user_ids and send_at is lower than now
      */
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     const searchParams = {
-      index: 'arryt_notifications',
+      index: `${projectPrefix}_notifications`,
       body: {
         query: {
           bool: {
@@ -1832,7 +1851,7 @@ export class SearchService {
     }));
   }
 
-  myUnreadNotifications(user: users) {
+  async myUnreadNotifications(user: users) {
     /**
      * Elastic index mapping
      * {
@@ -1873,8 +1892,9 @@ export class SearchService {
      * read_user_ids is array of user ids
      * I want to get count of notifications where user id is in receiver_user_ids and send_at is lower than now and user id is not in read_user_ids
      */
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     const searchParams = {
-      index: 'arryt_notifications',
+      index: `${projectPrefix}_notifications`,
       body: {
         query: {
           bool: {
@@ -1947,6 +1967,7 @@ export class SearchService {
      *
      * I want to add user id to read_user_ids array
      */
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     const body = {
       script: {
         source:
@@ -1958,7 +1979,7 @@ export class SearchService {
       },
     };
     return this.elasticClient.update({
-      index: 'arryt_notifications',
+      index: `${projectPrefix}_notifications`,
       id,
       body,
     });
@@ -1968,8 +1989,9 @@ export class SearchService {
     /**
      * find notification by id
      */
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     const searchParams = {
-      index: 'arryt_notifications',
+      index: `${projectPrefix}_notifications`,
       body: {
         query: {
           bool: {
@@ -1987,7 +2009,7 @@ export class SearchService {
 
     const res = await this.elasticClient.search(searchParams);
     await this.elasticClient.delete({
-      index: 'arryt_notifications',
+      index: `${projectPrefix}_notifications`,
       id: deleteInput.input.where.id,
     });
     return {
@@ -1998,13 +2020,14 @@ export class SearchService {
   }
 
   async getMyLastOrder(userId: string) {
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     const orderStatuses = await this.cacheControl.getOrderStatuses();
     const organizationsOrderStatuses = orderStatuses.filter(
       (orderStatus) => !orderStatus.finish && !orderStatus.cancel,
     );
     // search orders from elasticsearch by user id and order status order by created_at desc
     const searchParams = {
-      index: 'arryt_orders',
+      index: `${projectPrefix}_orders`,
       body: {
         query: {
           bool: {
@@ -2068,8 +2091,9 @@ export class SearchService {
      * first try to find order by id in elasticsearch index arryt_yandex_delivery_orders and if it exists update it
      */
 
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     const searchParams = {
-      index: 'arryt_yandex_delivery_orders',
+      index: `${projectPrefix}_yandex_delivery_orders`,
       body: {
         query: {
           bool: {
@@ -2097,7 +2121,7 @@ export class SearchService {
           },
         };
         return this.elasticClient.update({
-          index: 'arryt_yandex_delivery_orders',
+          index: `${projectPrefix}_yandex_delivery_orders`,
           id: result.hits.hits[0]._id,
           body,
         });
@@ -2112,7 +2136,7 @@ export class SearchService {
           },
         };
         return this.elasticClient.update({
-          index: 'arryt_yandex_delivery_orders',
+          index: `${projectPrefix}_yandex_delivery_orders`,
           id: result.hits.hits[0]._id,
           body,
         });
@@ -2131,7 +2155,7 @@ export class SearchService {
           user_id: user.id,
         };
         return this.elasticClient.index({
-          index: 'arryt_yandex_delivery_orders',
+          index: `${projectPrefix}_yandex_delivery_orders`,
           id,
           body,
         });
@@ -2144,7 +2168,7 @@ export class SearchService {
           user_id: user.id,
         };
         return this.elasticClient.index({
-          index: 'arryt_yandex_delivery_orders',
+          index: `${projectPrefix}_yandex_delivery_orders`,
           id,
           body,
         });
@@ -2156,8 +2180,9 @@ export class SearchService {
     /**
      * delete order from elasticsearch index arryt_yandex_delivery_orders where order_id = id
      */
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     const searchParams = {
-      index: 'arryt_yandex_delivery_orders',
+      index: `${projectPrefix}_yandex_delivery_orders`,
       body: {
         query: {
           bool: {
@@ -2175,7 +2200,7 @@ export class SearchService {
     const result = await this.elasticClient.search(searchParams);
     if (result.hits.hits.length > 0) {
       return this.elasticClient.delete({
-        index: 'arryt_yandex_delivery_orders',
+        index: `${projectPrefix}_yandex_delivery_orders`,
         id: result.hits.hits[0]._id,
       });
     } else {
@@ -2184,8 +2209,9 @@ export class SearchService {
   }
 
   async getYandexDeliveryData(orderIds: string[]) {
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     const res = await this.elasticClient.search({
-      index: 'arryt_yandex_delivery_orders',
+      index: `${projectPrefix}_yandex_delivery_orders`,
       body: {
         size: 200,
         query: {
@@ -2200,8 +2226,9 @@ export class SearchService {
   }
 
   async getYandexDeliveryOrders(yesterday: Date, today: Date) {
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     const res = await this.elasticClient.search({
-      index: 'arryt_yandex_delivery_orders',
+      index: `${projectPrefix}_yandex_delivery_orders`,
       body: {
         size: 5000,
         query: {
@@ -2228,12 +2255,13 @@ export class SearchService {
      * update orders in elasticsearch index arryt_yandex_delivery_orders using painless script
      */
 
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     if (!yandexOrdersForUpdate || yandexOrdersForUpdate.length === 0) {
       return;
     }
 
     const body = yandexOrdersForUpdate.flatMap((doc) => [
-      { update: { _id: doc.order_id, _index: 'arryt_yandex_delivery_orders' } },
+      { update: { _id: doc.order_id, _index: `${projectPrefix}_yandex_delivery_orders` } },
       {
         script: {
           source: 'ctx._source.order_data = params.order_data',
@@ -2259,9 +2287,10 @@ export class SearchService {
      *         },
      *       }
      */
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
 
     const res = await this.elasticClient.search({
-      index: 'arryt_sent_reports',
+      index: `${projectPrefix}_sent_reports`,
       body: {
         size: 1,
         query: {
@@ -2295,8 +2324,9 @@ export class SearchService {
       created_at,
       report_code,
     };
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     return this.elasticClient.index({
-      index: 'arryt_sent_reports',
+      index: `${projectPrefix}_sent_reports`,
       body,
     });
   }
@@ -2399,8 +2429,9 @@ export class SearchService {
      * 5. If user id is in read_user_ids, set field deliver_status to 'read', if user id is in sent_user_ids, set field deliver_status to 'sent', if user id is in receiver_user_id, set field deliver_status to 'not_sent', else set field deliver_status to 'not_received'
      */
 
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     const notification = await this.elasticClient.get({
-      index: 'arryt_notifications',
+      index: `${projectPrefix}_notifications`,
       id,
     });
 
@@ -2412,8 +2443,9 @@ export class SearchService {
      * 1. Get last order location by order id
      */
 
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     const res = await this.elasticClient.search({
-      index: 'arryt_order_locations',
+      index: `${projectPrefix}_order_locations`,
       body: {
         size: 1,
         query: {

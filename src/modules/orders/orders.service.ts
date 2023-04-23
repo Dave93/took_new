@@ -3870,6 +3870,7 @@ ORDER BY courier_orders.terminal_id, courier_orders.order_day, courier_orders.or
   }
 
   async checkMissedOrdersIndex() {
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     const mapping = {
       properties: {
         order_id: {
@@ -3917,7 +3918,8 @@ ORDER BY courier_orders.terminal_id, courier_orders.order_day, courier_orders.or
         },
       },
     };
-    const indexName = 'arryt_missed_orders';
+
+    const indexName = `${projectPrefix}_missed_orders`;
     return await this.searchService.ensureIndexExists(indexName, mapping);
   }
 
@@ -4052,6 +4054,7 @@ ORDER BY courier_orders.terminal_id, courier_orders.order_day, courier_orders.or
   }
 
   async checkYandexDeliveryIndex() {
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     const mapping = {
       properties: {
         order_id: {
@@ -4070,7 +4073,7 @@ ORDER BY courier_orders.terminal_id, courier_orders.order_day, courier_orders.or
         },
       },
     };
-    const indexName = 'arryt_yandex_delivery_orders';
+    const indexName = `${projectPrefix}_yandex_delivery_orders`;
     return await this.searchService.ensureIndexExists(indexName, mapping);
   }
 
@@ -4778,6 +4781,7 @@ ORDER BY courier_orders.terminal_id, courier_orders.order_day, courier_orders.or
   }
 
   async checkSentReportIndex() {
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
     const mapping = {
       properties: {
         created_at: {
@@ -4788,7 +4792,7 @@ ORDER BY courier_orders.terminal_id, courier_orders.order_day, courier_orders.or
         },
       },
     };
-    const indexName = 'arryt_sent_reports';
+    const indexName = `${projectPrefix}_sent_reports`;
     return await this.searchService.ensureIndexExists(indexName, mapping);
   }
 
@@ -4960,7 +4964,8 @@ ORDER BY courier_orders.terminal_id, courier_orders.order_day, courier_orders.or
      *   3. Set increment by itterating over documents
      *   4. Update documents in index
      */
-    const indexName = 'arryt_order_locations';
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
+    const indexName = `${projectPrefix}_order_locations`;
 
     const documents = await this.searchService.getDocumentsByQuery(indexName, {
       query: {
@@ -5004,7 +5009,8 @@ ORDER BY courier_orders.terminal_id, courier_orders.order_day, courier_orders.or
   }
 
   async deleteOrderLocationWithoutOrder() {
-    const indexName = 'arryt_order_locations';
+    const projectPrefix = await this.configService.get('PROJECT_PREFIX');
+    const indexName = `${projectPrefix}_order_locations`;
 
     const documents = await this.searchService.getDocumentsByQuery(indexName, {
       query: {
